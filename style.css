@@ -5,61 +5,100 @@
     box-sizing: border-box;
 }
 
-/* 導航欄樣式 */
-.navbar {
+/* 頁面容器設置，使用 Flexbox 佈局 */
+.container {
     display: flex;
-    justify-content: space-between; /* 左右對齊 */
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #ffffff; /* 背景色改為白色 */
-    border-bottom: 2px solid #142a83; /* 可選的底部藍色邊框 */
+    height: 100vh;
+    background-color: #252525; /* 黑灰色背景 */
+    color: #ffffff; /* 白色文字 */
 }
 
-/* Logo 和旁邊文字的樣式 */
+/* 左側邊欄設置 */
+.sidebar {
+    width: 200px;
+    background-color: #252525;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Logo 樣式 */
 .logo {
     display: flex;
-    align-items: center;
+    align-items: center; /* 垂直居中對齊 */
+    margin-bottom: 20px; /* 底部空間 */
 }
 
 .logo img {
     height: 50px; /* Logo 大小 */
     width: auto;
-    margin-right: 10px; /* 圖標和文字之間的間距 */
+    margin-right: 10px; /* 圖片和文字間的距離 */
 }
 
 .site-name {
     font-size: 18px;
-    color: #142a83; /* 文字顏色為藍色 */
-    font-weight: bold; /* 加粗字體 */
+    color: #ffffff; /* 文字改為白色 */
+    font-weight: bold;
 }
 
-/* 超連結列表樣式 */
+/* 超連結列表設置 */
 .nav-links {
     list-style: none;
     display: flex;
+    flex-direction: column; /* 垂直排列 */
+    margin-top: 20px;
 }
 
-/* 每個超連結項目的間距 */
 .nav-links li {
-    margin-left: 20px;
+    margin-bottom: 10px; /* 每個連結的間距 */
 }
 
 /* 超連結樣式 */
 .nav-links a {
-    color: #142a83; /* 文字顏色改為藍色 */
+    color: #ffdafd; /* 超連結顏色 */
     text-decoration: none;
     font-size: 18px;
-    font-weight: bold; /* 加粗字體 */
+    font-weight: bold;
 }
 
-/* 懸停時顯示的樣式 */
 .nav-links a:hover {
-    color: #ff4500; /* 懸停時顏色 */
+    color: #f3ff70; /* 懸停時的顏色 */
+}
+
+/* 中央內容區域設置 */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 下拉選單樣式：置頂設置 */
+.dropdown {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* 水平居中 */
+    background-color: #252525; /* 下拉選單背景與頁面保持一致 */
+    padding: 10px;
+    z-index: 1000;
+    font-size: 18px;
+}
+
+select {
+    padding: 5px 10px;
+    font-size: 16px;
+    color: #ffffff; /* 白色文字 */
+    background-color: #252525; /* 下拉背景色 */
+    border: 1px solid #ffffff;
 }
 
 /* 歡迎文字樣式 */
 h1 {
-    text-align: center;
-    margin-top: 50px;
     font-size: 32px;
+    text-align: center;
+    color: #ffffff;
 }
