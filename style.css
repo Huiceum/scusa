@@ -1,9 +1,51 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f0f0f0;
+/* 全局设置，去除默认内外边距 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* 导航栏样式 */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* 左右对齐 */
+    align-items: center;
+    padding: 10px 20px; /* 上下内边距 */
+    background-color: #333; /* 背景色 */
+}
+
+/* Logo 样式 */
+.logo img {
+    height: 50px; /* 设置 Logo 图片大小 */
+    width: auto;
+}
+
+/* 导航链接的样式 */
+.nav-links {
+    list-style: none; /* 去掉列表样式 */
+    display: flex;
+}
+
+/* 导航链接的每个项 */
+.nav-links li {
+    margin-left: 20px; /* 每个链接之间的间距 */
+}
+
+/* 链接的样式 */
+.nav-links a {
+    color: white; /* 链接文字颜色 */
+    text-decoration: none; /* 去掉下划线 */
+    font-size: 18px; /* 字体大小 */
+}
+
+/* 悬停效果 */
+.nav-links a:hover {
+    color: #FFD700; /* 悬停时的颜色 */
+}
+
+/* 欢迎文字样式 */
 h1 {
-    color: #333;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 32px;
 }
