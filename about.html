@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>關於我們 - 東吳大學學生會</title>
@@ -27,6 +26,15 @@
             margin: 0; /* 去掉默认的margin */
             padding-left: 20px; /* 左侧填充 */
         }
+        .additional-links {
+            margin-top: 20px; /* 分頁選項的上方間距 */
+            text-align: center; /* 置中顯示 */
+        }
+        .additional-links a {
+            margin: 0 10px; /* 左右間距 */
+            text-decoration: none; /* 去掉下劃線 */
+            color: #007bff; /* 超鏈接顏色 */
+        }
     </style>
 </head>
 <body>
@@ -49,20 +57,24 @@
                 <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
             </ul>                    
         </nav>
-        <div class="main-content">
+        <div class="main-content">    
             <div class="dropdown">
-                <label for="pages">選擇分頁:</label>
                 <select id="pages" onchange="location = this.value;">
                     <option value="index.html">首頁</option>
                     <option value="about.html" selected>關於我們</option>
                     <option value="shop.html">特約商店</option>
                 </select>
             </div>
-            <div class="about-content">
-                <h1></h1>
-                <p></p>
-                <p></p>
-                
+
+            <!-- 新增分頁選項 -->
+            <div class="additional-links">
+                <a href="introduction.html" class="link">本會簡介</a>
+                <a href="financial-report.html" class="link">財務報告</a>
+                <a href="organizational-structure.html" class="link active">組織架構</a>
+                <a href="regulations.html" class="link">法規編錄</a>
+            </div>
+            
+
                 <!-- 新增照片區域 -->
                 <div class="photo-gallery">
                     <h2></h2>
@@ -79,6 +91,7 @@
                             <th>業務內容</th>
                             <th>備註</th>
                         </tr>
+                        <tr style="border-bottom: 2px solid #f0f0f0;"> <!-- 添加底部邊框 -->
                     </thead>
                     <tbody>
                         <tr>
@@ -157,24 +170,22 @@
         document.getElementById('pages').addEventListener('change', function() {
             window.location.href = this.value;
         });
-        
     </script>
-        <!-- JavaScript 部分 -->
-        <script>
-            const hamburgerMenu = document.getElementById('hamburger-menu');
-            const sidebar = document.getElementById('sidebar');
+    <!-- JavaScript 部分 -->
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const sidebar = document.getElementById('sidebar');
     
-            hamburgerMenu.addEventListener('click', function() {
-    sidebar.classList.toggle('active');
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
     
-    // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
-    if (sidebar.classList.contains('active')) {
-        document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
-    } else {
-        document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
-    }
-});
-
-        </script>
+            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
+            } else {
+                document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
+            }
+        });
+    </script>
 </body>
 </html>

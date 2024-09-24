@@ -169,8 +169,8 @@ h2, h3 {
 }
 
 .photo-gallery img {
-    width: 80%; /* 设置图片宽度为80% */
-    max-width: 600px; /* 最大宽度为600px */
+    width: 100%; /* 设置图片宽度为80% */
+    max-width: 640px; /* 最大宽度为600px */
     margin-bottom: 10px; /* 图片之间的间距 */
     border-radius: 10px; /* 圆角边框 */
 }
@@ -220,4 +220,44 @@ h2, h3 {
 
 .photo-gallery, .info-table {
     margin-top: 20px; /* 上边距 */
+}
+
+.additional-links {
+    margin-top: 20px; /* 分頁選項的上方間距 */
+    text-align: center; /* 置中顯示 */
+}
+
+.additional-links a {
+    margin: 0 10px; /* 左右間距 */
+    text-decoration: none; /* 去掉下劃線 */
+    color: white !important; /* 字體顏色為白色 */
+    font-size: 1.2em; /* 字體大小 */
+    position: relative; /* 用於定位底線 */
+}
+
+.additional-links a:hover {
+    font-weight: bold; /* 滑鼠懸停時變為粗體 */
+}
+
+.additional-links a.active {
+    font-weight: bold; /* 當前連結變為粗體 */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* 增加醒目效果 */
+}
+
+.additional-links a::after {
+    content: ""; /* 為底線創建一個伪元素 */
+    display: block; /* 使底線成為塊級元素 */
+    width: 100%; /* 寬度100% */
+    height: 3px; /* 底線高度 */
+    background-color: white; /* 底線顏色 */
+    position: absolute; /* 絕對定位 */
+    left: 0; /* 左對齊 */
+    bottom: -5px; /* 底線距離文字的距離 */
+    transform: scaleX(0); /* 初始時底線不顯示 */
+    transition: transform 0.3s ease; /* 動畫效果 */
+}
+
+.additional-links a:hover::after,
+.additional-links a.active::after {
+    transform: scaleX(1); /* 滑鼠懸停或當前連結時顯示底線 */
 }

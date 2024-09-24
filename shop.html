@@ -29,12 +29,10 @@
 
         <div class="main-content">
             <div class="dropdown">
-                <label for="pages">選擇分頁:</label>
                 <select id="pages" onchange="location = this.value;">
                     <option value="index.html">首頁</option>
                     <option value="about.html">關於我們</option>
                     <option value="shop.html" selected>特約商店</option>
-                    <option value="contact.html">聯絡我們</option>
                 </select>
             </div>
 
@@ -46,7 +44,7 @@
             <!-- 特約商店表格 -->
             <div class="store-list">
                 <table style="width: 100%; max-width: 800px; margin: 0 auto; border-collapse: collapse;">
-                    <tr>
+                    <tr style="border-bottom: 2px solid #f0f0f0;"> <!-- 添加底部邊框 -->
                         <td style="width: 30%; padding: 15px; vertical-align: top;">
                             <img src="store1.jpg" alt="商店1圖片" style="width: 100%; border-radius: 10px;">
                         </td>
@@ -55,7 +53,7 @@
                             <p>這裡是商店 1 的特約內容。描述該商店的優惠或服務，讓學生了解他們的優惠方案。</p>
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="border-bottom: 2px solid #f0f0f0;"> <!-- 添加底部邊框 -->
                         <td style="width: 30%; padding: 15px; vertical-align: top;">
                             <img src="store2.jpg" alt="商店2圖片" style="width: 100%; border-radius: 10px;">
                         </td>
@@ -64,7 +62,7 @@
                             <p>這裡是商店 2 的特約內容。描述該商店的優惠或服務，讓學生了解他們的優惠方案。</p>
                         </td>
                     </tr>
-                    <!-- 可以繼續添加更多商店 -->
+                    <!-- 繼續添加其他商店 -->
                 </table>
             </div>
         </div>
