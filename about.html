@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>關於我們 - 東吳大學學生會</title>
@@ -30,17 +31,23 @@
 </head>
 <body>
     <div class="container">
-        <nav class="sidebar">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
             <div class="logo">
                 <img src="logo.png" alt="Logo">
-                <div class="site-name">東吳大學學生會</div>
+                <div class="site-name"></div>
             </div>
             <ul class="nav-links">
                 <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
                 <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
                 <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
-            </ul>
-            
+            </ul>                    
         </nav>
         <div class="main-content">
             <div class="dropdown">
@@ -48,20 +55,19 @@
                 <select id="pages" onchange="location = this.value;">
                     <option value="index.html">首頁</option>
                     <option value="about.html" selected>關於我們</option>
-                    <option value="events.html">活動</option>
-                    <option value="contact.html">聯絡我們</option>
+                    <option value="shop.html">特約商店</option>
                 </select>
             </div>
             <div class="about-content">
-                <h1>關於我們</h1>
-                <p>這裡是關於東吳大學學生會的內容。您可以編輯這段文字以添加您希望展示的信息。</p>
-                <p>請隨意填寫有關學生會的背景、任務、成就等信息。</p>
+                <h1></h1>
+                <p></p>
+                <p></p>
                 
                 <!-- 新增照片區域 -->
                 <div class="photo-gallery">
-                    <h2>學生會組織架構</h2>
+                    <h2></h2>
                     <img src="Organizational structure.png" alt="組織架構" />
-                    <p>這裡是關於學生會組織架構的訊息。</p>
+                    <p></p>
                 </div>
 
                 <!-- 新增表格 -->
@@ -151,6 +157,24 @@
         document.getElementById('pages').addEventListener('change', function() {
             window.location.href = this.value;
         });
+        
     </script>
+        <!-- JavaScript 部分 -->
+        <script>
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const sidebar = document.getElementById('sidebar');
+    
+            hamburgerMenu.addEventListener('click', function() {
+    sidebar.classList.toggle('active');
+    
+    // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
+    if (sidebar.classList.contains('active')) {
+        document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
+    } else {
+        document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
+    }
+});
+
+        </script>
 </body>
 </html>

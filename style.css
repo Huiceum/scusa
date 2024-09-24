@@ -9,67 +9,77 @@
 .container {
     display: flex;
     height: 100vh;
-    background-color: #252525; /* 黑灰色背景 */
-    color: #ffffff; /* 白色文字 */
+    background-color: #252525;
+    color: #f0f0f0;
 }
 
-/* 左側邊欄設置 */
+/* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
-    width: 250px; /* 增加側邊欄的寬度 */
-    background-color: #252525;
+    width: 200px;
+    background-color: #333333 !important;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    position: fixed;
+    top: 0;
+    left: -220px; /* 初始位置在視窗外 */
+    height: 100%;
+    z-index: 1000;
+    transition: left 0.5s ease; /* 緩慢移動效果 */
+}
+
+/* 當側邊欄處於激活狀態時顯示 */
+.sidebar.active {
+    left: 0; /* 顯示時滑入螢幕 */
 }
 
 /* Logo 樣式 */
 .logo {
     display: flex;
-    align-items: center; /* 垂直居中對齊 */
-    margin-bottom: 20px; /* 底部空間 */
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 60px; /* 移動內容，避免和漢堡選單重疊 */
 }
 
 .logo img {
-    height: 50px; /* Logo 大小 */
-    width: auto;
-    margin-right: 10px; /* 圖片和文字間的距離 */
+    width: 150px;
+    height: 50px;
+    margin-right: 10px;
 }
 
 .site-name {
     font-size: 18px;
-    color: #ffffff; /* 文字改為白色 */
+    color: #ffffff;
     font-weight: bold;
-    flex-grow: 1; /* 使文字占據剩餘空間 */
-    overflow: hidden; /* 溢出部分隱藏 */
-    text-overflow: ellipsis; /* 用省略號表示溢出的文字 */
-    /* 移除這一行以允許文本換行 */
-    white-space: normal; /* 允許換行 */
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
-
 
 /* 超連結列表設置 */
 .nav-links {
     list-style: none;
     display: flex;
-    flex-direction: column; /* 垂直排列 */
-    margin-top: 20px;
+    flex-direction: column;
+    margin-top: 40px; /* 增加距離，避免和漢堡選單重疊 */
 }
 
 .nav-links li {
-    margin-bottom: 10px; /* 每個連結的間距 */
+    margin-bottom: 10px;
 }
 
 /* 超連結樣式 */
 .nav-links a {
-    color: #ffdafd; /* 超連結顏色 */
+    color: #ffc0c0;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
 }
 
 .nav-links a:hover {
-    color: #f3ff70; /* 懸停時的顏色 */
+    color: #265c73;
 }
 
 /* 中央內容區域設置 */
@@ -77,9 +87,11 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* 置中 */
+    align-items: center;
     padding: 20px;
+    margin-left: 200px; /* 預留側邊欄空間 */
 }
+
 
 /* 下拉選單樣式 */
 .dropdown {
@@ -96,39 +108,57 @@
 
 /* 下拉選單設計 */
 .dropdown select {
-    border: 2px solid #ffdafd; /* 下拉選單邊框顏色 */
+    border: 2px solid #252525; /* 下拉選單邊框顏色 */
     border-radius: 8px; /* 圓角 */
     padding: 10px; /* 內邊距 */
-    background-color: #333333; /* 下拉選單背景色 */
-    color: #ffffff; /* 文字顏色 */
+    background-color: #252525; /* 下拉選單背景色 */
+    color: #f0f0f0; /* 文字顏色 */
     font-size: 16px; /* 文字大小 */
     cursor: pointer; /* 光標樣式 */
 }
 
 /* 公告樣式 */
 .announcements {
-    margin-top: 60px; /* 調整公告間距，增加上邊距以與下拉選單分開 */
-    text-align: left; /* 左對齊 */
-    width: 100%; /* 使公告佔滿整個可用寬度 */
-    max-width: 800px; /* 限制公告區域的最大寬度 */
+    margin-top: 60px;
+    text-align: left;
+    width: 100%;
+    max-width: 800px;
 }
 
 .announcement {
-    background-color: #333333; /* 公告背景色為黑色 */
-    border: 2px solid #ffffff; /* 白色邊框 */
+    background-color: #252525;
+    border: 2px solid #f0f0f0;
     padding: 15px;
-    margin-bottom: 20px; /* 每個公告的間距 */
-    border-radius: 10px; /* 圓角 */
-    width: 100%; /* 公告寬度 */
-    color: #ffffff; /* 公告文字顏色 */
+    margin-bottom: 20px;
+    border-radius: 10px;
+    width: 100%;
+    color: #ffffff;
 }
 
-h2 {
-    color: #ffffff; /* 公告標題顏色改為白色 */
+h2, h3 {
+    color: #ffffff;
 }
 
-h3 {
-    color: #ffffff; /* 公告內標題顏色改為白色 */
+/* 漢堡選單樣式 */
+.hamburger-menu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: #ffffff;
+    border-radius: 2px;
 }
 
 .photo-gallery {
@@ -151,6 +181,31 @@ h3 {
     min-height: 100vh; /* 确保整个页面都有背景色 */
 }
 
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    transition: margin-left 0.5s ease; /* 平滑過渡 */
+}
+
+
+.photo-gallery, .info-table {
+    margin-top: 20px; /* 上边距 */
+}
+
+.nav-links img {
+    width: 150px; /* 設定圖示寬度 */
+    height: 50px; /* 設定圖示高度 */
+    margin-right: 15px; /* 圖示和文字間的距離 */
+}
+.container {
+    display: flex; /* 使用flex布局 */
+    background-color: #252525; /* 黑灰色背景 */
+    min-height: 100vh; /* 确保整个页面都有背景色 */
+}
+
 .sidebar {
     background-color: #252525; /* 确保侧边栏背景色 */
     color: white; /* 文字颜色 */
@@ -165,9 +220,4 @@ h3 {
 
 .photo-gallery, .info-table {
     margin-top: 20px; /* 上边距 */
-}
-.nav-links img {
-    width: 50px; /* 設定圖示寬度 */
-    height: 50px; /* 設定圖示高度 */
-    margin-right: 15px; /* 圖示和文字間的距離 */
 }
