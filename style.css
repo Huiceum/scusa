@@ -1,49 +1,63 @@
-/* 全局设置，去除默认内外边距 */
+/* 全局樣式 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* 导航栏样式 */
+/* 導航欄樣式 */
 .navbar {
     display: flex;
-    justify-content: space-between; /* 左右对齐 */
+    justify-content: space-between; /* 左右對齊 */
     align-items: center;
-    padding: 10px 20px; /* 上下内边距 */
-    background-color: #333; /* 背景色 */
+    padding: 10px 20px;
+    background-color: #ffffff; /* 背景色改為白色 */
+    border-bottom: 2px solid #142a83; /* 可選的底部藍色邊框 */
 }
 
-/* Logo 样式 */
+/* Logo 和旁邊文字的樣式 */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
 .logo img {
-    height: 50px; /* 设置 Logo 图片大小 */
+    height: 50px; /* Logo 大小 */
     width: auto;
+    margin-right: 10px; /* 圖標和文字之間的間距 */
 }
 
-/* 导航链接的样式 */
+.site-name {
+    font-size: 18px;
+    color: #142a83; /* 文字顏色為藍色 */
+    font-weight: bold; /* 加粗字體 */
+}
+
+/* 超連結列表樣式 */
 .nav-links {
-    list-style: none; /* 去掉列表样式 */
+    list-style: none;
     display: flex;
 }
 
-/* 导航链接的每个项 */
+/* 每個超連結項目的間距 */
 .nav-links li {
-    margin-left: 20px; /* 每个链接之间的间距 */
+    margin-left: 20px;
 }
 
-/* 链接的样式 */
+/* 超連結樣式 */
 .nav-links a {
-    color: white; /* 链接文字颜色 */
-    text-decoration: none; /* 去掉下划线 */
-    font-size: 18px; /* 字体大小 */
+    color: #142a83; /* 文字顏色改為藍色 */
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold; /* 加粗字體 */
 }
 
-/* 悬停效果 */
+/* 懸停時顯示的樣式 */
 .nav-links a:hover {
-    color: #FFD700; /* 悬停时的颜色 */
+    color: #ff4500; /* 懸停時顏色 */
 }
 
-/* 欢迎文字样式 */
+/* 歡迎文字樣式 */
 h1 {
     text-align: center;
     margin-top: 50px;
