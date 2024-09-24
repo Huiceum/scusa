@@ -166,3 +166,8 @@ h3 {
 .photo-gallery, .info-table {
     margin-top: 20px; /* 上边距 */
 }
+.nav-links img {
+    width: 50px; /* 設定圖示寬度 */
+    height: 50px; /* 設定圖示高度 */
+    margin-right: 15px; /* 圖示和文字間的距離 */
+}
