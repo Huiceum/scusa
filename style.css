@@ -15,7 +15,7 @@
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
-    width: 200px;
+    width: 100px;
     background-color: rgba(0, 0, 0, 0.51); /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
@@ -37,13 +37,14 @@
 .logo {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
-    margin-top: 60px; /* 移動內容，避免和漢堡選單重疊 */
+    position: fixed; /* 固定位置以保持在左上角 */
+    top: 20px; /* 與漢堡選單對齊 */
+    left: 110px; /* 調整到漢堡選單右側 */
 }
 
 .logo img {
-    width: 150px;
-    height: 50px;
+    width: 150px!important;
+    height: 50px!important;
     margin-right: 10px;
 }
 
@@ -62,13 +63,22 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    margin-top: 40px; /* 增加距離，避免和漢堡選單重疊 */
+    margin-top: 70px; /* 增加距離，避免和漢堡選單重疊 */
 }
 
 .nav-links li {
-    margin-bottom: 10px;
+    margin-bottom: 40px;
 }
 
+.nav-links a img {
+    transition: transform 0.3s ease, filter 0.3s ease; /* 添加過渡效果 */
+}
+
+.nav-links a:hover img {
+    transform: scale(1.1); /* 鼠標懸停時放大圖示 */
+    filter: brightness(1.5); /* 增加亮度 */
+
+}
 /* 超連結樣式 */
 .nav-links a {
     color: #ffc0c0;
@@ -146,10 +156,10 @@ h2, h3 {
 /* 漢堡選單樣式 */
 .hamburger-menu {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 30px;
-    height: 30px;
+    top: 23px;
+    left: 23px;
+    width: 43px;
+    height: 43px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -191,8 +201,8 @@ h2, h3 {
 }
 
 .nav-links img {
-    width: 150px; /* 設定圖示寬度 */
-    height: 50px; /* 設定圖示高度 */
+    width: 50px!important; /* 設定圖示寬度 */
+    height: 50px!important; /* 設定圖示高度 */
     margin-right: 15px; /* 圖示和文字間的距離 */
 }
 
