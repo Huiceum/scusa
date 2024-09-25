@@ -9,15 +9,14 @@
 .container {
     display: flex;
     height: 100vh;
-    background-color: #252525;
     color: #f0f0f0;
+    min-height: 100vh; /* 确保页面最小高度为100vh */
 }
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 200px;
-    background-color: #333333 !important;
-    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.51); /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -89,9 +88,14 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    margin-left: 200px; /* 預留側邊欄空間 */
+    margin-left: 0; /* 預設為 0，讓主要欄靠左 */
+    transition: margin-left 0.5s ease; /* 平滑過渡 */
 }
 
+/* 當側邊欄被激活時 */
+.sidebar.active ~ .main-content {
+    margin-left: 200px; /* 側邊欄顯示時給予留白 */
+}
 
 /* 下拉選單樣式 */
 .dropdown {
@@ -103,7 +107,7 @@
 
 /* 下拉選單標籤 */
 .dropdown label {
-    margin-bottom: 10px; /* 標籤與下拉選單的間距 */
+    margin-bottom: 20px; /* 標籤與下拉選單的間距 */
 }
 
 /* 下拉選單設計 */
@@ -164,35 +168,26 @@ h2, h3 {
 .photo-gallery {
     display: flex;
     flex-direction: column; /* 垂直排列 */
-    align-items: center; /* 中心对齐 */
-    margin-top: 20px; /* 顶部间距 */
+    align-items: center; /* 中心對齊 */
+    margin-top: 20px; /* 頂部間距 */
 }
 
 .photo-gallery img {
-    width: 100%; /* 设置图片宽度为80% */
-    max-width: 640px; /* 最大宽度为600px */
-    margin-bottom: 10px; /* 图片之间的间距 */
-    border-radius: 10px; /* 圆角边框 */
+    width: 100%; /* 設置圖片寬度為80% */
+    max-width: 640px; /* 最大寬度為600px */
+    margin-bottom: 10px; /* 圖片之間的間距 */
+    border-radius: 10px; /* 圓角邊框 */
 }
 
-.container {
-    display: flex; /* 使用flex布局 */
-    background-color: #252525; /* 黑灰色背景 */
-    min-height: 100vh; /* 确保整个页面都有背景色 */
+/* 特約商店主圖示樣式 */
+.shop-logo img {
+    width: 80%!important; /* 設定寬度為80% */
+    max-width: 200px!important; /* 最大寬度為600px */
+    height: auto!important; /* 自動調整高度以保持比例 */
+    margin-bottom: 20px!important; /* 下面的間距 */
 }
-
-.main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    transition: margin-left 0.5s ease; /* 平滑過渡 */
-}
-
-
 .photo-gallery, .info-table {
-    margin-top: 20px; /* 上边距 */
+    margin-top: 20px; /* 上邊距 */
 }
 
 .nav-links img {
@@ -200,28 +195,8 @@ h2, h3 {
     height: 50px; /* 設定圖示高度 */
     margin-right: 15px; /* 圖示和文字間的距離 */
 }
-.container {
-    display: flex; /* 使用flex布局 */
-    background-color: #252525; /* 黑灰色背景 */
-    min-height: 100vh; /* 确保整个页面都有背景色 */
-}
 
-.sidebar {
-    background-color: #252525; /* 确保侧边栏背景色 */
-    color: white; /* 文字颜色 */
-}
-
-.main-content {
-    min-height: 100vh; /* 最小高度为100vh */
-    background-color: #252525; /* 黑灰色背景 */
-    padding: 20px; /* 内边距 */
-    overflow: auto; /* 添加滚动条以避免内容超出 */
-}
-
-.photo-gallery, .info-table {
-    margin-top: 20px; /* 上边距 */
-}
-
+/* 分頁連結區域樣式 */
 .additional-links {
     margin-top: 20px; /* 分頁選項的上方間距 */
     text-align: center; /* 置中顯示 */
@@ -260,4 +235,14 @@ h2, h3 {
 .additional-links a:hover::after,
 .additional-links a.active::after {
     transform: scaleX(1); /* 滑鼠懸停或當前連結時顯示底線 */
+}
+
+/* 背景樣式設定 */
+body {
+    background-color: #252525; /* 設定底色 */
+    background-image: url('dot-pattern.png'); /* 這裡引用網點的圖片檔案 */
+    background-size: 3px 3px; /* 控制網點圖案的大小 */
+    background-repeat: repeat; /* 重複網點圖案 */
+    background-position: center; /* 讓圖案從中心開始排列 */
+    color: #f0f0f0; /* 全局文字顏色 */
 }
