@@ -124,10 +124,12 @@
 .dropdown select {
     border: 2px solid #252525; /* 下拉選單邊框顏色 */
     border-radius: 8px; /* 圓角 */
+    width: 300px;
+    height: 50px;
     padding: 10px; /* 內邊距 */
     background-color: #252525; /* 下拉選單背景色 */
     color: #f0f0f0; /* 文字顏色 */
-    font-size: 16px; /* 文字大小 */
+    font-size: 18px; /* 文字大小 */
     cursor: pointer; /* 光標樣式 */
 }
 
@@ -183,8 +185,8 @@ h2, h3 {
 }
 
 .photo-gallery img {
-    width: 100%; /* 設置圖片寬度為80% */
-    max-width: 640px; /* 最大寬度為600px */
+    width: 80%; /* 設置圖片寬度為80% */
+    max-width: 600px; /* 最大寬度為600px */
     margin-bottom: 10px; /* 圖片之間的間距 */
     border-radius: 10px; /* 圓角邊框 */
 }
