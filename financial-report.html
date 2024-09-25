@@ -118,9 +118,19 @@
                 <div class="site-name"></div>
             </div>
             <ul class="nav-links">
-                <li><a href="https://linktr.ee/scusa_" target="_blank" data-page="linktree"><img src="linktree-icon.png" alt="連結樹" /></a></li>
-                <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank" data-page="facebook"><img src="facebook-icon.png" alt="臉書" /></a></li>
-                <li><a href="https://www.instagram.com/scusa68th/" target="_blank" data-page="instagram"><img src="instagram-icon.png" alt="Instagram" /></a></li>
+                <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
+                <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
+                <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
+        
+                <!-- 新增下滑式選項 -->
+                <li class="dropdown-parent">
+                    <a href="#" class="dropdown-toggle">更多選項</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">選項 1</a></li>
+                        <li><a href="#">選項 2</a></li>
+                        <li><a href="#">選項 3</a></li>
+                    </ul>
+                </li>
             </ul>
                    
         </nav>
@@ -169,6 +179,16 @@
                 document.querySelector('.container').style.marginLeft = '0'; 
             }
         });
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
+        
     </script>
 </body>
 </html>

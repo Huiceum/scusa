@@ -5,6 +5,8 @@
     box-sizing: border-box;
 }
 
+
+
 /* 頁面容器設置，使用 Flexbox 佈局 */
 .container {
     display: flex;
@@ -15,7 +17,7 @@
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
-    width: 100px;
+    width: 150px;
     background-color: rgba(0, 0, 0, 0.51); /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
@@ -32,6 +34,42 @@
 .sidebar.active {
     left: 0; /* 顯示時滑入螢幕 */
 }
+
+        /* 預設的樣式 */
+        body {
+            font-family: Arial, sans-serif;
+        }       
+
+        /* 隱藏下拉內容 */
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            list-style-type: none;
+            padding-left: 20px;
+            background-color: #00000056;
+            transition: max-height 0.5s ease; /* 添加滑動過渡效果 */
+            margin-top: 10px; /* 新增這一行，調整下拉選單與上方的間距 */
+        }
+
+        .dropdown-content li a {
+            color: white;
+        }
+
+        /* 展開下拉選單 */
+        .dropdown-parent.active .dropdown-content {
+            max-height: 300px; /* 展開高度，根據內容調整 */
+        }
+
+        /* 下拉選項的樣式 */
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+
+        /* 調整主要內容 */
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+        }
 
 /* Logo 樣式 */
 .logo {
@@ -81,14 +119,14 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #ffc0c0;
+    color: #f0f0f0;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
 }
 
 .nav-links a:hover {
-    color: #265c73;
+    color: #ffb7c3;
 }
 
 /* 中央內容區域設置 */
