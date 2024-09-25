@@ -8,6 +8,7 @@
     <link rel="icon" href="favicon.PNG" type="image/x-icon"> <!-- 新增這行 -->
 
     <style>
+        
                 /* 表格样式 */
                 .info-table {
             width: 100%; 
@@ -63,6 +64,12 @@
             overflow: hidden;
             margin-top: 20px; /* 按鈕間距 */
         }
+        @media (max-width: 767px) {
+    .download-button{
+        max-width: 100%; /* 使圖片不超過其容器的寬度 */
+        height: auto
+    }
+    }
 
         /* 按鈕特效 */
         .download-button::before {
@@ -139,6 +146,13 @@
             height: 1000px; /* 設定高度 */
             border: none; /* 去掉邊框 */
         }
+                /* 針對小屏幕的樣式 */
+@media (max-width: 767px) {
+    .iframe-container{
+        max-width: 100%; /* 使圖片不超過其容器的寬度 */
+        height: auto
+    }
+    }
     </style>
 </head>
 <body>

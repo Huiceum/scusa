@@ -171,6 +171,14 @@
     cursor: pointer; /* 光標樣式 */
 }
 
+/* 針對小屏幕的樣式 */
+@media (max-width: 767px) {
+    .dropdown select{
+        width: 150px;
+        margin-left: 300px; /* 上邊距 */
+
+    }
+}
 /* 公告樣式 */
 .announcements {
     margin-top: 60px;
@@ -295,4 +303,16 @@ body {
     background-repeat: repeat; /* 重複網點圖案 */
     background-position: center; /* 讓圖案從中心開始排列 */
     color: #f0f0f0; /* 全局文字顏色 */
+}
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 例如，對於按鈕和導航列的樣式 */
+.button {
+    padding: 15px 20px;
+    font-size: 18px; /* 根據需要調整字體大小 */
+    width: 100%; /* 使按鈕寬度為100% */
+    box-sizing: border-box; /* 包含內邊距和邊框 */
 }
