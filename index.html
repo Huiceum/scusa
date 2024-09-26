@@ -32,6 +32,13 @@
 </head>
 
 <body>
+    <div id="notification" class="notification" style="display:none;">
+        <div class="notification-content">
+            <span id="notification-message"></span>
+            <button id="close-notification">關閉</button>
+        </div>
+    </div>
+    
     <div class="admin-button-container">
         <a href="login.html" class="admin-button">管理</a>
     </div>
@@ -87,7 +94,7 @@
                 <!-- 新增公告按鈕及保存按鈕，僅限登入後可見 -->
                 <button id="add-announcement-btn" style="display:none;" onclick="addAnnouncement()">新增公告</button>
                 <button id="save-announcement-btn" style="display:none;" onclick="saveAnnouncements()">保存</button>
-                <button class="delete-announcement-btn" onclick="deleteAnnouncement(this)">刪除公告</button>
+                <button id="delete-announcement-btn"style="display:none;" onclick="deleteAnnouncement()">刪除公告</button>
             </div>
         </div>
     </div>
@@ -135,6 +142,7 @@
     
             document.getElementById('add-announcement-btn').style.display = 'block'; // 顯示新增公告按鈕
             document.getElementById('save-announcement-btn').style.display = 'block'; // 顯示保存按鈕
+            document.getElementById('delete-announcement-btn').style.display = 'block'; // 顯示刪除按鈕
         }
     
         function addAnnouncement() {
@@ -175,12 +183,18 @@
         },
         body: 'announcements=' + encodeURIComponent(JSON.stringify(announcementData))
     })
-    .then(response => response.text())
+    .then(response => response.json()) // 解析 JSON
     .then(data => {
-        alert(data); // 顯示伺服器回應
+        // 根據伺服器的回應顯示提示
+        if (data.status === 'success') {
+            alert(data.message); // 顯示成功訊息
+        } else {
+            alert(data.message); // 顯示錯誤訊息
+        }
     })
     .catch(error => {
         console.error('Error:', error);
+        alert('儲存公告時發生錯誤');
     });
 }
 
@@ -217,7 +231,7 @@ function loadAnnouncements() {
     
     
         // 新增刪除最後一則公告的函數
-        function deleteLastAnnouncement() {
+        function deleteAnnouncement() {
             const announcements = document.querySelectorAll('.announcement'); // 假設公告的 class 是 'announcement'
             if (announcements.length > 0) {
                 const lastAnnouncement = announcements[announcements.length - 1]; // 取得最後一則公告
@@ -227,6 +241,8 @@ function loadAnnouncements() {
     
         // 事件監聽器
         document.querySelector('.delete-announcement-btn').addEventListener('click', deleteLastAnnouncement);
+    
+        
     </script>
     
 </body>
