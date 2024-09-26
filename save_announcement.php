@@ -1,51 +1,48 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 接收公告的 JSON 數據
-    $data = json_decode(file_get_contents('php://input'), true);
+// 設定 HTTP 標頭為 JSON
+header('Content-Type: application/json');
 
-    // 取出公告陣列
-    $announcements = $data['announcements'];
+// 獲取請求的原始資料
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
 
-    // 開啟檔案寫入模式，保存公告
-    $file = fopen('announcements.txt', 'w');
-    foreach ($announcements as $announcement) {
-        fwrite($file, "Title: " . $announcement['title'] . "\n");
-        fwrite($file, "Message: " . $announcement['message'] . "\n");
-        fwrite($file, "Link: " . $announcement['link'] . "\n");
-        fwrite($file, "-----\n");
+// 檢查是否有公告內容
+if (isset($data['announcements'])) {
+    // 連接到資料庫（請根據您的設定更改連接資訊）
+    $servername = "localhost";
+    $username = "your_username";
+    $password = "your_password";
+    $dbname = "your_database";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // 檢查資料庫連接
+    if ($conn->connect_error) {
+        echo json_encode(['status' => 'error', 'message' => '資料庫連接失敗']);
+        exit();
     }
-    fclose($file);
 
-    // 返回成功的回應
-    echo json_encode(<?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // 接收公告的 JSON 數據
-        $data = json_decode(file_get_contents('php://input'), true);
+    // 準備 SQL 語句
+    $stmt = $conn->prepare("INSERT INTO announcements (title, message, link) VALUES (?, ?, ?)");
     
-        // 確保數據存在
-        if (isset($data['announcements'])) {
-            $announcements = $data['announcements'];
-    
-            // 開啟檔案寫入模式，保存公告
-            $file = fopen('announcements.txt', 'w');
-            if ($file) {
-                foreach ($announcements as $announcement) {
-                    fwrite($file, "Title: " . $announcement['title'] . "\n");
-                    fwrite($file, "Message: " . $announcement['message'] . "\n");
-                    fwrite($file, "Link: " . $announcement['link'] . "\n");
-                    fwrite($file, "-----\n");
-                }
-                fclose($file);
-                // 返回成功的回應
-                echo json_encode(['status' => 'success']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => '無法打開檔案。']);
-            }
-        } else {
-            echo json_encode(['status' => 'error', 'message' => '未提供公告數據。']);
-        }
+    // 檢查 SQL 語句準備是否成功
+    if (!$stmt) {
+        echo json_encode(['status' => 'error', 'message' => 'SQL 語句準備失敗']);
+        exit();
     }
-    ?>
-    ['status' => 'success']);
+
+    // 逐個插入公告內容
+    foreach ($data['announcements'] as $announcement) {
+        $stmt->bind_param("sss", $announcement['title'], $announcement['message'], $announcement['link']);
+        $stmt->execute();
+    }
+
+    // 關閉資料庫連接
+    $stmt->close();
+    $conn->close();
+
+    echo json_encode(['status' => 'success']);
+} else {
+    echo json_encode(['status' => 'error', 'message' => '無效的資料']);
 }
 ?>
