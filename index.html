@@ -83,20 +83,20 @@
                         <a href="#" contenteditable="false" class="link">超連結</a>
                     </div>
                 </div>
-            
+
                 <!-- 新增公告按鈕及保存按鈕，僅限登入後可見 -->
                 <button id="add-announcement-btn" style="display:none;" onclick="addAnnouncement()">新增公告</button>
-                <button id="save-announcement-btn" style="display:none;" onclick="saveAnnouncements()">保存公告至伺服器</button>
+                <button id="save-announcement-btn" style="display:none;" onclick="saveAnnouncements()">保存</button>
+                <button class="delete-announcement-btn" onclick="deleteAnnouncement(this)">刪除公告</button>
             </div>
+        </div>
     </div>
 
     <!-- JavaScript -->
-    <script src="app.js"></script>
-
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
-
+    
         hamburgerMenu.addEventListener('click', function() {
             sidebar.classList.toggle('active');
     
@@ -107,94 +107,121 @@
                 document.querySelector('.main-content').style.marginLeft = '0';
             }
         });
-
+    
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownParent = document.querySelector('.dropdown-parent');
             const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
             const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-            
+    
             dropdownToggle.addEventListener('click', function() {
                 dropdownParent.classList.toggle('active');
             });
-
+    
             // 檢查是否已登入
             const loggedIn = localStorage.getItem('loggedIn');
             if (loggedIn === 'true') {
                 enableEditing();
             }
-
+    
             loadAnnouncements();
         });
-
+    
         function enableEditing() {
             // 允許編輯公告標題、內文、超連結
             document.querySelectorAll('.announcement h2, .announcement p, .announcement a').forEach(el => {
                 el.contentEditable = "true";
                 el.classList.add('edit-mode');
             });
-
+    
             document.getElementById('add-announcement-btn').style.display = 'block'; // 顯示新增公告按鈕
             document.getElementById('save-announcement-btn').style.display = 'block'; // 顯示保存按鈕
         }
-
+    
         function addAnnouncement() {
             // 創建新的公告欄位
             const newAnnouncement = document.createElement('div');
             newAnnouncement.classList.add('announcement');
-
+    
             newAnnouncement.innerHTML = `
                 <h2 contenteditable="true" class="title">新公告標題</h2>
                 <p contenteditable="true" class="message">新公告內容</p>
                 <a href="#" contenteditable="true" class="link">超連結</a>
             `;
-
+    
             document.getElementById('announcements-list').appendChild(newAnnouncement);
         }
-
+    
         function saveAnnouncements() {
             const announcements = document.querySelectorAll('.announcement');
             const announcementData = [];
-
+    
             announcements.forEach((announcement) => {
                 const title = announcement.querySelector('.title').innerText;
                 const message = announcement.querySelector('.message').innerText;
                 const link = announcement.querySelector('.link').innerText;
-
+    
                 announcementData.push({
                     title,
                     message,
                     link
                 });
             });
-
+    
             // 將公告資料保存到 Local Storage
             localStorage.setItem('announcements', JSON.stringify(announcementData));
-            alert('公告已保存');
+            alert('公告已保存');    fetch('save_announcement.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ announcements })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('公告已保存！');
+        } else {
+            alert('保存失敗，請稍後再試。');
         }
+    })
+    .catch(error => console.error('Error:', error));
 
+        }
+    
         function loadAnnouncements() {
             const savedAnnouncements = localStorage.getItem('announcements');
             if (savedAnnouncements) {
                 const announcementData = JSON.parse(savedAnnouncements);
                 const announcementList = document.getElementById('announcements-list');
                 announcementList.innerHTML = ''; // 清空公告欄
-
+    
                 announcementData.forEach((data) => {
                     const newAnnouncement = document.createElement('div');
                     newAnnouncement.classList.add('announcement');
-
+    
                     newAnnouncement.innerHTML = `
                         <h2 contenteditable="false" class="title">${data.title}</h2>
                         <p contenteditable="false" class="message">${data.message}</p>
                         <a href="#" contenteditable="false" class="link">${data.link}</a>
                     `;
-
+    
                     announcementList.appendChild(newAnnouncement);
                 });
             }
         }
+    
+        // 新增刪除最後一則公告的函數
+        function deleteLastAnnouncement() {
+            const announcements = document.querySelectorAll('.announcement'); // 假設公告的 class 是 'announcement'
+            if (announcements.length > 0) {
+                const lastAnnouncement = announcements[announcements.length - 1]; // 取得最後一則公告
+                lastAnnouncement.remove(); // 刪除最後一則公告
+            }
+        }
+    
+        // 事件監聽器
+        document.querySelector('.delete-announcement-btn').addEventListener('click', deleteLastAnnouncement);
     </script>
-        </script>
-        <script src="app.js"></script> <!-- 引入 app.js -->
+    
 </body>
 </html>

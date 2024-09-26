@@ -1,9 +1,10 @@
 // 保存公告內容到伺服器
 function saveAnnouncements() {
-    const announcements = [];
     const titles = document.querySelectorAll('.title');
     const messages = document.querySelectorAll('.message');
     const links = document.querySelectorAll('.link');
+
+    const announcements = [];
 
     // 取出所有公告內容
     titles.forEach((title, index) => {
