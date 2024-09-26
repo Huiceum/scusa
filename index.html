@@ -78,13 +78,14 @@
                 <div id="announcements-list">
                     <!-- 公告內容 -->
                     <div class="announcement" id="announcement1">
-                        <h2 contenteditable="false">公告標題</h2>
-                        <p contenteditable="false">公告訊息</p>
-                        <a href="#" contenteditable="false">超連結</a>
+                        <h2 contenteditable="false" class="title">公告標題</h2>
+                        <p contenteditable="false" class="message">公告訊息</p>
+                        <a href="#" contenteditable="false" class="link">超連結</a>
                     </div>
                 </div>
 
                 <!-- 新增公告按鈕及保存按鈕，僅限登入後可見 -->
+                <div class="announcements-button-container">
                 <button id="add-announcement-btn" style="display:none;" onclick="addAnnouncement()">新增公告</button>
                 <button id="save-announcement-btn" style="display:none;" onclick="saveAnnouncements()">保存</button>
             </div>
@@ -118,10 +119,11 @@
 
             // 檢查是否已登入
             const loggedIn = localStorage.getItem('loggedIn');
-
             if (loggedIn === 'true') {
                 enableEditing();
             }
+
+            loadAnnouncements();
         });
 
         function enableEditing() {
@@ -141,9 +143,9 @@
             newAnnouncement.classList.add('announcement');
 
             newAnnouncement.innerHTML = `
-                <h2 contenteditable="true">新公告標題</h2>
-                <p contenteditable="true">新公告內容</p>
-                <a href="#" contenteditable="true">超連結</a>
+                <h2 contenteditable="true" class="title">新公告標題</h2>
+                <p contenteditable="true" class="message">新公告內容</p>
+                <a href="#" contenteditable="true" class="link">超連結</a>
             `;
 
             document.getElementById('announcements-list').appendChild(newAnnouncement);
@@ -151,17 +153,45 @@
 
         function saveAnnouncements() {
             const announcements = document.querySelectorAll('.announcement');
+            const announcementData = [];
 
-            announcements.forEach((announcement, index) => {
-                const title = announcement.querySelector('h2').innerText;
-                const message = announcement.querySelector('p').innerText;
-                const link = announcement.querySelector('a').innerText;
+            announcements.forEach((announcement) => {
+                const title = announcement.querySelector('.title').innerText;
+                const message = announcement.querySelector('.message').innerText;
+                const link = announcement.querySelector('.link').innerText;
 
-                console.log(`公告${index + 1}保存: 標題=${title}, 內容=${message}, 連結=${link}`);
-                // 這裡可以將保存的內容提交到後端或保存到本地儲存
+                announcementData.push({
+                    title,
+                    message,
+                    link
+                });
             });
 
+            // 將公告資料保存到 Local Storage
+            localStorage.setItem('announcements', JSON.stringify(announcementData));
             alert('公告已保存');
+        }
+
+        function loadAnnouncements() {
+            const savedAnnouncements = localStorage.getItem('announcements');
+            if (savedAnnouncements) {
+                const announcementData = JSON.parse(savedAnnouncements);
+                const announcementList = document.getElementById('announcements-list');
+                announcementList.innerHTML = ''; // 清空公告欄
+
+                announcementData.forEach((data) => {
+                    const newAnnouncement = document.createElement('div');
+                    newAnnouncement.classList.add('announcement');
+
+                    newAnnouncement.innerHTML = `
+                        <h2 contenteditable="false" class="title">${data.title}</h2>
+                        <p contenteditable="false" class="message">${data.message}</p>
+                        <a href="#" contenteditable="false" class="link">${data.link}</a>
+                    `;
+
+                    announcementList.appendChild(newAnnouncement);
+                });
+            }
         }
     </script>
 </body>
