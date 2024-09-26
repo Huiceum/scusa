@@ -145,20 +145,6 @@
             document.getElementById('delete-announcement-btn').style.display = 'block'; // 顯示刪除按鈕
         }
     
-        function addAnnouncement() {
-            // 創建新的公告欄位
-            const newAnnouncement = document.createElement('div');
-            newAnnouncement.classList.add('announcement');
-    
-            newAnnouncement.innerHTML = `
-                <h2 contenteditable="true" class="title">新公告標題</h2>
-                <p contenteditable="true" class="message">新公告內容</p>
-                <a href="#" contenteditable="true" class="link">超連結</a>
-            `;
-    
-            document.getElementById('announcements-list').appendChild(newAnnouncement);
-        }
-    
         function saveAnnouncements() {
     const announcements = document.querySelectorAll('.announcement');
     const announcementData = [];
@@ -175,43 +161,27 @@
         });
     });
 
-    // 將公告資料發送到伺服器
-    fetch('save_announcements.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'announcements=' + encodeURIComponent(JSON.stringify(announcementData))
-    })
-    .then(response => response.json()) // 解析 JSON
-    .then(data => {
-        // 根據伺服器的回應顯示提示
-        if (data.status === 'success') {
-            alert(data.message); // 顯示成功訊息
-        } else {
-            alert(data.message); // 顯示錯誤訊息
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('儲存公告時發生錯誤');
+    // 將公告資料保存到 Firebase Firestore
+    announcementData.forEach(data => {
+        db.collection("announcements").add(data)
+        .then(() => {
+            alert('公告已成功保存');
+        })
+        .catch((error) => {
+            alert('保存失敗: ' + error.message);
+        });
     });
 }
 
 
-function loadAnnouncements() {
-    fetch('/api/announcements')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(announcementData => {
-        const announcementList = document.getElementById('announcements-list');
-        announcementList.innerHTML = ''; // 清空公告欄
 
-        announcementData.forEach((data) => {
+function loadAnnouncements() {
+    const announcementList = document.getElementById('announcements-list');
+    announcementList.innerHTML = ''; // 清空公告欄
+
+    db.collection("announcements").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
             const newAnnouncement = document.createElement('div');
             newAnnouncement.classList.add('announcement');
 
@@ -223,12 +193,9 @@ function loadAnnouncements() {
 
             announcementList.appendChild(newAnnouncement);
         });
-    })
-    .catch(error => {
-        console.error('Error loading announcements:', error);
     });
 }
-    
+   
     
         // 新增刪除最後一則公告的函數
         function deleteAnnouncement() {
@@ -242,7 +209,27 @@ function loadAnnouncements() {
         // 事件監聽器
         document.querySelector('.delete-announcement-btn').addEventListener('click', deleteLastAnnouncement);
     
-        
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCJEvYC1ONPulYk6riBoyDpEMTpMWmVsg0",
+  authDomain: "scusa-3bb3c.firebaseapp.com",
+  projectId: "scusa-3bb3c",
+  storageBucket: "scusa-3bb3c.appspot.com",
+  messagingSenderId: "157642635308",
+  appId: "1:157642635308:web:45decb856f310ca7e47989",
+  measurementId: "G-JS06CE50DX"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
     </script>
     
 </body>
