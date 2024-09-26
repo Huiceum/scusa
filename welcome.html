@@ -64,7 +64,6 @@
             <img src="logo2.PNG" alt="東吳大學學生會" class="stamp" />
         </div>
         <h1>歡迎光臨東吳大學學生會</h1>
-        
     </div>
 
     <div class="container">
@@ -72,9 +71,15 @@
     </div>
 
     <script>
-        // 動畫結束後導向index.html
+        // 根據用戶的裝置導向不同的頁面
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
         setTimeout(() => {
-            window.location.href = "index.html";
+            if (isMobile) {
+                window.location.href = "index_phone.html"; // 手機用戶導向手機頁面
+            } else {
+                window.location.href = "index.html"; // 電腦用戶導向電腦頁面
+            }
         }, 4000); // 4秒後導向
     </script>
 </body>

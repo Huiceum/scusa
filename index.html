@@ -19,53 +19,6 @@
             color: rgb(255, 255, 255); /* 當滑鼠懸停時，連結變成的顏色 */
             text-decoration: underline; /* 可以讓懸停時顯示底線 */
         }
-
-        /* 側邊欄樣式 */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -250px; /* 從右側隱藏 */
-            width: 250px;
-            height: 100%;
-            background-color: #333;
-            transition: right 0.3s ease; /* 平滑過渡 */
-            z-index: 1000; /* 確保在其他元素之上 */
-        }
-
-        /* 當側邊欄啟用時 */
-        .sidebar.active {
-            right: 0; /* 顯示側邊欄 */
-        }
-
-        /* 下滑式選項樣式 */
-        .dropdown-parent {
-            position: relative; /* 使子項相對於父項 */
-        }
-
-        .dropdown-content {
-            display: none; /* 默認隱藏 */
-            position: absolute; /* 絕對定位 */
-            right: 0; /* 將下滑選項放在右側 */
-            background-color: #444; /* 下滑選項的背景顏色 */
-            padding: 10px 0; /* 上下邊距 */
-            z-index: 1001; /* 確保下拉內容在其他內容之上 */
-        }
-
-        .dropdown-parent.active .dropdown-content {
-            display: block; /* 當啟用時顯示下滑選項 */
-        }
-
-        /* 下滑選項中的連結樣式 */
-        .dropdown-content a {
-            color: white; /* 文字顏色 */
-            padding: 10px 20px; /* 內邊距 */
-            text-decoration: none; /* 去掉底線 */
-            display: block; /* 每個連結佔據一整行 */
-        }
-
-        .dropdown-content a:hover {
-            background-color: #555; /* 懸停效果 */
-        }
     </style>
 </head>
 
@@ -106,6 +59,7 @@
                     <option value="index.html" selected>首頁</option>
                     <option value="about.html">關於我們</option>
                     <option value="shop.html">特約商店</option>
+
                 </select>
             </div>
 
@@ -115,11 +69,10 @@
                     <p>　</p>
                     <p>　　第一條 本校學生請假，依下列規定辦理，未完成請假程序而缺席者以曠課論。曠課、缺課之計算
                         及處理方式依本校各學制學則之規定辦理。 </p>
-                    <p>　</p>
-                    <li><a href="https://api.sys.scu.edu.tw/StuAffair/Reports/%E6%9D%B1%E5%90%B3%E5%A4%A7%E5%AD%B8%E8%AB%8B%E5%81%87%E8%A6%8F%E5%89%871130313.pdf">請假辦法</a></li>
-                </div>
-            </div>
-            
+                        <p>　</p>
+                        <li><a href="https://api.sys.scu.edu.tw/StuAffair/Reports/%E6%9D%B1%E5%90%B3%E5%A4%A7%E5%AD%B8%E8%AB%8B%E5%81%87%E8%A6%8F%E5%89%871130313.pdf">請假辦法</a></li>
+                    </div>
+                    
             <div class="announcements">
                 <div class="announcement">
                     <h2>第68屆學生會海報欄位申請公告</h2>
@@ -149,10 +102,7 @@
                     <p>　　表單可點擊首頁連結的或下方網址皆可申請</p>
                     <p>　</p>
                     <li><a href="https://docs.google.com/forms/d/1BA6RxfE57eXTvHCHYpx55J5j8F4wpPpaXkV1RwSE-bI/edit?usp=forms_home">雙溪校區</a></li>
-                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfLA7QgEmYeEBLxYxqeSj-yorHe_RddVuxxgSWnGQg75zp00w/viewform?usp=sf_link">城中校區</a></li>                    
-                </div>
-            </div>
-        </div>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfLA7QgEmYeEBLxYxqeSj-yorHe_RddVuxxgSWnGQg75zp00w/viewform?usp=sf_link">城中校區</a></li>                    </div>
     </div>
 
     <!-- JavaScript -->
@@ -176,16 +126,9 @@
             const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
             const dropdownContent = dropdownParent.querySelector('.dropdown-content');
             
-            dropdownToggle.addEventListener('click', function(e) {
-                e.preventDefault(); // 防止默認行為
-                dropdownParent.classList.toggle('active'); // 切換下拉選項的顯示
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
             });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const welcomeScreen = document.getElementById('welcome-screen');
-            const body = document.body;
-
         });
     </script>
 </body>
