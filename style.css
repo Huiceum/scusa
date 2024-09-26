@@ -11,7 +11,7 @@
 .container {
     display: flex;
     height: 100vh;
-    color: #f0f0f0;
+    color: #252525;
     min-height: 100vh; /* 确保页面最小高度为100vh */
 }
 
@@ -171,14 +171,6 @@
     cursor: pointer; /* 光標樣式 */
 }
 
-/* 針對小屏幕的樣式 */
-@media (max-width: 767px) {
-    .dropdown select{
-        width: 150px;
-        margin-left: 300px; /* 上邊距 */
-
-    }
-}
 /* 公告樣式 */
 .announcements {
     margin-top: 60px;
@@ -315,4 +307,28 @@ body {
     font-size: 18px; /* 根據需要調整字體大小 */
     width: 100%; /* 使按鈕寬度為100% */
     box-sizing: border-box; /* 包含內邊距和邊框 */
+}
+
+.admin-button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.admin-button {/* 登入按鈕 */
+    background-color: #ffffff; /* 綠色按鈕 */
+    color: rgb(44, 44, 44);
+    padding: 10px 13px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.admin-button:hover {
+    background-color: #a6eba9; /* 懸停時顏色變深 */
 }

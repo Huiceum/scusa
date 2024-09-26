@@ -10,20 +10,32 @@
     <style>
         /* 預設連結樣式 */
         a {
-            color: rgb(255, 233, 109); /* 這裡改成你想要的顏色，例如：red, green, #123456 */
-            text-decoration: none; /* 去掉連結的預設底線，如果需要底線，可以刪除這一行 */
+            color: rgb(255, 233, 109);
+            text-decoration: none;
         }
 
         /* 滑鼠懸停時的樣式 */
         a:hover {
-            color: rgb(255, 255, 255); /* 當滑鼠懸停時，連結變成的顏色 */
-            text-decoration: underline; /* 可以讓懸停時顯示底線 */
+            color: rgb(255, 255, 255);
+            text-decoration: underline;
+        }
+
+        .edit-mode input, .edit-mode textarea {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .edit-mode button {
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
-    
+    <div class="admin-button-container">
+        <a href="login.html" class="admin-button">管理</a>
+    </div>
+
     <div class="container">
         <!-- 漢堡選單按鈕 -->
         <div class="hamburger-menu" id="hamburger-menu">
@@ -59,50 +71,24 @@
                     <option value="index.html" selected>首頁</option>
                     <option value="about.html">關於我們</option>
                     <option value="shop.html">特約商店</option>
-
                 </select>
             </div>
 
             <div class="announcements">
-                <div class="announcement">
-                    <h2>東吳大學學生請假規則</h2>
-                    <p>　</p>
-                    <p>　　第一條 本校學生請假，依下列規定辦理，未完成請假程序而缺席者以曠課論。曠課、缺課之計算
-                        及處理方式依本校各學制學則之規定辦理。 </p>
-                        <p>　</p>
-                        <li><a href="https://api.sys.scu.edu.tw/StuAffair/Reports/%E6%9D%B1%E5%90%B3%E5%A4%A7%E5%AD%B8%E8%AB%8B%E5%81%87%E8%A6%8F%E5%89%871130313.pdf">請假辦法</a></li>
+                <div id="announcements-list">
+                    <!-- 公告內容 -->
+                    <div class="announcement" id="announcement1">
+                        <h2 contenteditable="false">公告標題</h2>
+                        <p contenteditable="false">公告訊息</p>
+                        <a href="#" contenteditable="false">超連結</a>
                     </div>
-                    
-            <div class="announcements">
-                <div class="announcement">
-                    <h2>第68屆學生會海報欄位申請公告</h2>
-                    <p>　</p>
-                    <p>　　為確保海報欄位的使用品質，第68屆學生會將依「東吳大學海報欄位借用申請辦法」進行海報欄位申請作業，並將使用Google表單作為申請途徑。</p>
-                    <p>　</p>
-                    <p>　　經過近期校園巡視，我們發現部分海報欄位狀況不佳或使用不便。故針對兩校區的海報欄位進行以下調整：</p>
-                    <p>　</p>
-                    <p>　　✦ 雙溪校區：</p>
-                    <p>　</p>
-                    <p>　　配合外雙溪校區綜合大樓公佈欄更換為「櫥窗式磁吸黑板牆(編號綜01至綜23)」，請欲申請者注意以下事項：</p>
-                    <p>　</p>
-                    <p>❶限使用磁鐵進行張貼，嚴禁使用圖釘及膠帶，磁鐵請勿擅自攜離。</p>
-                    <p>❷限使用粉筆做畫，嚴禁繪畫與活動無關之圖案和文字。</p>
-                    <p>❸公佈欄因不當使用，造成損毀，需照價賠償。</p>
-                    <p>　</p>
-                    <p>　　✦ 城中校區：</p>
-                    <p>　</p>
-                    <p>本學期初將「暫停使用城中校區B01至B16的海報欄位」，學生會將在本學期內進行優化，並與校方協商改善方案。不便之處，敬請見諒。其餘海報欄位可正常使用，申請將於8月22日開放。</p>
-                    <p>　</p>
-                    <p>　　✦ 請同學特別注意以下事項：</p>
-                    <p>　</p>
-                    <p>❶圖釘更新：所有海報欄位的圖釘將統一更新，並統一放置於欄位左下角，每個海報以五個圖釘為限。</p>
-                    <p>❷非申請海報處理：若發現海報欄位上有非學生會或未經申請的海報，請拍照並回傳至學生會帳號，隨後將申請海報覆蓋其上，後續將由專人回收。</p>
-                    <p>　</p>
-                    <p>　　感謝大家的配合與理解。</p>
-                    <p>　　表單可點擊首頁連結的或下方網址皆可申請</p>
-                    <p>　</p>
-                    <li><a href="https://docs.google.com/forms/d/1BA6RxfE57eXTvHCHYpx55J5j8F4wpPpaXkV1RwSE-bI/edit?usp=forms_home">雙溪校區</a></li>
-                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfLA7QgEmYeEBLxYxqeSj-yorHe_RddVuxxgSWnGQg75zp00w/viewform?usp=sf_link">城中校區</a></li>                    </div>
+                </div>
+
+                <!-- 新增公告按鈕及保存按鈕，僅限登入後可見 -->
+                <button id="add-announcement-btn" style="display:none;" onclick="addAnnouncement()">新增公告</button>
+                <button id="save-announcement-btn" style="display:none;" onclick="saveAnnouncements()">保存</button>
+            </div>
+        </div>
     </div>
 
     <!-- JavaScript -->
@@ -115,9 +101,9 @@
     
             // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
             if (sidebar.classList.contains('active')) {
-                document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
+                document.querySelector('.main-content').style.marginLeft = '200px';
             } else {
-                document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
+                document.querySelector('.main-content').style.marginLeft = '0';
             }
         });
 
@@ -129,7 +115,54 @@
             dropdownToggle.addEventListener('click', function() {
                 dropdownParent.classList.toggle('active');
             });
+
+            // 檢查是否已登入
+            const loggedIn = localStorage.getItem('loggedIn');
+
+            if (loggedIn === 'true') {
+                enableEditing();
+            }
         });
+
+        function enableEditing() {
+            // 允許編輯公告標題、內文、超連結
+            document.querySelectorAll('.announcement h2, .announcement p, .announcement a').forEach(el => {
+                el.contentEditable = "true";
+                el.classList.add('edit-mode');
+            });
+
+            document.getElementById('add-announcement-btn').style.display = 'block'; // 顯示新增公告按鈕
+            document.getElementById('save-announcement-btn').style.display = 'block'; // 顯示保存按鈕
+        }
+
+        function addAnnouncement() {
+            // 創建新的公告欄位
+            const newAnnouncement = document.createElement('div');
+            newAnnouncement.classList.add('announcement');
+
+            newAnnouncement.innerHTML = `
+                <h2 contenteditable="true">新公告標題</h2>
+                <p contenteditable="true">新公告內容</p>
+                <a href="#" contenteditable="true">超連結</a>
+            `;
+
+            document.getElementById('announcements-list').appendChild(newAnnouncement);
+        }
+
+        function saveAnnouncements() {
+            const announcements = document.querySelectorAll('.announcement');
+
+            announcements.forEach((announcement, index) => {
+                const title = announcement.querySelector('h2').innerText;
+                const message = announcement.querySelector('p').innerText;
+                const link = announcement.querySelector('a').innerText;
+
+                console.log(`公告${index + 1}保存: 標題=${title}, 內容=${message}, 連結=${link}`);
+                // 這裡可以將保存的內容提交到後端或保存到本地儲存
+            });
+
+            alert('公告已保存');
+        }
     </script>
 </body>
 </html>

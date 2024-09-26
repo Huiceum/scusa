@@ -162,23 +162,16 @@
 .dropdown select {
     border: 2px solid #252525; /* 下拉選單邊框顏色 */
     border-radius: 8px; /* 圓角 */
-    width: 300px;
     height: 50px;
     padding: 10px; /* 內邊距 */
+    width: 100px;
+    margin-left: 300px; /* 左邊距 */
     background-color: #252525; /* 下拉選單背景色 */
     color: #f0f0f0; /* 文字顏色 */
     font-size: 18px; /* 文字大小 */
     cursor: pointer; /* 光標樣式 */
 }
 
-/* 針對小屏幕的樣式 */
-@media (max-width: 767px) {
-    .dropdown select{
-        width: 150px;
-        margin-left: 300px; /* 上邊距 */
-
-    }
-}
 /* 公告樣式 */
 .announcements {
     margin-top: 60px;
