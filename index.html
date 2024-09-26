@@ -6,7 +6,6 @@
     <title>關於我們 - 東吳大學學生會</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
-
     <style>
         /* 預設連結樣式 */
         a {
@@ -37,7 +36,6 @@
     </div>
 
     <div class="container">
-        <!-- 漢堡選單按鈕 -->
         <div class="hamburger-menu" id="hamburger-menu">
             <span></span>
             <span></span>
@@ -53,8 +51,6 @@
                 <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
                 <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
                 <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
-        
-                <!-- 新增下滑式選項 -->
                 <li class="dropdown-parent">
                     <a href="#" class="dropdown-toggle">海報欄位租借</a>
                     <ul class="dropdown-content">
@@ -76,7 +72,6 @@
 
             <div class="announcements">
                 <div id="announcements-list">
-                    <!-- 公告內容 -->
                     <div class="announcement" id="announcement1">
                         <h2 contenteditable="false" class="title">公告標題</h2>
                         <p contenteditable="false" class="message">公告訊息</p>
@@ -84,22 +79,19 @@
                     </div>
                 </div>
 
-                <!-- 新增公告按鈕及保存按鈕，僅限登入後可見 -->
                 <button id="add-announcement-btn" style="display:none;" onclick="addAnnouncement()">新增公告</button>
                 <button id="save-announcement-btn" style="display:none;" onclick="saveAnnouncements()">保存</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <script src="app.js"></script> <!-- 確保在 DOM 加載後引用 -->
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
 
         hamburgerMenu.addEventListener('click', function() {
             sidebar.classList.toggle('active');
-    
-            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
             if (sidebar.classList.contains('active')) {
                 document.querySelector('.main-content').style.marginLeft = '200px';
             } else {
@@ -116,7 +108,6 @@
                 dropdownParent.classList.toggle('active');
             });
 
-            // 檢查是否已登入
             const loggedIn = localStorage.getItem('loggedIn');
             if (loggedIn === 'true') {
                 enableEditing();
@@ -126,7 +117,6 @@
         });
 
         function enableEditing() {
-            // 允許編輯公告標題、內文、超連結
             document.querySelectorAll('.announcement h2, .announcement p, .announcement a').forEach(el => {
                 el.contentEditable = "true";
                 el.classList.add('edit-mode');
@@ -137,38 +127,50 @@
         }
 
         function addAnnouncement() {
-            // 創建新的公告欄位
             const newAnnouncement = document.createElement('div');
             newAnnouncement.classList.add('announcement');
-
             newAnnouncement.innerHTML = `
                 <h2 contenteditable="true" class="title">新公告標題</h2>
                 <p contenteditable="true" class="message">新公告內容</p>
                 <a href="#" contenteditable="true" class="link">超連結</a>
             `;
-
             document.getElementById('announcements-list').appendChild(newAnnouncement);
         }
 
         function saveAnnouncements() {
-            const announcements = document.querySelectorAll('.announcement');
-            const announcementData = [];
+            const titles = document.querySelectorAll('.title');
+            const messages = document.querySelectorAll('.message');
+            const links = document.querySelectorAll('.link');
 
-            announcements.forEach((announcement) => {
-                const title = announcement.querySelector('.title').innerText;
-                const message = announcement.querySelector('.message').innerText;
-                const link = announcement.querySelector('.link').innerText;
+            const announcements = [];
 
-                announcementData.push({
-                    title,
-                    message,
-                    link
+            titles.forEach((title, index) => {
+                announcements.push({
+                    title: title.innerText,
+                    message: messages[index].innerText,
+                    link: links[index].innerText
                 });
             });
 
-            // 將公告資料保存到 Local Storage
-            localStorage.setItem('announcements', JSON.stringify(announcementData));
-            alert('公告已保存');
+            console.log('要保存的公告:', announcements); // 日誌記錄
+
+            // 使用 AJAX 發送公告內容到伺服器
+            fetch('save_announcement.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ announcements })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('公告已保存！');
+                } else {
+                    alert('保存失敗，請稍後再試。');
+                }
+            })
+            .catch(error => console.error('Error:', error));
         }
 
         function loadAnnouncements() {
@@ -181,13 +183,11 @@
                 announcementData.forEach((data) => {
                     const newAnnouncement = document.createElement('div');
                     newAnnouncement.classList.add('announcement');
-
                     newAnnouncement.innerHTML = `
                         <h2 contenteditable="false" class="title">${data.title}</h2>
                         <p contenteditable="false" class="message">${data.message}</p>
                         <a href="#" contenteditable="false" class="link">${data.link}</a>
                     `;
-
                     announcementList.appendChild(newAnnouncement);
                 });
             }
