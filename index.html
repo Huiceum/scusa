@@ -152,7 +152,7 @@
         }
     
         function saveAnnouncements() {
-            const announcements = document.querySelectorAll('.announcement');
+    const announcements = document.querySelectorAll('.announcement');
     const announcementData = [];
 
     announcements.forEach((announcement) => {
@@ -168,24 +168,22 @@
     });
 
     // 將公告資料發送到伺服器
-    fetch('/api/announcements', {
+    fetch('save_announcements.php', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(announcementData),
+        body: 'announcements=' + encodeURIComponent(JSON.stringify(announcementData))
     })
-    .then(response => {
-        if (response.ok) {
-            alert('公告已保存');
-        } else {
-            alert('保存公告時出錯');
-        }
+    .then(response => response.text())
+    .then(data => {
+        alert(data); // 顯示伺服器回應
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
+
 
 function loadAnnouncements() {
     fetch('/api/announcements')
@@ -217,27 +215,6 @@ function loadAnnouncements() {
     });
 }
     
-        function loadAnnouncements() {
-            const savedAnnouncements = localStorage.getItem('announcements');
-            if (savedAnnouncements) {
-                const announcementData = JSON.parse(savedAnnouncements);
-                const announcementList = document.getElementById('announcements-list');
-                announcementList.innerHTML = ''; // 清空公告欄
-    
-                announcementData.forEach((data) => {
-                    const newAnnouncement = document.createElement('div');
-                    newAnnouncement.classList.add('announcement');
-    
-                    newAnnouncement.innerHTML = `
-                        <h2 contenteditable="false" class="title">${data.title}</h2>
-                        <p contenteditable="false" class="message">${data.message}</p>
-                        <a href="#" contenteditable="false" class="link">${data.link}</a>
-                    `;
-    
-                    announcementList.appendChild(newAnnouncement);
-                });
-            }
-        }
     
         // 新增刪除最後一則公告的函數
         function deleteLastAnnouncement() {
