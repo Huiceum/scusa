@@ -75,8 +75,11 @@
         const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
         setTimeout(() => {
-window.location.href = "index.html"; // 電腦用戶導向電腦頁面
-            
+            if (isMobile) {
+                window.location.href = "index_phone.html"; // 手機用戶導向手機頁面
+            } else {
+                window.location.href = "index.html"; // 電腦用戶導向電腦頁面
+            }
         }, 4000); // 4秒後導向
     </script>
 </body>
