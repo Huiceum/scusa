@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>關於我們 - 東吳大學學生會</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <title>東吳大學學生議會議會</title>
+    <link rel="stylesheet" href="style議會.css">
+    <link rel="icon" href="議會LOGO.png" type="image/x-icon">
 
     <style>
         /* 預設連結樣式 */
@@ -34,33 +34,25 @@
 
         <nav class="sidebar" id="sidebar">
             <div class="logo">
-                <img src="logo.png" alt="Logo">
+                <img src="議會logo.png" alt="Logo">
                 <div class="site-name"></div>
             </div>
             <ul class="nav-links">
-                <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
-                <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
-                <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
+                <li><a href="https://portaly.cc/scusc35th" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
+                <li><a href="https://www.facebook.com/susc.36th" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
+                <li><a href="https://www.instagram.com/susc36th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
         
-                <!-- 新增下滑式選項 -->
-                <li class="dropdown-parent">
-                    <a href="#" class="dropdown-toggle">海報欄位租借</a>
-                    <ul class="dropdown-content">
-                        <li><a href="https://docs.google.com/forms/d/1BA6RxfE57eXTvHCHYpx55J5j8F4wpPpaXkV1RwSE-bI/edit?usp=forms_home">雙溪校區</a></li>
-                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfLA7QgEmYeEBLxYxqeSj-yorHe_RddVuxxgSWnGQg75zp00w/viewform?usp=sf_link">城中校區</a></li>
-                    </ul>
                 </li>
             </ul>
-                           
         </nav>
 
         <div class="main-content">
             <!-- 下拉式選單 -->
             <div class="dropdown">
                 <select id="pages" onchange="location = this.value;">
-                    <option value="index.html" selected>首頁</option>
-                    <option value="about.html">關於我們</option>
-                    <option value="shop.html">特約商店</option>
+                    <option value="index.html">回到學生會</option>
+                    <option value="shop.html"selected>東吳大學學生議會</option>
+
                 </select>
             </div>
 
@@ -74,7 +66,6 @@
 
     <!-- JavaScript -->
     <script>
-        
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
 
@@ -88,14 +79,13 @@
             }
         });
 
-
         // 當文檔加載完成後的事件
         document.addEventListener('DOMContentLoaded', function() {
             loadAnnouncements(); // 載入公告
         });
 
         function loadAnnouncements() {
-    const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 只保留試算表 ID
+    const sheetId = '1qzZxrbbucVhdXIRGvIfRqdYGRLRfinUmJ1zitWT6IQQ'; // 只保留試算表 ID
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
     fetch(url)
@@ -130,16 +120,7 @@
         alert('無法載入公告，請查看控制台獲取更多資訊。');
     });
 }
-document.addEventListener('DOMContentLoaded', function() {
-            const dropdownParent = document.querySelector('.dropdown-parent');
-            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
-            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-            
-            dropdownToggle.addEventListener('click', function() {
-                dropdownParent.classList.toggle('active');
-            });
-        });
-    </script>
+
     </script>
     
 </body>

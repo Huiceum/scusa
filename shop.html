@@ -63,8 +63,8 @@
             display: flex; /* 按鈕使用Flexbox顯示 */
             align-items: center; /* 垂直居中 */
             justify-content: center; /* 水平居中 */
-            width: 75%; /* 按鈕寬度 */
-            height: AUTO;
+            width: 300px; /* 按鈕寬度 */
+            height: 150px;
             position: relative; /* 使得絕對定位的元素相對於此元素 */
             overflow: hidden; /* 隱藏超出範圍的部分 */
         }
@@ -226,6 +226,16 @@
                 })
                 .catch(error => console.error('Error loading store data:', error));
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
+    </script>
     </script>
 </body>
 </html>
