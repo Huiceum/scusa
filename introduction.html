@@ -5,36 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>關於我們 - 東吳大學學生會</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.PNG" type="image/x-icon"> <!-- 新增這行 -->
+    <link rel="icon" href="favicon.PNG" type="image/x-icon"> 
     <style>
-        /* 表格样式 */
+        /* 表格樣式 */
         .info-table {
-            width: 100%; /* 表格宽度为100% */
-            border-collapse: collapse; /* 去掉间隙 */
-            margin-top: 20px; /* 表格顶部间距 */
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
         .info-table th, .info-table td {
-            padding: 10px; /* 单元格内边距 */
-            text-align: left; /* 左对齐 */
+            padding: 10px;
+            text-align: left;
         }
         .info-table th {
-            border-bottom: 2px solid black; /* 底线 */
+            border-bottom: 2px solid black;
         }
         .info-table td {
-            border: none; /* 无边框 */
+            border: none;
         }
         .business-content ul {
-            margin: 0; /* 去掉默认的margin */
-            padding-left: 20px; /* 左侧填充 */
+            margin: 0;
+            padding-left: 20px;
         }
         .additional-links {
-            margin-top: 20px; /* 分頁選項的上方間距 */
-            text-align: center; /* 置中顯示 */
+            margin-top: 20px;
+            text-align: center;
         }
         .additional-links a {
-            margin: 0 10px; /* 左右間距 */
-            text-decoration: none; /* 去掉下劃線 */
-            color: #007bff; /* 超鏈接顏色 */
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        /* Google Docs 內容區塊樣式 */
+        .google-docs-content {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #0000002a; /* 淺灰色背景 */
+            border: 1px solid #ddd; /* 淺灰邊框 */
+            border-radius: 8px; /* 圓角 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+            font-family: 'Arial', sans-serif; /* 字型 */
+            line-height: 1.6; /* 行高 */
+            color: #ffffff; /* 字體顏色 */
+            overflow-wrap: break-word; /* 自動換行 */
+        }
+        /* 內容標題樣式 */
+        .google-docs-title {
+            font-size: 1.5em; /* 標題字型大小 */
+            margin-bottom: 20px; /* 標題底部間距 */
+            color: #007bff; /* 標題顏色 */
+            text-align: center; /* 標題置中 */
         }
     </style>
 </head>
@@ -56,8 +76,6 @@
                 <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
                 <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
                 <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
-        
-                <!-- 新增下滑式選項 -->
                 <li class="dropdown-parent">
                     <a href="#" class="dropdown-toggle">海報欄位租借</a>
                     <ul class="dropdown-content">
@@ -66,8 +84,8 @@
                     </ul>
                 </li>
             </ul>
-                           
         </nav>
+        
         <div class="main-content">    
             <div class="dropdown">
                 <select id="pages" onchange="location = this.value;">
@@ -75,48 +93,61 @@
                     <option value="about.html" selected>關於我們</option>
                     <option value="shop.html">特約商店</option>
                     <option value="東吳大學學生議會.html">東吳大學學生議會</option>
-
-
                 </select>
             </div>
 
-            <!-- 新增分頁選項 -->
             <div class="additional-links">
                 <a href="introduction.html" class="link active">本會簡介</a>
                 <a href="financial-report.html" class="link">財務報告</a>
                 <a href="about.html" class="link">組織架構</a>
                 <a href="regulations.html" class="link">法規編錄</a>
+            </div>
+
+            <!-- 新區塊：Google Docs 內容同步 -->
+            <div class="google-docs-content" id="google-docs-content">
+                <div class="google-docs-title">文件內容載入中...</div>
+                <p>正在載入內容...</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         // 監聽選單改變事件，導向相應頁面
         document.getElementById('pages').addEventListener('change', function() {
             window.location.href = this.value;
         });
-    </script>
-    <!-- JavaScript 部分 -->
-    <script>
+
+        // 漢堡選單顯示/隱藏
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
     
         hamburgerMenu.addEventListener('click', function() {
             sidebar.classList.toggle('active');
-    
-            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
-            if (sidebar.classList.contains('active')) {
-                document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
-            } else {
-                document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
-            }
+            document.querySelector('.main-content').style.marginLeft = sidebar.classList.contains('active') ? '200px' : '0';
         });
+
+        // Google Docs 內容載入
         document.addEventListener('DOMContentLoaded', function() {
-            const dropdownParent = document.querySelector('.dropdown-parent');
-            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
-            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-            
-            dropdownToggle.addEventListener('click', function() {
-                dropdownParent.classList.toggle('active');
-            });
+            loadGoogleDocsContent();
         });
+
+        function loadGoogleDocsContent() {
+    const googleDocId = '1M8o_OZWb7Z1DuJiUoqNc2NJmeXOx3yASGh-e9r_VWuk';  // 替換成你的 Google Docs ID
+    const url = `https://docs.google.com/document/d/${googleDocId}/export?format=txt`;
+
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            // 將換行符號轉換為 <br> 標籤
+            const formattedData = data.replace(/\n/g, '<br>');
+            document.getElementById('google-docs-content').innerHTML = formattedData; // 使用 innerHTML 而不是 textContent
+        })
+        .catch(error => {
+            console.error('Error loading Google Docs content:', error);
+            document.getElementById('google-docs-content').textContent = '無法載入文件內容，請稍後再試。';
+        });
+}
+
     </script>
 </body>
 </html>
