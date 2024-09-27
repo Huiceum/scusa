@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>關於我們 - 東吳大學學生會</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <title>東吳大學學生議會議會</title>
+    <link rel="stylesheet" href="style議會.css">
+    <link rel="icon" href="議會LOGO.png" type="image/x-icon">
 
     <style>
         /* 表格样式 */
@@ -113,43 +113,26 @@
 
         <nav class="sidebar" id="sidebar">
             <div class="logo">
-                <img src="logo.png" alt="Logo">
+                <img src="議會logo.png" alt="Logo">
                 <div class="site-name"></div>
             </div>
             <ul class="nav-links">
-                <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
-                <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
-                <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
+                <li><a href="https://portaly.cc/scusc35th" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
+                <li><a href="https://www.facebook.com/susc.36th" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
+                <li><a href="https://www.instagram.com/susc36th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
         
-                <!-- 新增下滑式選項 -->
-                <li class="dropdown-parent">
-                    <a href="#" class="dropdown-toggle">海報欄位租借</a>
-                    <ul class="dropdown-content">
-                        <li><a href="https://docs.google.com/forms/d/1BA6RxfE57eXTvHCHYpx55J5j8F4wpPpaXkV1RwSE-bI/edit?usp=forms_home">雙溪校區</a></li>
-                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfLA7QgEmYeEBLxYxqeSj-yorHe_RddVuxxgSWnGQg75zp00w/viewform?usp=sf_link">城中校區</a></li>
-                    </ul>
-                </li>
-            </ul>      
+
         </nav>
 
         <!-- Dropdown 下拉選單 -->
         <div class="main-content">
             <div class="dropdown">
                 <select id="pages" onchange="location = this.value;">
-                    <option value="index.html">首頁</option>
-                    <option value="about.html" selected>關於我們</option>
-                    <option value="shop.html">特約商店</option>
+                    <option value="index.html">學生會</option>
+                    <option value="東吳大學學生議會.html">東吳大學學生議會</option>
+                    <option value="東吳大學學生議會－會議資料.html"selected>東吳大學學生議會-會議資料</option>
                 </select>
             </div>
-
-            <!-- 新增分頁選項 -->
-            <div class="additional-links">
-                <a href="introduction.html" class="link">本會簡介</a>
-                <a href="financial-report.html" class="link active">財務報告</a>
-                <a href="about.html" class="link">組織架構</a>
-                <a href="regulations.html" class="link">法規編錄</a>
-            </div>
-
             <!-- 按鈕區域 -->
             <div class="button-container" id="download-buttons">
                 <!-- 下載按鈕將從 Google 試算表動態生成 -->
@@ -184,7 +167,7 @@
         });
 
         function loadDownloadButtons() {
-            const sheetId = '1Gas84Nly72_C1_c954neuSj5PVWUQSxf9WHzPb2IobI'; // Google 試算表 ID
+            const sheetId = '1ZZMSsCtzPh4hnA5i2zYH9tzQjUe5kbu5qTf8HVKdQNw'; // Google 試算表 ID
             const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
             fetch(url)
@@ -213,21 +196,6 @@
                     alert('無法載入下載按鈕，請查看控制台獲取更多資訊。');
                 });
         }
-                    // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
-                    if (sidebar.classList.contains('active')) {
-                document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
-            } else {
-                document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
-            }
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownParent = document.querySelector('.dropdown-parent');
-            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
-            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-        
-            dropdownToggle.addEventListener('click', function() {
-                dropdownParent.classList.toggle('active');
-            });
-        });
     </script>
 </body>
 </html>
