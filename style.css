@@ -314,98 +314,21 @@ body {
     bottom: 20px;
     right: 20px;
 }
-
-.admin-button {/* 登入按鈕 */
-    background-color: #ffffff; /* 綠色按鈕 */
-    color: rgb(44, 44, 44);
-    padding: 10px 13px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.admin-button:hover {
-    background-color: #a6eba9; /* 懸停時顏色變深 */
-}
-/* 編輯按鈕樣式 */
-#add-announcement-btn {
-    background-color: #4CAF50; /* 綠色 */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    margin-right: 10px; /* 與保存按鈕保持距離 */
-}
-
-#add-announcement-btn:hover {
-    background-color: #45a049; /* 懸停時的顏色 */
-}
-
-/* 保存按鈕樣式 */
-#save-announcement-btn {
-    background-color: #008CBA; /* 藍色 */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-#save-announcement-btn:hover {
-    background-color: #007bb5; /* 懸停時的顏色 */
-}
-
-/* 按鈕容器，確保按鈕水平對齊 */
-#announcements-button-container {
-    margin-top: 20px;
-}
-#delete-announcement-btn {
-    background-color: #ff4d4d; /* 紅色背景 */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-#delete-announcement-btn:hover {
-    background-color: #ff1a1a; /* 懸停時變深色 */
-}
-
-.notification {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 5px;
-    z-index: 1000;
-}
-
-.notification-content {
+.store-item {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start; /* 垂直置中 */
+    margin-bottom: 20px;
 }
 
-#close-notification {
-    margin-top: 10px;
-    background-color: rgb(255, 233, 109);
-    border: none;
-    padding: 10px;
-    cursor: pointer;
+.store-image {
+    margin-right: 20px; /* 圖片與文字之間的間距 */
+}
+
+.store-image img {
+    width: 100px; /* 調整圖片寬度 */
+    height: auto; /* 自動調整高度 */
+}
+
+.store-details {
+    color: white; /* 文字顏色改成白色 */
 }

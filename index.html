@@ -19,30 +19,11 @@
             color: rgb(255, 255, 255);
             text-decoration: underline;
         }
-
-        .edit-mode input, .edit-mode textarea {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .edit-mode button {
-            margin-top: 10px;
-        }
     </style>
 </head>
 
 <body>
-    <div id="notification" class="notification" style="display:none;">
-        <div class="notification-content">
-            <span id="notification-message"></span>
-            <button id="close-notification">關閉</button>
-        </div>
-    </div>
     
-    <div class="admin-button-container">
-        <a href="login.html" class="admin-button">管理</a>
-    </div>
-
     <div class="container">
         <!-- 漢堡選單按鈕 -->
         <div class="hamburger-menu" id="hamburger-menu">
@@ -61,7 +42,7 @@
                 <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
                 <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
         
-                <!-- 新增下滑式選項 -->
+                <!-- 新增下拉式選單 -->
                 <li class="dropdown-parent">
                     <a href="#" class="dropdown-toggle">海報欄位租借</a>
                     <ul class="dropdown-content">
@@ -73,6 +54,7 @@
         </nav>
 
         <div class="main-content">
+            <!-- 下拉式選單 -->
             <div class="dropdown">
                 <select id="pages" onchange="location = this.value;">
                     <option value="index.html" selected>首頁</option>
@@ -83,143 +65,58 @@
 
             <div class="announcements">
                 <div id="announcements-list">
-                    <!-- 公告內容 -->
-                    <div class="announcement" id="announcement1">
-                        <h2 contenteditable="false" class="title">公告標題</h2>
-                        <p contenteditable="false" class="message">公告訊息</p>
-                        <a href="#" contenteditable="false" class="link">超連結</a>
-                    </div>
+                    <!-- 公告內容將自動載入 -->
                 </div>
-
-                <!-- 新增公告按鈕及保存按鈕，僅限登入後可見 -->
-                <button id="add-announcement-btn" style="display:none;" onclick="addAnnouncement()">新增公告</button>
-                <button id="save-announcement-btn" style="display:none;" onclick="saveAnnouncements()">保存</button>
-                <button id="delete-announcement-btn"style="display:none;" onclick="deleteAnnouncement()">刪除公告</button>
             </div>
         </div>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+
     <!-- JavaScript -->
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
-    
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
         hamburgerMenu.addEventListener('click', function() {
             sidebar.classList.toggle('active');
-    
-            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
             if (sidebar.classList.contains('active')) {
                 document.querySelector('.main-content').style.marginLeft = '200px';
             } else {
                 document.querySelector('.main-content').style.marginLeft = '0';
             }
         });
-    
+
+        // 當文檔加載完成後的事件
         document.addEventListener('DOMContentLoaded', function() {
-            const dropdownParent = document.querySelector('.dropdown-parent');
-            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
-            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-    
-            dropdownToggle.addEventListener('click', function() {
-                dropdownParent.classList.toggle('active');
-            });
-    
-            // 檢查是否已登入
-            const loggedIn = localStorage.getItem('loggedIn');
-            if (loggedIn === 'true') {
-                enableEditing();
-            }
-    
-            loadAnnouncements();
+            loadAnnouncements(); // 載入公告
         });
-    
-        function enableEditing() {
-            // 允許編輯公告標題、內文、超連結
-            document.querySelectorAll('.announcement h2, .announcement p, .announcement a').forEach(el => {
-                el.contentEditable = "true";
-                el.classList.add('edit-mode');
-            });
-    
-            document.getElementById('add-announcement-btn').style.display = 'block'; // 顯示新增公告按鈕
-            document.getElementById('save-announcement-btn').style.display = 'block'; // 顯示保存按鈕
-            document.getElementById('delete-announcement-btn').style.display = 'block'; // 顯示刪除按鈕
-        }
-    
-        function addAnnouncement() {
-            // 創建新的公告欄位
-            const newAnnouncement = document.createElement('div');
-            newAnnouncement.classList.add('announcement');
-    
-            newAnnouncement.innerHTML = `
-                <h2 contenteditable="true" class="title">新公告標題</h2>
-                <p contenteditable="true" class="message">新公告內容</p>
-                <a href="#" contenteditable="true" class="link">超連結</a>
-            `;
-    
-            document.getElementById('announcements-list').appendChild(newAnnouncement);
-        }
-    
-        function saveAnnouncements() {
-    const announcements = document.querySelectorAll('.announcement');
-    const announcementData = [];
 
-    announcements.forEach((announcement) => {
-        const title = announcement.querySelector('.title').innerText;
-        const message = announcement.querySelector('.message').innerText;
-        const link = announcement.querySelector('.link').innerText;
+        function loadAnnouncements() {
+    const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 只保留試算表 ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-        announcementData.push({
-            title,
-            message,
-            link
-        });
-    });
-
-    // 將公告資料發送到伺服器
-    fetch('save_announcements.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'announcements=' + encodeURIComponent(JSON.stringify(announcementData))
-    })
-    .then(response => response.json()) // 解析 JSON
-    .then(data => {
-        // 根據伺服器的回應顯示提示
-        if (data.status === 'success') {
-            alert(data.message); // 顯示成功訊息
-        } else {
-            alert(data.message); // 顯示錯誤訊息
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('儲存公告時發生錯誤');
-    });
-}
-
-
-function loadAnnouncements() {
-    fetch('/api/announcements')
+    fetch(url)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
+        return response.text(); // 解析為文本格式
     })
-    .then(announcementData => {
+    .then(data => {
+        const rows = data.split('\n').slice(1); // 分割行並移除標題行
         const announcementList = document.getElementById('announcements-list');
         announcementList.innerHTML = ''; // 清空公告欄
 
-        announcementData.forEach((data) => {
+        rows.forEach((row) => {
+            const columns = row.split(',').map(col => col.replace(/"/g, '').trim()); // 移除引號並修剪空格
             const newAnnouncement = document.createElement('div');
             newAnnouncement.classList.add('announcement');
 
+            // 假設第一列是標題，第二列是訊息，第三列是超連結
             newAnnouncement.innerHTML = `
-                <h2 contenteditable="false" class="title">${data.title}</h2>
-                <p contenteditable="false" class="message">${data.message}</p>
-                <a href="#" contenteditable="false" class="link">${data.link}</a>
+                <h2 class="title">${columns[0]}</h2>
+                <p class="message">${columns[1]}</p>
+                <a href="${columns[2]}" class="link">${columns[2]}</a>
             `;
 
             announcementList.appendChild(newAnnouncement);
@@ -227,37 +124,9 @@ function loadAnnouncements() {
     })
     .catch(error => {
         console.error('Error loading announcements:', error);
+        alert('無法載入公告，請查看控制台獲取更多資訊。');
     });
 }
-    
-    
-        // 新增刪除最後一則公告的函數
-        function deleteAnnouncement() {
-            const announcements = document.querySelectorAll('.announcement'); // 假設公告的 class 是 'announcement'
-            if (announcements.length > 0) {
-                const lastAnnouncement = announcements[announcements.length - 1]; // 取得最後一則公告
-                lastAnnouncement.remove(); // 刪除最後一則公告
-            }
-        }
-    
-        // 事件監聽器
-        document.querySelector('.delete-announcement-btn').addEventListener('click', deleteLastAnnouncement);
-    
-
-    // Firebase 配置
-    const firebaseConfig = {
-        apiKey: "AIzaSyCJEvYC1ONPulYk6riBoyDpEMTpMWmVsg0",
-        authDomain: "scusa-3bb3c.firebaseapp.com",
-        projectId: "scusa-3bb3c",
-        storageBucket: "scusa-3bb3c.appspot.com",
-        messagingSenderId: "157642635308",
-        appId: "1:157642635308:web:45decb856f310ca7e47989",
-        measurementId: "G-JS06CE50DX"
-    };
-    // 初始化 Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
 
     </script>
     
