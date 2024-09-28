@@ -4,26 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>關於我們 - 東吳大學學生會</title>
-    <link rel="stylesheet" href="phone.css"> <!-- 改為使用 phone.css -->
+    <link rel="stylesheet" href="style_phone.css">
+    <link rel="stylesheet" href="menu.css">
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
-    <style>
-        /* 預設連結樣式 */
-        a {
-            color: rgb(255, 233, 109); /* 這裡改成你想要的顏色，例如：red, green, #123456 */
-            text-decoration: none; /* 去掉連結的預設底線，如果需要底線，可以刪除這一行 */
-        }
-
-        /* 滑鼠懸停時的樣式 */
-        a:hover {
-            color: rgb(255, 255, 255); /* 當滑鼠懸停時，連結變成的顏色 */
-            text-decoration: underline; /* 可以讓懸停時顯示底線 */
-        }
-    </style>
-
 </head>
 
 <body>
-    
     <div class="container">
         <!-- 漢堡選單按鈕 -->
         <div class="hamburger-menu" id="hamburger-menu">
@@ -37,101 +23,93 @@
                 <img src="logo.png" alt="Logo">
                 <div class="site-name"></div>
             </div>
+
             <ul class="nav-links">
-                <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
-                <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
-                <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
-        
-                <!-- 新增下滑式選項 -->
-                <li class="dropdown-parent">
-                    <a href="#" class="dropdown-toggle">海報欄位租借</a>
-                    <ul class="dropdown-content">
-                        <li><a href="https://docs.google.com/forms/d/1BA6RxfE57eXTvHCHYpx55J5j8F4wpPpaXkV1RwSE-bI/edit?usp=forms_home">雙溪校區</a></li>
-                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfLA7QgEmYeEBLxYxqeSj-yorHe_RddVuxxgSWnGQg75zp00w/viewform?usp=sf_link">城中校區</a></li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-1">東吳大學學生會</div>
+                    <ul class="submenu" id="submenu-1">
+                        <li><a href="index_phone.html">公告</a></li>
+                        <li><a href="shop_phone.html">特約商店</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-2">關於我們</div>
+                    <ul class="submenu" id="submenu-2">
+                        <li><a href="introduction_phone.html">本會簡介</a></li>
+                        <li><a href="financial-report_phone.html">財務報告</a></li>
+                        <li><a href="about_phone.html">組織架構</a></li>
+                        <li><a href="regulations_phone.html">財務報告</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-3">學生議會</div>
+                    <ul class="submenu" id="submenu-3">
+                        <li><a href="東吳大學學生議會_phone.html">東吳大學學生議會</a></li>
+                        <li><a href="東吳大學學生議會－會議資料_phone.html">東吳大學學生議會－會議資料</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
-
         <div class="main-content">
-            <div class="dropdown">
-                <select id="pages" onchange="location = this.value;">
-                    <option value="index.html" selected>首頁</option>
-                    <option value="about.html">關於我們</option>
-                    <option value="shop.html">特約商店</option>
-                </select>
-            </div>
-
             <div class="announcements">
-                <div class="announcement">
-                    <h2>東吳大學學生請假規則</h2>
-                    <p>　</p>
-                    <p>　　第一條 本校學生請假，依下列規定辦理，未完成請假程序而缺席者以曠課論。曠課、缺課之計算
-                        及處理方式依本校各學制學則之規定辦理。</p>
-                    <p>　</p>
-                    <li><a href="https://api.sys.scu.edu.tw/StuAffair/Reports/%E6%9D%B1%E5%90%B3%E5%A4%A7%E5%AD%B8%E8%AB%8B%E5%81%87%E8%A6%8F%E5%89%871130313.pdf">請假辦法</a></li>
-                </div>
-                
-                <div class="announcement">
-                    <h2>第68屆學生會海報欄位申請公告</h2>
-                    <p>　</p>
-                    <p>　　為確保海報欄位的使用品質，第68屆學生會將依「東吳大學海報欄位借用申請辦法」進行海報欄位申請作業，並將使用Google表單作為申請途徑。</p>
-                    <p>　</p>
-                    <p>　　經過近期校園巡視，我們發現部分海報欄位狀況不佳或使用不便。故針對兩校區的海報欄位進行以下調整：</p>
-                    <p>　</p>
-                    <p>　　✦ 雙溪校區：</p>
-                    <p>　</p>
-                    <p>　　配合外雙溪校區綜合大樓公佈欄更換為「櫥窗式磁吸黑板牆(編號綜01至綜23)」，請欲申請者注意以下事項：</p>
-                    <p>　</p>
-                    <p>❶限使用磁鐵進行張貼，嚴禁使用圖釘及膠帶，磁鐵請勿擅自攜離。</p>
-                    <p>❷限使用粉筆做畫，嚴禁繪畫與活動無關之圖案和文字。</p>
-                    <p>❸公佈欄因不當使用，造成損毀，需照價賠償。</p>
-                    <p>　</p>
-                    <p>　　✦ 城中校區：</p>
-                    <p>　</p>
-                    <p>本學期初將「暫停使用城中校區B01至B16的海報欄位」，學生會將在本學期內進行優化，並與校方協商改善方案。不便之處，敬請見諒。其餘海報欄位可正常使用，申請將於8月22日開放。</p>
-                    <p>　</p>
-                    <p>　　✦ 請同學特別注意以下事項：</p>
-                    <p>　</p>
-                    <p>❶圖釘更新：所有海報欄位的圖釘將統一更新，並統一放置於欄位左下角，每個海報以五個圖釘為限。</p>
-                    <p>❷非申請海報處理：若發現海報欄位上有非學生會或未經申請的海報，請拍照並回傳至學生會帳號，隨後將申請海報覆蓋其上，後續將由專人回收。</p>
-                    <p>　</p>
-                    <p>　　感謝大家的配合與理解。</p>
-                    <p>　　表單可點擊首頁連結的或下方網址皆可申請</p>
-                    <p>　</p>
-                    <li><a href="https://docs.google.com/forms/d/1BA6RxfE57eXTvHCHYpx55J5j8F4wpPpaXkV1RwSE-bI/edit?usp=forms_home">雙溪校區</a></li>
-                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfLA7QgEmYeEBLxYxqeSj-yorHe_RddVuxxgSWnGQg75zp00w/viewform?usp=sf_link">城中校區</a></li>
+                <div id="announcements-list">
+                    <!-- 公告內容將自動載入 -->
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- JavaScript -->
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
+        const mainMenus = document.querySelectorAll('.main-menu');
 
+        // 漢堡選單功能：顯示或隱藏側邊欄
         hamburgerMenu.addEventListener('click', function() {
             sidebar.classList.toggle('active');
-    
-            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
-            if (sidebar.classList.contains('active')) {
-                document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
-            } else {
-                document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
-            }
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownParent = document.querySelector('.dropdown-parent');
-            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
-            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-            
-            dropdownToggle.addEventListener('click', function() {
-                dropdownParent.classList.toggle('active');
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
             });
         });
+        // 當文檔加載完成後的事件
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAnnouncements();
+        });
+
+        function loadAnnouncements() {
+            const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split('\n').slice(1);
+                    const announcementList = document.getElementById('announcements-list');
+                    announcementList.innerHTML = '';
+
+                    rows.forEach((row) => {
+                        const columns = row.split(',').map(col => col.trim().replace(/"/g, ''));
+                        const newAnnouncement = document.createElement('div');
+                        newAnnouncement.classList.add('announcement');
+                        newAnnouncement.innerHTML = `
+                            <h2 class="title">${columns[0]}</h2>
+                            <p class="message">${columns[1]}</p>
+                            <a href="${columns[2]}" class="link">${columns[2]}</a>
+                        `;
+                        announcementList.appendChild(newAnnouncement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading announcements:', error);
+                });
+        }
     </script>
 </body>
 </html>

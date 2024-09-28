@@ -199,23 +199,7 @@
             }
         });
         
-        // 初始化計數器
-        let visitCount = localStorage.getItem('visitCount') ? parseInt(localStorage.getItem('visitCount')) : 0;
-        visitCount++;
-        localStorage.setItem('visitCount', visitCount);
-        
-        // 顯示計數器
-        const counter = document.createElement('div');
-        counter.innerText = `訪問次數: ${visitCount}`;
-        counter.style.position = 'fixed';
-        counter.style.bottom = '20px';
-        counter.style.right = '20px';
-        counter.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        counter.style.color = '#fff';
-        counter.style.padding = '10px';
-        counter.style.borderRadius = '5px';
-        counter.style.fontFamily = '微軟正黑體';
-        document.body.appendChild(counter);
+
     </script>
 </body>
 </html>
