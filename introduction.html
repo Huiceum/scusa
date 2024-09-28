@@ -56,6 +56,19 @@
             color: #007bff; /* 標題顏色 */
             text-align: center; /* 標題置中 */
         }
+
+        .sidebar {
+            position: fixed;
+            left: -200px; /* 隱藏側邊欄 */
+            transition: left 0.3s ease;
+        }
+        .sidebar.active {
+            left: 0; /* 顯示側邊欄 */
+        }
+        .main-content {
+            transition: margin-left 0.3s ease;
+            margin-left: 0; /* 預設沒有邊距 */
+        }
     </style>
 </head>
 <body>
@@ -76,26 +89,37 @@
                 <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
                 <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
                 <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
-                <li class="dropdown-parent">
-                    <a href="#" class="dropdown-toggle">海報欄位租借</a>
-                    <ul class="dropdown-content">
-                        <li><a href="https://docs.google.com/forms/d/1BA6RxfE57eXTvHCHYpx55J5j8F4wpPpaXkV1RwSE-bI/edit?usp=forms_home">雙溪校區</a></li>
-                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfLA7QgEmYeEBLxYxqeSj-yorHe_RddVuxxgSWnGQg75zp00w/viewform?usp=sf_link">城中校區</a></li>
-                    </ul>
-                </li>
             </ul>
         </nav>
         
-        <div class="main-content">    
-            <div class="dropdown">
-                <select id="pages" onchange="location = this.value;">
-                    <option value="index.html">首頁</option>
-                    <option value="about.html" selected>關於我們</option>
-                    <option value="shop.html">特約商店</option>
-                    <option value="東吳大學學生議會.html">東吳大學學生議會</option>
-                </select>
+        <div class="main-content">
+            <div class="navbar">
+                <ul class="nav-options">
+                    <li class="nav-item">
+                        <a href="index.html">東吳大學學生會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="shop.html">特約商店</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="introduction.html">關於我們</a>
+                        <ul class="dropdown-content">
+                            <li><a href="introduction.html">關於本會</a></li>
+                            <li><a href="financial-report.html">財務報告</a></li>
+                            <li><a href="about.html.html">組織架構</a></li>
+                            <li><a href="regulations.html">法規彙編</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生議會.html">東吳大學學生議會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
+                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-
+            
             <div class="additional-links">
                 <a href="introduction.html" class="link active">本會簡介</a>
                 <a href="financial-report.html" class="link">財務報告</a>
@@ -109,16 +133,12 @@
                 <p>正在載入內容...</p>
             </div>
         </div>
-        <div id="traffic-counter" style="position: fixed; bottom: 20px; right: 20px; color: white; padding: 10px; border-radius: 5px; font-weight: 1000;
-        ">
-                             閱覽數：<span id="visit-count">0</span>
+        <div id="traffic-counter" style="position: fixed; bottom: 20px; right: 20px; color: white; padding: 10px; border-radius: 5px; font-weight: 1000;">
+            閱覽數：<span id="visit-count">0</span>
         </div>
-    <script>
-        // 監聽選單改變事件，導向相應頁面
-        document.getElementById('pages').addEventListener('change', function() {
-            window.location.href = this.value;
-        });
+    </div>
 
+    <script>
         // 漢堡選單顯示/隱藏
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
@@ -134,34 +154,35 @@
         });
 
         function loadGoogleDocsContent() {
-    const googleDocId = '1M8o_OZWb7Z1DuJiUoqNc2NJmeXOx3yASGh-e9r_VWuk';  // 替換成你的 Google Docs ID
-    const url = `https://docs.google.com/document/d/${googleDocId}/export?format=txt`;
+            const googleDocId = '1M8o_OZWb7Z1DuJiUoqNc2NJmeXOx3yASGh-e9r_VWuk';  // 替換成你的 Google Docs ID
+            const url = `https://docs.google.com/document/d/${googleDocId}/export?format=txt`;
 
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            // 將換行符號轉換為 <br> 標籤
-            const formattedData = data.replace(/\n/g, '<br>');
-            document.getElementById('google-docs-content').innerHTML = formattedData; // 使用 innerHTML 而不是 textContent
-        })
-        .catch(error => {
-            console.error('Error loading Google Docs content:', error);
-            document.getElementById('google-docs-content').textContent = '無法載入文件內容，請稍後再試。';
-        });
-}
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // 將換行符號轉換為 <br> 標籤
+                    const formattedData = data.replace(/\n/g, '<br>');
+                    document.getElementById('google-docs-content').innerHTML = formattedData; // 使用 innerHTML 而不是 textContent
+                })
+                .catch(error => {
+                    console.error('Error loading Google Docs content:', error);
+                    document.getElementById('google-docs-content').textContent = '無法載入文件內容，請稍後再試。';
+                });
+        }
 
+        // 初始化計數器
+        let visitCount = localStorage.getItem('visitCount') ? parseInt(localStorage.getItem('visitCount')) : 0;
+        document.getElementById('visit-count').textContent = visitCount;
 
-    // 初始化計數器
-    let visitCount = localStorage.getItem('visitCount') ? parseInt(localStorage.getItem('visitCount')) : 0;
+        // 更新計數器
+        function updateVisitCount() {
+            visitCount++;
+            localStorage.setItem('visitCount', visitCount);
+            document.getElementById('visit-count').textContent = visitCount;
+        }
 
-    // 更新計數器
-    visitCount++;
-    localStorage.setItem('visitCount', visitCount);
-    
-    // 顯示計數器的值
-    document.getElementById('visit-count').textContent = visitCount;
-
-
+        // 每次加載頁面時更新計數器
+        window.addEventListener('load', updateVisitCount);
     </script>
 </body>
 </html>
