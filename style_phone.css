@@ -18,7 +18,7 @@
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.51); /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color: rgb(60, 118, 176); /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -72,6 +72,12 @@
 }
 
 /* 超連結列表設置 */
+
+.nav-links img {
+    width: 50px!important; /* 設定圖示寬度 */
+    height: 50px!important; /* 設定圖示高度 */
+    margin-right: 15px; /* 圖示和文字間的距離 */
+}
 .nav-links {
     list-style: none;
     display: flex;
@@ -301,6 +307,7 @@ h2, h3 {
 }
 .photo-gallery, .info-table {
     margin-top: 20px; /* 上邊距 */
+    
 }
 
 .nav-links img {
@@ -309,6 +316,19 @@ h2, h3 {
     margin-right: 15px; /* 圖示和文字間的距離 */
 }
 
+.photo-gallery {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 中心對齊 */
+    margin-top: 20px; /* 頂部間距 */
+}
+
+.photo-gallery img {
+    width: 70%; /* 設置圖片寬度為80% */
+    max-width: 600px; /* 最大寬度為600px */
+    margin-bottom: 10px; /* 圖片之間的間距 */
+    border-radius: 10px; /* 圓角邊框 */
+}
 /* 分頁連結區域樣式 */
 .additional-links {
     margin-top: 20px; /* 分頁選項的上方間距 */
