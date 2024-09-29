@@ -186,7 +186,10 @@
             </table>
         </div>
     </div>
-    
+    <div id="ball-container">
+        <img id="ball" src="ball.png" alt="Ball">
+        <button id="mobile-btn">開啟電腦板</button>
+      </div>
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
@@ -208,7 +211,25 @@
             loadDownloadButtons(); // 載入下載按鈕
         });
         
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
 
+ball.addEventListener('click', () => {
+  window.location.href = 'regulations.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'regulations.html';
+});
     </script>
+    
 </body>
 </html>
