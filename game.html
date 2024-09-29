@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於我們 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+
+    <style>
+        /* 預設連結樣式 */
+        a {
+            color: rgb(255, 233, 109);
+            text-decoration: none;
+        }
+
+        /* 滑鼠懸停時的樣式 */
+        a:hover {
+            color: rgb(255, 255, 255);
+            text-decoration: underline;
+        }
+
+        /* 抽獎器樣式 */
+        .lottery-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .lottery-button {
+            padding: 15px 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .lottery-button:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .result {
+            font-size: 24px;
+            color: white;
+            margin-top: 20px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            width: 100px;
+            height: 100px;
+            border: 10px solid rgba(255, 255, 255, 0.5);
+            border-top: 10px solid rgb(255, 233, 109);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
+                <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
+                <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <div class="navbar">
+                <ul class="nav-options">
+                    <li class="nav-item">
+                        <a href="index.html">東吳大學學生會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="shop.html">特約商店</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="introduction.html">關於我們</a>
+                        <ul class="dropdown-content">
+                            <li><a href="introduction.html">關於本會</a></li>
+                            <li><a href="financial-report.html">財務報告</a></li>
+                            <li><a href="about.html.html">組織架構</a></li>
+                            <li><a href="regulations.html">法規彙編</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生議會.html">東吳大學學生議會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
+                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
+                            <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lottery-container">
+                <button class="lottery-button" id="lottery-button">特約商店去哪裡</button>
+                <div class="spinner" id="spinner"></div>
+                <div class="result" id="result"></div>
+            </div>
+        </div>
+    </div>
+    <div id="traffic-counter" style="position: fixed; bottom: 20px; right: 20px; color: white; padding: 10px; border-radius: 5px; font-weight: 1000;">
+        閱覽數：<span id="visit-count">0</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const sidebar = document.getElementById('sidebar');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.main-content').style.marginLeft = '200px';
+            } else {
+                document.querySelector('.main-content').style.marginLeft = '0';
+            }
+        });
+
+        const lotteryButton = document.getElementById('lottery-button');
+        const spinner = document.getElementById('spinner');
+        const resultDisplay = document.getElementById('result');
+
+        lotteryButton.addEventListener('click', function() {
+            // 顯示旋轉動畫
+            spinner.style.display = 'block';
+            spinner.classList.add('spinner');
+            resultDisplay.style.display = 'none'; // 隱藏結果
+
+            setTimeout(() => {
+                // 隨機從試算表中選擇一個結果
+                fetchLotteryResult();
+            }, 3000); // 動畫持續3秒
+        });
+
+        function fetchLotteryResult() {
+            const sheetId = '1mJ2iq5dXHKU4nmY3lDkObLqpH_Cl6MakPZ6nXHfNKKk'; // 你的試算表ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    const rows = data.split('\n').slice(1);
+                    const randomIndex = Math.floor(Math.random() * rows.length);
+                    const columns = rows[randomIndex].split(',').map(col => col.replace(/"/g, '').trim());
+                    const lotteryResult = columns[0]; // 假設第一列是獎品名稱
+
+                    // 隱藏旋轉動畫，顯示結果
+                    spinner.style.display = 'none';
+                    resultDisplay.textContent = `去${lotteryResult}`;
+                    resultDisplay.style.display = 'block';
+                    resultDisplay.style.opacity = '1'; // 顯示結果
+                })
+                .catch(error => {
+                    console.error('Error fetching lottery result:', error);
+                    alert('無法載入抽獎結果，請查看控制台獲取更多資訊。');
+                });
+        }
+
+        // 初始化計數器
+        let visitCount = localStorage.getItem('visitCount') ? parseInt(localStorage.getItem('visitCount')) : 0;
+
+        // 更新計數器
+        visitCount++;
+        localStorage.setItem('visitCount', visitCount);
+        
+        // 顯示計數器的值
+        document.getElementById('visit-count').textContent = visitCount;
+    </script>
+
+</body>
+</html>
