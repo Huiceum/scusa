@@ -9,6 +9,16 @@
     
     <style>
         /* 這裡是新的 CSS 樣式 */
+        .shop-logo {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    margin: 0 auto; /* 自動水平對齊 */
+    padding: 20px 0; /* 增加上下間距 */
+    width: 100%; /* 設置寬度為100% */
+    box-sizing: border-box; /* 包含內邊距和邊框在內的總寬度 */
+}
+
         .store-list {
             display: flex;
             flex-direction: column; /* 垂直排列 */
@@ -53,7 +63,8 @@
 
         .store-item a {
             text-decoration: none; /* 移除底線 */
-            font-size: 0.8em; /* 最大字體 */
+            font-size: 0.6em; /* 最大字體 */
+            font-weight: 700; /* 粗體的數值設定 */
             color: #312c86; /* 設置字體顏色 */
             font-weight: 1000;
             font-family: 'Georgia', serif; /* 設置優雅的字體 */
@@ -64,8 +75,8 @@
             display: flex; /* 按鈕使用Flexbox顯示 */
             align-items: center; /* 垂直居中 */
             justify-content: center; /* 水平居中 */
-            width: auto; /* 按鈕寬度 */
-            height: auto;
+            width: 165px; /* 按鈕寬度 */
+            height: 100px;
             position: relative; /* 使得絕對定位的元素相對於此元素 */
             overflow: hidden; /* 隱藏超出範圍的部分 */
         }
@@ -95,11 +106,12 @@
 
         .store-item .address {
             color: #ecff80; /* 設置地址顏色 */
-            font-size: 0.8em; /* 設置地址字體大小 */
+            font-size: 0.4em; /* 設置地址字體大小 */
         }
 
         .store-item .offer {
             color: #e0e0e0; /* 設置特約內容顏色 */
+            font-size: 0.2em; /* 設置地址字體大小 */
             margin-top: 10px; /* 特約內容和地址之間的間距 */
         }
         
@@ -167,12 +179,21 @@
 
     <!-- JavaScript -->
     <script>
-        const hamburgerMenu = document.getElementById('hamburger-menu');
+       const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
+        const mainMenus = document.querySelectorAll('.main-menu');
 
+        // 漢堡選單功能：顯示或隱藏側邊欄
         hamburgerMenu.addEventListener('click', function() {
             sidebar.classList.toggle('active');
-            document.querySelector('.main-content').style.marginLeft = sidebar.classList.contains('active') ? '200px' : '0';
+        });
+
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
+            });
         });
 
         document.addEventListener('DOMContentLoaded', function() {
