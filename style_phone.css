@@ -18,7 +18,7 @@
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 100%;
-    background-color: rgb(60, 118, 176); /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color: #8685ef; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -63,7 +63,7 @@
 
 .site-name {
     font-size: 18px;
-    color: #ffffff;
+    color: #faf8ff;
     font-weight: bold;
     flex-grow: 1;
     overflow: hidden;
@@ -100,7 +100,7 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #f0f0f0;
+    color: #faf8ff;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;

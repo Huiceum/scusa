@@ -224,34 +224,33 @@
 
     <!-- JavaScript 部分 -->
     <script>
-        // 監聽選單改變事件，導向相應頁面
-        document.getElementById('pages').addEventListener('change', function() {
-            window.location.href = this.value;
-        });
-
         const hamburgerMenu = document.getElementById('hamburger-menu');
-        const sidebar = document.getElementById('sidebar');
-    
-        hamburgerMenu.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
-    
-            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
-            if (sidebar.classList.contains('active')) {
-                document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
-            } else {
-                document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
-            }
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownParent = document.querySelector('.dropdown-parent');
-            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
-            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-            
-            dropdownToggle.addEventListener('click', function() {
-                dropdownParent.classList.toggle('active');
-            });
-        });
-
-    </script>
+         const sidebar = document.getElementById('sidebar');
+         const mainMenus = document.querySelectorAll('.main-menu');
+ 
+         // 漢堡選單功能：顯示或隱藏側邊欄
+         hamburgerMenu.addEventListener('click', function() {
+             sidebar.classList.toggle('active');
+         });
+ 
+         // 點擊主選單顯示或隱藏副選單
+         mainMenus.forEach(menu => {
+             menu.addEventListener('click', function() {
+                 const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                 targetSubmenu.classList.toggle('show');
+             });
+         });
+         document.addEventListe
+         document.addEventListener('DOMContentLoaded', function() {
+             const dropdownParent = document.querySelector('.dropdown-parent');
+             const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+             const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+             
+             dropdownToggle.addEventListener('click', function() {
+                 dropdownParent.classList.toggle('active');
+             });
+         });
+ 
+     </script>
 </body>
 </html>
