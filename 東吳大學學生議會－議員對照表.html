@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學學生議會議會</title>
+    <link rel="stylesheet" href="style議會.css">
+    <link rel="icon" href="議會LOGO.png" type="image/x-icon">
+
+    <style>
+        /* 預設連結樣式 */
+        a {
+            color: rgb(255, 233, 109);
+            text-decoration: none;
+        }
+
+        /* 滑鼠懸停時的樣式 */
+        a:hover {
+            color: rgb(255, 255, 255);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="議會logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="https://portaly.cc/scusc35th" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
+                <li><a href="https://www.facebook.com/susc.36th" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
+                <li><a href="https://www.instagram.com/susc36th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
+        
+
+                </li>
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 下拉式選單 -->
+            <div class="main-content">
+                <div class="navbar">
+                    <ul class="nav-options">
+                        <li class="nav-item">
+                            <a href="index.html">東吳大學學生會</a>
+                            <ul class="dropdown-content">
+                                <li><a href="shop.html">特約商店</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="introduction.html">關於我們</a>
+                            <ul class="dropdown-content">
+                                <li><a href="introduction.html">關於本會</a></li>
+                                <li><a href="financial-report.html">財務報告</a></li>
+                                <li><a href="about.html.html">組織架構</a></li>
+                                <li><a href="regulations.html">法規彙編</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="東吳大學學生議會.html">東吳大學學生議會</a>
+                            <ul class="dropdown-content">
+                                <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
+                                <li><a href="東吳大學學生議會.html">議會公告</a></li>
+                                <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+
+                <iframe src="https://docs.google.com/document/d/e/2PACX-1vRNyLD6gxwwOO3a7lrX9xtJ5kcle_sDe5XXBZXzhIZeYLcPpd90rESmdAmE-6IdCg/pub?embedded=true"width=155% height=4000px style="border: 0;"></iframe>
+
+    <!-- JavaScript -->
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const sidebar = document.getElementById('sidebar');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.main-content').style.marginLeft = '200px';
+            } else {
+                document.querySelector('.main-content').style.marginLeft = '0';
+            }
+        });
+    </script>
+    
+</body>
+</html>
