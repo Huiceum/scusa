@@ -11,14 +11,14 @@
 .container {
     display: flex;
     height: 100vh;
-    color: #252525;
+    color: #f0f0f0;
     min-height: 100vh; /* 确保页面最小高度为100vh */
 }
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 100%;
-    background-color: rgb(60, 118, 176); /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color: rgb(182, 127, 55); /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -56,7 +56,7 @@
 }
 
 .logo img {
-    width: 150px!important;
+    width: 50px!important;
     height: 50px!important;
     margin-right: 10px;
 }
@@ -126,9 +126,6 @@
     margin-left: 200px; /* 側邊欄顯示時給予留白 */
 }
 
-
-
-
 /* 公告樣式 */
 .announcements {
     margin-top: 60px;
@@ -138,7 +135,7 @@
 }
 
 .announcement {
-    background-color: #252525;
+    background-color: #50282dbd;
     border: 2px solid #f0f0f0;
     padding: 15px;
     margin-bottom: 20px;
@@ -300,8 +297,8 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #252525; /* 設定底色 */
-    background-image: url('dot-pattern.png'); /* 這裡引用網點的圖片檔案 */
+    background-color: #ab2539; /* 設定底色 */
+    background-image: url('dot-議會.png'); /* 這裡引用網點的圖片檔案 */
     background-size: 3px 3px; /* 控制網點圖案的大小 */
     background-repeat: repeat; /* 重複網點圖案 */
     background-position: center; /* 讓圖案從中心開始排列 */
