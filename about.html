@@ -4,20 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>關於我們 - 東吳大學學生會</title>
-    <link rel="stylesheet" href="style_phone.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
     <style>
         /* 表格樣式 */
-/* 表格樣式 */
-.info-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px auto; /* 調整為自動置中 */
-    color: white;
-    font-size: 0.3em;
-
-}
-
+        .info-table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: white;
+        }
         .info-table th, .info-table td {
             padding: 10px;
             text-align: left;
@@ -47,58 +43,60 @@
 <body>
     
     <div class="container">
-        <!-- 漢堡選單按鈕 -->
         <div class="hamburger-menu" id="hamburger-menu">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+            <div class="site-name"></div>
+        </div>
+
         <nav class="sidebar" id="sidebar">
-            <div class="logo">
-                <img src="logo.png" alt="Logo">
-                <div class="site-name"></div>
-            </div>
-
             <ul class="nav-links">
-                <li>
-                    <div class="main-menu" data-target="#submenu-1">東吳大學學生會</div>
-                    <ul class="submenu" id="submenu-1">
-                        <li><a href="index_phone.html">公告</a></li>
-                        <li><a href="shop_phone.html">特約商店</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="main-menu" data-target="#submenu-2">關於我們</div>
-                    <ul class="submenu" id="submenu-2">
-                        <li><a href="introduction_phone.html">本會簡介</a></li>
-                        <li><a href="financial-report_phone.html">財務報告</a></li>
-                        <li><a href="about_phone.html">組織架構</a></li>
-                        <li><a href="regulations_phone.html">法規彙編</a></li>
-
-                    </ul>
-                </li>
-                <li>
-                    <div class="main-menu" data-target="#submenu-3">學生議會</div>
-                    <ul class="submenu" id="submenu-3">
-                        <li><a href="東吳大學學生議會_phone.html">東吳大學學生議會</a></li>
-                        <li><a href="東吳大學學生議會－會議資料_phone.html">東吳大學學生議會－會議資料</a></li>
-                    </ul>
-                </li>
+                <li><a href="https://linktr.ee/scusa_" target="_blank"><img src="linktree-icon.png" alt="連結樹" /></a></li>
+                <li><a href="https://www.facebook.com/SUSAweb/?locale=zh_TW" target="_blank"><img src="facebook-icon.png" alt="臉書" /></a></li>
+                <li><a href="https://www.instagram.com/scusa68th/" target="_blank"><img src="instagram-icon.png" alt="Instagram" /></a></li>
             </ul>
         </nav>
 
-            <!-- 新增分頁選項 -->
-            <div class="additional-links">
-                
+        <div class="main-content">
+            <div class="navbar">
+                <ul class="nav-options">
+                    <li class="nav-item">
+                        <a href="index.html">東吳大學學生會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="shop.html">特約商店</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="introduction.html">關於我們</a>
+                        <ul class="dropdown-content">
+                            <li><a href="introduction.html">關於本會</a></li>
+                            <li><a href="financial-report.html">財務報告</a></li>
+                            <li><a href="about.html">組織架構</a></li>
+                            <li><a href="regulations.html">法規彙編</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生議會.html">東吳大學學生議會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
+                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
+                            <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
 
-                <br><br><br><a href="introduction_phone.html" class="link">本會簡介</a>
-                
-                <br><br><br><a href="financial-report_phone.html" class="link">財務報告</a>
-                
-                <br><br><br><a href="about_phone.html" class="link active">組織架構</a>
-                
-                <br><br><br><a href="regulations_phone.html" class="link">法規編錄</a>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="additional-links">
+                <a href="introduction.html" class="link">本會簡介</a>
+                <a href="financial-report.html" class="link">財務報告</a>
+                <a href="about.html" class="link active">組織架構</a>
+                <a href="regulations.html" class="link">法規編錄</a>
             </div>
 
             <div class="photo-gallery">
@@ -107,6 +105,7 @@
                 <p></p>
             </div>
 
+            <h2>部門資訊</h2>
             <table class="info-table">
                 <thead>
                     <tr>
@@ -186,33 +185,26 @@
             </table>
         </div>
     </div>
+    
     <div id="ball-container">
         <img id="ball" src="ball.png" alt="Ball">
-        <button id="mobile-btn">開啟電腦板</button>
+        <button id="mobile-btn">開啟手機板</button>
       </div>
+      
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
-        const mainMenus = document.querySelectorAll('.main-menu');
-
-        // 漢堡選單功能：顯示或隱藏側邊欄
+    
         hamburgerMenu.addEventListener('click', function() {
             sidebar.classList.toggle('active');
-        });
 
-        // 點擊主選單顯示或隱藏副選單
-        mainMenus.forEach(menu => {
-            menu.addEventListener('click', function() {
-                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
-                targetSubmenu.classList.toggle('show');
-            });
+            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.main-content').style.marginLeft = '200px'; // 側邊欄顯示時，保留200px的空間
+            } else {
+                document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
+            }
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            loadDownloadButtons(); // 載入下載按鈕
-        });
-        
-        let ball = document.getElementById('ball');
-let isBallOne = true;
         setInterval(() => {
   if (isBallOne) {
     ball.src = 'ball2.png';
@@ -227,9 +219,9 @@ ball.addEventListener('click', () => {
 });
 
 document.getElementById('mobile-btn').addEventListener('click', () => {
-  window.location.href = 'regulations.html';
+  window.location.href = 'about_phone.html';
 });
+
     </script>
-    
 </body>
 </html>
