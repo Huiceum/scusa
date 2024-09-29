@@ -68,7 +68,11 @@
                 
 
                 <iframe src="https://docs.google.com/document/d/e/2PACX-1vRNyLD6gxwwOO3a7lrX9xtJ5kcle_sDe5XXBZXzhIZeYLcPpd90rESmdAmE-6IdCg/pub?embedded=true"width=99% height=4000px style="border: 0;"></iframe>
-
+            </div>
+            <div id="ball-container">
+                <img id="ball" src="ball3.png" alt="Ball">
+                <button id="mobile-btn">開啟電腦版</button>
+              </div>
     <!-- JavaScript -->
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
@@ -87,6 +91,26 @@
                 targetSubmenu.classList.toggle('show');
             });
         });
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+
+setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball4.png';
+  } else {
+    ball.src = 'ball3.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生議會－議員對照表.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生議會－議員對照表.html';
+});
+
     </script>
     
 </body>

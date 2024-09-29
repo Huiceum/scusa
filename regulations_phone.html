@@ -178,7 +178,7 @@
                         <li><a href="introduction_phone.html">本會簡介</a></li>
                         <li><a href="financial-report_phone.html">財務報告</a></li>
                         <li><a href="about_phone.html">組織架構</a></li>
-                        <li><a href="regulations_phone.html">財務報告</a></li>
+                        <li><a href="regulations_phone.html">法規彙編</a></li>
 
                     </ul>
                 </li>
@@ -215,7 +215,10 @@
             <div class="iframe-container">
                 <iframe src="https://online.fliphtml5.com/iyydl/fnyj/" seamless="seamless" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
             </div>
-
+            <div id="ball-container"></div>
+                <img id="ball" src="ball.png" alt="Ball">
+                <button id="mobile-btn">開啟電腦板</button>
+              </div>
         </div>
     </div>
 
@@ -247,7 +250,24 @@
                 dropdownParent.classList.toggle('active');
             });
         });
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
 
+ball.addEventListener('click', () => {
+  window.location.href = 'regulations.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'regulations.html';
+});
     </script>
 </body>
 </html>

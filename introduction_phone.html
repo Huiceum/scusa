@@ -115,7 +115,7 @@
                 
                 <br><br><br><a href="about_phone.html" class="link">組織架構</a>
                 
-                <br><br><br><a href="regulations_phone.html" class="link">法規編錄</a>
+                <br><br><br><a href="regulations_phone.html" class="link">法規彙編</a>
             </div>
 
 
@@ -125,7 +125,10 @@
                 <p>正在載入內容...</p>
             </div>
 
-
+            <div id="ball-container"></div>
+                <img id="ball" src="ball.png" alt="Ball">
+                <button id="mobile-btn">開啟電腦板</button>
+              </div>
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
@@ -165,7 +168,24 @@
                     document.getElementById('google-docs-content').textContent = '無法載入文件內容，請稍後再試。';
                 });
         }
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
 
+ball.addEventListener('click', () => {
+  window.location.href = 'introduction.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'introduction.html';
+});
 
     </script>
 </body>

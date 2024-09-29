@@ -199,6 +199,7 @@
 
                         </ul>
                     </li>
+                    
                 </ul>
             </div>
 
@@ -221,7 +222,10 @@
 
         </div>
     </div>
-
+    <div id="ball-container">
+        <img id="ball" src="ball.png" alt="Ball">
+        <button id="mobile-btn">開啟手機板</button>
+      </div>
     <!-- JavaScript 部分 -->
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
@@ -250,7 +254,22 @@
                  dropdownParent.classList.toggle('active');
              });
          });
- 
+         setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = 'regulations_phone.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'regulations_phone.html';
+});
      </script>
 </body>
 </html>

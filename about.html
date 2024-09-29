@@ -186,6 +186,11 @@
         </div>
     </div>
     
+    <div id="ball-container">
+        <img id="ball" src="ball.png" alt="Ball">
+        <button id="mobile-btn">開啟手機板</button>
+      </div>
+      
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
@@ -200,7 +205,22 @@
                 document.querySelector('.main-content').style.marginLeft = '0'; // 側邊欄隱藏時，恢復到0
             }
         });
-        
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = 'about_phone.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'about_phone.html';
+});
 
     </script>
 </body>

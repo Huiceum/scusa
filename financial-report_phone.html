@@ -131,7 +131,7 @@
                         <li><a href="introduction_phone.html">本會簡介</a></li>
                         <li><a href="financial-report_phone.html">財務報告</a></li>
                         <li><a href="about_phone.html">組織架構</a></li>
-                        <li><a href="regulations_phone.html">財務報告</a></li>
+                        <li><a href="regulations_phone.html">法規彙編</a></li>
 
                     </ul>
                 </li>
@@ -168,6 +168,11 @@
         </div>
 
     </div>
+
+    <div id="ball-container"></div>
+    <img id="ball" src="ball.png" alt="Ball">
+    <button id="mobile-btn">開啟電腦板</button>
+  </div>
 
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
@@ -220,7 +225,24 @@
                     alert('無法載入下載按鈕，請查看控制台獲取更多資訊。');
                 });
         }
-        
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = 'financial-report.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'financial-report.html';
+});
 
     </script>
 </body>

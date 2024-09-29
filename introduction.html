@@ -136,6 +136,10 @@
                 <p>正在載入內容...</p>
             </div>
 
+            <div id="ball-container">
+                <img id="ball" src="ball.png" alt="Ball">
+                <button id="mobile-btn">開啟手機板</button>
+              </div>
 
     <script>
         // 漢堡選單顯示/隱藏
@@ -169,7 +173,22 @@
                 });
         }
 
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
 
+ball.addEventListener('click', () => {
+  window.location.href = 'introduction_phone.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'introduction_phone.html';
+});
     </script>
 </body>
 </html>

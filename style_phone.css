@@ -18,7 +18,7 @@
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 100%;
-    background-color: #8685ef; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color:  #8685ef ; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -344,4 +344,60 @@ body {
     color: white; /* 文字顏色改成白色 */
 }
 
-
+#ball-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px; /* 調整高度以適應滑板和球 */
+  }
+  
+  #ball {
+    position: absolute;
+    bottom: 30px; /* 確保球位於滑板正中間 */
+    left: 23px;
+    height: 25px;
+    width: 25px;
+    animation: moveBall 25s linear infinite;
+    cursor: pointer;
+  }
+  
+  #mobile-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5px 10px; /* 調整按鈕大小 */
+    background-color: #232323;
+    color: white;
+    border-radius: 15px; /* 圓角設計 */
+    border: 2px solid white;
+    font-size: 12px; /* 調整字體大小 */
+    animation: moveBall 25s linear infinite;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  #mobile-btn:hover {
+    background-color: #8685ef;
+    transform: scale(1.1); /* 放大效果 */
+  }
+  
+  #ball::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, gray, lightblue);
+    bottom: 25px;
+    left: 0;
+  }
+  
+  @keyframes moveBall {
+    0% {
+      left: 33;
+    }
+    100% {
+      left: calc(100% - 20px);
+    }
+  }
+  
