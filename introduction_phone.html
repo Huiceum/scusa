@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於我們 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style_phone.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon"> 
+    <style>
+        /* 表格樣式 */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            text-align: left;
+        }
+        .info-table th {
+            border-bottom: 2px solid black;
+        }
+        .info-table td {
+            border: none;
+        }
+        .business-content ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .additional-links {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .additional-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        /* Google Docs 內容區塊樣式 */
+        .google-docs-content {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #0000002a; /* 淺灰色背景 */
+            border: 1px solid #ddd; /* 淺灰邊框 */
+            border-radius: 8px; /* 圓角 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+            font-family: 'Arial', sans-serif; /* 字型 */
+            line-height: 1.6; /* 行高 */
+            color: #ffffff; /* 字體顏色 */
+            overflow-wrap: break-word; /* 自動換行 */
+            max-width: 100%;
+            height:3000px
+        }
+        /* 內容標題樣式 */
+        .google-docs-title {
+            font-size: 1.5em; /* 標題字型大小 */
+            margin-bottom: 20px; /* 標題底部間距 */
+            color: #007bff; /* 標題顏色 */
+            text-align: center; /* 標題置中 */
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+
+            <ul class="nav-links">
+                <li>
+                    <div class="main-menu" data-target="#submenu-1">東吳大學學生會</div>
+                    <ul class="submenu" id="submenu-1">
+                        <li><a href="index_phone.html">公告</a></li>
+                        <li><a href="shop_phone.html">特約商店</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-2">關於我們</div>
+                    <ul class="submenu" id="submenu-2">
+                        <li><a href="introduction_phone.html">本會簡介</a></li>
+                        <li><a href="financial-report_phone.html">財務報告</a></li>
+                        <li><a href="about_phone.html">組織架構</a></li>
+                        <li><a href="regulations_phone.html">財務報告</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-3">學生議會</div>
+                    <ul class="submenu" id="submenu-3">
+                        <li><a href="東吳大學學生議會_phone.html">東吳大學學生議會</a></li>
+                        <li><a href="東吳大學學生議會－會議資料_phone.html">東吳大學學生議會－會議資料</a></li>
+                        <li><a href="東吳大學學生議會－議員對照表_phone.html">東吳大學學生議會－議員對照表</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+            <!-- 新增分頁選項 -->
+            <div class="additional-links">
+                
+                <br><br><br><a href="introduction_phone.html" class="link active">本會簡介</a>
+                
+                <br><br><br><a href="financial-report_phone.html" class="link">財務報告</a>
+                
+                <br><br><br><a href="about_phone.html" class="link">組織架構</a>
+                
+                <br><br><br><a href="regulations_phone.html" class="link">法規彙編</a>
+            </div>
+
+
+            <!-- 新區塊：Google Docs 內容同步 -->
+            <div class="google-docs-content" id="google-docs-content">
+                <div class="google-docs-title">文件內容載入中...</div>
+                <p>正在載入內容...</p>
+            </div>
+
+            <div id="ball-container"></div>
+                <img id="ball" src="ball.png" alt="Ball">
+                <button id="mobile-btn">開啟電腦板</button>
+              </div>
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const sidebar = document.getElementById('sidebar');
+        const mainMenus = document.querySelectorAll('.main-menu');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
+            });
+        });
+
+        // Google Docs 內容載入
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGoogleDocsContent();
+        });
+
+        function loadGoogleDocsContent() {
+            const googleDocId = '1M8o_OZWb7Z1DuJiUoqNc2NJmeXOx3yASGh-e9r_VWuk';  // 替換成你的 Google Docs ID
+            const url = `https://docs.google.com/document/d/${googleDocId}/export?format=txt`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // 將換行符號轉換為 <br> 標籤
+                    const formattedData = data.replace(/\n/g, '<br>');
+                    document.getElementById('google-docs-content').innerHTML = formattedData; // 使用 innerHTML 而不是 textContent
+                })
+                .catch(error => {
+                    console.error('Error loading Google Docs content:', error);
+                    document.getElementById('google-docs-content').textContent = '無法載入文件內容，請稍後再試。';
+                });
+        }
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = 'introduction.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'introduction.html';
+});
+
+    </script>
+</body>
+</html>
