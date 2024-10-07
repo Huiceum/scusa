@@ -18,7 +18,7 @@
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 150px;
-    background-color: rgba(0, 0, 0, 0.51); /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color: #8685ef; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

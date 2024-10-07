@@ -11,14 +11,14 @@
 .container {
     display: flex;
     height: 100vh;
-    color: #f0f0f0;
+    color: #252525;
     min-height: 100vh; /* 确保页面最小高度为100vh */
 }
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 150px;
-    background-color: #4c6300; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color: #2f2f87; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -51,13 +51,13 @@
     display: flex;
     align-items: center;
     position: fixed; /* 固定位置以保持在左上角 */
-    top: 20px; /* 與漢堡選單對齊 */
-    left: 110px; /* 調整到漢堡選單右側 */
+    top: 10px; /* 與漢堡選單對齊 */
+    left: 90px; /* 調整到漢堡選單右側 */
 }
 
 .logo img {
-    width: 50px!important;
-    height: 50px!important;
+    width: 60px!important;
+    height: 60px!important;
     margin-right: 10px;
 }
 
@@ -124,41 +124,7 @@
 .navbar {
     display: flex;
     justify-content: flex-start;
-    background-color: #753740af;
-    padding: 10px;
-    border-radius: 5px; /* 設定圓角 */
-    
-
-}
-
-.nav-options {
-    list-style-type: none;
-    display: flex;
-}
-
-.nav-item {
-    position: relative; /* 使下拉選單可以相對於此元素定位 */
-    margin-right: 50px; /* 選項之間的間距 */
-}
-
-.nav-item a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 15px;
-    transition: transform 0.3s ease; /* 動畫效果 */
-    white-space: nowrap; /* 防止自動換行 */
-    border-radius: 5px; /* 設定圓角 */
-}
-
-.nav-item a:hover {
-    transform: translateY(-5px); /* 文件抽離效果 */
-}
-
-/* 將下拉選單樣式改為橫列式選項 */
-.navbar {
-    display: flex;
-    justify-content: flex-start;
-    background-color: #753740af;
+    background-color: #2f2f87af;
     padding: 10px;
     border-radius: 5px; /* 設定圓角 */
 }
@@ -191,7 +157,7 @@
     position: absolute; /* 定位在主選項下方 */
     top: 100%; /* 定位在主選項下方 */
     left: 0; /* 將下拉選單定位在主選項的左側 */
-    background-color: #753740af;
+    background-color: #2f2f87af;
     display: none; /* 默認隱藏 */
     list-style-type: none;
     padding: 10px;
@@ -228,6 +194,7 @@
 }
 
 
+
 /* 公告樣式 */
 .announcements {
     margin-top: 60px;
@@ -237,7 +204,7 @@
 }
 
 .announcement {
-    background-color: #50282dbd;
+    background-color: #252525;
     border: 2px solid #f0f0f0;
     padding: 15px;
     margin-bottom: 20px;
@@ -268,7 +235,7 @@ h2, h3 {
     display: block;
     width: 100%;
     height: 4px;
-    background-color: #ffffff;
+    background-color: #faf8ff;
     border-radius: 2px;
 }
 
@@ -312,7 +279,7 @@ h2, h3 {
 .additional-links a {
     margin: 0 10px; /* 左右間距 */
     text-decoration: none; /* 去掉下劃線 */
-    color: white !important; /* 字體顏色為白色 */
+    color: #faf8ff !important; /* 字體顏色為白色 */
     font-size: 1.2em; /* 字體大小 */
     position: relative; /* 用於定位底線 */
 }
@@ -331,7 +298,7 @@ h2, h3 {
     display: block; /* 使底線成為塊級元素 */
     width: 100%; /* 寬度100% */
     height: 3px; /* 底線高度 */
-    background-color: white; /* 底線顏色 */
+    background-color: #faf8ff; /* 底線顏色 */
     position: absolute; /* 絕對定位 */
     left: 0; /* 左對齊 */
     bottom: -5px; /* 底線距離文字的距離 */
@@ -346,12 +313,11 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #ab2539; /* 設定底色 */
-    background-image: url('dot-議會.png'); /* 這裡引用網點的圖片檔案 */
+    background-color: #ffdf5a; /* 設定底色 */
     background-size: 3px 3px; /* 控制網點圖案的大小 */
     background-repeat: repeat; /* 重複網點圖案 */
     background-position: center; /* 讓圖案從中心開始排列 */
-    color: #f0f0f0; /* 全局文字顏色 */
+    color: #faf8ff; /* 全局文字顏色 */
 }
 .container {
     display: flex;
@@ -387,10 +353,10 @@ body {
 }
 
 .store-details {
-    color: white; /* 文字顏色改成白色 */
+    color: #faf8ff; /* 文字顏色改成白色 */
+
+    
 }
-
-
 #ball-container {
     position: fixed;
     bottom: 0;
@@ -425,7 +391,7 @@ body {
   }
   
   #mobile-btn:hover {
-    background-color: #c93653;
+    background-color: #2f2f87;
     transform: scale(1.1); /* 放大效果 */
   }
   
@@ -447,4 +413,6 @@ body {
       left: calc(100% - 20px);
     }
   }
+  
+  
   
