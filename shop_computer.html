@@ -114,7 +114,7 @@
     </div>
 
     <div id="ball-container">
-        <img id="ball" src="ball.png" alt="Ball">
+        <img id="ball" src="tofu.gif" alt="Ball">
         <button id="mobile-btn">開啟手機板</button>
     </div>
 
@@ -133,12 +133,6 @@
             }
         });
 
-        let ball = document.getElementById('ball');
-        let isBallOne = true;
-        setInterval(() => {
-            ball.src = isBallOne ? 'ball.png' : 'ball2.png';
-            isBallOne = !isBallOne;
-        }, 500);
 
         ball.addEventListener('click', () => {
             window.location.href = 'game.html';
