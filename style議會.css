@@ -11,20 +11,20 @@
 .container {
     display: flex;
     height: 100vh;
-    color: #f0f0f0;
+    color: #f7f1D8;
     min-height: 100vh; /* 确保页面最小高度为100vh */
 }
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
-    width: 150px;
-    background-color: #4c6300; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    width: 250px;
+    background-color: #c59663; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     position: fixed;
     top: 0;
-    left: -220px; /* 初始位置在視窗外 */
+    left: -250px; /* 初始位置在視窗外 */
     height: 100%;
     z-index: 1000;
     transition: left 0.5s ease; /* 緩慢移動效果 */
@@ -94,7 +94,7 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #f0f0f0;
+    color: #00917b;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
@@ -120,66 +120,39 @@
     margin-left: 200px; /* 側邊欄顯示時給予留白 */
 }
 
+
+
 /* 將下拉選單樣式改為橫列式選項 */
 .navbar {
     display: flex;
     justify-content: flex-start;
-    background-color: #753740af;
+    background-color: #F2f2ea;
     padding: 10px;
-    border-radius: 5px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
+    border: 2px solid #3c3a39;
+}
+
+.nav-options {
+    list-style-type: none;
+    display: flex;
+}
+
+.nav-item {
+    position: relative; /* 使下拉選單可以相對於此元素定位 */
+    margin-right: 50px; /* 選項之間的間距 */
     
-
-}
-
-.nav-options {
-    list-style-type: none;
-    display: flex;
-}
-
-.nav-item {
-    position: relative; /* 使下拉選單可以相對於此元素定位 */
-    margin-right: 50px; /* 選項之間的間距 */
+    
 }
 
 .nav-item a {
-    color: #fff;
+    color: #3c3a39;
     text-decoration: none;
     padding: 10px 15px;
+    font-weight: bold;
     transition: transform 0.3s ease; /* 動畫效果 */
     white-space: nowrap; /* 防止自動換行 */
-    border-radius: 5px; /* 設定圓角 */
-}
-
-.nav-item a:hover {
-    transform: translateY(-5px); /* 文件抽離效果 */
-}
-
-/* 將下拉選單樣式改為橫列式選項 */
-.navbar {
-    display: flex;
-    justify-content: flex-start;
-    background-color: #753740af;
-    padding: 10px;
-    border-radius: 5px; /* 設定圓角 */
-}
-
-.nav-options {
-    list-style-type: none;
-    display: flex;
-}
-
-.nav-item {
-    position: relative; /* 使下拉選單可以相對於此元素定位 */
-    margin-right: 50px; /* 選項之間的間距 */
-}
-
-.nav-item a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 15px;
-    transition: transform 0.3s ease; /* 動畫效果 */
-    white-space: nowrap; /* 防止自動換行 */
-    border-radius: 5px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
+    
 }
 
 .nav-item a:hover {
@@ -191,7 +164,7 @@
     position: absolute; /* 定位在主選項下方 */
     top: 100%; /* 定位在主選項下方 */
     left: 0; /* 將下拉選單定位在主選項的左側 */
-    background-color: #753740af;
+    background-color: #F2f2ea;
     display: none; /* 默認隱藏 */
     list-style-type: none;
     padding: 10px;
@@ -199,17 +172,19 @@
     max-height: 0; /* 初始最大高度 */
     overflow: hidden; /* 隱藏溢出部分 */
     transition: opacity 0.3s ease, max-height 0.5s ease; /* 緩慢下滑效果 */
-    border-radius: 5px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
     z-index: 1000; /* 確保下拉選單在最上層 */
     display: flex; /* 使用 flex 讓選單橫向排列 */
     flex-direction: row; /* 橫向排列 */
+    border: 2px solid #38322b;
+
 }
 
 /* 懸停時顯示下拉選單 */
 .nav-item:hover .dropdown-content {
     display: flex; /* 懸停時顯示下拉選單 */
     opacity: 1; /* 懸停時變為可見 */
-    max-height: 250px; /* 最大高度 */
+    max-height: 350px; /* 最大高度 */
 }
 
 /* 調整下拉內容的樣式 */
@@ -218,7 +193,8 @@
 }
 
 .dropdown-content a {
-    color: #f0f0f0;
+    color: #38322b;
+    font-weight: bold;
     white-space: nowrap; /* 防止自動換行 */
 }
 
@@ -237,17 +213,17 @@
 }
 
 .announcement {
-    background-color: #50282dbd;
-    border: 2px solid #f0f0f0;
+    background-color: #dbdcd1;
+    border: 2px solid #38322b;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
     width: 100%;
-    color: #ffffff;
+    color: #3c3a39;
 }
 
 h2, h3 {
-    color: #ffffff;
+    color: #3c3a39;
 }
 
 /* 漢堡選單樣式 */
@@ -346,12 +322,8 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #ab2539; /* 設定底色 */
-    background-image: url('dot-議會.png'); /* 這裡引用網點的圖片檔案 */
-    background-size: 3px 3px; /* 控制網點圖案的大小 */
-    background-repeat: repeat; /* 重複網點圖案 */
-    background-position: center; /* 讓圖案從中心開始排列 */
-    color: #f0f0f0; /* 全局文字顏色 */
+    background-color: #f4f5f1; /* 設定底色 */
+    color: #252525; /* 全局文字顏色 */
 }
 .container {
     display: flex;
@@ -387,7 +359,7 @@ body {
 }
 
 .store-details {
-    color: white; /* 文字顏色改成白色 */
+    color: #252525; /* 文字顏色改成白色 */
 }
 
 

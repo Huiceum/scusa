@@ -18,7 +18,7 @@
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 100%;
-    background-color: #4c6300; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color: #c59663; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -135,8 +135,8 @@
 }
 
 .announcement {
-    background-color: #50282dbd;
-    border: 2px solid #f0f0f0;
+    background-color: #dbdcd1;
+    border: 2px solid #38322b;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
@@ -145,7 +145,7 @@
 }
 
 h2, h3 {
-    color: #ffffff;
+    color: #38322b;
 }
 
 /* 主選單樣式 */
@@ -297,12 +297,8 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #ab2539; /* 設定底色 */
-    background-image: url('dot-議會.png'); /* 這裡引用網點的圖片檔案 */
-    background-size: 3px 3px; /* 控制網點圖案的大小 */
-    background-repeat: repeat; /* 重複網點圖案 */
-    background-position: center; /* 讓圖案從中心開始排列 */
-    color: #f0f0f0; /* 全局文字顏色 */
+    background-color: #f4f5f1; /* 設定底色 */
+    color: #38322b /* 全局文字顏色 */
 }
 .container {
     display: flex;
