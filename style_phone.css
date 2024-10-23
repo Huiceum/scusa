@@ -18,7 +18,7 @@
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 100%;
-    background-color:  #8685ef ; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color:  #181818 ; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -138,8 +138,8 @@
 }
 
 .announcement {
-    background-color: #252525;
-    border: 2px solid #f0f0f0;
+    background-color: #181818;
+    border: 1px solid #696969;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
@@ -300,11 +300,7 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #252525; /* 設定底色 */
-    background-image: url('dot-pattern.png'); /* 這裡引用網點的圖片檔案 */
-    background-size: 3px 3px; /* 控制網點圖案的大小 */
-    background-repeat: repeat; /* 重複網點圖案 */
-    background-position: center; /* 讓圖案從中心開始排列 */
+    background-color: #0a0a0a; /* 設定底色 */
     color: #f0f0f0; /* 全局文字顏色 */
 }
 .container {
@@ -378,7 +374,7 @@ body {
   }
   
   #mobile-btn:hover {
-    background-color: #8685ef;
+    background-color: #181818;
     transform: scale(1.1); /* 放大效果 */
   }
   

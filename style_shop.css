@@ -124,9 +124,12 @@
 .navbar {
     display: flex;
     justify-content: flex-start;
-    background-color: #2f2f87af;
+    background-color: #ffdf5a;
+    border: 2px solid #312d88;
     padding: 10px;
-    border-radius: 5px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
+    font-weight: bold;
+
 }
 
 .nav-options {
@@ -140,12 +143,14 @@
 }
 
 .nav-item a {
-    color: #fff;
+    color: #312d88;
     text-decoration: none;
     padding: 10px 15px;
     transition: transform 0.3s ease; /* 動畫效果 */
     white-space: nowrap; /* 防止自動換行 */
     border-radius: 5px; /* 設定圓角 */
+    font-weight: bold;
+
 }
 
 .nav-item a:hover {
@@ -157,7 +162,8 @@
     position: absolute; /* 定位在主選項下方 */
     top: 100%; /* 定位在主選項下方 */
     left: 0; /* 將下拉選單定位在主選項的左側 */
-    background-color: #2f2f87af;
+    background-color: #ffdf5a;
+    border: 2px solid #312d88;
     display: none; /* 默認隱藏 */
     list-style-type: none;
     padding: 10px;
@@ -165,7 +171,7 @@
     max-height: 0; /* 初始最大高度 */
     overflow: hidden; /* 隱藏溢出部分 */
     transition: opacity 0.3s ease, max-height 0.5s ease; /* 緩慢下滑效果 */
-    border-radius: 5px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
     z-index: 1000; /* 確保下拉選單在最上層 */
     display: flex; /* 使用 flex 讓選單橫向排列 */
     flex-direction: row; /* 橫向排列 */
@@ -184,7 +190,7 @@
 }
 
 .dropdown-content a {
-    color: #f0f0f0;
+    color: #312d88;
     white-space: nowrap; /* 防止自動換行 */
 }
 
@@ -235,7 +241,7 @@ h2, h3 {
     display: block;
     width: 100%;
     height: 4px;
-    background-color: #faf8ff;
+    background-color: #312d88;
     border-radius: 2px;
 }
 

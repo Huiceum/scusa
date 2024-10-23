@@ -124,12 +124,14 @@
 
 /* 將下拉選單樣式改為橫列式選項 */
 .navbar {
-    display: flex;
+    display: flex;  
     justify-content: flex-start;
     background-color: #F2f2ea;
     padding: 10px;
     border-radius: 50px; /* 設定圓角 */
     border: 2px solid #3c3a39;
+    font-weight: bold;
+
 }
 
 .nav-options {
@@ -397,7 +399,7 @@ body {
   }
   
   #mobile-btn:hover {
-    background-color: #c93653;
+    background-color: #c59663;
     transform: scale(1.1); /* 放大效果 */
   }
   

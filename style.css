@@ -17,14 +17,14 @@
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
-    width: 150px;
-    background-color: #8685ef; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    width: 250px;
+    background-color: #181818; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     position: fixed;
     top: 0;
-    left: -220px; /* 初始位置在視窗外 */
+    left: -300px; /* 初始位置在視窗外 */
     height: 100%;
     z-index: 1000;
     transition: left 0.5s ease; /* 緩慢移動效果 */
@@ -124,9 +124,11 @@
 .navbar {
     display: flex;
     justify-content: flex-start;
-    background-color: #232323af;
+    background-color: #0a0a0a;
     padding: 10px;
-    border-radius: 5px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
+    font-weight: bold;
+
 }
 
 .nav-options {
@@ -146,6 +148,7 @@
     transition: transform 0.3s ease; /* 動畫效果 */
     white-space: nowrap; /* 防止自動換行 */
     border-radius: 5px; /* 設定圓角 */
+    font-weight: bold;
 }
 
 .nav-item a:hover {
@@ -157,7 +160,7 @@
     position: absolute; /* 定位在主選項下方 */
     top: 100%; /* 定位在主選項下方 */
     left: 0; /* 將下拉選單定位在主選項的左側 */
-    background-color: #232323af;
+    background-color: #181818;
     display: none; /* 默認隱藏 */
     list-style-type: none;
     padding: 10px;
@@ -165,10 +168,12 @@
     max-height: 0; /* 初始最大高度 */
     overflow: hidden; /* 隱藏溢出部分 */
     transition: opacity 0.3s ease, max-height 0.5s ease; /* 緩慢下滑效果 */
-    border-radius: 5px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
     z-index: 1000; /* 確保下拉選單在最上層 */
     display: flex; /* 使用 flex 讓選單橫向排列 */
     flex-direction: row; /* 橫向排列 */
+    border: 1px solid #696969;
+
 }
 
 /* 懸停時顯示下拉選單 */
@@ -204,8 +209,8 @@
 }
 
 .announcement {
-    background-color: #252525;
-    border: 2px solid #f0f0f0;
+    background-color: #181818;
+    border: 1px solid #696969;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
@@ -313,11 +318,7 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #252525; /* 設定底色 */
-    background-image: url('dot-pattern.png'); /* 這裡引用網點的圖片檔案 */
-    background-size: 3px 3px; /* 控制網點圖案的大小 */
-    background-repeat: repeat; /* 重複網點圖案 */
-    background-position: center; /* 讓圖案從中心開始排列 */
+    background-color: #0a0a0a; /* 設定底色 */
     color: #faf8ff; /* 全局文字顏色 */
 }
 .container {
@@ -392,7 +393,7 @@ body {
   }
   
   #mobile-btn:hover {
-    background-color: #8685ef;
+    background-color: #181818;
     transform: scale(1.1); /* 放大效果 */
   }
   
