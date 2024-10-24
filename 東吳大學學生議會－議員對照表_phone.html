@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特約商店</title>
+    <link rel="stylesheet" href="style議會_phone.css">
+    <link rel="icon" href="議會logo.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <style>
+        html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+        /* 預設連結樣式 */
+        a {
+            color: rgb(255, 233, 109);
+            text-decoration: none;
+        }
+
+        /* 滑鼠懸停時的樣式 */
+        a:hover {
+            color: rgb(255, 255, 255);
+            text-decoration: underline;
+        }
+
+        /* 中央對齊容器樣式 */
+        .centered {
+            margin-bottom: 20px; /* 調整地圖和其他內容的間距 */
+        }
+
+        /* 置中顯示 Word 文件 */
+        .google-word {
+            margin-top: 220px; /* 頂部間距 */
+            width: 100%; /* 可根據需求調整 */
+            height: 4000px;
+            margin-top: 20px;
+            margin-bottom: 50px; /* 可調整的底部間距 */
+        }
+        
+        .iframe-container {
+    position: relative;
+    margin-top: 90px; /* 頂部間距 */
+    width: 200%;
+    height: 400000px;
+    padding-top: 40.25%; /* 設定比例（例如 16:9 的比例） */
+    overflow: hidden; /* 防止出現滾動條 */
+}
+
+    .iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 4000px;
+    transform: scale(0.70); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
+    transform-origin: 0 0; /* 縮放從左上角開始 */
+    border: 0; /* 移除邊框 */
+
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="議會logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+
+            <ul class="nav-links">
+                <li>
+                    <div class="main-menu" data-target="#submenu-1">東吳大學學生會</div>
+                    <ul class="submenu" id="submenu-1">
+                        <li><a href="東吳大學學生會main_phone.html">首頁</a></li>
+                        <li><a href="東吳大學學生會introduction_phone.html">本會簡介</a></li>
+                        <li><a href="東吳大學學生會financial-report_phone.html">財務報告</a></li>
+                        <li><a href="東吳大學學生會about_phone.html">組織架構</a></li>
+                        <li><a href="東吳大學學生會regulations_phone.html">法規彙編</a></li>                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-2">活動專區</div>
+                    <ul class="submenu" id="submenu-2">
+                        <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-3">學生議會</div>
+                    <ul class="submenu" id="submenu-3">
+                        <li><a href="東吳大學學生議會_phone.html">東吳大學學生議會</a></li>
+                        <li><a href="東吳大學學生議會－會議資料_phone.html">東吳大學學生議會－會議資料</a></li>
+                        <li><a href="東吳大學學生議會－_議員對照表phone.html">東吳大學學生議會－會議資料</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+            <!-- 置中顯示 Word 文件 -->
+            <div class="centered">
+                <div class="google-word">
+                    <div class="iframe-container">
+                        <iframe src="https://docs.google.com/document/d/e/2PACX-1vRAmuKJ9SwKxZUpmUVjwg58njqP751U0xNz8AsqRggtttxL-pAnyPM6HEGu0ix83Q/pub?embedded=true"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+
+    </div>
+
+    <div id="ball-container">
+        <img id="ball" src="ball3.png" alt="Ball">
+        <button id="mobile-btn">開啟電腦板</button>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+       const hamburgerMenu = document.getElementById('hamburger-menu');
+        const sidebar = document.getElementById('sidebar');
+        const mainMenus = document.querySelectorAll('.main-menu');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
+            });
+        });
+        document.addEventListe
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
+
+
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball4.png';
+  } else {
+    ball.src = 'ball3.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生議會－議員對照表.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生議會－議員對照表.html';
+});
+    </script>
+    
+</body>
+</html>
