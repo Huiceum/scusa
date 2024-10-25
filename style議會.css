@@ -62,7 +62,7 @@
 }
 
 .site-name {
-    font-size: 18px;
+    font-size: 16px;
     color: #ffffff;
     font-weight: bold;
     flex-grow: 1;
@@ -80,7 +80,7 @@
 }
 
 .nav-links li {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .nav-links a img {
@@ -94,7 +94,7 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #00917b;
+    color: #f0f0f0;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
@@ -119,7 +119,6 @@
 .sidebar.active ~ .main-content {
     margin-left: 200px; /* 側邊欄顯示時給予留白 */
 }
-
 
 
 /* 將下拉選單樣式改為橫列式選項 */
@@ -422,3 +421,17 @@ body {
     }
   }
   
+
+
+            /* 設置動畫樣式 */
+            .slide-up {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 1s ease-out, transform 1s ease-out;
+            }
+    
+            /* 當元素進入視窗時，套用的動畫 */
+            .slide-up.show {
+                opacity: 1;
+                transform: translateY(0);
+            }

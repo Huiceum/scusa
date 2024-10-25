@@ -400,3 +400,16 @@ body {
     }
   }
   
+
+            /* 設置動畫樣式 */
+            .slide-up {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 1s ease-out, transform 1s ease-out;
+            }
+    
+            /* 當元素進入視窗時，套用的動畫 */
+            .slide-up.show {
+                opacity: 1;
+                transform: translateY(0);
+            }

@@ -17,7 +17,7 @@
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
-    width: 250px;
+    width: 300px;
     background-color: #181818; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
@@ -62,7 +62,7 @@
 }
 
 .site-name {
-    font-size: 18px;
+    font-size: 16px;
     color: #ffffff;
     font-weight: bold;
     flex-grow: 1;
@@ -80,7 +80,7 @@
 }
 
 .nav-links li {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .nav-links a img {
@@ -117,7 +117,7 @@
 
 /* 當側邊欄被激活時 */
 .sidebar.active ~ .main-content {
-    margin-left: 200px; /* 側邊欄顯示時給予留白 */
+    margin-left: 300px; /* 側邊欄顯示時給予留白 */
 }
 
 /* 將下拉選單樣式改為橫列式選項 */

@@ -85,6 +85,22 @@
             }
         }, 4000); // 4秒後導向
         
+
+                        // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+                        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        // 監視所有具有 slide-up 類別的元素
+        document.querySelectorAll('.slide-up').forEach(element => {
+            observer.observe(element);
+        });
+
+
     </script>
 </body>
 </html>
