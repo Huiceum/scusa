@@ -267,9 +267,8 @@
 
             // 假設第一列是標題，第二列是訊息，第三列是超連結
             newAnnouncement.innerHTML = `
-                <h2 class="title">${columns[0]}</h2>
+                <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
                 <p class="message">${columns[1]}</p>
-                <a href="${columns[2]}" class="link">${columns[2]}</a>
             `;
 
             announcementList.appendChild(newAnnouncement);
@@ -280,6 +279,7 @@
         alert('無法載入公告，請查看控制台獲取更多資訊。');
     });
 }
+
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownParent = document.querySelector('.dropdown-parent');
             const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');

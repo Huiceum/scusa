@@ -25,12 +25,11 @@
     /* 設置文件容器的大小並置中內容 */
     .docs-container {
         width: 100%; /* 確保容器寬度為全寬 */
-        height: 300px; /* 根據需要調整高度 */
-        overflow: hidden;
+        height: 100px; /* 根據需要調整高度 */
         display: flex; /* 使用 flex 排版 */
         justify-content: center; /* 讓內容居中 */
         align-items: center; /* 讓內容垂直置中 */
-        margin-top: 50px; /* 與上方的區塊保持間隔 */
+        margin-top: 150px; /* 與上方的區塊保持間隔 */
     }
 
     /* 每個文件的樣式，預設隱藏 */
@@ -206,33 +205,42 @@
             loadAnnouncements();
         });
 
+
         function loadAnnouncements() {
-            const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM';
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+    const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 只保留試算表 ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-            fetch(url)
-                .then(response => response.text())
-                .then(data => {
-                    const rows = data.split('\n').slice(1);
-                    const announcementList = document.getElementById('announcements-list');
-                    announcementList.innerHTML = '';
-
-                    rows.forEach((row) => {
-                        const columns = row.split(',').map(col => col.trim().replace(/"/g, ''));
-                        const newAnnouncement = document.createElement('div');
-                        newAnnouncement.classList.add('announcement');
-                        newAnnouncement.innerHTML = `
-                            <h2 class="title">${columns[0]}</h2>
-                            <p class="message">${columns[1]}</p>
-                            <a href="${columns[2]}" class="link">${columns[2]}</a>
-                        `;
-                        announcementList.appendChild(newAnnouncement);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading announcements:', error);
-                });
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        return response.text(); // 解析為文本格式
+    })
+    .then(data => {
+        const rows = data.split('\n').slice(1); // 分割行並移除標題行
+        const announcementList = document.getElementById('announcements-list');
+        announcementList.innerHTML = ''; // 清空公告欄
+
+        rows.forEach((row) => {
+            const columns = row.split(',').map(col => col.replace(/"/g, '').trim()); // 移除引號並修剪空格
+            const newAnnouncement = document.createElement('div');
+            newAnnouncement.classList.add('announcement');
+
+            // 假設第一列是標題，第二列是訊息，第三列是超連結
+            newAnnouncement.innerHTML = `
+                <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
+                <p class="message">${columns[1]}</p>
+            `;
+
+            announcementList.appendChild(newAnnouncement);
+        });
+    })
+    .catch(error => {
+        console.error('Error loading announcements:', error);
+        alert('無法載入公告，請查看控制台獲取更多資訊。');
+    });
+}
 
         let ball = document.getElementById('ball');
 let isBallOne = true;
@@ -255,24 +263,27 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
 
 
 function showDoc(docNumber) {
-        // 隱藏所有文件
-        const docs = document.querySelectorAll('.doc');
-        docs.forEach(doc => doc.classList.remove('active'));
+    // 隱藏所有文件
+    const docs = document.querySelectorAll('.doc');
+    docs.forEach(doc => doc.classList.remove('active'));
 
-        // 顯示選擇的文件
-        const selectedDoc = document.getElementById(`doc${docNumber}`);
-        selectedDoc.classList.add('active');
+    // 顯示選擇的文件
+    const selectedDoc = document.getElementById(`doc${docNumber}`);
+    selectedDoc.classList.add('active');
 
-        // 更新點點樣式
-        const dots = document.querySelectorAll('.dot');
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[docNumber - 1].classList.add('active');
-    }
+    // 更新點點的樣式
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach(dot => dot.classList.remove('active'));
+    dots[docNumber - 1].classList.add('active');
+}
+
 
     // 預設顯示第一個文件
-    document.addEventListener("DOMContentLoaded", () => {
-        showDoc(1);
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+    loadAnnouncements();
+    showDoc(1); // 確保初始文件顯示
+});
+
 
     
     </script>
