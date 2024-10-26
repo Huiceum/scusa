@@ -70,7 +70,7 @@
         width: 15px;
         height: 15px;
         margin: 0 5px;
-        background-color: white;
+        background-color: #CACACA;
         border-radius: 50%;
         display: inline-block;
         cursor: pointer;
@@ -80,9 +80,50 @@
     /* 當前選中的點點樣式 */
     .dot.active {
         transform: scale(1.5);
-        background-color: gray;
+        background-color: #FFFFFF;
     }
 
+    .icon-section {
+    background-color: #2b2a2e; /* 設置背景顏色 */
+    padding: 20px;
+    margin-top: 50px; /* 與上方的區塊保持間隔 */
+}
+
+.icon-container {
+    display: flex;
+    flex-wrap: wrap; /* 允許換行 */
+    justify-content: center; /* 內容置中 */
+}
+
+.icon {
+    width: calc(50% + 100px); /* 每個圖示佔據三分之一的寬度，減去邊距 */
+    height: auto; /* 圖示的高度 */
+    margin: 100px; /* 圖示之間的間隔 */
+    position: relative; /* 相對定位以放置超連結 */
+    overflow: hidden; /* 隱藏溢出的部分 */
+    transition: transform 0.3s; /* 放大效果的過渡 */
+}
+
+.icon img {
+    width: 100%; /* 圖示的圖片寬度 */
+    height: auto; /* 圖示的圖片高度 */
+    border-radius: 10px; /* 圖示圓角 */
+}
+
+
+.icon:hover {
+    transform: scale(1.2); /* 滑鼠懸停時放大 */
+}
+
+
+
+.icon-text {
+    text-align: center; /* 文字置中 */
+    color: #fff; /* 文字顏色 */
+    margin-top: 5px; /* 文字與圖示的間距 */
+    font-size: 24px;
+    font-weight: bold;
+}
 
 
 </style>
@@ -162,6 +203,15 @@
                 </div>
             </div>
         </div>
+
+        <div class="icon-section">
+            <h2 style="text-align: center;">活動專區</h2>
+        <div class="icon-container slide-up">
+            <!-- 這裡將會動態加載圖片、文字和超連結 -->
+        </div>
+    </div>
+
+
     </div>
     <div id="ball-container"></div>
     <img id="ball" src="ball.png" alt="Ball">
@@ -203,7 +253,40 @@
         // 當文檔加載完成後的事件
         document.addEventListener('DOMContentLoaded', function() {
             loadAnnouncements();
+            loadIcons(); // 載入公告
         });
+
+        function loadIcons() {
+    const sheetId = '18WW9PLenRd6MSn2pRSBKSQ2yb70CqP027hbjRZ7WjEg'; // 替換為您的試算表 ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // 分割行並移除標題行
+            const iconContainer = document.querySelector('.icon-container');
+            iconContainer.innerHTML = ''; // 清空圖示區域
+
+            rows.forEach(row => {
+                const [imageUrl, text, link] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 解析每一行
+
+                if (imageUrl && text && link) {
+                    const icon = document.createElement('div');
+                    icon.classList.add('icon');
+
+                    icon.innerHTML = `
+                        <a href="${link}" target="_blank">
+                            <img src="${imageUrl}" alt="${text}">
+                            <div class="icon-text">${text}</div>
+                        </a>
+                    `;
+                    iconContainer.appendChild(icon);
+                }
+            });
+        })
+        .catch(error => console.error('Error loading icons:', error));
+}
+
 
 
         function loadAnnouncements() {

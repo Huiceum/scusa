@@ -94,14 +94,14 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #f0f0f0;
+    color: #cacaca;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
 }
 
 .nav-links a:hover {
-    color: #ffb7c3;
+    color: #F0F0F0;
 }
 
 /* 中央內容區域設置 */
