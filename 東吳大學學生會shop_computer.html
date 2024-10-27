@@ -10,30 +10,35 @@
     <style>
         /* 預設連結樣式 */
         a {
-            color: rgb(255, 233, 109);
+            color: #2f2f5a;
             text-decoration: none;
         }
 
         /* 滑鼠懸停時的樣式 */
         a:hover {
-            color: rgb(255, 255, 255);
+            color: #252525;
             text-decoration: underline;
         }
 
         /* 中央對齊容器樣式 */
         .centered {
+            background-color: #2f2f87;
+            width: 100%; /* 可根據需求調整 */
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 20px; /* 調整地圖和其他內容的間距 */
+            margin-top: 150px; /* 頂部間距 */
+
         }
 
         /* Google 地圖樣式 */
         .google-map {
-            margin-top: 120px; /* 頂部間距 */
+            margin-top: 50px; /* 頂部間距 */
             width: 800px; /* 可根據需求調整 */
             height: 400px;
             border: 0;
+            margin-bottom: 50px; /* 可調整的底部間距 */
         }
 
         /* 置中顯示 Word 文件 */
@@ -44,6 +49,8 @@
             margin-top: 20px;
             margin-bottom: 50px; /* 可調整的底部間距 */
         }
+
+
     </style>
 </head>
 
@@ -104,11 +111,13 @@
             </div>
 
             <!-- 置中顯示 Word 文件 -->
-            <div class="centered  slide-up">
-                <div class="google-word">
-                    <iframe src="https://docs.google.com/document/d/e/2PACX-1vQBh1V7l62YVwFgo97yIeqX1EwebZ1nzYknPrfz7lGUWaLuJiaGF9guRPsMp-mNmikpfU1bxCClABlv/pub?embedded=true" width="800" height="4000" style="border: 0;"></iframe>
+        <div class="shop-word">
+                <div class="google-word slide-up">
+                    <iframe src="https://docs.google.com/document/d/e/2PACX-1vQBh1V7l62YVwFgo97yIeqX1EwebZ1nzYknPrfz7lGUWaLuJiaGF9guRPsMp-mNmikpfU1bxCClABlv/pub?embedded=true" width="1000" height="4000" style="border: 0;"></iframe>
                 </div>
             </div>
+        </div>
+
 
     </div>
 
@@ -119,6 +128,38 @@
 
     <!-- JavaScript -->
     <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+            loadSidebarLinks();
+        });
+
+                // 載入sidebar鏈接
+                function loadSidebarLinks() {
+            const sheetId = '16m2JrshR1QyQIRxdn1ZbCS7zyAnqN2OpMhREp-c4Qc8'; // 新的試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+            .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+            .then(data => {
+                const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                const sidebarLinks = document.getElementById('sidebar-links');
+                sidebarLinks.innerHTML = ''; // 清空sidebar
+
+                rows.forEach(row => {
+                    const [linkText, linkUrl] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 假設第一列為文字，第二列為URL
+
+                    if (linkText && linkUrl) {
+                        const linkItem = document.createElement('li');
+                        linkItem.innerHTML = `<a href="${linkUrl}" target="_blank">${linkText}</a>`;
+                        sidebarLinks.appendChild(linkItem);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading sidebar links:', error);
+                alert('無法載入側邊欄內容，請查看控制台獲取更多資訊。');
+            });
+        }
         const hamburgerMenu = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
 

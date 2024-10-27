@@ -46,6 +46,7 @@
             padding: 20px;
         }
 
+
 /* Logo 樣式 */
 .logo {
     display: flex;
@@ -114,6 +115,7 @@
     margin-left: 0; /* 預設為 0，讓主要欄靠左 */
     transition: margin-left 0.5s ease; /* 平滑過渡 */
 }
+
 
 /* 當側邊欄被激活時 */
 .sidebar.active ~ .main-content {

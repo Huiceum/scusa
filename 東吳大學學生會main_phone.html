@@ -112,7 +112,7 @@
 
 
 .icon:hover {
-    transform: scale(1.2); /* 滑鼠懸停時放大 */
+    transform: scale(1.08) rotate(5deg); /* 滑鼠懸停時放大並輕微旋轉 */
 }
 
 
@@ -204,9 +204,9 @@
             </div>
         </div>
 
-        <div class="icon-section">
+        <div class="icon-section slide-up">
             <h2 style="text-align: center;">活動專區</h2>
-        <div class="icon-container slide-up">
+        <div class="icon-container">
             <!-- 這裡將會動態加載圖片、文字和超連結 -->
         </div>
     </div>
@@ -220,23 +220,29 @@
     <!-- JavaScript -->
     <script>
         
-                // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
-                const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        });
+// 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        // 當元素進入視窗時
+        if (entry.isIntersecting) {
+            // 為該元素添加 'show' 類別以觸發動畫
+            entry.target.classList.add('show');
+        } else {
+            // 可選：當元素不再進入視窗時，可以移除 'show' 類別
+            entry.target.classList.remove('show');
+        }
+    });
+});
 
-        // 監視所有具有 slide-up 類別的元素
-        document.querySelectorAll('.slide-up').forEach(element => {
-            observer.observe(element);
-        });
+// 監視所有具有 slide-up 類別的元素
+document.querySelectorAll('.slide-up').forEach(element => {
+    observer.observe(element);
+});
 
-        const hamburgerMenu = document.getElementById('hamburger-menu');
-        const sidebar = document.getElementById('sidebar');
-        const mainMenus = document.querySelectorAll('.main-menu');
+// 餐包菜單和側邊欄的設定（未變更）
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+const mainMenus = document.querySelectorAll('.main-menu');
 
         // 漢堡選單功能：顯示或隱藏側邊欄
         hamburgerMenu.addEventListener('click', function() {
