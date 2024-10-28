@@ -1,117 +1,120 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>行事曆 - 東吳大學學生會</title>
-    <link rel="stylesheet" href="style.css">
+    <title>反映表單</title>
     <style>
-
-
-        .calendar-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
+        body {
+            font-family: 微軟正黑體, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
         }
-
-        .month-button {
-            background-color: #232323;
-            color: #f0f0f0;
-            padding: 15px;
-            margin: 10px;
+        .form-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px;
+            resize: none;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
             border: none;
-            border-radius: 5px;
+            padding: 10px 15px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
         }
-
-        .month-button:hover {
-            transform: scale(1.05);
-            background-color: #181818;
-        }
-
-        .content {
-            display: none; /* 隱藏內容 */
-            margin-top: 20px;
-            border: 1px solid #696969;
-            padding: 15px;
-            background-color: #232323;
-            border-radius: 5px;
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
+    <div class="form-container">
+        <h2>反映表單</h2>
+        <form id="feedbackForm">
+            <label for="title">文旨:</label>
+            <input type="text" id="title" name="title" required>
 
-<div class="calendar-container">
-    <!-- 12個月份按鈕 -->
-    <button class="month-button" data-month="1">一月</button>
-    <button class="month-button" data-month="2">二月</button>
-    <button class="month-button" data-month="3">三月</button>
-    <button class="month-button" data-month="4">四月</button>
-    <button class="month-button" data-month="5">五月</button>
-    <button class="month-button" data-month="6">六月</button>
-    <button class="month-button" data-month="7">七月</button>
-    <button class="month-button" data-month="8">八月</button>
-    <button class="month-button" data-month="9">九月</button>
-    <button class="month-button" data-month="10">十月</button>
-    <button class="month-button" data-month="11">十一月</button>
-    <button class="month-button" data-month="12">十二月</button>
-</div>
+            <label for="content">反映內容:</label>
+            <textarea id="content" name="content" required></textarea>
 
-<div id="content-container">
-    <!-- 每個月份的內容將自動載入 -->
-</div>
+            <label>是否公開於反映區:</label>
+            <label><input type="radio" name="public" value="是" required>Ｏ是</label>
+            <label><input type="radio" name="public" value="否" required>Ｏ否</label>
 
-<script>
-    document.querySelectorAll('.month-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const month = this.getAttribute('data-month');
-            loadMonthContent(month);
-        });
-    });
+            <button type="submit">送出</button>
+        </form>
+        <p>謝謝您的回饋，學生會將會盡速回覆</p>
+    </div>
 
-    function loadMonthContent(month) {
-        const sheetId = '1AnQToxmU1SYFFzGZ-3Ag8T4RUmmOXJFCEKY-zDR0K2s'; // 你的試算表 ID
-        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // 防止表單默認提交
 
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const publicStatus = document.querySelector('input[name="public"]:checked').value;
+
+            const data = {
+                title: title,
+                content: content,
+                public: publicStatus
+            };
+
+            const sheetId = '1zAtD6z41QvOge2p6FOpiwq4hZ4ug_heiDNZzJ3622hA';
+            const endpoint = `https://script.google.com/macros/s/AKfycbw8rysTGOp8UqaATnExeQK5svwxMN4cyAHozfhK-Se3LPAXGrID3qRAs1D1oNGmkSJK/exec`; // 替換為你的Google Apps Script ID
+
+            fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
             })
+            .then(response => response.json())
             .then(data => {
-                const rows = data.split('\n').slice(1); // 移除標題行
-                const contentContainer = document.getElementById('content-container');
-                contentContainer.innerHTML = ''; // 清空現有內容
-
-                // 過濾出對應月份的行
-                rows.forEach(row => {
-                    const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
-                    if (columns[0] === month) { // 假設第一列是月份
-                        const contentDiv = document.createElement('div');
-                        contentDiv.classList.add('content');
-                        contentDiv.innerHTML = `
-                            <p>${columns[1]}</p>   <!-- 假設第二列是內容 -->
-                        `;
-                        contentContainer.appendChild(contentDiv);
-                    }
-                });
-
-                // 顯示所有活動內容
-                const contents = contentContainer.getElementsByClassName('content');
-                for (let i = 0; i < contents.length; i++) {
-                    contents[i].style.display = 'block'; // 顯示所有活動
-                }
+                alert('表單已成功提交！');
+                document.getElementById('feedbackForm').reset(); // 重置表單
             })
-            .catch(error => {
-                console.error('Error loading month content:', error);
-                alert('無法載入內容，請查看控制台獲取更多資訊。');
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('提交失敗，請再試一次。');
             });
-    }
-</script>
+        });
 
+        function doPost(e) {
+    var sheet = SpreadsheetApp.openById('1zAtD6z41QvOge2p6FOpiwq4hZ4ug_heiDNZzJ3622hA').getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    Logger.log(data); // 日誌輸出收到的數據
+    sheet.appendRow([data.title, data.content, data.public]);
+    return ContentService.createTextOutput(JSON.stringify({"status": "success"}));
+}
+
+
+
+    </script>
 </body>
 </html>
