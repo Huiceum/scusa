@@ -216,37 +216,43 @@ const hamburgerMenu = document.getElementById('hamburger-menu');
         });
 
         function loadStudentFeedback() {
-                const sheetId = '13yvf_5N2uYhg9D0GjDUOGyADUqmB_isvOt80ToHup10';
-                const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+    const sheetId = '13yvf_5N2uYhg9D0GjDUOGyADUqmB_isvOt80ToHup10';
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-                fetch(url)
-                    .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
-                    .then(data => {
-                        const rows = data.split('\n').slice(0); // 從第二行開始提取數據
-                        const feedbackList = document.getElementById('feedback-list');
-                        feedbackList.innerHTML = '';
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(0); // 从第二行开始提取数据
+            const feedbackList = document.getElementById('feedback-list');
+            feedbackList.innerHTML = '';
 
-                        rows.forEach(row => {
-                            const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
-                            const title = columns[1]; // 第二列作為標題
-                            const content = columns[2]; // 第三列作為內文
-                            const reply = columns[3]; // 第四列作為學生會回覆
+            rows.forEach(row => {
+                const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+                const title = columns[1]; // 第二列作为标题
+                const content = columns[2]; // 第三列作为内文
+                const reply = columns[3]; // 第四列作为学生会回复
+                const publishTime = columns[4]; // 第五列作为发佈时间
 
-                            const feedbackItem = document.createElement('div');
-                            feedbackItem.classList.add('feedback-item');
-                            feedbackItem.innerHTML = `
-                                <h2>${title}</h2>
-                                <p>${convertLinks(content)}</p>
-                                <div class="reply"><strong>學生會回覆：</strong> ${reply}</div>
-                            `;
-                            feedbackList.appendChild(feedbackItem);
-                        });
-                    })
-                    .catch(error => console.error('Error loading feedback:', error));
-            }
+                const feedbackItem = document.createElement('div');
+                feedbackItem.classList.add('feedback-item');
+                feedbackItem.innerHTML = `
+                    <h2>${title} <span style="font-size: smaller; color: gray;">(${publishTime})</span></h2>
+                    <p>${convertLinks(content)}</p>
+                    <div class="reply"><strong>学生会回复：</strong> ${reply}</div>
+                `;
+                feedbackList.appendChild(feedbackItem);
+            });
+        })
+        .catch(error => console.error('Error loading feedback:', error));
+}
 
 
- 
+
+        // 將內文中的 URL 轉換為超連結
+        function convertLinks(text) {
+            const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            return text.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
+        }
 
 
         document.addEventListener('DOMContentLoaded', function() {
