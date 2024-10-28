@@ -11,7 +11,7 @@
 .container {
     display: flex;
     height: 100vh;
-    color: #252525;
+    color: #f0f0f0;
     min-height: 100vh; /* 确保页面最小高度为100vh */
 }
 
@@ -130,6 +130,8 @@
     padding: 10px;
     border-radius: 50px; /* 設定圓角 */
     font-weight: bold;
+    z-index: 1000; /* 確保按鈕位於最上層 */
+
 
 }
 
