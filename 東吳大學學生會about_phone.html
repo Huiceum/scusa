@@ -42,6 +42,48 @@
             color: #007bff;
         }
 
+                /* Google 地圖樣式 */
+                .google-map {
+            background-color: #2f2f87;
+            margin-top: 50px; /* 頂部間距 */
+            width: 100%; /* 可根據需求調整 */
+            height: 400px;
+            border: 0;
+            margin-bottom: 50px; /* 可調整的底部間距 */
+            margin-left:40px ;
+            margin-right:40px ;
+        }
+
+        /* 置中顯示 Word 文件 */
+        .google-word {
+            width: 100%; /* 可根據需求調整 */
+            height: 4000px;
+            margin-top: 20px;
+            margin-bottom: 50px; /* 可調整的底部間距 */
+        }
+        
+        .iframe-container {
+    position: relative;
+    width: 130%;
+    height: 4000px;
+    padding-top: 55.25%; /* 設定比例（例如 16:9 的比例） */
+    overflow: hidden; /* 防止出現滾動條 */
+    
+}
+
+    .iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 210%;
+    height: 4000px;
+    transform: scale(0.80); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
+    transform-origin: 0 0; /* 縮放從左上角開始 */
+    border: 0; /* 移除邊框 */
+    justify-content: center; /* 水平置中 */
+
+}
+
     </style>
 </head>
 <body>
@@ -102,89 +144,16 @@
                 <br><br><br><a href="東吳大學學生會regulations_phone.html" class="link">法規編錄</a>
             </div>
 
-            <div class="photo-gallery">
-                <h2></h2>
-                <img src="Organizational structure.png" alt="組織架構" />
-                <p></p>
-            </div>
 
-            <table class="info-table">
-                <thead>
-                    <tr>
-                        <th>部門別</th>
-                        <th>業務內容</th>
-                        <th>備註</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>秘書處</td>
-                        <td class="business-content">
-                            <ul>
-                                <li>行政庶務</li>
-                                <li>社團輔助金發放</li>
-                                <li>人事任用</li>
-                                <li>會辦維護</li>
-                                <li>行政會議召集及紀錄</li>
-                                <li>各部聯絡及協調</li>
-                                <li>對各系系學會之聯絡</li>
-                                <li>文書收發及保管</li>
-                                <li>檔案管理</li>
-                                <li>印信典守</li>
-                                <li>海報欄位管理</li>
-                            </ul>
-                        </td>
-                        <td>根據學生會章程訂定</td>
-                    </tr>
-                    <tr>
-                        <td>財務處</td>
-                        <td class="business-content">
-                            <ul>
-                                <li>財會出納</li>
-                                <li>資金存放管理</li>
-                                <li>預算書表、決算書表編製</li>
-                                <li>財務程序實施要點制定</li>
-                                <li>公庫財產管理及出納</li>
-                            </ul>
-                        </td>
-                        <td>根據學生會章程訂定</td>
-                    </tr>
-                    <tr>
-                        <td>活動部</td>
-                        <td class="business-content">
-                            <ul>
-                                <li>大型活動籌備</li>
-                                <li>大型活動執行</li>
-                                <li>大型活動成效評估</li>
-                            </ul>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>學術與權益部</td>
-                        <td class="business-content">
-                            <ul>
-                                <li>學術演講舉辦</li>
-                                <li>學權議題諮詢與申訴處理</li>
-                                <li>校務會議代表參與</li>
-                                <li>企劃執行與追蹤</li>
-                            </ul>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>宣傳部</td>
-                        <td class="business-content">
-                            <ul>
-                                <li>美術編輯</li>
-                                <li>資訊宣傳及公開</li>
-                                <li>社群平台管理</li>
-                            </ul>
-                        </td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+
+                        <!-- 置中顯示 Word 文件 -->
+                        <div class="google-word slide-up">
+                            <div class="iframe-container">
+                                <iframe src="https://docs.google.com/document/d/e/2PACX-1vSRpBHNXRAbcgSqtCs7MoRw639ieVCiartntJ3bhaWQBTymF-X2GiVYCbmgZdZpd-P5k1hkX94EUCUM/pub?embedded=true"></iframe>
+                            </div>
+                        </div>
+                    </div>
+ 
         </div>
     </div>
     <div id="ball-container">
