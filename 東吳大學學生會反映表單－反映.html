@@ -8,9 +8,9 @@
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
     <style>
         .form-container {
-            max-width: 60%;
+            max-width: 90%;
             margin: auto;
-            background: #353535;
+            background: #211a35;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             padding: 30px;
@@ -24,7 +24,7 @@
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            color: #ffc9ee; /* 亮橙色 */
+            color: #c9caff; /* 亮橙色 */
         }
 
         label {
@@ -40,10 +40,10 @@
         select {
             width: 100%;
             padding: 10px;
-            border: 1px solid #444;
+            border: 1px solid #010010;
             border-radius: 4px;
             box-sizing: border-box;
-            background-color: #2b2b2b;
+            background-color: #010010;
             color: #ffffff;
             transition: border-color 0.3s, background-color 0.3s;
         }
@@ -53,8 +53,8 @@
         input[type="tel"]:focus,
         textarea:focus,
         select:focus {
-            border-color: #ffc9ee;
-            background-color: #444;
+            border-color: #ff0a58;
+            background-color: #010010;
             outline: none;
         }
 
@@ -68,7 +68,7 @@
             padding: 10px;
             border: none;
             border-radius: 4px;
-            background-color: #2b2a2e;
+            background-color: #10003c;
             color: white;
             font-size: 16px;
             cursor: pointer;
@@ -76,7 +76,7 @@
         }
 
         button:hover {
-            background-color: #48464d;
+            background-color: #230082;
             transform: translateY(-2px);
         }
 
@@ -114,8 +114,8 @@
 
                 <div class="form-container">
                     <h1>反映表單</h1>
-                    <h2>個人資料蒐集處理利用告知聲明
-                    東吳大學學生會基於隱私保護政策，保護每位學生權益申訴反映者之隱私。以下個人資料僅限本會學術權益部門公務使用，依據《個人資料保護法》保障每位填寫人的個人資訊，且不會以任何形式提供、交換、出售資料交予第三方，請安心並確實填寫。</h2>
+                    <label>個人資料蒐集處理利用告知聲明
+                    東吳大學學生會基於隱私保護政策，保護每位學生權益申訴反映者之隱私。以下個人資料僅限本會學術權益部門公務使用，依據《個人資料保護法》保障每位填寫人的個人資訊，且不會以任何形式提供、交換、出售資料交予第三方，請安心並確實填寫。</label>
                     <form id="customForm">
                         <label for="name">姓名：</label>
                         <input type="text" id="name" name="entry.1823375378" required>
@@ -132,7 +132,7 @@
                         <label for="phone">電話號碼：</label>
                         <input type="tel" id="phone" name="entry.911473533" required>
 
-                        <label>是否將申訴內容公開於學生會網站<br>注意：若有危害善良風俗或仇恨性言論，學生會有權下架該反映。<br>相關法律責任學生會也將提供個人資料於司法單位。</label>
+                        <label>是否將申訴內容公開於學生會網站？<br>（注意：若有危害善良風俗或仇恨性言論，學生會有權下架該反映。<br>相關法律責任學生會也將提供個人資料於司法單位。）</label>
                         <select name="entry.1704989384" required>
                             <option value="是">是</option>
                             <option value="否">否</option>

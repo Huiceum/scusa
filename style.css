@@ -95,14 +95,14 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #cacaca;
+    color: #ffffff;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
 }
 
 .nav-links a:hover {
-    color: #F0F0F0;
+    color: rgb(205, 47, 71);
 }
 
 /* 中央內容區域設置 */
@@ -126,7 +126,7 @@
 .navbar {
     display: flex;
     justify-content: flex-start;
-    background-color: #0a0a0a;
+    background-color: #010010;
     padding: 10px;
     border-radius: 50px; /* 設定圓角 */
     font-weight: bold;
@@ -157,6 +157,8 @@
 
 .nav-item a:hover {
     transform: translateY(-5px); /* 文件抽離效果 */
+    color: rgb(205, 47, 71);
+
 }
 
 /* 下拉內容樣式 */
@@ -176,7 +178,7 @@
     z-index: 1000; /* 確保下拉選單在最上層 */
     display: flex; /* 使用 flex 讓選單橫向排列 */
     flex-direction: row; /* 橫向排列 */
-    border: 1px solid #696969;
+    border: 1px solid #455b76;
 
 }
 
@@ -214,7 +216,7 @@
 
 .announcement {
     background-color: #181818;
-    border: 1px solid #696969;
+    border: 2px solid #455b76;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
@@ -322,7 +324,7 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #0a0a0a; /* 設定底色 */
+    background-color: #010010; /* 設定底色 */
     color: #faf8ff; /* 全局文字顏色 */
 }
 .container {

@@ -100,14 +100,14 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #faf8ff;
+    color: #ffffff;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
 }
 
 .nav-links a:hover {
-    color: #ffb7c3;
+    color: rgb(205, 47, 71);
 }
 
 /* 中央內容區域設置 */
@@ -300,7 +300,7 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #0a0a0a; /* 設定底色 */
+    background-color: #010010; /* 設定底色 */
     color: #f0f0f0; /* 全局文字顏色 */
 }
 .container {
