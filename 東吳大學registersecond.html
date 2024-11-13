@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE 認證回傳處理</title>
+</head>
+<body>
+    <p id="message"></p>
+
+    <script>
+        // 取得 URL 參數中的 'code' 和 'state'
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+
+        // 確認 'code' 是否存在，如果不存在，顯示錯誤訊息
+        if (!code || !state) {
+            document.getElementById('message').innerText = "認證失敗，缺少必要參數！";
+        } else {
+            // 發送 POST 請求到 LINE 的 OAuth 伺服器來交換 access_token
+            const clientId = "2006561396";  // 用你的 Channel ID 替換
+            const clientSecret = "53821e73868139b8913adfc68afbca69";  // 需要在LINE開發者後台設定
+            const redirectUri = "https://scusa.netlify.app/東吳大學registersecond.html";
+            const tokenUrl = "https://api.line.me/oauth2/v2.1/token";
+
+            const body = new URLSearchParams({
+                grant_type: 'authorization_code',
+                code: code,
+                redirect_uri: redirectUri,
+                client_id: clientId,
+                client_secret: clientSecret
+            });
+
+            // 發送請求以交換 access_token
+            fetch(tokenUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: body.toString()
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.access_token) {
+                    // 顯示成功訊息並顯示 access_token
+                    document.getElementById('message').innerText = `認證成功！Access Token: ${data.access_token}`;
+                    
+                    // 在這裡，你可以繼續用 access_token 來獲取用戶資料
+                    fetch('https://api.line.me/v2/profile', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${data.access_token}`
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(profileData => {
+                        console.log(profileData);  // 打印用戶資料
+                    });
+                } else {
+                    document.getElementById('message').innerText = "認證失敗，無法取得 Access Token！";
+                }
+            })
+            .catch(error => {
+                console.error('錯誤:', error);
+                document.getElementById('message').innerText = "發生錯誤，請稍後再試！";
+            });
+        }
+    </script>
+</body>
+</html>
