@@ -91,26 +91,41 @@
     <script>
         
 
-            // 檢測用戶是否在 LINE app 打開網頁
-    function isLineApp() {
-        // 檢查用戶的 User-Agent 是否包含 LINE
-        return /line/i.test(navigator.userAgent);
-    }
+        // 檢測用戶是否在 LINE app 打開網頁
+        function isLineApp() {
+            return /line/i.test(navigator.userAgent);
+        }
 
-    // 進行 LINE 第三方驗證的重定向
-    function redirectToLINE() {
-        const lineAuthURL = "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2006561396&redirect_uri=https://scusa.netlify.app/register.html&state=paopao5678&scope=profile%20openid";
-        window.location.href = lineAuthURL;
-    }
+        // 進行 LINE 第三方驗證的重定向
+        function redirectToLINE() {
+            const lineAuthURL = "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2006561396&redirect_uri=https://scusa.netlify.app/register.html&state=paopao000&scope=profile%20openid";
+            window.location.href = lineAuthURL;
+        }
 
-    // 若不是在 LINE app 開啟，顯示提示框
-    if (!isLineApp()) {
-        document.getElementById('popup').style.display = 'flex';
-    } else {
-        // 若在 LINE app 開啟，進行 LINE 第三方驗證
-        redirectToLINE();
-    }
+        // 讀取 URL 的查詢參數
+        function getURLParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                code: params.get('code'),
+                state: params.get('state')
+            };
+        }
 
+        // 根據 URL 中的 code 和 state 參數處理結果
+        const params = getURLParams();
+        if (params.code && params.state === 'paopao000') {
+            // 若已經成功認證並且狀態匹配，顯示認證成功
+            document.getElementById('popup').style.display = 'none';
+            alert("認證成功！您的 LINE 帳號已經綁定！");
+        } else {
+            // 若沒有認證或狀態不匹配，顯示提示框並要求開啟 LINE
+            if (!isLineApp()) {
+                document.getElementById('popup').style.display = 'flex';
+            } else {
+                // 若在 LINE App 開啟，則進行重定向
+                redirectToLINE();
+            }
+        }
 
 // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
 const observer = new IntersectionObserver((entries) => {
