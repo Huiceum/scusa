@@ -95,164 +95,124 @@
             return /line/i.test(navigator.userAgent);
         }
 
-        // 進行 LINE 第三方驗證的重定向
-        function redirectToLINE() {
-            const lineAuthURL = "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2006561396&redirect_uri=https://scusa.netlify.app/register.html&state=paopao000&scope=profile%20openid";
-            window.location.href = lineAuthURL;
-        }
+// 進行LINE第三方認證的重定向
+function redirectToLINE() {
+    const lineAuthURL = "https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=2006561396&redirect_uri=https://scusa.netlify.app/東吳大學registersecond.html&state=paopao000&scope=profile%20openid";
+    window.location.href = lineAuthURL;
+}
 
-        // 讀取 URL 的查詢參數
-        function getURLParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                code: params.get('code'),
-                state: params.get('state')
-            };
-        }
+// 讀取URL中的參數
+function getURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+        code: params.get('code'),
+        state: params.get('state')
+    };
+}
 
-        // 根據 URL 中的 code 和 state 參數處理結果
-        const params = getURLParams();
-        if (params.code && params.state === 'paopao000') {
-            // 若已經成功認證並且狀態匹配，顯示認證成功
-            document.getElementById('popup').style.display = 'none';
-            alert("認證成功！您的 LINE 帳號已經綁定！");
-        } else {
-            // 若沒有認證或狀態不匹配，顯示提示框並要求開啟 LINE
-            if (!isLineApp()) {
-                document.getElementById('popup').style.display = 'flex';
-            } else {
-                // 若在 LINE App 開啟，則進行重定向
-                redirectToLINE();
-            }
-        }
+// 根據URL中獲取的code，請求LINE API來獲取用戶資料
+function getUserInfoFromLine(code) {
+    const secret = "53821e73868139b8913adfc68afbca69";
+    const url = `https://api.line.me/oauth2/v2.1/token`;
+    const data = {
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: 'https://scusa.netlify.app/東吳大學registersecond.html',
+        client_id: '2006561396',
+        client_secret: secret
+    };
 
-        function getLineUserData(code) {
-    const accessTokenURL = 'https://api.line.me/oauth2/v2.1/token';
-    const secret = '53821e73868139b8913adfc68afbca69';  // 你的secret
-
-    // 用code換取access token
-    fetch(accessTokenURL, {
+    fetch(url, {
         method: 'POST',
-        body: new URLSearchParams({
-            grant_type: 'authorization_code',
-            code: code,
-            redirect_uri: 'https://scusa.netlify.app/register.html',  // 你的redirect URI
-            client_id: '2006561396',  // 你的client_id
-            client_secret: secret
-        })
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams(data)
     })
     .then(response => response.json())
     .then(data => {
-        // 獲取access token，並使用它來查詢用戶資料
         const accessToken = data.access_token;
-        getUserProfile(accessToken);
-    });
+        fetchUserProfile(accessToken);
+    })
+    .catch(error => console.error('Error:', error));
 }
 
-function getUserProfile(accessToken) {
-    // 使用access token來獲取用戶資料
-    fetch('https://api.line.me/v2/profile', {
+// 用access token請求LINE API來獲取用戶資料
+function fetchUserProfile(accessToken) {
+    const url = "https://api.line.me/v2/profile";
+    fetch(url, {
         headers: {
-            Authorization: `Bearer ${accessToken}`
+            'Authorization': `Bearer ${accessToken}`
         }
     })
     .then(response => response.json())
-    .then(userData => {
-        const userId = userData.userId;
-        const userName = userData.displayName;
-        
-        // 查詢Google試算表中的用戶資料
-        checkUserInSpreadsheet(userId, userName);
-    });
+    .then(data => {
+        const userName = data.displayName;
+        const userId = data.userId;
+        checkUserInSpreadsheet(userName, userId);
+    })
+    .catch(error => console.error('Error fetching profile:', error));
 }
 
 
 
-function checkUserInSpreadsheet(userId, userName) {
-    const sheetId = '11X653d3Z4Nepgj63I7CRuRpuXlwqqb3TjmyY1kZZ75M';  // 試算表ID
+
+// 查詢用戶資料是否與試算表中的資料相符
+function checkUserInSpreadsheet(userName, userId) {
+    const sheetId = '11X653d3Z4Nepgj63I7CRuRpuXlwqqb3TjmyY1kZZ75M';
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
     fetch(url)
-        .then(response => response.ok ? response.text() : Promise.reject('Error'))
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
         .then(data => {
-            const rows = data.split('\n').slice(1); // 忽略第一行標題
-
-            let found = false;
-            let points = '';
+            const rows = data.split('\n').slice(1); // 分割行並移除標題行
+            let userRegistered = false;
+            let userPoints = 0;
 
             rows.forEach(row => {
-                const [user, id, point] = row.split(',').map(col => col.replace(/"/g, '').trim());
-                if (id === userId) {
-                    found = true;
-                    points = point;
+                const [name, id, points] = row.split(',').map(col => col.replace(/"/g, '').trim());
+
+                if (name === userName && id === userId) {
+                    userRegistered = true;
+                    userPoints = points;
                 }
             });
 
-            if (found) {
-                // 顯示用戶點數
-                showUserPoints(points);
+            if (userRegistered) {
+                // 顯示該用戶的點數
+                showUserPoints(userPoints);
             } else {
-                // 顯示表單
-                showRegistrationForm(userId, userName);
+                // 顯示註冊表單
+                showRegistrationForm(userName, userId);
             }
         })
-        .catch(error => console.error('Error fetching spreadsheet data:', error));
+        .catch(error => console.error('Error loading data:', error));
 }
 
-function showUserPoints(points) {
-    // 顯示用戶的點數
-    alert(`您的點數：${points}`);
+
+
+
+
+// 顯示用戶點數
+function showUserPoints(userPoints) {
+    alert(`您的點數數量為: ${userPoints}`);
 }
 
-function showRegistrationForm(userId, userName) {
-    // 顯示表單
+// 顯示註冊表單
+function showRegistrationForm(userName, userId) {
     const formHTML = `
-        <form id="registration-form">
-            <label for="line-id">Line用戶：</label>
-            <input type="text" id="line-id" value="${userId}" readonly />
-            <label for="line-name">Line ID：</label>
-            <input type="text" id="line-name" value="${userName}" readonly />
-            <label for="email">電子信箱：</label>
-            <input type="email" id="email" required />
-            <label for="student-id">學號：</label>
-            <input type="text" id="student-id" required />
-            <label for="name">姓名：</label>
-            <input type="text" id="name" required />
+        <form action="https://docs.google.com/forms/d/1FAIpQLSe0LThCK7D9Jcw5LhzDwhq7tyHKLlerQUJ8y74IXr28b0oxWQ/formResponse" method="POST">
+            <input type="hidden" name="entry.1048330234" value="${userName}" />
+            <input type="hidden" name="entry.198592715" value="${userId}" />
+            <label for="lineUser">LINE 用戶：</label><input type="text" name="entry.1195054574" value="${userName}" disabled />
+            <label for="lineId">LINE ID：</label><input type="text" name="entry.965213465" value="${userId}" disabled />
+            <label for="email">電子信箱：</label><input type="email" name="entry.1517666082" required />
+            <label for="studentId">學號：</label><input type="text" name="entry.965213465" required />
+            <label for="fullName">姓名：</label><input type="text" name="entry.1195054574" required />
             <button type="submit">送出</button>
         </form>
     `;
-    document.getElementById('popup').innerHTML = formHTML;
-
-    // 提交表單
-    document.getElementById('registration-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        // 取得表單數據
-        const email = document.getElementById('email').value;
-        const studentId = document.getElementById('student-id').value;
-        const name = document.getElementById('name').value;
-
-        // 提交到Google表單
-        submitToGoogleForm(userId, userName, email, studentId, name);
-    });
-}
-
-function submitToGoogleForm(userId, userName, email, studentId, name) {
-    const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSe0LThCK7D9Jcw5LhzDwhq7tyHKLlerQUJ8y74IXr28b0oxWQ/formResponse';
-
-    const formData = new FormData();
-    formData.append('entry.1048330234', userName);  // 用戶名稱
-    formData.append('entry.198592715', userId);  // 用戶ID
-    formData.append('entry.1195054574', email);  // 電子信箱
-    formData.append('entry.965213465', studentId);  // 學號
-    formData.append('entry.1517666082', name);  // 姓名
-
-    fetch(formURL, {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.ok ? alert('註冊成功！') : alert('註冊失敗！'))
-    .catch(error => console.error('Error submitting form:', error));
+    document.body.innerHTML = formHTML;
 }
 
 
