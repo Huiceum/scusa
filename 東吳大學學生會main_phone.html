@@ -10,6 +10,10 @@
 </head>
 
 <style>
+    body {
+    overflow-x: hidden; /* 禁止水平滾動 */
+}
+
 
     /* 預設連結樣式 */
     a {
@@ -558,7 +562,21 @@ function toggleCalendar() {
             arrow.classList.toggle('open');
         }
 
-    
+        window.addEventListener('scroll', function () {
+    if (window.scrollX !== 0) {
+        window.scrollTo(0, window.scrollY); // 強制保持水平滾動為 0
+    }
+});
+
+document.addEventListener('touchmove', function (event) {
+    if (event.touches.length === 1) {
+        const touch = event.touches[0];
+        if (Math.abs(touch.clientX) > Math.abs(touch.clientY)) {
+            event.preventDefault(); // 阻止觸控滑動
+        }
+    }
+}, { passive: false });
+
     </script>
 </body>
 </html>
