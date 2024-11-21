@@ -10,9 +10,7 @@
 </head>
 
 <style>
-    body {
-    overflow-x: hidden;
-}
+
     /* 預設連結樣式 */
     a {
         color: #6887ae;
@@ -27,13 +25,14 @@
 
     /* 設置文件容器的大小並置中內容 */
     .docs-container {
-        width: 69px; /* 確保容器寬度為全寬 */
-        height: 23px; /* 根據需要調整高度 */
+        width: 100%; /* 確保容器寬度為全寬 */
+        height: 20px; /* 根據需要調整高度 */
         display: flex; /* 使用 flex 排版 */
         justify-content: center; /* 讓內容居中 */
         align-items: center; /* 讓內容垂直置中 */
         margin-top: 150px; /* 與上方的區塊保持間隔 */
         position: relative;
+        left: 0px;
     }
 
     /* 每個文件的樣式，預設隱藏 */
@@ -43,7 +42,7 @@
     left: 100%; /* 起始位置為畫面外 */
     width: 100%;
     height: 100%;
-    transform: scale(0.28); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
+    transform: scale(1.0); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
     opacity: 0;
     text-align: center;  /* 強制文本類型元素（如 img）居中 */ 
     transition: all 0.7s ease-in-out; /* 動畫效果 */
@@ -53,7 +52,7 @@
     .doc.active {
         display: block;
         text-align: center;  /* 強制文本類型元素（如 img）居中 */
-        transform: scale(0.28); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
+        transform: scale(1.0); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
         margin-top: 15px; /* 與上方的區塊保持間隔 */
 
 
@@ -74,22 +73,23 @@
 }
 
     .pagination {
-    margin-left: 50px; /* 自動將元素推到右邊 */
+    margin-left: 0px; /* 自動將元素推到右邊 */
+    width: 50%;
     margin-right: auto;
     display: flex; /* 確保按鈕布局正常 */
     gap: 0; /* 按鈕之間無間距 */
 }
 
 .pagination button {
-    padding: 5px 10px; /* 調整按鈕的內邊距 */
-    font-size: 8px; /* 調整字體大小 */
+    padding: 10px 50%; /* 調整按鈕的內邊距 */
+    font-size: 13px; /* 調整字體大小 */
     background-color: #FFFFFF; /* 按鈕背景色 */
     color: #16151a; /* 按鈕文字顏色 */
     border: none; /* 移除按鈕邊框 */
     cursor: pointer; /* 滑鼠變成手型 */
     transition: background-color 0.3s; /* 背景顏色變化動畫 */
     margin: 0; /* 確保按鈕之間無外邊距 */
-    margin-top: 130px; /* 與上方的區塊保持間隔 */
+    margin-top: 150px; /* 與上方的區塊保持間隔 */
 
 }
 
@@ -104,8 +104,7 @@
 }
 
     img {
-        width: 1300px;  /* 設定一個合理的寬度 */
-        height: 400px;
+        width: 100%;  /* 設定一個合理的寬度 */
         border: 0; /* 移除邊框 */
         align-items: center; /* 讓內容垂直置中 */
         display: inline-block; /* 將圖片設為內聯區塊元素 */
