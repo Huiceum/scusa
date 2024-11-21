@@ -13,7 +13,7 @@
     height: 100vh;
     color: #252525;
     min-height: 100vh; /* 确保页面最小高度为100vh */
-    overflow: hidden; /* 隱藏超出容器範圍的內容 */
+    overflow-x: hidden; /* 隱藏超出容器範圍的內容 */
 
 }
 
