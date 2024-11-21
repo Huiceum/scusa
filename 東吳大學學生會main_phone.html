@@ -10,6 +10,9 @@
 </head>
 
 <style>
+    body {
+    overflow-x: hidden;
+}
     /* 預設連結樣式 */
     a {
         color: #6887ae;
@@ -24,29 +27,81 @@
 
     /* 設置文件容器的大小並置中內容 */
     .docs-container {
-        width: 100%; /* 確保容器寬度為全寬 */
-        height: 100px; /* 根據需要調整高度 */
+        width: 69px; /* 確保容器寬度為全寬 */
+        height: 23px; /* 根據需要調整高度 */
         display: flex; /* 使用 flex 排版 */
         justify-content: center; /* 讓內容居中 */
         align-items: center; /* 讓內容垂直置中 */
         margin-top: 150px; /* 與上方的區塊保持間隔 */
+        position: relative;
     }
 
     /* 每個文件的樣式，預設隱藏 */
     .doc {
-        display: none;
-        text-align: center;  /* 強制文本類型元素（如 img）居中 */
-    }
+    position: absolute;
+    top: 0;
+    left: 100%; /* 起始位置為畫面外 */
+    width: 100%;
+    height: 100%;
+    transform: scale(0.28); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
+    opacity: 0;
+    text-align: center;  /* 強制文本類型元素（如 img）居中 */ 
+    transition: all 0.7s ease-in-out; /* 動畫效果 */
+}
 
     /* 當前顯示的文件 */
     .doc.active {
         display: block;
         text-align: center;  /* 強制文本類型元素（如 img）居中 */
-        transform: scale(0.25); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
+        transform: scale(0.28); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
         margin-top: 15px; /* 與上方的區塊保持間隔 */
 
 
     }
+    .doc.active {
+    left: 0; /* 當前頁面進入視窗 */
+    opacity: 1;
+}
+
+.doc.exit-left {
+    left: -100%; /* 離開到左側 */
+    opacity: 0;
+}
+
+.doc.enter-right {
+    left: 100%; /* 從右側進入 */
+    opacity: 0;
+}
+
+    .pagination {
+    margin-left: 50px; /* 自動將元素推到右邊 */
+    margin-right: auto;
+    display: flex; /* 確保按鈕布局正常 */
+    gap: 0; /* 按鈕之間無間距 */
+}
+
+.pagination button {
+    padding: 5px 10px; /* 調整按鈕的內邊距 */
+    font-size: 8px; /* 調整字體大小 */
+    background-color: #FFFFFF; /* 按鈕背景色 */
+    color: #16151a; /* 按鈕文字顏色 */
+    border: none; /* 移除按鈕邊框 */
+    cursor: pointer; /* 滑鼠變成手型 */
+    transition: background-color 0.3s; /* 背景顏色變化動畫 */
+    margin: 0; /* 確保按鈕之間無外邊距 */
+    margin-top: 130px; /* 與上方的區塊保持間隔 */
+
+}
+
+.pagination button:first-child {
+    margin-left: 0; /* 確保第一個按鈕無間距 */
+}
+
+
+.pagination button:hover {
+    background-color: #6887ae;
+    color: #FFFFFF;
+}
 
     img {
         width: 1300px;  /* 設定一個合理的寬度 */
@@ -124,6 +179,75 @@
     font-size: 24px;
     font-weight: bold;
 }
+.view-more-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #6887ae;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .view-more-btn:hover {
+        background-color: rgb(205, 47, 71);
+    }
+
+    .updateTime {
+        bottom: 10px;
+        font-size: 0.8em;
+        color: #b9b9b9;
+        
+    }
+
+    .calendar-container {
+            width: 100%;
+            margin: 20px auto;
+            border: 1px solid #000000;
+            background-color: #ccccff;
+            position: relative;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #3f51b5;
+            color: white;
+            cursor: pointer;
+        }
+
+        .calendar-header span {
+            font-size: 16px;
+        }
+
+        .calendar-header .arrow {
+            font-size: 20px;
+            transform: rotate(0deg);
+            transition: transform 0.3s;
+        }
+
+        .calendar-header .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .calendar-content {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+
+        .calendar-content iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        .expanded .calendar-content {
+            height: 600px;
+        }
 
 
 </style>
@@ -189,31 +313,39 @@
             </div>
         </div>
         
-        <div class="dots-container slide-up">
-            <span class="dot active" onclick="showDoc(1)"></span>
-            <span class="dot" onclick="showDoc(2)"></span>
-            <span class="dot" onclick="showDoc(3)"></span>
-            <span class="dot" onclick="showDoc(4)"></span>
-            <span class="dot" onclick="showDoc(5)"></span>
+        <div class="pagination">
+            <button id="prev-btn">＜</button>
+            <button id="next-btn">＞</button>
         </div>
         
 
-        <div class="main-content slide-up">
-            <div class="announcements">
-                <div id="announcements-list">
-                    <!-- 公告內容將自動載入 -->
-                </div>
+        <div class="announcements slide-up">
+            <div id="announcements-list">
+                <!-- 公告內容將自動載入 -->
             </div>
-        </div>
+            <button id="view-more" class="view-more-btn">查看更多</button>
+
 
         <div class="icon-section slide-up">
+
+            <div class="calendar-container">
+                <div class="calendar-header" onclick="toggleCalendar()">
+                    <span>顯示 Google 日曆</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="calendar-content">
+                    <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FTaipei&showPrint=0&src=NTM4ZTI3NzIxMGI1NTcyNzYyMTY1MjlhZmI0ZjljMmVhYTc4OGYxZDFhZTYzYWIwY2E5NTRiYjE3Nzc4NWE2NkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=M2swNjRwNmNudHZqMGU5ZDMxdW9iYmRzdGdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%233F51B5&color=%23A79B8E&bgcolor=%23ccccff&"
+                            scrolling="no">
+                    </iframe>
+                </div>
+            </div>
+
+
             <h2 style="text-align: center;">活動專區</h2>
         <div class="icon-container">
             <!-- 這裡將會動態加載圖片、文字和超連結 -->
         </div>
-    <div>
-        <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FTaipei&showPrint=0&src=NTM4ZTI3NzIxMGI1NTcyNzYyMTY1MjlhZmI0ZjljMmVhYTc4OGYxZDFhZTYzYWIwY2E5NTRiYjE3Nzc4NWE2NkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=M2swNjRwNmNudHZqMGU5ZDMxdW9iYmRzdGdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%233F51B5&color=%23A79B8E" style="border:solid 1px #000000" width=100% height=700px frameborder="0" scrolling="no"></iframe>
-    </div>
+
     </div>
 
 
@@ -300,41 +432,54 @@ const mainMenus = document.querySelectorAll('.main-menu');
 
 
 
-        function loadAnnouncements() {
-    const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 只保留試算表 ID
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+function loadAnnouncements() {
+        const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 試算表 ID
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text(); // 解析為文本格式
-    })
-    .then(data => {
-        const rows = data.split('\n').slice(1); // 分割行並移除標題行
-        const announcementList = document.getElementById('announcements-list');
-        announcementList.innerHTML = ''; // 清空公告欄
+        fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // 分割行並移除標題行
+            const announcementList = document.getElementById('announcements-list');
+            const updateTime = document.getElementById('update-time');
+            announcementList.innerHTML = ''; // 清空公告欄
 
-        rows.forEach((row) => {
-            const columns = row.split(',').map(col => col.replace(/"/g, '').trim()); // 移除引號並修剪空格
-            const newAnnouncement = document.createElement('div');
-            newAnnouncement.classList.add('announcement');
+            // 只顯示前三個公告
+            rows.slice(0, 3).forEach((row) => {
+                const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+                const newAnnouncement = document.createElement('div');
+                newAnnouncement.classList.add('announcement');
 
-            // 假設第一列是標題，第二列是訊息，第三列是超連結
-            newAnnouncement.innerHTML = `
-                <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
-                <p class="message">${columns[1]}</p>
-            `;
-
-            announcementList.appendChild(newAnnouncement);
+                // 假設第一列是標題，第二列是訊息，第三列是超連結
+                newAnnouncement.innerHTML = `
+                    <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
+                    <p class="message">${columns[1]}</p>
+                    <p class="updateTime">發文時間：${columns[3]}</p>
+                `;
+                announcementList.appendChild(newAnnouncement);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading announcements:', error);
+            alert('無法載入公告，請查看控制台獲取更多資訊。');
         });
-    })
-    .catch(error => {
-        console.error('Error loading announcements:', error);
-        alert('無法載入公告，請查看控制台獲取更多資訊。');
+    }
+
+    document.getElementById('view-more').addEventListener('click', () => {
+        window.location.href = '東吳大學學生會announcements.html'; // 替換為實際的目標網址
     });
-}
+
+    document.addEventListener('DOMContentLoaded', loadAnnouncements);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
 
         let ball = document.getElementById('ball');
 let isBallOne = true;
@@ -356,28 +501,63 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
 });
 
 
-function showDoc(docNumber) {
-    // 隱藏所有文件
-    const docs = document.querySelectorAll('.doc');
-    docs.forEach(doc => doc.classList.remove('active'));
+let currentIndex = 0; // 當前顯示的頁面索引
+const docs = document.querySelectorAll('.doc');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const autoChangeInterval = 5000; // 自動換頁時間（毫秒）
 
-    // 顯示選擇的文件
-    const selectedDoc = document.getElementById(`doc${docNumber}`);
-    selectedDoc.classList.add('active');
-
-    // 更新點點的樣式
-    const dots = document.querySelectorAll('.dot');
-    dots.forEach(dot => dot.classList.remove('active'));
-    dots[docNumber - 1].classList.add('active');
+// 更新頁面顯示
+function showDoc(index) {
+    docs.forEach((doc, i) => {
+        doc.classList.remove('active', 'exit-left', 'enter-right');
+        if (i === index) {
+            doc.classList.add('active');
+        } else if (i < index) {
+            doc.classList.add('exit-left');
+        } else {
+            doc.classList.add('enter-right');
+        }
+    });
 }
 
+// 下一頁
+function nextDoc() {
+    currentIndex = (currentIndex + 1) % docs.length;
+    showDoc(currentIndex);
+}
 
-    // 預設顯示第一個文件
-    document.addEventListener('DOMContentLoaded', function() {
-    loadAnnouncements();
-    showDoc(1); // 確保初始文件顯示
+// 上一頁
+function prevDoc() {
+    currentIndex = (currentIndex - 1 + docs.length) % docs.length;
+    showDoc(currentIndex);
+}
+
+// 自動換頁
+let autoChange = setInterval(nextDoc, autoChangeInterval);
+
+// 按鈕事件綁定
+nextBtn.addEventListener('click', () => {
+    clearInterval(autoChange); // 停止自動換頁
+    nextDoc();
+    autoChange = setInterval(nextDoc, autoChangeInterval); // 重啟自動換頁
 });
 
+prevBtn.addEventListener('click', () => {
+    clearInterval(autoChange); // 停止自動換頁
+    prevDoc();
+    autoChange = setInterval(nextDoc, autoChangeInterval); // 重啟自動換頁
+});
+
+// 初始化
+showDoc(currentIndex);
+
+function toggleCalendar() {
+            const container = document.querySelector('.calendar-container');
+            const arrow = document.querySelector('.calendar-header .arrow');
+            container.classList.toggle('expanded');
+            arrow.classList.toggle('open');
+        }
 
     
     </script>
