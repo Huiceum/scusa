@@ -175,6 +175,8 @@
     z-index: 1000; /* 確保下拉選單在最上層 */
     display: flex; /* 使用 flex 讓選單橫向排列 */
     flex-direction: row; /* 橫向排列 */
+    display: grid; /* 使用 Grid 佈局 */
+    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
 }
 
 /* 懸停時顯示下拉選單 */
@@ -182,6 +184,8 @@
     display: flex; /* 懸停時顯示下拉選單 */
     opacity: 1; /* 懸停時變為可見 */
     max-height: 250px; /* 最大高度 */
+    display: grid; /* 使用 Grid 佈局 */
+    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
 }
 
 /* 調整下拉內容的樣式 */

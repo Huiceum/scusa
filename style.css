@@ -174,10 +174,11 @@
     max-height: 0; /* 初始最大高度 */
     overflow: hidden; /* 隱藏溢出部分 */
     transition: opacity 0.3s ease, max-height 0.5s ease; /* 緩慢下滑效果 */
-    border-radius: 50px; /* 設定圓角 */
+    border-radius: 10px; /* 設定圓角 */
     z-index: 1000; /* 確保下拉選單在最上層 */
-    display: flex; /* 使用 flex 讓選單橫向排列 */
-    flex-direction: row; /* 橫向排列 */
+    display: grid; /* 使用 Grid 佈局 */
+    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
+    gap: 10px; /* 設定格子間距 */
     border: 1px solid #455b76;
 
 }
@@ -187,6 +188,9 @@
     display: flex; /* 懸停時顯示下拉選單 */
     opacity: 1; /* 懸停時變為可見 */
     max-height: 250px; /* 最大高度 */
+    display: grid; /* 使用 Grid 佈局 */
+    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
+    
 }
 
 /* 調整下拉內容的樣式 */

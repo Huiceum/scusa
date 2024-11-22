@@ -19,6 +19,12 @@
             color: rgb(255, 255, 255);
             text-decoration: underline;
         }
+        .updateTime {
+        bottom: 10px;
+        font-size: 0.8em;
+        color: #434553;
+        
+    }
     </style>
 </head>
 
@@ -124,6 +130,7 @@
             newAnnouncement.innerHTML = `
                 <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
                 <p class="message">${columns[1]}</p>
+                <p class="updateTime">發文時間：${columns[3]}</p>
             `;
 
             announcementList.appendChild(newAnnouncement);

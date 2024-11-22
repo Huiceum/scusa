@@ -10,10 +10,9 @@
 </head>
 
 <style>
-    body {
-    overflow-x: hidden; /* 禁止水平滾動 */
-}
 
+
+    
 
     /* 預設連結樣式 */
     a {
@@ -37,6 +36,7 @@
         margin-top: 150px; /* 與上方的區塊保持間隔 */
         position: relative;
         left: 0px;
+        
     }
 
     /* 每個文件的樣式，預設隱藏 */
@@ -554,28 +554,6 @@ prevBtn.addEventListener('click', () => {
 
 // 初始化
 showDoc(currentIndex);
-
-function toggleCalendar() {
-            const container = document.querySelector('.calendar-container');
-            const arrow = document.querySelector('.calendar-header .arrow');
-            container.classList.toggle('expanded');
-            arrow.classList.toggle('open');
-        }
-
-        window.addEventListener('scroll', function () {
-    if (window.scrollX !== 0) {
-        window.scrollTo(0, window.scrollY); // 強制保持水平滾動為 0
-    }
-});
-
-document.addEventListener('touchmove', function (event) {
-    if (event.touches.length === 1) {
-        const touch = event.touches[0];
-        if (Math.abs(touch.clientX) > Math.abs(touch.clientY)) {
-            event.preventDefault(); // 阻止觸控滑動
-        }
-    }
-}, { passive: false });
 
     </script>
 </body>
