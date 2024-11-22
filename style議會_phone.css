@@ -168,7 +168,7 @@ h2, h3 {
 }
 
 .submenu.show {
-    max-height: 200px; /* 依據副選單內容大小調整 */
+    max-height: 2000px; /* 依據副選單內容大小調整 */
     opacity: 1;
 }
 
