@@ -13,6 +13,8 @@
     height: 100vh;
     color: #f0f0f0;
     min-height: 100vh; /* 确保页面最小高度为100vh */
+    overflow-x: hidden; /* 隱藏超出容器範圍的內容 */
+
 }
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
