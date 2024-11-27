@@ -9,7 +9,7 @@
         .form-container {
             max-width: 90%;
             margin: auto;
-            background: #455b76;
+            background: #f0f0f0;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             padding: 30px;
@@ -23,7 +23,7 @@
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            color: #d1cece;
+            color: #1f1f1f;
         }
 
         label {
@@ -39,16 +39,16 @@
             padding: 10px;
             border-radius: 4px;
             box-sizing: border-box;
-            background-color: #d1cece;
+            background-color: #ffffff;
             color: #282828;
             transition: border-color 0.3s, background-color 0.3s;
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus {
-            border-color: #ff0a58;
-            background-color: #1f1f29;
-            color: #b1b1b1;
+            border-color: #95f34e;
+            background-color: #9ed5ca;
+            color: #2a272b;
             outline: none;
         }
 
@@ -67,12 +67,12 @@
             background: #ffffff;
             padding: 20px;
             border-radius: 8px;
-            color: white;
+            color: rgb(0, 0, 0);
         }
 
         .verification-button {
-            background-color: #10003c;
-            color: white;
+            background-color: #c7c7c7;
+            color: rgb(0, 0, 0);
             font-size: 16px;
             padding: 10px;
             border: none;
@@ -81,41 +81,93 @@
         }
 
         .verification-button:hover {
-            background-color: #230082;
+            background-color: #9d98aa;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<div class="form-container">
-    <h1>帳號密碼提交表單</h1>
-    <form id="accountForm">
-        <label for="account">帳號 (8位數字):</label>
-        <input type="text" id="account" name="entry.201945990" required maxlength="8" pattern="^\d{8}$">
-        
-        <label for="password">密碼 (4位數字):</label>
-        <input type="password" id="password" name="entry.2028682636" required maxlength="4" pattern="^\d{4}$">
-
-        <input type="submit" value="提交">
-    </form>
-
-    <div id="verificationBlock" class="hidden">
-        <div class="verification-container">
-            <p>驗證碼已發送至您的學校信箱 (account@scu.edu.tw)。請輸入驗證碼以完成提交。</p>
-            <label for="verificationCode">驗證碼:</label>
-            <input type="text" id="verificationCode" required>
-            <button id="verifyButton" class="verification-button">提交驗證碼</button>
-            <p id="errorMessage" class="error hidden">驗證碼不正確，請再試一次。</p>
+    <div class="form-container">
+        <h1>學生會帳號註冊</h1>
+        <form id="accountForm">
+            <label for="account">學號 (8位數字):</label>
+            <input type="text" id="account" name="entry.201945990" required maxlength="8" pattern="^\d{8}$">
+            
+            <label for="password">密碼 (4位數字):</label>
+            <input type="password" id="password" name="entry.2028682636" required maxlength="4" pattern="^\d{4}$">
+    
+            <input type="submit" value="提交">
+        </form>
+    
+        <div id="verificationBlock" class="hidden">
+            <div class="verification-container">
+                <p>驗證碼已發送至您的學校信箱 (<span id="accountDisplay"></span>)。請輸入驗證碼以完成提交。</p>
+                <label for="verificationCode">驗證碼:</label>
+                <input type="text" id="verificationCode" required>
+                <button id="verifyButton" class="verification-button">提交驗證碼</button>
+                <p id="errorMessage" class="error hidden">驗證碼不正確，請再試一次。</p>
+            </div>
         </div>
+    
+        <p id="duplicateAccountMessage" class="error hidden">此學號已註冊，請使用登入系統登入。</p> <!-- 新增提示信息 -->
     </div>
-</div>
-
+    
 <script>
-// Generate random 6-digit verification code
+   // Generate random 6-digit verification code
 let generatedVerificationCode = '';
 function generateVerificationCode() {
     generatedVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 }
+
+// Load existing accounts from Google Sheets
+let existingAccounts = []; // Stores existing accounts from the Google Spreadsheet
+
+function loadExistingAccounts() {
+    const sheetId = '1iBsNLpx4-f4WFApmBhVDlA0wZ2v18fQWBpd-RYFe1xI'; // Google Spreadsheet ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // Split rows and remove header row
+            existingAccounts = rows.map(row => row.split(',')[0].replace(/"/g, '').trim()); // Assuming column A contains accounts
+        })
+        .catch(error => {
+            console.error('Error loading existing accounts:', error);
+            alert('無法載入已註冊帳號列表，請查看控制台獲取更多資訊。');
+        });
+}
+
+// Handle account input and form submission
+document.addEventListener('DOMContentLoaded', function() {
+    loadExistingAccounts();
+    const accountInput = document.getElementById('account');
+    const submitButton = document.querySelector('input[type="submit"]');
+    const duplicateAccountMessage = document.getElementById('duplicateAccountMessage'); // 提示信息元素
+
+    // Account input validation
+    accountInput.addEventListener('input', function() {
+        const account = accountInput.value;
+
+        if (existingAccounts.includes(account)) {
+            submitButton.disabled = true;
+            accountInput.setCustomValidity('此學號已註冊，請使用登入系統登入。');
+            duplicateAccountMessage.classList.remove('hidden'); // 显示提示信息
+        } else {
+            submitButton.disabled = false;
+            accountInput.setCustomValidity('');
+            duplicateAccountMessage.classList.add('hidden'); // 隐藏提示信息
+        }
+    });
+});
 
 // Form submission
 document.getElementById('accountForm').addEventListener('submit', function(event) {
@@ -124,21 +176,32 @@ document.getElementById('accountForm').addEventListener('submit', function(event
     const account = document.getElementById('account').value;
     const password = document.getElementById('password').value;
 
-    // Check if the account and password are valid
+    // Validate account format
     if (!account.match(/^\d{8}$/)) {
         alert('帳號必須是8位數字！');
         return;
     }
 
+    // Validate password format
     if (!password.match(/^\d{4}$/)) {
         alert('密碼必須是4位數字！');
         return;
     }
 
-    // Generate verification code
+    // If account exists, alert and return
+    if (existingAccounts.includes(account)) {
+        alert('此學號已註冊，請使用登入系統登入。');
+        return;
+    }
+
+    // Proceed with form submission (in your case, submitting to Google Form)
+    alert('請至東吳大學信箱系統查看驗證碼');
     generateVerificationCode();
 
-    // First submission to the form
+      // Update verification message
+      const verificationMessage = document.querySelector('.verification-container p');
+    verificationMessage.innerHTML = `驗證碼已發送至您的學校信箱 (<b>${account}@scu.edu.tw</b>)。請輸入驗證碼以完成提交。`;
+
     const formData = new FormData();
     formData.append('entry.201945990', account);
     formData.append('entry.2028682636', password);
@@ -149,7 +212,6 @@ document.getElementById('accountForm').addEventListener('submit', function(event
         body: formData,
         mode: 'no-cors'
     }).then(() => {
-        // Hide the original form and show verification block
         document.getElementById('accountForm').classList.add('hidden');
         document.getElementById('verificationBlock').classList.remove('hidden');
     }).catch(error => {
@@ -161,9 +223,7 @@ document.getElementById('accountForm').addEventListener('submit', function(event
 document.getElementById('verifyButton').addEventListener('click', function() {
     const enteredCode = document.getElementById('verificationCode').value;
 
-    // Check if the entered verification code matches the generated one
     if (enteredCode === generatedVerificationCode) {
-        // Second form submission with verification code
         const account = document.getElementById('account').value;
         const password = document.getElementById('password').value;
 
@@ -183,11 +243,11 @@ document.getElementById('verifyButton').addEventListener('click', function() {
             alert('提交失敗，請再試一次！');
         });
     } else {
-        // Display error if verification code is wrong
         document.getElementById('errorMessage').classList.remove('hidden');
     }
 });
-</script>
+    </script>
+    
 
 </body>
 </html>

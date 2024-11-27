@@ -113,7 +113,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0px;
+    padding: 20px;
     margin-left: 0; /* 預設為 0，讓主要欄靠左 */
     transition: margin-left 0.5s ease; /* 平滑過渡 */
 }
@@ -153,7 +153,7 @@
     padding: 10px 15px;
     transition: transform 0.3s ease; /* 動畫效果 */
     white-space: nowrap; /* 防止自動換行 */
-    border-radius: 5px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
     font-weight: bold;
 }
 
@@ -176,7 +176,7 @@
     max-height: 0; /* 初始最大高度 */
     overflow: hidden; /* 隱藏溢出部分 */
     transition: opacity 0.3s ease, max-height 0.5s ease; /* 緩慢下滑效果 */
-    border-radius: 10px; /* 設定圓角 */
+    border-radius: 50px; /* 設定圓角 */
     z-index: 1000; /* 確保下拉選單在最上層 */
     display: grid; /* 使用 Grid 佈局 */
     grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
