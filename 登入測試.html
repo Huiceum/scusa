@@ -93,7 +93,7 @@
         </form>
         <div id="loading">
             <p>正在處理，請稍候...</p>
-            <img src="tofu.gif" alt="Loading">
+            <img src="loading.gif" alt="Loading">
         </div>
         <p class="info-message">請填寫您的學號及密碼以進行登入。</p>
     </div>
@@ -101,9 +101,9 @@
     <script>
         // Function to generate a random 8-character alphanumeric string
         function generateAuthCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const characters = '!@#$%^&*?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let code = '';
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 29; i++) {
                 code += characters.charAt(Math.floor(Math.random() * characters.length));
             }
             return code;
@@ -143,47 +143,51 @@
                 formData.append('entry.784146641', authCode);
 
                 try {
-                    await fetch('https://docs.google.com/forms/d/e/1FAIpQLSf4-STAj0EjDmpqFrVdSCEhViIwXWh-Q948bpnmZ20KUcAwYg/formResponse', {
-                        method: 'POST',
-                        body: formData,
-                        mode: 'no-cors'
-                    });
+    await fetch('https://docs.google.com/forms/d/e/1FAIpQLSf4-STAj0EjDmpqFrVdSCEhViIwXWh-Q948bpnmZ20KUcAwYg/formResponse', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+    });
 
-                    // Wait for 5 seconds
-                    await new Promise(resolve => setTimeout(resolve, 5000));
 
-                    // Fetch Google Sheets data
-                    const sheetUrl = `https://docs.google.com/spreadsheets/d/1GkrRJ7h8BaYZ7cvDFabR2fKz34HRCBx-mc5lEQbOrPk/gviz/tq?tqx=out:csv`;
-                    const response = await fetch(sheetUrl);
-                    const data = await response.text();
+    // Fetch Google Sheets data with cache busting
+    const sheetUrl = `https://docs.google.com/spreadsheets/d/1GkrRJ7h8BaYZ7cvDFabR2fKz34HRCBx-mc5lEQbOrPk/gviz/tq?tqx=out:csv&cacheBust=${Date.now()}`;
+    const maxAttempts = 40;
+    const attemptDelay = 100;
+    let attempts = 0;
+    let match = null;
 
-                    const rows = data.split('\n').slice(1); // Split rows and remove the header
-                    const match = rows.find(row => row.split(',')[1].replace(/"/g, '').trim() === authCode);
+    while (attempts < maxAttempts) {
+        const response = await fetch(sheetUrl);
+        const data = await response.text();
+        const rows = data.split('\n').slice(1);
 
-                    if (match) {
-                    const user = match.split(',')[0].replace(/"/g, '').trim(); // Get the user ID from column A
-                    alert(`歡迎 學號:${user}的學生`);
-                    
-                    // 儲存 user 變數到 localStorage
-                    localStorage.setItem('user', user);
+        match = rows.find(row => row.split(',')[1].replace(/"/g, '').trim() === authCode);
 
-                    // 跳轉到其他頁面
-                    window.location.href = '/another-page.html'; // 替換為您的目標頁面
-                } else {
-                // 登入失敗時清空 localStorage 和 sessionStorage 中的 user 變數
-                localStorage.removeItem('user'); // 清除 localStorage 中的 user
-                sessionStorage.removeItem('user'); // 清除 sessionStorage 中的 user (如果有)
+        if (match) break;
+        attempts++;
+        await new Promise(resolve => setTimeout(resolve, attemptDelay));
+    }
 
-                alert('帳號或密碼錯誤，請重新整理後嘗試。');
-                        location.reload(); // 重新整理頁面
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('未知的錯誤，請檢查網路環境');
-                } finally {
-                    loadingDiv.style.display = 'none'; // Hide loading message
-                    loginForm.reset(); // Reset the form fields
-                }
+    if (match) {
+        const user = match.split(',')[0].replace(/"/g, '').trim();
+        alert(`歡迎 學號:${user}的學生`);
+        localStorage.setItem('user', user);
+        window.location.href = '/another-page.html';
+    } else {
+        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
+        alert('帳號或密碼錯誤，請重新整理後嘗試。');
+        location.reload();
+    }
+} catch (error) {
+    console.error('Error:', error);
+    alert('未知的錯誤，請檢查網路環境');
+} finally {
+    loadingDiv.style.display = 'none';
+    loginForm.reset();
+}
+
             });
         });
     </script>

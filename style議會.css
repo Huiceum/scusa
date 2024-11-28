@@ -158,6 +158,7 @@
 
 .nav-item a:hover {
     transform: translateY(-5px); /* 文件抽離效果 */
+    color: #756a64;
 }
 
 /* 下拉內容樣式 */
