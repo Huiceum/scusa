@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首頁 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style_phone.css">
+    <link rel="stylesheet" href="menu.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+</head>
+
+<style>
+
+.data-container {
+            width: 100%;
+            margin: auto;
+            margin-top: 100px;
+            background: #010010;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #ffffff;
+
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+        }
+
+        
+        /* 自定義 QR Code 容器 */
+        #qrcode {
+            margin: 25px;
+            text-align: center;  /* 文字靠左對齊 */
+
+            
+        }
+
+        #points {
+            background-color: #211a35;
+            color: #c4397c;
+            font-weight: bold;
+            line-height: 2.2;  /* 行距為 1.5 倍的字體大小 */
+            text-align: center;  /* 文字靠左對齊 */
+
+        }
+
+        .timer {
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .reset-button {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .reset-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #555;
+            transition: transform 0.2s ease;
+        }
+        .reset-button:hover svg {
+            transform: rotate(90deg);
+        }
+</style>
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+
+            <ul class="nav-links">
+                <li>
+                    <div class="main-menu" data-target="#submenu-1">東吳大學學生選舉委員會</div>
+                    <ul class="submenu" id="submenu-1">
+                        <li><a href="東吳大學學生選舉委員會_phone.html">東吳大學學生選舉委員會</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-2">東吳大學學生會</div>
+                    <ul class="submenu" id="submenu-2">
+                        <li><a href="東吳大學學生會main_phone.html">首頁</a></li>
+                        <li><a href="東吳大學學生會introduction_phone.html">本會簡介</a></li>
+                        <li><a href="東吳大學學生會financial-report_phone.html">財務報告</a></li>
+                        <li><a href="東吳大學學生會about_phone.html">組織架構</a></li>
+                        <li><a href="東吳大學學生會regulations_phone.html">法規彙編</a></li>
+                        <li><a href="東吳大學學生會反映表單－公開phone.html">我要反映</a></li> 
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-3">活動專區</div>
+                    <ul class="submenu" id="submenu-3">
+                        <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-4">學生議會</div>
+                    <ul class="submenu" id="submenu-4">
+                        <li><a href="東吳大學學生議會_phone.html">東吳大學學生議會</a></li>
+                        <li><a href="東吳大學學生議會－會議資料_phone.html">東吳大學學生議會－會議資料</a></li>
+                        <li><a href="東吳大學學生議會－議員對照表_phone.html">東吳大學學生議會－議員對照表</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-5">東吳大學學生仲裁法庭</div>
+                    <ul class="submenu" id="submenu-5">
+                        <li><a href="東東吳大學學生仲裁法庭_phone.html">東吳大學學生仲裁法庭</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+
+        <div class="data-container">
+                <h1>學生資料</h1>
+                <p id="message"></p>
+                <canvas id="qrcode"></canvas>
+                <div class="timer" id="timer">
+                    <span>03:00</span>
+                    <button class="reset-button" id="reset-button" title="重置">
+                        <!-- 圈的箭頭圖標 -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2a10 10 0 0 1 10 10h-2a8 8 0 1 0-8 8 8.04 8.04 0 0 0 6.26-3H13v-2h9v9h-2v-4.93A9.94 9.94 0 0 1 12 22a10 10 0 1 1 0-20z"/>
+                        </svg>
+                    </button>
+                </div>
+                <p id="points"></p>
+
+        </div>
+
+
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>      
+       // 設定倒數時間（3 分鐘）
+       let timeLeft = 180; // 180 秒
+        const timerElement = document.getElementById('timer').querySelector('span');
+        const resetButton = document.getElementById('reset-button');
+
+        // 更新顯示的倒數時間
+        function updateTimer() {
+            let minutes = Math.floor(timeLeft / 60); // 計算分鐘
+            let seconds = timeLeft % 60; // 計算剩餘秒數
+
+            // 格式化為 MM:SS 形式
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            // 顯示更新後的時間
+            timerElement.textContent = `${minutes}:${seconds}`;
+
+            // 倒數結束時跳轉
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval); // 停止倒數
+                window.location.href = "東吳大學學生會學生資料轉銜.html"; // 跳轉到指定頁面
+            } else {
+                timeLeft--; // 減少時間
+            }
+        }
+
+        // 每秒更新倒數計時
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        // 初始化顯示的時間
+        updateTimer();
+
+        // 點擊重置按鈕立即跳轉
+        resetButton.addEventListener('click', function() {
+            clearInterval(timerInterval); // 停止倒數計時
+            window.location.href = "東吳大學學生會學生資料轉銜.html"; // 跳轉到指定頁面
+        });
+
+        
+// 餐包菜單和側邊欄的設定（未變更）
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+const mainMenus = document.querySelectorAll('.main-menu');
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
+            });
+        });
+    
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // 從 sessionStorage 獲取 user 和 randomCode
+            const user = sessionStorage.getItem('user');
+            const randomCode = sessionStorage.getItem('randomCode');
+
+            if (!user || !randomCode) {
+                document.getElementById('message').textContent = "無法獲取資料，請確保您已登入。";
+                return;
+                
+            }
+
+            document.getElementById('points').innerHTML = "載入點數中...";
+
+
+            // 生成 QR code
+            generateQRCode(randomCode);
+
+            // 不斷輪詢試算表，直到找到匹配的資料
+            pollSpreadsheet(user, randomCode);
+        });
+
+// 生成 QR code 的函式
+function generateQRCode(code) {
+    const qrContainer = document.getElementById('qrcode');
+
+    // 設置 QR code 的配置選項
+    const options = {
+        width: 200,  // 設定 QR code 的寬度
+        height: 200, // 設定 QR code 的高度
+        color: {
+            dark: '#f0f0f0',  // 設定模塊顏色（這裡設為橙色）
+            light: '#010010'  // 設定背景顏色（這裡設為淡黃色）
+        },
+        margin: 5,  // 設定邊框大小
+        errorCorrectionLevel: 'H',  // 設定錯誤修正級別（H為最高級別）
+        scale: 6,  // 設定每個模塊的大小
+        logo: 'logo2.PNG',  // 可選：設置 logo 圖片的路徑（需要替換為實際路徑）
+        logoSize: 0.2  // 設置 logo 的大小比例（0.2 是占 QR code 寬度的 20%）
+    };
+
+    // 生成 QR code
+    QRCode.toCanvas(qrContainer, code, options, function (error) {
+        if (error) {
+            console.error('QR code 生成失敗:', error);
+        }
+    });
+}
+
+
+        // 試算表輪詢函式
+        function pollSpreadsheet(user, randomCode) {
+            const sheetId = '1ADpHD124E0PVZSCJlxMDasUsM7Wmc_7hc-_SUiYR1dg';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            function checkSpreadsheet() {
+                fetch(url)
+                    .then(response => response.ok ? response.text() : Promise.reject('無法連接試算表'))
+                    .then(data => {
+                        const rows = data.split('\n').map(row => row.split(',').map(col => col.replace(/"/g, '').trim()));
+                        const headers = rows[0]; // 第一排是標題行
+                        const userIndex = rows.findIndex(row => row[0] === user && row[1] === randomCode);
+
+                        if (userIndex > 0) { // 找到匹配的資料行
+                            const userRow = rows[userIndex];
+                            let pointsText = '';
+                            for (let i = 2; i < headers.length; i++) {
+                                if (userRow[i]) {
+                                    pointsText += `${headers[i]}: ${userRow[i]}<br>`;
+                                }
+                            }
+
+                            if (pointsText) {
+                                document.getElementById('points').innerHTML = `您目前的點數：<br>${pointsText}`;
+                            } else {
+                                document.getElementById('points').textContent = `找到匹配的用戶，但沒有點數資料。`;
+                            }
+                            clearInterval(pollingInterval); // 停止輪詢
+                        } else {
+                            console.log('尚未找到匹配資料，將繼續查詢...');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('無法檢索試算表資料:', error);
+                    });
+            }
+
+            const pollingInterval = setInterval(checkSpreadsheet, 3000); // 每 3 秒查詢一次試算表
+        }
+
+    </script>
+</body>
+</html>
