@@ -176,6 +176,7 @@
     display: flex; /* 使用 flex 讓選單橫向排列 */
     flex-direction: row; /* 橫向排列 */
     display: grid; /* 使用 Grid 佈局 */
+    gap: 10px; /* 設定格子間距 */
     grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
 }
 
