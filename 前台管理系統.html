@@ -3,37 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>表單提交</title>
+    <title>前台管理系統</title>
     <style>
-        #loading {
-            display: none;
+ /* 通用設置 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #202020; /* 黑色背景 */
+    color: #f0f0f0; /* 白色文字 */
+    margin: 0;
+    padding: 20px;
+    line-height: 1.5;
+    text-align: center;
+
+}
+
+/* 頁面標題 */
+h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #5e79d1; /* 紅色標題 */
+    border-bottom: 2px solid #ffffff;
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+/* 表單容器 */
+form {
+    background-color: #303030; /* 深灰色表單背景 */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* 表單標籤與輸入 */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #5e79d1; /* 紅色標籤 */
+    font-weight: bold;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 0px solid #404040; /* 邊框 */
+    border-radius: 44px;
+    background-color: #202020; /* 黑色背景 */
+    color: #f0f0f0; /* 白色文字 */
+    box-sizing: border-box;
+}
+
+/* 提交按鈕 */
+button {
+    background-color: #5e79d1; /* 紅色按鈕 */
+    color: #fff; /* 白色文字 */
+    border: none;
+    border-radius: 44px;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:disabled {
+    background-color: #404040; /* 禁用按鈕灰色 */
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+    background-color: #6aade4; /* 按鈕 hover 效果 */
+}
+
+/* 加載狀態 */
+#loading {
+    text-align: center;
+    color: #d1d1d1; /* 紅色文字 */
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* 狀態消息 */
+#statusMessage {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.success {
+    color: #00c851; /* 綠色成功消息 */
+}
+
+.error {
+    color: #ff4c4c; /* 紅色錯誤消息 */
+}
+
+/* 用戶信息 */
+#userInfo {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #f0f0f0; /* 白色文字 */
+}
+
+/* 調整視窗高度的小螢幕兼容性 */
+@media (max-width: 500px) {
+    form {
+        padding: 15px;
+        font-size: 14px;
+    }
+}
+
+.refresh-button {
+            color: #fff; /* 白色圖示 */
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-        #statusMessage {
-            margin-top: 10px;
-            font-size: 16px;
+
+        .refresh-button:hover {
+            background-color: #404040; /* 深灰色 hover 效果 */
         }
-        .error {
-            color: red;
-        }
-        .success {
-            color: green;
-        }
+
+
+
     </style>
+    
 </head>
 <body>
-    <h2>表單提交</h2>
+    <h2>學生點數核銷管理</h2>
     <form id="myForm">
-        <label for="idInput">學號:</label>
+        <label for="idInput">學生代碼:</label>
         <input type="text" id="idInput" required><br><br>
+
+    
+
 
         <label for="dropdown">選擇項目:</label>
         <select id="dropdown"></select><br><br>
 
         <button type="button" id="submitButton" disabled>提交</button>
+
+        <div id="loading">檢查中...</div>
+        <div id="userInfo"></div>
+        <div id="statusMessage"></div>
+
+        <button class="refresh-button" onclick="location.reload();">
+            &#x21bb; <!-- Unicode 旋轉圖示 -->
+        </button>
     </form>
 
-    <div id="loading">檢查中...</div>
-    <div id="statusMessage"></div>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -43,6 +176,7 @@
         const dropdown = document.getElementById('dropdown');
         const submitButton = document.getElementById('submitButton');
         const loadingDiv = document.getElementById('loading');
+        const userInfoDiv = document.getElementById('userInfo');
         const statusMessage = document.getElementById('statusMessage');
         let match = null;
         let rows = [];
@@ -86,10 +220,13 @@
             const authCode = idInput.value.trim();
             if (!isValidId(authCode)) {
                 statusMessage.innerHTML = '<span class="error">學號必須是八碼英數字</span>';
+                userInfoDiv.textContent = ''; // 清空用戶信息
                 return;
             }
 
             statusMessage.innerHTML = '檢查中...';
+            idInput.readOnly = true; // 禁止再次編輯
+            submitButton.disabled = true; // 禁用提交按鈕
             loadingDiv.style.display = 'block';
             let attempts = 0;
             const maxAttempts = 40;
@@ -110,10 +247,12 @@
 
             if (match) {
                 const user = match.split(',')[0].replace(/"/g, '').trim();
-                statusMessage.innerHTML = '<span class="success">學號存在，請選擇下拉選單檢查項目</span>';
-                submitButton.disabled = false; // 啟用提交按鈕
+                userInfoDiv.textContent = `用戶信息: ${user}`;
+                statusMessage.innerHTML = '<span class="success">會員存在，請選擇下拉選單檢查項目</span>';
+                submitButton.disabled = true; // 禁用提交按鈕
             } else {
-                statusMessage.innerHTML = '<span class="error">學號不存在，請重新檢查</span>';
+                userInfoDiv.textContent = ''; // 清空用戶信息
+                statusMessage.innerHTML = '<span class="error">會員不存在，請重新檢查</span>';
             }
         }
 
@@ -129,7 +268,7 @@
 
             if (cellContent && cellContent !== '') {
                 statusMessage.innerHTML = '<span class="error">此帳號已使用過</span>';
-                submitButton.disabled = ture; // 啟用提交按鈕
+                submitButton.disabled = true; // 禁用提交按鈕
 
             } else {
                 statusMessage.innerHTML = '<span class="success">資格符合</span>';
@@ -146,12 +285,14 @@
             formData.append('entry.1807602489', selectedOption);
 
             const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfSLP_PQe-3ja04ypuJL3vaOtYDmEWOooAgDvtUFDZVkRES7Q/formResponse';
+            statusMessage.innerHTML = '<span class="success">已完成</span>';
+            location.reload();
             await fetch(googleFormUrl, {
                 method: 'POST',
                 body: formData
             });
 
-            statusMessage.innerHTML = '<span class="success">表單已提交</span>';
+
         }
 
         // 監聽學號輸入
@@ -165,6 +306,12 @@
 
         // 頁面加載時讀取下拉選單選項
         loadDropdownOptions();
+
+        document.getElementById('myForm').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();  // 禁止表單提交
+    }
+});
     </script>
 </body>
 </html>

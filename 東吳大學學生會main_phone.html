@@ -271,9 +271,9 @@
 
             <ul class="nav-links">
                 <li>
-                    <div class="main-menu" data-target="#submenu-1">東吳大學學生選舉委員會</div>
+                    <div class="main-menu" data-target="#submenu-1">東吳大學選舉事務委員會</div>
                     <ul class="submenu" id="submenu-1">
-                        <li><a href="東吳大學學生選舉委員會_phone.html">東吳大學學生選舉委員會</a></li>
+                        <li><a href="東吳大學選舉事務委員會_phone.html">東吳大學選舉事務委員會</a></li>
                     </ul>
                 </li>
                 <li>
@@ -570,7 +570,12 @@ prevBtn.addEventListener('click', () => {
 
 // 初始化
 showDoc(currentIndex);
-
+function toggleCalendar() {
+            const container = document.querySelector('.calendar-container');
+            const arrow = document.querySelector('.calendar-header .arrow');
+            container.classList.toggle('expanded');
+            arrow.classList.toggle('open');
+        }
     </script>
 </body>
 </html>
