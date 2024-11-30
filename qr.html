@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR碼掃描器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 300px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="inputField" placeholder="掃描結果會顯示在這裡" readonly>
+        <br><br>
+        <button id="scanButton">掃描 QR Code</button>
+        <div id="result"></div>
+    </div>
+
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <script>
+        const scanButton = document.getElementById('scanButton');
+        const resultDiv = document.getElementById('result');
+        const inputField = document.getElementById('inputField');
+
+        scanButton.addEventListener('click', () => {
+            // 初始化掃描器
+            const html5QrCode = new Html5Qrcode("result");
+
+            html5QrCode.start(
+                { facingMode: "environment" }, 
+                {
+                    fps: 10,    // 設定每秒掃描次數
+                    qrbox: 250  // QR碼掃描區域的大小
+                },
+                (decodedText, decodedResult) => {
+                    // 當掃描到QR碼後，顯示結果
+                    inputField.value = decodedText;
+                    resultDiv.innerHTML = `<p>掃描成功: ${decodedText}</p>`;
+                    html5QrCode.stop(); // 停止掃描
+                },
+                (errorMessage) => {
+                    // 錯誤處理（可選）
+                    resultDiv.innerHTML = `<p>錯誤: ${errorMessage}</p>`;
+                }
+            ).catch(err => {
+                console.error('QR Code scanning failed:', err);
+            });
+        });
+    </script>
+</body>
+</html>

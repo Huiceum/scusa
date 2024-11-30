@@ -19,27 +19,18 @@
             color: green;
         }
     </style>
-        <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
-
 </head>
 <body>
     <h2>表單提交</h2>
     <form id="myForm">
         <label for="idInput">學號:</label>
         <input type="text" id="idInput" required><br><br>
-        <button type="button" id="scanQRCodeButton">掃描 QR Code</button><br><br>
-
 
         <label for="dropdown">選擇項目:</label>
         <select id="dropdown"></select><br><br>
 
         <button type="button" id="submitButton" disabled>提交</button>
     </form>
-
-    <div id="qrScanner" style="display: none;">
-        <h3>掃描 QR Code</h3>
-        <div id="qrReader"></div>
-    </div>
 
     <div id="loading">檢查中...</div>
     <div id="statusMessage"></div>
@@ -162,28 +153,6 @@
 
             statusMessage.innerHTML = '<span class="success">表單已提交</span>';
         }
-     // 啟動 QR code 掃描
-     function startQRCodeScanner() {
-            qrScanner.style.display = 'block';
-            const html5QrCode = new Html5Qrcode("qrReader");
-
-            html5QrCode.start(
-                { facingMode: "environment" },
-                {
-                    fps: 10,
-                    qrbox: 250
-                },
-                (decodedText, decodedResult) => {
-                    idInput.value = decodedText; // 填寫學號
-                    html5QrCode.stop().then(() => {
-                        qrScanner.style.display = 'none'; // 停止掃描並隱藏掃描區域
-                    });
-                },
-                (errorMessage) => {
-                    console.log(errorMessage);
-                }
-            );
-        }
 
         // 監聽學號輸入
         idInput.addEventListener('input', checkId);
@@ -193,9 +162,6 @@
 
         // 監聽表單提交
         submitButton.addEventListener('click', submitForm);
-
-        // 監聽掃描按鈕
-        scanQRCodeButton.addEventListener('click', startQRCodeScanner);
 
         // 頁面加載時讀取下拉選單選項
         loadDropdownOptions();
