@@ -229,7 +229,7 @@ button:hover:not(:disabled) {
             submitButton.disabled = true; // 禁用提交按鈕
             loadingDiv.style.display = 'block';
             let attempts = 0;
-            const maxAttempts = 40;
+            const maxAttempts = 20;
 
             while (attempts < maxAttempts) {
                 const response = await fetch(sheetUrl);
@@ -240,7 +240,7 @@ button:hover:not(:disabled) {
                 if (match) break;
 
                 attempts++;
-                await new Promise(resolve => setTimeout(resolve, 1000)); // 每秒檢查一次
+                await new Promise(resolve => setTimeout(resolve, 450)); // 每秒檢查一次
             }
 
             loadingDiv.style.display = 'none';
@@ -253,6 +253,9 @@ button:hover:not(:disabled) {
             } else {
                 userInfoDiv.textContent = ''; // 清空用戶信息
                 statusMessage.innerHTML = '<span class="error">會員不存在，請重新檢查</span>';
+                const audio = new Audio('wrong.wav'); // 將 'xxx.mp3' 替換為你的音檔名稱
+                audio.play();
+
             }
         }
 
@@ -283,10 +286,19 @@ button:hover:not(:disabled) {
             const formData = new FormData();
             formData.append('entry.404456196', authCode);
             formData.append('entry.1807602489', selectedOption);
+            submitButton.disabled = true; // 禁用提交按鈕
+
+            const audio = new Audio('success.wav'); // 將 'xxx.mp3' 替換為你的音檔名稱
+            audio.play();
 
             const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfSLP_PQe-3ja04ypuJL3vaOtYDmEWOooAgDvtUFDZVkRES7Q/formResponse';
             statusMessage.innerHTML = '<span class="success">已完成</span>';
-            location.reload();
+
+
+                        setTimeout(() => {
+                location.reload(); // 重新加载当前页面
+            }, 2000);
+
             await fetch(googleFormUrl, {
                 method: 'POST',
                 body: formData
