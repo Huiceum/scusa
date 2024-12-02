@@ -79,7 +79,7 @@
             border-radius: 40px;
             box-sizing: border-box;
             background-color: #4884bd;
-            color: #0e001f;
+            color: #d9d9d9;
             transition: border-color 0.3s, background-color 0.3s, transform 0.3s;
             margin: 15px 0 5px;
             
@@ -103,6 +103,60 @@
         #loading {
             display: none;
             margin-top: 20px;
+        }
+
+        
+        .button-container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .login-register-btn {
+            display: inline-flex;
+            width: 300px;
+            height: 50px;
+            border: 2px solid #4884bd;
+            border-radius: 20px;
+            position: relative;
+            text-decoration: none;
+            overflow: hidden;
+            font-weight: bold;
+            font-size: 14px;
+            background-color: #010010;
+            cursor: pointer;
+        }
+
+        .login-register-btn .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background-color: #4884bd;
+            border: 2px solid #4884bd;
+            z-index: 1;
+            transition: left 0.55s ease-in-out;
+        }
+
+        .login-register-btn:hover .bg-slide {
+            left: 50%;
+        }
+
+        .login-register-btn span {
+            flex: 1;
+            z-index: 2;
+            text-align: center;
+            line-height: 50px;
+            color: #d9d9d9;
+            position: relative;
+        }
+
+        .login-register-btn .login {
+            z-index: 2;
+        }
+
+        .login-register-btn .register {
+            z-index: 2;
         }
 </style>
 <body>
@@ -184,6 +238,14 @@
                 <p>正在處理，請稍候...</p>
             </div>
             <p class="info-message">請填寫您的學號及密碼以進行登入。</p>
+
+            <div class="button-container">
+                <a href="註冊.html" class="login-register-btn">
+                    <span class="bg-slide"></span>
+                    <span class="login">登入</span>
+                    <span class="register">註冊</span>
+                </a>
+            </div>
         </div>
     
 

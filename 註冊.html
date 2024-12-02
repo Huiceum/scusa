@@ -115,6 +115,60 @@
         .hidden {
             display: none;
         }
+
+                
+        .button-container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .login-register-btn {
+            display: inline-flex;
+            width: 300px;
+            height: 50px;
+            border: 2px solid #4884bd;
+            border-radius: 20px;
+            position: relative;
+            text-decoration: none;
+            overflow: hidden;
+            font-weight: bold;
+            font-size: 14px;
+            background-color: #010010;
+            cursor: pointer;
+        }
+
+        .login-register-btn .bg-slide {
+            position: absolute;
+            top: 0;
+            right: 0; /* 改成從右側開始 */
+            width: 50%;
+            height: 100%;
+            background-color: #4884bd;
+            border: 2px solid #4884bd;
+            z-index: 1;
+            transition: right 0.55s ease-in-out; /* 過渡動畫從 right 改為 left */
+        }
+
+        .login-register-btn:hover .bg-slide {
+            right: 50%; /* 藍色背景向左移動 */
+        }
+
+        .login-register-btn span {
+            flex: 1;
+            z-index: 2;
+            text-align: center;
+            line-height: 50px;
+            color: #d9d9d9;
+            position: relative;
+        }
+
+        .login-register-btn .login {
+            z-index: 2;
+        }
+
+        .login-register-btn .register {
+            z-index: 2;
+        }
 </style>
 <body>
     <div class="container">
@@ -201,6 +255,14 @@
             </div>
         
             <p id="duplicateAccountMessage" class="error hidden">此學號已註冊，請使用登入系統登入。</p> <!-- 新增提示信息 -->
+
+            <div class="button-container">
+                <a href="登入.html" class="login-register-btn">
+                    <span class="bg-slide"></span>
+                    <span class="login">登入</span>
+                    <span class="register">註冊</span>
+                </a>
+            </div>
         </div>
 
 
