@@ -13,19 +13,18 @@
     height: 100vh;
     color: #f0f0f0;
     min-height: 100vh; /* 确保页面最小高度为100vh */
-    overflow-x: hidden; /* 隱藏超出容器範圍的內容 */
 }
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
-    width: 300px;
-    background-color: #181818; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    width: 100%;
+    background-color: #010010; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     position: fixed;
     top: 0;
-    left: -300px; /* 初始位置在視窗外 */
+    left: -100%; /* 初始位置在視窗外 */
     height: 100%;
     z-index: 1000;
     transition: left 0.5s ease; /* 緩慢移動效果 */
@@ -47,24 +46,23 @@
             padding: 20px;
         }
 
-
 /* Logo 樣式 */
 .logo {
     display: flex;
     align-items: center;
     position: fixed; /* 固定位置以保持在左上角 */
-    top: 20px; /* 與漢堡選單對齊 */
-    left: 110px; /* 調整到漢堡選單右側 */
+    top: 15px; /* 與漢堡選單對齊 */
+    left: 70px; /* 調整到漢堡選單右側 */
 }
 
 .logo img {
-    width: 150px!important;
-    height: 50px!important;
+    width: 300px!important;
+    height: 60px!important;
     margin-right: 10px;
 }
 
 .site-name {
-    font-size: 16px;
+    font-size: 18px;
     color: #ffffff;
     font-weight: bold;
     flex-grow: 1;
@@ -74,6 +72,12 @@
 }
 
 /* 超連結列表設置 */
+
+.nav-links img {
+    width: 50px!important; /* 設定圖示寬度 */
+    height: 50px!important; /* 設定圖示高度 */
+    margin-right: 15px; /* 圖示和文字間的距離 */
+}
 .nav-links {
     list-style: none;
     display: flex;
@@ -82,7 +86,7 @@
 }
 
 .nav-links li {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .nav-links a img {
@@ -96,14 +100,14 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #ffffff;
+    color: #e28a1e !;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
 }
 
 .nav-links a:hover {
-    color: rgb(205, 47, 71);
+    color: #ba7b2d;
 }
 
 /* 中央內容區域設置 */
@@ -112,104 +116,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 0px;
     margin-left: 0; /* 預設為 0，讓主要欄靠左 */
     transition: margin-left 0.5s ease; /* 平滑過渡 */
 }
 
-
 /* 當側邊欄被激活時 */
 .sidebar.active ~ .main-content {
-    margin-left: 300px; /* 側邊欄顯示時給予留白 */
+    margin-left: 200px; /* 側邊欄顯示時給予留白 */
 }
-
-/* 將下拉選單樣式改為橫列式選項 */
-.navbar {
-    display: flex;
-    justify-content: flex-start;
-    background-color: #010010;
-    padding: 10px;
-    border-radius: 50px; /* 設定圓角 */
-    font-weight: bold;
-    z-index: 1000; /* 確保按鈕位於最上層 */
-
-
-}
-
-.nav-options {
-    list-style-type: none;
-    display: flex;
-}
-
-.nav-item {
-    position: relative; /* 使下拉選單可以相對於此元素定位 */
-    margin-right: 50px; /* 選項之間的間距 */
-}
-
-.nav-item a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 15px;
-    transition: transform 0.3s ease; /* 動畫效果 */
-    white-space: nowrap; /* 防止自動換行 */
-    border-radius: 50px; /* 設定圓角 */
-    font-weight: bold;
-}
-
-.nav-item a:hover {
-    transform: translateY(-5px); /* 文件抽離效果 */
-    color: rgb(205, 47, 71);
-
-}
-
-/* 下拉內容樣式 */
-.dropdown-content {
-    position: absolute; /* 定位在主選項下方 */
-    top: 100%; /* 定位在主選項下方 */
-    left: 0; /* 將下拉選單定位在主選項的左側 */
-    background-color: #181818;
-    display: none; /* 默認隱藏 */
-    list-style-type: none;
-    padding: 10px;
-    opacity: 0; /* 初始不透明度 */
-    max-height: 0; /* 初始最大高度 */
-    overflow: hidden; /* 隱藏溢出部分 */
-    transition: opacity 0.3s ease, max-height 0.5s ease; /* 緩慢下滑效果 */
-    border-radius: 50px; /* 設定圓角 */
-    z-index: 1000; /* 確保下拉選單在最上層 */
-    display: grid; /* 使用 Grid 佈局 */
-    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
-    gap: 10px; /* 設定格子間距 */
-    border: 1px solid #455b76;
-
-}
-
-/* 懸停時顯示下拉選單 */
-.nav-item:hover .dropdown-content {
-    display: flex; /* 懸停時顯示下拉選單 */
-    opacity: 1; /* 懸停時變為可見 */
-    max-height: 250px; /* 最大高度 */
-    display: grid; /* 使用 Grid 佈局 */
-    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
-    
-}
-
-/* 調整下拉內容的樣式 */
-.dropdown-content li {
-    margin: 0 10px; /* 設定左右間距 */
-}
-
-.dropdown-content a {
-    color: #f0f0f0;
-    white-space: nowrap; /* 防止自動換行 */
-}
-
-/* 防止下拉選單影響其他元素 */
-.dropdown-content li {
-    display: inline-block; /* 確保下拉選單的每個選項在一行中顯示 */
-}
-
-
 
 /* 公告樣式 */
 .announcements {
@@ -220,17 +135,70 @@
 }
 
 .announcement {
-    background-color: #181818;
-    border: 2px solid #455b76;
+    background-color: #dbdcd1;
+    border: 2px solid #38322b;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
     width: 100%;
-    color: #ffffff;
+    color: #38322b;
 }
 
 h2, h3 {
-    color: #ffffff;
+    color: #38322b;
+}
+
+/* 主選單樣式 */
+.main-menu {
+    color: #e28a1e;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+/* 副選單樣式 */
+.submenu {
+    list-style: none;
+    padding-left: 15px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+
+.submenu.show {
+    max-height: 2000px; /* 依據副選單內容大小調整 */
+    opacity: 1;
+}
+
+/* 副選單連結樣式 */
+.submenu li {
+    margin-bottom: 10px;
+}
+
+.submenu a {
+    color: #e28a1e;
+    text-decoration: none;
+}
+
+.submenu a:hover {
+    color: #a76d28;
+}
+
+/* 主內容區域設置 */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-left: 0;
+    transition: margin-left 0.5s ease;
+}
+
+.sidebar.active ~ .main-content {
+    margin-left: 200px;
 }
 
 /* 漢堡選單樣式 */
@@ -251,22 +219,8 @@ h2, h3 {
     display: block;
     width: 100%;
     height: 4px;
-    background-color: #faf8ff;
+    background-color: #000000;
     border-radius: 2px;
-}
-
-.photo-gallery {
-    display: flex;
-    flex-direction: column; /* 垂直排列 */
-    align-items: center; /* 中心對齊 */
-    margin-top: 20px; /* 頂部間距 */
-}
-
-.photo-gallery img {
-    width: 80%; /* 設置圖片寬度為80% */
-    max-width: 600px; /* 最大寬度為600px */
-    margin-bottom: 10px; /* 圖片之間的間距 */
-    border-radius: 10px; /* 圓角邊框 */
 }
 
 /* 特約商店主圖示樣式 */
@@ -278,6 +232,7 @@ h2, h3 {
 }
 .photo-gallery, .info-table {
     margin-top: 20px; /* 上邊距 */
+    
 }
 
 .nav-links img {
@@ -286,6 +241,19 @@ h2, h3 {
     margin-right: 15px; /* 圖示和文字間的距離 */
 }
 
+.photo-gallery {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 中心對齊 */
+    margin-top: 20px; /* 頂部間距 */
+}
+
+.photo-gallery img {
+    width: 70%; /* 設置圖片寬度為80% */
+    max-width: 600px; /* 最大寬度為600px */
+    margin-bottom: 10px; /* 圖片之間的間距 */
+    border-radius: 10px; /* 圓角邊框 */
+}
 /* 分頁連結區域樣式 */
 .additional-links {
     margin-top: 20px; /* 分頁選項的上方間距 */
@@ -295,7 +263,7 @@ h2, h3 {
 .additional-links a {
     margin: 0 10px; /* 左右間距 */
     text-decoration: none; /* 去掉下劃線 */
-    color: #faf8ff !important; /* 字體顏色為白色 */
+    color: white !important; /* 字體顏色為白色 */
     font-size: 1.2em; /* 字體大小 */
     position: relative; /* 用於定位底線 */
 }
@@ -306,7 +274,7 @@ h2, h3 {
 
 .additional-links a.active {
     font-weight: bold; /* 當前連結變為粗體 */
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* 增加醒目效果 */
+    text-shadow:#e28a1e    ; /* 增加醒目效果 */
 }
 
 .additional-links a::after {
@@ -314,7 +282,7 @@ h2, h3 {
     display: block; /* 使底線成為塊級元素 */
     width: 100%; /* 寬度100% */
     height: 3px; /* 底線高度 */
-    background-color: #faf8ff; /* 底線顏色 */
+    background-color: #e28a1e; /* 底線顏色 */
     position: absolute; /* 絕對定位 */
     left: 0; /* 左對齊 */
     bottom: -5px; /* 底線距離文字的距離 */
@@ -329,8 +297,8 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #010010; /* 設定底色 */
-    color: #faf8ff; /* 全局文字顏色 */
+    background-color: #e0d0c5; /* 設定底色 */
+    color: #141414; /* 全局文字顏色 */
 }
 .container {
     display: flex;
@@ -366,10 +334,9 @@ body {
 }
 
 .store-details {
-    color: #faf8ff; /* 文字顏色改成白色 */
-
-    
+    color: white; /* 文字顏色改成白色 */
 }
+
 #ball-container {
     position: fixed;
     bottom: 0;
@@ -386,8 +353,6 @@ body {
     width: 25px;
     animation: moveBall 25s linear infinite;
     cursor: pointer;
-    z-index: 9999; /* 確保球在最上層 */
-
   }
   
   #mobile-btn {
@@ -406,7 +371,7 @@ body {
   }
   
   #mobile-btn:hover {
-    background-color: #181818;
+    background-color: #c59663;
     transform: scale(1.1); /* 放大效果 */
   }
   
@@ -428,18 +393,17 @@ body {
       left: calc(100% - 20px);
     }
   }
-
-          /* 設置動畫樣式 */
-          .slide-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-
-        /* 當元素進入視窗時，套用的動畫 */
-        .slide-up.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
   
+
+            /* 設置動畫樣式 */
+            .slide-up {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 1s ease-out, transform 1s ease-out;
+            }
+    
+            /* 當元素進入視窗時，套用的動畫 */
+            .slide-up.show {
+                opacity: 1;
+                transform: translateY(0);
+            }

@@ -211,7 +211,7 @@ button:hover:not(:disabled) {
 
         // 檢查學號是否為八碼英數字
         function isValidId(id) {
-            const regex = /^[A-Za-z0-9]{8}$/;
+            const regex = /^[A-Za-z0-9]{15}$/;
             return regex.test(id);
         }
 
@@ -219,7 +219,7 @@ button:hover:not(:disabled) {
         async function checkId() {
             const authCode = idInput.value.trim();
             if (!isValidId(authCode)) {
-                statusMessage.innerHTML = '<span class="error">學號必須是八碼英數字</span>';
+                statusMessage.innerHTML = '<span class="error">學號必須是十五碼英數字</span>';
                 userInfoDiv.textContent = ''; // 清空用戶信息
                 return;
             }
@@ -281,13 +281,13 @@ button:hover:not(:disabled) {
 
         // 提交表單資料到 Google 表單
         async function submitForm() {
+            const user = match.split(',')[0].replace(/"/g, '').trim();
             const authCode = idInput.value.trim();
             const selectedOption = dropdown.value;
             const formData = new FormData();
-            formData.append('entry.404456196', authCode);
+            formData.append('entry.404456196', user);
             formData.append('entry.1807602489', selectedOption);
             submitButton.disabled = true; // 禁用提交按鈕
-
             const audio = new Audio('success.wav'); // 將 'xxx.mp3' 替換為你的音檔名稱
             audio.play();
 

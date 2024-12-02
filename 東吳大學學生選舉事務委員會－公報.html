@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>關於我們 - 東吳大學學生會</title>
-    <link rel="stylesheet" href="style.css">
+    <title>東吳大學學生選舉事務委員會－公報</title>
+    <link rel="stylesheet" href="style選舉.css">
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
 
     <style>
@@ -15,6 +15,7 @@
     margin: 0 auto;
     padding: 20px;
     margin-top: 60px; /* 搜索框的间距 */
+    
 }
 
 .NEWSsearch-box {
@@ -24,25 +25,22 @@
 .NEWSsearch-box input {
     width: 100%;
     padding: 10px;
-    background-color: #181818;
-    color:#f0f0f0;
-    border-radius: 5px;
+    background-color: #f0f0f0;
+    color:#010010;
+    border-radius: 20px;
     outline: none;
-    border: 2px solid #455b76; /* 蓝色边框效果 */
     transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* 搜索框获得焦点时的样式 */
 .NEWSsearch-box input:focus {
-    border: 2px solid #ff1236; /* 更改边框颜色 */
-    background-color: #181818;
+    border: 2px solid #e28a1e; /* 更改边框颜色 */
 
 }
 
 /* 鼠标悬停在搜索框时的样式 */
 .NEWSsearch-box input:hover {
-    border: 2px solid #ff1236; /* 更改边框颜色 */
-    background-color: #181818;
+    border: 2px solid #e28a1e; /* 更改边框颜色 */
 
 }
 
@@ -51,24 +49,25 @@
 }
 
 .NEWSannouncement {
-    border: 2px solid #455b76;
     padding: 15px;
+    border-radius: 20px;
     margin-bottom: 10px;
-    background-color: #181818;
+    background-color: #010010;
     transition: transform 0.3s; /* 放大效果的過渡 */
 
 }
 
 .NEWSannouncement:hover {
-    background-color: #383838;
-        border: 2px solid #5b7698;
+    background-color: #010010;
+    border-radius: 20px;
         transform: scale(1.02); /* 滑鼠懸停時放大並輕微旋轉 */
 
     }
 .NEWSannouncement h2 {
     font-size: 24px;
+    font-weight: bold;
     margin: 0;
-    color: #6887ae;
+    color: #e28a1e;
 }
 
 
@@ -90,20 +89,25 @@
 }
 
 #NEWSnext-page:hover {
-    background-color: #ff0f53;
+    background-color: #f3691a;
+    color: #a8582a;
+
 }
 
 #NEWSprev-page:hover {
-    background-color: #ff0f53;
+    background-color: #f3691a;
+    color: #a8582a;
+
 }
 
 button {
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
-    background-color: #6887ae;
+    background-color: #f3691a;
     color: white;
     font-weight: bold;
+    border-radius: 20px;
 
 }
 
@@ -112,7 +116,7 @@ button {
     margin-bottom: 30px;
     padding: 0px;
     border: 0px ;
-    padding-left: 20%;
+    padding-left: 13%;
     overflow: hidden; 
 }
 
@@ -138,7 +142,7 @@ button {
 
         <nav class="sidebar" id="sidebar">
             <div class="logo">
-                <img src="logo.png" alt="Logo">
+                <img src="選舉logo.png" alt="Logo">
                 <div class="site-name"></div>
             </div>
             <ul class="nav-links" id="sidebar-links">
@@ -225,7 +229,7 @@ button {
 
 
         <div id="ball-container">
-            <img id="ball" src="ball.png"  alt="Ball">
+            <img id="ball" src="ball5.png"  alt="Ball">
             <button id="mobile-btn">開啟手機板</button>
           </div>
           
@@ -312,18 +316,6 @@ const mainMenus = document.querySelectorAll('.main-menu');
             });
         });
 
-        let ball = document.getElementById('ball');
-let isBallOne = true;
-
-setInterval(() => {
-  if (isBallOne) {
-    ball.src = 'ball2.png';
-  } else {
-    ball.src = 'ball.png';
-  }
-  isBallOne = !isBallOne;
-}, 500);
-
 ball.addEventListener('click', () => {
   window.location.href = '東吳大學學生會game.html';
 });
@@ -342,7 +334,7 @@ const NEWSannouncementsPerPage = 5; // Number of announcements per page
 let filteredRows = null; // Holds the filtered search results, null means no filtering
 
 function loadNEWSAnnouncements() {
-    const sheetId = '11PUDsJ-tnOKP0kUhF9m4pWrzXSRtfpOqC_HFRnMTYtU'; // 試算表 ID
+    const sheetId = '1xzX_Am0M7qV5GQ5Z2xIYeEmJTtODWE2ZFbghb7ohBqM'; // 試算表 ID
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
     fetch(url)
