@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首頁 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style_phone.css">
+    <link rel="stylesheet" href="menu.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+</head>
+
+<style>
+
+
+    
+
+    /* 預設連結樣式 */
+    a {
+        color: #6887ae;
+        text-decoration: none;
+    }
+
+    /* 滑鼠懸停時的樣式 */
+    a:hover {
+        color: rgb(205, 47, 71);
+        text-decoration: underline;
+    }
+
+    /* 設置文件容器的大小並置中內容 */
+    .docs-container {
+        width: 100%; /* 確保容器寬度為全寬 */
+        height: 20px; /* 根據需要調整高度 */
+        display: flex; /* 使用 flex 排版 */
+        justify-content: center; /* 讓內容居中 */
+        align-items: center; /* 讓內容垂直置中 */
+        margin-top: 150px; /* 與上方的區塊保持間隔 */
+        position: relative;
+        left: 0px;
+        
+    }
+
+    /* 每個文件的樣式，預設隱藏 */
+    .doc {
+    position: absolute;
+    top: 0;
+    left: 100%; /* 起始位置為畫面外 */
+    width: 100%;
+    height: 100%;
+    transform: scale(1.0); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
+    opacity: 0;
+    text-align: center;  /* 強制文本類型元素（如 img）居中 */ 
+    transition: all 0.7s ease-in-out; /* 動畫效果 */
+}
+
+    /* 當前顯示的文件 */
+    .doc.active {
+        display: block;
+        text-align: center;  /* 強制文本類型元素（如 img）居中 */
+        transform: scale(1.0); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
+        margin-top: 15px; /* 與上方的區塊保持間隔 */
+
+
+    }
+    .doc.active {
+    left: 0; /* 當前頁面進入視窗 */
+    opacity: 1;
+}
+
+.doc.exit-left {
+    left: -100%; /* 離開到左側 */
+    opacity: 0;
+}
+
+.doc.enter-right {
+    left: 100%; /* 從右側進入 */
+    opacity: 0;
+}
+
+    .pagination {
+    margin-left: 0px; /* 自動將元素推到右邊 */
+    width: 50%;
+    margin-right: auto;
+    display: flex; /* 確保按鈕布局正常 */
+    gap: 0; /* 按鈕之間無間距 */
+}
+
+.pagination button {
+    padding: 10px 50%; /* 調整按鈕的內邊距 */
+    font-size: 13px; /* 調整字體大小 */
+    background-color: #FFFFFF; /* 按鈕背景色 */
+    color: #16151a; /* 按鈕文字顏色 */
+    border: none; /* 移除按鈕邊框 */
+    cursor: pointer; /* 滑鼠變成手型 */
+    transition: background-color 0.3s; /* 背景顏色變化動畫 */
+    margin: 0; /* 確保按鈕之間無外邊距 */
+    margin-top: 150px; /* 與上方的區塊保持間隔 */
+
+}
+
+.pagination button:first-child {
+    margin-left: 0; /* 確保第一個按鈕無間距 */
+}
+
+
+.pagination button:hover {
+    background-color: #6887ae;
+    color: #FFFFFF;
+}
+
+    img {
+        width: 100%;  /* 設定一個合理的寬度 */
+        border: 0; /* 移除邊框 */
+        align-items: center; /* 讓內容垂直置中 */
+        display: inline-block; /* 將圖片設為內聯區塊元素 */
+    }
+
+
+
+    /* 點點的容器 */
+    .dots-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    /* 點點的樣式 */
+    .dot {
+        width: 15px;
+        height: 15px;
+        margin: 0 5px;
+        background-color: #CACACA;
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+
+    /* 當前選中的點點樣式 */
+    .dot.active {
+        transform: scale(1.5);
+        background-color: #6887ae;
+    }
+
+    .icon-section {
+    background-color: #211a35; /* 設置背景顏色 */
+    padding: 20px;
+    margin-top: 50px; /* 與上方的區塊保持間隔 */
+}
+
+.icon-container {
+    display: flex;
+    flex-wrap: wrap; /* 允許換行 */
+    justify-content: center; /* 內容置中 */
+}
+
+.icon {
+    width: calc(50% + 100px); /* 每個圖示佔據三分之一的寬度，減去邊距 */
+    height: auto; /* 圖示的高度 */
+    margin: 100px; /* 圖示之間的間隔 */
+    position: relative; /* 相對定位以放置超連結 */
+    overflow: hidden; /* 隱藏溢出的部分 */
+    transition: transform 0.3s; /* 放大效果的過渡 */
+}
+
+.icon img {
+    width: 100%; /* 圖示的圖片寬度 */
+    height: auto; /* 圖示的圖片高度 */
+    border-radius: 10px; /* 圖示圓角 */
+}
+
+
+.icon:hover {
+    transform: scale(1.08) rotate(5deg); /* 滑鼠懸停時放大並輕微旋轉 */
+}
+
+
+
+.icon-text {
+    text-align: center; /* 文字置中 */
+    color: #fff; /* 文字顏色 */
+    margin-top: 5px; /* 文字與圖示的間距 */
+    font-size: 24px;
+    font-weight: bold;
+}
+.view-more-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #6887ae;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .view-more-btn:hover {
+        background-color: rgb(205, 47, 71);
+    }
+
+    .updateTime {
+        bottom: 10px;
+        font-size: 0.8em;
+        color: #b9b9b9;
+        
+    }
+
+    .calendar-container {
+            width: 100%;
+            margin: 20px auto;
+            border: 1px solid #000000;
+            background-color: #ccccff;
+            position: relative;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #3f51b5;
+            color: white;
+            cursor: pointer;
+        }
+
+        .calendar-header span {
+            font-size: 16px;
+        }
+
+        .calendar-header .arrow {
+            font-size: 20px;
+            transform: rotate(0deg);
+            transition: transform 0.3s;
+        }
+
+        .calendar-header .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .calendar-content {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+
+        .calendar-content iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        .expanded .calendar-content {
+            height: 600px;
+        }
+
+
+</style>
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+
+            <ul class="nav-links">
+                <li>
+                    <div class="main-menu" data-target="#submenu-1">東吳大學選舉事務委員會</div>
+                    <ul class="submenu" id="submenu-1">
+                        <li><a href="東吳大學選舉事務委員會_phone.html">東吳大學選舉事務委員會</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-2">東吳大學學生會</div>
+                    <ul class="submenu" id="submenu-2">
+                        <li><a href="東吳大學學生會main_phone.html">首頁</a></li>
+                        <li><a href="東吳大學學生會introduction_phone.html">本會簡介</a></li>
+                        <li><a href="東吳大學學生會financial-report_phone.html">財務報告</a></li>
+                        <li><a href="東吳大學學生會about_phone.html">組織架構</a></li>
+                        <li><a href="東吳大學學生會regulations_phone.html">法規彙編</a></li>
+                        <li><a href="東吳大學學生會反映表單－公開phone.html">我要反映</a></li> 
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-3">活動專區</div>
+                    <ul class="submenu" id="submenu-3">
+                        <li><a href="登入.html">系統登入</a></li>
+                        <li><a href="註冊.html">系統註冊</a></li>
+                        <li><a href="東吳大學學生會學生資料.html">個人資料專區</a></li>
+                        <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                        
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-4">學生議會</div>
+                    <ul class="submenu" id="submenu-4">
+                        <li><a href="東吳大學學生議會_phone.html">東吳大學學生議會</a></li>
+                        <li><a href="東吳大學學生議會－會議資料_phone.html">東吳大學學生議會－會議資料</a></li>
+                        <li><a href="東吳大學學生議會－議員對照表_phone.html">東吳大學學生議會－議員對照表</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-5">東吳大學學生仲裁法庭</div>
+                    <ul class="submenu" id="submenu-5">
+                        <li><a href="東東吳大學學生仲裁法庭_phone.html">東吳大學學生仲裁法庭</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="docs-container slide-up">
+            <div id="doc1" class="doc active">
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vTjgy113ngM9I1nrEQoWOuvPcpwHodldHNk6s_3pZJEMcFb9_Jtmku4QT863GSjZtjKklgEe0Xu-Ufx/pub?w=1200&amp;h=400" >
+            </div>
+            <div id="doc2" class="doc">
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vTwsqHi3Y8L0m7e7XY3VZVcXB5JHNn-fP85bsxW23XdP1Vyr_Ibx_CLPsZw6UFRF97GjYvEcyXhrXi_/pub?w=1200&amp;h=400" >
+            </div>
+            <div id="doc3" class="doc">
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vTbhcel5crd5Xl28INsoUwxd8EU4Xr3v9mOdT8J9KIdVpFooPPgLBkWD7Tkyxg7W5ttUyMyKxVOlnXe/pub?w=1200&amp;h=400" >
+            </div>
+            <div id="doc4" class="doc">
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vRUzDEOfDKURDY9JZBiLMZgr4JnkWdVQ11Qr0SHr_jSMRANNfJ8mNCMfiSsl1LNQuw8iI8hWaQOa7G1/pub?w=1200&amp;h=400" >
+            </div>
+            <div id="doc5" class="doc">
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vSplvEqfqSAf_1i2t1yaRnCOGJd_fv7AhtFjjr1MCqo_xLXkuFlrmpfPwmNthsEtFsMcQAaoe8NkH10/pub?w=1200&amp;h=400" >
+            </div>
+        </div>
+        
+        <div class="pagination">
+            <button id="prev-btn">＜</button>
+            <button id="next-btn">＞</button>
+        </div>
+        
+
+        <div class="announcements slide-up">
+            <div id="announcements-list">
+                <!-- 公告內容將自動載入 -->
+            </div>
+            <button id="view-more" class="view-more-btn">查看更多</button>
+
+
+        <div class="icon-section slide-up">
+
+            <div class="calendar-container">
+                <div class="calendar-header" onclick="toggleCalendar()">
+                    <span>顯示 Google 日曆</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="calendar-content">
+                    <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FTaipei&showPrint=0&src=NTM4ZTI3NzIxMGI1NTcyNzYyMTY1MjlhZmI0ZjljMmVhYTc4OGYxZDFhZTYzYWIwY2E5NTRiYjE3Nzc4NWE2NkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=M2swNjRwNmNudHZqMGU5ZDMxdW9iYmRzdGdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%233F51B5&color=%23A79B8E&bgcolor=%23ccccff&"
+                            scrolling="no">
+                    </iframe>
+                </div>
+            </div>
+
+
+            <h2 style="text-align: center;">活動專區</h2>
+        <div class="icon-container">
+            <!-- 這裡將會動態加載圖片、文字和超連結 -->
+        </div>
+
+    </div>
+
+
+    </div>
+    <div id="ball-container"></div>
+    <img id="ball" src="ball.png" alt="Ball">
+    <button id="mobile-btn">開啟電腦板</button>
+  </div>
+    <!-- JavaScript -->
+    <script>
+        
+// 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        // 當元素進入視窗時
+        if (entry.isIntersecting) {
+            // 為該元素添加 'show' 類別以觸發動畫
+            entry.target.classList.add('show');
+        } else {
+            // 可選：當元素不再進入視窗時，可以移除 'show' 類別
+            entry.target.classList.remove('show');
+        }
+    });
+});
+
+// 監視所有具有 slide-up 類別的元素
+document.querySelectorAll('.slide-up').forEach(element => {
+    observer.observe(element);
+});
+
+// 餐包菜單和側邊欄的設定（未變更）
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+const mainMenus = document.querySelectorAll('.main-menu');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
+            });
+        });
+        // 當文檔加載完成後的事件
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAnnouncements();
+            loadIcons(); // 載入公告
+        });
+
+        function loadIcons() {
+    const sheetId = '18WW9PLenRd6MSn2pRSBKSQ2yb70CqP027hbjRZ7WjEg'; // 替換為您的試算表 ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // 分割行並移除標題行
+            const iconContainer = document.querySelector('.icon-container');
+            iconContainer.innerHTML = ''; // 清空圖示區域
+
+            rows.forEach(row => {
+                const [imageUrl, text, link] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 解析每一行
+
+                if (imageUrl && text && link) {
+                    const icon = document.createElement('div');
+                    icon.classList.add('icon');
+
+                    icon.innerHTML = `
+                        <a href="${link}" target="_blank">
+                            <img src="${imageUrl}" alt="${text}">
+                            <div class="icon-text">${text}</div>
+                        </a>
+                    `;
+                    iconContainer.appendChild(icon);
+                }
+            });
+        })
+        .catch(error => console.error('Error loading icons:', error));
+}
+
+
+
+function loadAnnouncements() {
+        const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 試算表 ID
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+        fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // 分割行並移除標題行
+            const announcementList = document.getElementById('announcements-list');
+            const updateTime = document.getElementById('update-time');
+            announcementList.innerHTML = ''; // 清空公告欄
+
+            // 只顯示前三個公告
+            rows.slice(0, 3).forEach((row) => {
+                const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+                const newAnnouncement = document.createElement('div');
+                newAnnouncement.classList.add('announcement');
+
+                // 假設第一列是標題，第二列是訊息，第三列是超連結
+                newAnnouncement.innerHTML = `
+                    <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
+                    <p class="message">${columns[1]}</p>
+                    <p class="updateTime">發文時間：${columns[3]}</p>
+                `;
+                announcementList.appendChild(newAnnouncement);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading announcements:', error);
+            alert('無法載入公告，請查看控制台獲取更多資訊。');
+        });
+    }
+
+    document.getElementById('view-more').addEventListener('click', () => {
+        window.location.href = '東吳大學學生會announcements_phone.html'; // 替換為實際的目標網址
+    });
+
+    document.addEventListener('DOMContentLoaded', loadAnnouncements);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
+
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生會game_phone.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生會main.html';
+});
+
+
+let currentIndex = 0; // 當前顯示的頁面索引
+const docs = document.querySelectorAll('.doc');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const autoChangeInterval = 5000; // 自動換頁時間（毫秒）
+
+// 更新頁面顯示
+function showDoc(index) {
+    docs.forEach((doc, i) => {
+        doc.classList.remove('active', 'exit-left', 'enter-right');
+        if (i === index) {
+            doc.classList.add('active');
+        } else if (i < index) {
+            doc.classList.add('exit-left');
+        } else {
+            doc.classList.add('enter-right');
+        }
+    });
+}
+
+// 下一頁
+function nextDoc() {
+    currentIndex = (currentIndex + 1) % docs.length;
+    showDoc(currentIndex);
+}
+
+// 上一頁
+function prevDoc() {
+    currentIndex = (currentIndex - 1 + docs.length) % docs.length;
+    showDoc(currentIndex);
+}
+
+// 自動換頁
+let autoChange = setInterval(nextDoc, autoChangeInterval);
+
+// 按鈕事件綁定
+nextBtn.addEventListener('click', () => {
+    clearInterval(autoChange); // 停止自動換頁
+    nextDoc();
+    autoChange = setInterval(nextDoc, autoChangeInterval); // 重啟自動換頁
+});
+
+prevBtn.addEventListener('click', () => {
+    clearInterval(autoChange); // 停止自動換頁
+    prevDoc();
+    autoChange = setInterval(nextDoc, autoChangeInterval); // 重啟自動換頁
+});
+
+// 初始化
+showDoc(currentIndex);
+function toggleCalendar() {
+            const container = document.querySelector('.calendar-container');
+            const arrow = document.querySelector('.calendar-header .arrow');
+            container.classList.toggle('expanded');
+            arrow.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

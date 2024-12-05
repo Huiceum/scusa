@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於我們 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+
+    <style>
+
+
+.NEWScontainer {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 60px; /* 搜索框的间距 */
+}
+
+.NEWSsearch-box {
+    margin-bottom: 20px;
+}
+
+.NEWSsearch-box input {
+    width: 100%;
+    padding: 10px;
+    background-color: #181818;
+    color:#f0f0f0;
+    border-radius: 5px;
+    outline: none;
+    border: 2px solid #455b76; /* 蓝色边框效果 */
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 搜索框获得焦点时的样式 */
+.NEWSsearch-box input:focus {
+    border: 2px solid #ff1236; /* 更改边框颜色 */
+    background-color: #181818;
+
+}
+
+/* 鼠标悬停在搜索框时的样式 */
+.NEWSsearch-box input:hover {
+    border: 2px solid #ff1236; /* 更改边框颜色 */
+    background-color: #181818;
+
+}
+
+#NEWSannouncements-list {
+    margin-bottom: 30px;
+}
+
+.NEWSannouncement {
+    border: 2px solid #455b76;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #181818;
+    transition: transform 0.3s; /* 放大效果的過渡 */
+
+}
+
+.NEWSannouncement:hover {
+    background-color: #383838;
+        border: 2px solid #5b7698;
+        transform: scale(1.02); /* 滑鼠懸停時放大並輕微旋轉 */
+
+    }
+.NEWSannouncement h2 {
+    font-size: 24px;
+    margin: 0;
+    color: #6887ae;
+}
+
+
+.NEWSannouncement .updateTime {
+    font-size: 14px;
+    text-align: right;
+    color: #888;
+}
+
+.NEWSannouncement .message {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.NEWSpagination {
+    text-align: center;
+    margin-bottom: 200px; /* 设置底部间距为 20 像素 */
+
+}
+
+#NEWSnext-page:hover {
+    background-color: #ff0f53;
+}
+
+#NEWSprev-page:hover {
+    background-color: #ff0f53;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #6887ae;
+    color: white;
+    font-weight: bold;
+
+}
+
+
+#NEWSword-embed {
+    margin-bottom: 30px;
+    padding: 0px;
+    border: 0px ;
+    padding-left: 13%;
+    overflow: hidden; 
+}
+
+#NEWSupdate-time {
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+    </style>
+    
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="sidebar-links">
+                <!-- 動態加載的鏈接將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <div class="navbar">
+                <ul class="nav-options">
+                    <li class="nav-item">
+                        <a href="東吳大學選舉事務委員會.html">東吳大學選舉事務委員會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學選舉事務委員會.html">東吳大學選舉事務委員會</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生會main.html">東吳大學學生會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生會introduction.html">關於本會</a></li>
+                            <li><a href="東吳大學學生會financial-report.html">財務報告</a></li>
+                            <li><a href="東吳大學學生會about.html">組織架構</a></li>
+                            <li><a href="東吳大學學生會regulations.html">法規彙編</a></li>
+                            <li><a href="東吳大學學生會反映表單－公開.html">我要反映</a></li>
+                            <li><a href="東吳大學學生會快報.html">學權快報</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生會main.html">活動專區</a>
+                        <ul class="dropdown-content">
+                            <li><a href="登入.html">系統登入</a></li>
+                            <li><a href="註冊.html">系統註冊</a></li>
+                            <li><a href="東吳大學學生會學生資料.html">個人資料專區</a></li>
+                            <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生議會.html">東吳大學學生議會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
+                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
+                            <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生仲裁法庭.html">東吳大學學生仲裁法庭</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生仲裁法庭.html">東吳大學學生仲裁法庭</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="NEWScontainer">
+                <!-- Search Box -->
+                <div class="NEWSsearch-box">
+                    <input type="text" id="search-input" placeholder="搜索文章標題">
+                </div>
+        
+                <!-- Word Embed Area -->
+                <div id="NEWSword-embed">
+                    <!-- The Word file will be embedded here when a title is clicked -->
+                </div>
+        
+                <!-- Announcements List -->
+                <div id="NEWSannouncements-list">
+                    <!-- Announcements will be loaded here -->
+                </div>
+        
+                <!-- Pagination -->
+                <div class="NEWSpagination">
+                    <button id="NEWSprev-page" onclick="changePage(-1)">上一頁</button>
+                    <button id="NEWSnext-page" onclick="changePage(1)">下一頁</button>
+                </div>
+        
+            </div>
+
+            
+        </div>
+
+
+        
+
+
+        <div id="ball-container">
+            <img id="ball" src="ball.png"  alt="Ball">
+            <button id="mobile-btn">開啟手機板</button>
+          </div>
+          
+    
+    
+
+    <!-- JavaScript -->
+    <script>
+// 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        // 當元素進入視窗時
+        if (entry.isIntersecting) {
+            // 為該元素添加 'show' 類別以觸發動畫
+            entry.target.classList.add('show');
+        } else {
+            // 可選：當元素不再進入視窗時，可以移除 'show' 類別
+            entry.target.classList.remove('show');
+        }
+    });
+});
+
+// 監視所有具有 slide-up 類別的元素
+document.querySelectorAll('.slide-up').forEach(element => {
+    observer.observe(element);
+});
+
+// 餐包菜單和側邊欄的設定（未變更）
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+const mainMenus = document.querySelectorAll('.main-menu');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.main-content').style.marginLeft = '200px';
+            } else {
+                document.querySelector('.main-content').style.marginLeft = '0';
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSidebarLinks();
+        });
+
+                // 載入sidebar鏈接
+                function loadSidebarLinks() {
+            const sheetId = '16m2JrshR1QyQIRxdn1ZbCS7zyAnqN2OpMhREp-c4Qc8'; // 新的試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+            .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+            .then(data => {
+                const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                const sidebarLinks = document.getElementById('sidebar-links');
+                sidebarLinks.innerHTML = ''; // 清空sidebar
+
+                rows.forEach(row => {
+                    const [linkText, linkUrl] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 假設第一列為文字，第二列為URL
+
+                    if (linkText && linkUrl) {
+                        const linkItem = document.createElement('li');
+                        linkItem.innerHTML = `<a href="${linkUrl}" target="_blank">${linkText}</a>`;
+                        sidebarLinks.appendChild(linkItem);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading sidebar links:', error);
+                alert('無法載入側邊欄內容，請查看控制台獲取更多資訊。');
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
+
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+
+setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生會game.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生會快報_phone.html';
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadNEWSAnnouncements();
+});
+
+let currentPage = 1;
+const NEWSannouncementsPerPage = 5; // Number of announcements per page
+let filteredRows = null; // Holds the filtered search results, null means no filtering
+
+function loadNEWSAnnouncements() {
+    const sheetId = '11PUDsJ-tnOKP0kUhF9m4pWrzXSRtfpOqC_HFRnMTYtU'; // 試算表 ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // Split rows and remove the header row
+            const NEWSannouncementList = document.getElementById('NEWSannouncements-list');
+            const updateTime = document.getElementById('NEWSupdate-time');
+            const searchInput = document.getElementById('search-input');
+            
+            // Use filteredRows if there's a search, else use the full list of rows
+            const dataToDisplay = filteredRows || rows; // If filteredRows is null, show all data
+            const totalPages = Math.ceil(dataToDisplay.length / NEWSannouncementsPerPage);
+            const currentData = dataToDisplay.slice((currentPage - 1) * NEWSannouncementsPerPage, currentPage * NEWSannouncementsPerPage);
+
+            // Clear the announcements list
+            NEWSannouncementList.innerHTML = '';
+
+            currentData.forEach((row) => {
+                const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+                const newNEWSAnnouncement = document.createElement('div');
+                newNEWSAnnouncement.classList.add('NEWSannouncement');
+                newNEWSAnnouncement.setAttribute('onclick', `embedWord('${columns[2]}')`);
+
+
+                // Add article content (title, time, and first 20 words from Word content)
+                newNEWSAnnouncement.innerHTML = `
+                    <h2 class="title" onclick="embedWord('${columns[2]}')">${columns[0]}</h2>
+                    <p class="message">${columns[4].slice(0, 20)}...</p>
+                    <p class="updateTime">發文時間：${columns[1]}</p>
+                `;
+                NEWSannouncementList.appendChild(newNEWSAnnouncement);
+            });
+
+            // Handle search functionality
+            searchInput.addEventListener('input', function() {
+                searchNEWSAnnouncements(searchInput.value, rows);
+            });
+
+            // Pagination buttons
+            document.getElementById('NEWSprev-page').disabled = currentPage === 1;
+            document.getElementById('NEWSnext-page').disabled = currentPage === totalPages;
+        })
+        .catch(error => {
+            console.error('Error loading NEWSannouncements:', error);
+            alert('無法載入公告，請查看控制台獲取更多資訊。');
+        });
+}
+
+function changePage(direction) {
+    currentPage += direction;
+    loadNEWSAnnouncements();
+}
+
+function embedWord(wordUrl) {
+    const wordEmbed = document.getElementById('NEWSword-embed');
+    wordEmbed.innerHTML = `
+        <iframe src="${wordUrl}" style="border: 0; width: 100%; aspect-ratio:  7/ 10;transform: scale(1.25); padding-top: 200px;    padding-bottom:200px ;"></iframe>
+    `;
+}
+
+function searchNEWSAnnouncements(query, rows) {
+    // Filter based on column 0 (assuming it's the title)
+    filteredRows = rows.filter(row => {
+        const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+        return columns[0].toLowerCase().includes(query.toLowerCase());
+    });
+
+    // Handle pagination for search results
+    currentPage = 1; // Reset to first page after search
+    const totalPages = Math.ceil(filteredRows.length / NEWSannouncementsPerPage);
+
+    // Render filtered announcements
+    const NEWSannouncementList = document.getElementById('NEWSannouncements-list');
+    NEWSannouncementList.innerHTML = '';
+
+    const filteredData = filteredRows.slice((currentPage - 1) * NEWSannouncementsPerPage, currentPage * NEWSannouncementsPerPage);
+    filteredData.forEach((row) => {
+        const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+        const newNEWSAnnouncement = document.createElement('div');
+        newNEWSAnnouncement.classList.add('NEWSannouncement');
+
+        newNEWSAnnouncement.innerHTML = `
+            <h2 class="title" onclick="embedWord('${columns[2]}')">${columns[0]}</h2>
+            <p class="message">${columns[1].slice(0, 20)}...</p>
+            <p class="updateTime">發文時間：${columns[1]}</p>
+        `;
+        NEWSannouncementList.appendChild(newNEWSAnnouncement);
+    });
+    
+
+    // Update pagination buttons
+    document.getElementById('NEWSprev-page').disabled = currentPage === 1;
+    document.getElementById('NEWSnext-page').disabled = currentPage === totalPages;
+}
+    
+    </script>
+
+    
+</body>
+</html>
