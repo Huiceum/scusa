@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>活動回饋表單</title>
+  <style>
+body {
+  font-family: '微軟正黑體', sans-serif;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a); /* 深黑漸層 */
+  color: #e5e5e5; /* 淺灰白 */
+  padding: 20px;
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #b3b3b3; /* 灰白 */
+  font-size: 2.5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 置中表單內的項目 */
+  background: #1f1f1f; /* 深灰黑 */
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6); /* 強化陰影 */
+  max-width: 600px;
+  margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+label {
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: left; /* 敘述文字靠左對齊 */
+  width: 90%; /* 確保寬度一致 */
+  color: #cccccc; /* 淺灰 */
+}
+
+input,
+select,
+textarea {
+  width: 100%; /* 調整寬度適應表單 */
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid #333333; /* 深黑灰邊框 */
+  border-radius: 26px;
+  font-size: 1rem;
+  background: #262626; /* 深灰背景 */
+  color: #e5e5e5; /* 淺灰文字 */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #5c68a6; /* 藍色高亮 */
+  box-shadow: 0 0 0 3px rgba(125, 118, 112, 0.3);
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  display: block;
+  width: 90%;
+  padding: 12px;
+  margin-top: 20px;
+  background: linear-gradient(90deg, #444444, #666666); /* 深灰漸層 */
+  color: #e5e5e5;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 28px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #555555, #777777); /* 更深灰漸層 */
+  transform: scale(1.05);
+}
+
+input[type="range"] {
+  width: 90%;
+  margin-top: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #333333; /* 深灰 */
+  height: 8px;
+  border-radius: 26px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #d2d7f1; /* 藍色滑塊 */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  background: #5c68a6; /* 更深藍滑塊 */
+  transform: scale(1.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #d8dbec;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+input[type="range"]:hover::-moz-range-thumb {
+  background: #5c68a6;
+  transform: scale(1.2);
+}
+
+#helpfulValue,
+#clarityValue,
+#satisfactionValue,
+#learnValue {
+  display: inline-block;
+  width: 35px;
+  text-align: center;
+  margin-left: 10px;
+  font-size: 1.1rem;
+  color: #bbbbbb; /* 淺灰 */
+  font-weight: bold;
+}
+
+img {
+            display: block;
+            width: 100%;
+            height: auto; /* 保持圖片比例 */
+        }
+  </style>
+</head>
+<body>
+  <h1>活動回饋表單</h1>
+  <form id="feedbackForm" action="https://docs.google.com/forms/d/e/1FAIpQLSePBKtBnMdoxM4jxfy2VHHAth6-83Z5D3eXHCThII20JCTzuw/formResponse" method="POST">
+
+    <img src="https://i.meee.com.tw/wCwDjc9.gif" alt="示例圖片">
+
+    <label for="email">電子郵件</label>
+    <input type="email" name="entry.112628747" id="email" required>
+
+    <label for="studentId">學號（八位數字）</label>
+    <input type="text" name="entry.964278475" id="studentId" required pattern="^\d{8}$" maxlength="8" title="請輸入8位數字學號">
+
+    <label for="department">系級</label>
+    <input type="text" name="entry.1896956958" id="department" required>
+
+    <label for="name">姓名</label>
+    <input type="text" name="entry.2007266818" id="name" required>
+
+    <label for="source">你是從哪裡得知這個活動的？</label>
+    <select name="entry.578280616" id="source" required>
+      <option value="東吳大學學生會社群">東吳大學學生會社群</option>
+      <option value="東吳大學社會工作學系社群">東吳大學社會工作學系社群</option>
+      <option value="親友告知">親友告知</option>
+      <option value="其他">其他</option>
+    </select>
+    <div id="otherSourceInput">
+      <label for="otherSource">請描述您其他的來源</label>
+      <input type="text" name="entry.578280616" id="otherSource" required>
+    </div>
+
+    <label for="helpful">您認為本次活動的內容與您的焦慮相關問題是否有幫助？</label>
+    <input type="range" name="entry.23495999" id="helpful" min="1" max="5" value="3" step="0.1" required>
+    <span id="helpfulValue">3</span>
+    
+    <label for="clarity">您覺得講師的講解是否清楚並具有啟發性？</label>
+    <input type="range" name="entry.150248843" id="clarity" min="1" max="5" value="3" step="0.1" required>
+    <span id="clarityValue">3</span>
+    
+    <label for="satisfaction">您對本次活動的整體滿意度如何？</label>
+    <input type="range" name="entry.1728032762" id="satisfaction" min="1" max="5" value="3" step="0.1" required>
+    <span id="satisfactionValue">3</span>
+    
+    <label for="learn">您是否在本次活動中學到新的緩解焦慮的方法或技巧？</label>
+    <input type="range" name="entry.1972207732" id="learn" min="1" max="5" value="3" step="0.1" required>
+    <span id="learnValue">3</span>
+    
+
+    <label for="biggestGain">在這次活動中，您最大的收穫是什麼？</label>
+    <textarea name="entry.1363993464" id="biggestGain"></textarea>
+
+    <label for="improvement">您覺得活動中有哪些部分可以改進？</label>
+    <textarea name="entry.90825899" id="improvement"></textarea>
+
+    <label for="feedback">您有其他想要分享的意見或感想嗎？</label>
+    <textarea name="entry.1045055590" id="feedback"></textarea>
+
+    <button type="submit">提交</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('feedbackForm');
+    const sourceSelect = document.getElementById('source');
+    const otherSourceInput = document.getElementById('otherSourceInput');
+    const otherSource = document.getElementById('otherSource');
+    otherSourceInput.style.display = 'none';
+
+    // Load from localStorage
+    document.querySelectorAll('input, select, textarea').forEach((element) => {
+      const savedValue = localStorage.getItem(element.id);
+      if (savedValue) {
+        element.value = savedValue;
+      }
+    });
+
+    // Save to localStorage on input
+    document.querySelectorAll('input, select, textarea').forEach((element) => {
+      element.addEventListener('input', () => {
+        localStorage.setItem(element.id, element.value);
+      });
+    });
+
+    // Handle "other" option in source select
+    sourceSelect.addEventListener('change', function() {
+      if (this.value === '其他') {
+        otherSourceInput.style.display = 'block';
+        otherSource.required = true;
+      } else {
+        otherSourceInput.style.display = 'none';
+        otherSource.value = ''; // Clear the input if not "other"
+        otherSource.required = false;
+      }
+    });
+
+// Prevent default form submission and use fetch
+form.addEventListener('submit', (e) => {
+  e.preventDefault();  // Prevent immediate form submission
+
+  const formData = new FormData(form);
+
+  // Submit the form using fetch
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSePBKtBnMdoxM4jxfy2VHHAth6-83Z5D3eXHCThII20JCTzuw/formResponse', {
+    method: 'POST',
+    body: formData,
+    mode: 'no-cors',
+  })
+  .then(() => {
+    // After form submission, redirect to scusatw.com
+    window.location.href = 'https://scusatw.com';
+  })
+  .catch((error) => {
+    console.error('Form submission error:', error);
+  });
+});
+
+// 更新數值顯示
+document.querySelectorAll('input[type="range"]').forEach(input => {
+  const valueSpan = document.getElementById(input.id + 'Value');
+  input.addEventListener('input', function() {
+    valueSpan.textContent = this.value;
+  });
+});
+
+
+
+  </script>
+</body>
+</html>
