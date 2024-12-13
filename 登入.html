@@ -382,7 +382,10 @@ const mainMenus = document.querySelectorAll('.main-menu');
     await fetch('https://docs.google.com/forms/d/e/1FAIpQLSf4-STAj0EjDmpqFrVdSCEhViIwXWh-Q948bpnmZ20KUcAwYg/formResponse', {
         method: 'POST',
         body: formData,
-        mode: 'no-cors'
+        mode: 'no-cors',
+        
+        
+
     });
 
 
@@ -526,6 +529,15 @@ function adjustBannerWidth() {
         banner.style.width = '75%';
     }
 }
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止表單默認提交行為
+    const submitButton = this.querySelector('input[type="submit"]');
+    submitButton.disabled = true; // 禁用按鈕
+    submitButton.value = '處理中...'; // 顯示處理中的狀態
+    // 在這裡添加任何額外的邏輯，例如 API 請求等
+});
+
 
     </script>
 </body>

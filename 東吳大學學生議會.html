@@ -25,6 +25,178 @@
         color: #434553;
         
     }
+
+    .calendar-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 100px;
+        }
+
+        .calendar {
+            width: 50%;
+            padding: 20px;
+            background-color: rgb(51, 49, 45);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: #f5f5f5;
+        }
+
+        .events {
+            width: 50%;
+            padding: 20px;
+            background-color: rgb(51, 49, 45);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-left: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+
+        .calendar-day {
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .calendar-day:hover {
+            background-color: #000000;
+        }
+
+        .highlight {
+            background-color: #a73043;
+            color: white;
+        }
+        
+        .events h2 {
+            color: #f5f5f5;
+        }
+
+        .event-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .event-item {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            color: #1f1e1e;
+        }
+
+        .event-item a {
+            color: #566268;
+            text-decoration: none;
+        }
+
+        .event-item a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .weekday {
+            padding: 5px;
+            background-color: #1f1e1e;
+        }
+        .view-more-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #c59663;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .view-more-btn:hover {
+        background-color: #8f6c46;
+    }
+
+
+
+/* 按鈕樣式 */
+button {
+    background-color: #1f1f1f;
+    color: #f0f0f0;
+    border: 2px solid #444;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    transition: left 0.4s;
+    z-index: 1;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:hover {
+    background-color: #333;
+    box-shadow: 0 0 10px #666;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #555;
+    box-shadow: 0 0 5px #444 inset;
+    transform: scale(0.95);
+}
+
+/* 月份與年份文字樣式 */
+#monthYear {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0 15px;
+    color: #d0d0d0;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+#monthYear:hover {
+    color: #f0f0f0;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
     </style>
 </head>
 
@@ -93,11 +265,40 @@
                         </li>
                     </ul>
                 </div>
-                
+               
 
-            <div class="announcements">
+            <div class="announcements slide-up">
                 <div id="announcements-list">
                     <!-- 公告內容將自動載入 -->
+                </div>
+                <button id="view-more" class="view-more-btn">查看更多</button>
+            </div>
+                <!-- 更新時間將顯示在這裡 -->
+            </div>
+            <div class="calendar-container">
+                <!-- Calendar Section -->
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button id="prevMonth">Prev</button>
+                        <span id="monthYear"></span>
+                        <button id="nextMonth">Next</button>
+                    </div>
+                    <div class="weekdays">
+                        <div class="weekday">日</div>
+                        <div class="weekday">一</div>
+                        <div class="weekday">二</div>
+                        <div class="weekday">三</div>
+                        <div class="weekday">四</div>
+                        <div class="weekday">五</div>
+                        <div class="weekday">六</div>
+                    </div>
+                    <div class="calendar-days"></div>
+                </div>
+            
+                <!-- Events Section -->
+                <div class="events">
+                    <h2>會議預報</h2>
+                    <div id="eventsList" class="event-list"></div>
                 </div>
             </div>
         </div>
@@ -157,42 +358,53 @@
         }
 
         function loadAnnouncements() {
-    const sheetId = '1qzZxrbbucVhdXIRGvIfRqdYGRLRfinUmJ1zitWT6IQQ'; // 只保留試算表 ID
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+        const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 試算表 ID
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text(); // 解析為文本格式
-    })
-    .then(data => {
-        const rows = data.split('\n').slice(1); // 分割行並移除標題行
-        const announcementList = document.getElementById('announcements-list');
-        announcementList.innerHTML = ''; // 清空公告欄
+        fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // 分割行並移除標題行
+            const announcementList = document.getElementById('announcements-list');
+            const updateTime = document.getElementById('update-time');
+            announcementList.innerHTML = ''; // 清空公告欄
 
-        rows.forEach((row) => {
-            const columns = row.split(',').map(col => col.replace(/"/g, '').trim()); // 移除引號並修剪空格
-            const newAnnouncement = document.createElement('div');
-            newAnnouncement.classList.add('announcement');
+            // 只顯示前三個公告
+            rows.slice(0, 3).forEach((row) => {
+                const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+                const newAnnouncement = document.createElement('div');
+                newAnnouncement.classList.add('announcement');
 
-            // 假設第一列是標題，第二列是訊息，第三列是超連結
-            newAnnouncement.innerHTML = `
-                <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
-                <p class="message">${columns[1]}</p>
-                <p class="updateTime">發文時間：${columns[3]}</p>
-
-            `;
-
-            announcementList.appendChild(newAnnouncement);
+                // 假設第一列是標題，第二列是訊息，第三列是超連結
+                newAnnouncement.innerHTML = `
+                    <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
+                    <p class="message">${columns[1]}</p>
+                    <p class="updateTime">發文時間：${columns[3]}</p>
+                `;
+                announcementList.appendChild(newAnnouncement);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading announcements:', error);
+            alert('無法載入公告，請查看控制台獲取更多資訊。');
         });
-    })
-    .catch(error => {
-        console.error('Error loading announcements:', error);
-        alert('無法載入公告，請查看控制台獲取更多資訊。');
+    }
+
+    document.getElementById('view-more').addEventListener('click', () => {
+        window.location.href = '東吳大學學生議會announcements.html'; // 替換為實際的目標網址
     });
-}
+
+    document.addEventListener('DOMContentLoaded', loadAnnouncements);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
 
 let ball = document.getElementById('ball');
 let isBallOne = true;
@@ -228,7 +440,125 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
             observer.observe(element);
         });
 
+        const sheetId = '1mgUyRJwP-Z2fJwNzCYNOnrjvMU_mjWmO62KOO-5UqMc'; // Your Google Sheets ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let eventsData = {};
+
+    // Load events from Google Sheets
+    function loadEvents() {
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // 移除標題列並獲取資料
+            eventsData = {};  // 重設 eventsData
+
+            rows.forEach(row => {
+                const [event, date, link, location, time] = row.split(',').map(col => col.replace(/"/g, '').trim());
+                if (event && date) {
+                    const eventDate = new Date(date);
+                    const key = `${eventDate.getFullYear()}-${eventDate.getMonth()}-${eventDate.getDate()}`;
+                    if (!eventsData[key]) eventsData[key] = [];
+                    eventsData[key].push({ event, link, location, time });
+                }
+            });
+            renderCalendar();
+        })
+        .catch(error => console.error('Error loading events:', error));
+}
+
+
+    // Render calendar for the current month
+    function renderCalendar() {
+    const daysContainer = document.querySelector('.calendar-days');
+    const monthYearElement = document.getElementById('monthYear');
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+    monthYearElement.textContent = `${firstDayOfMonth.toLocaleString('zh-TW', { month: 'long' })} ${currentYear}`;
+
+    // 清空之前的內容
+    daysContainer.innerHTML = '';
+
+    // 添加空白的前置格
+    for (let i = 0; i < firstDayOfMonth.getDay(); i++) {
+        const emptyCell = document.createElement('div');
+        daysContainer.appendChild(emptyCell);
+    }
+
+    // 添加日期格
+    for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
+        const dayCell = document.createElement('div');
+        const dateKey = `${currentYear}-${currentMonth}-${day}`;
+        dayCell.classList.add('calendar-day');
+        dayCell.textContent = day;
+
+        // 標註有行程的日期
+        if (eventsData[dateKey]) {
+            dayCell.classList.add('highlight');
+        }
+
+        // 所有日期都添加點擊事件
+        dayCell.addEventListener('click', () => showEvents(dateKey));
+
+        daysContainer.appendChild(dayCell);
+    }
+}
+
+
+    // Show events for a specific date
+    function showEvents(dateKey) {
+    const eventsList = document.getElementById('eventsList');
+    eventsList.innerHTML = ''; // 確保清空內容
+
+    const eventsForDate = eventsData[dateKey] || []; // 取得該日期的行程
+
+    if (eventsForDate.length === 0) {
+        // 如果沒有行程，顯示「沒有行程」
+        const noEventMessage = document.createElement('p');
+        noEventMessage.textContent = '沒有行程';
+        eventsList.appendChild(noEventMessage);
+    } else {
+        // 如果有行程，顯示所有行程資訊
+        eventsForDate.forEach(event => {
+            const eventItem = document.createElement('div');
+            eventItem.classList.add('event-item');
+            eventItem.innerHTML = `
+                <p><strong>活動名稱：</strong><a href="${event.link}" target="_blank">${event.event}</a></p>
+                <p><strong>地點：</strong>${event.location || '無地點資料'}</p>
+                <p><strong>時間：</strong>${event.time || '無時間資料'}</p>
+            `;
+            eventsList.appendChild(eventItem);
+        });
+    }
+}
+
+
+
+    // Navigate to the previous month
+    document.getElementById('prevMonth').addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        loadEvents();
+    });
+
+    // Navigate to the next month
+    document.getElementById('nextMonth').addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        loadEvents();
+    });
+
+    // Initialize the page
+    loadEvents();
     </script>
     
 </body>
