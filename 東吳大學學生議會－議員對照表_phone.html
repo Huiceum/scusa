@@ -243,74 +243,101 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
 
 
         document.addEventListener('DOMContentLoaded', function() {
-            loadIcons();  
-        });
+    loadIcons();  
+});
 
-        function loadIcons() {
-            const sheetId = '18CtTB-_OmGJIWdDlewqyy-fn5M0EFzVqEX0vJoiT4bI';
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+function loadIcons() {
+    const sheetId = '18CtTB-_OmGJIWdDlewqyy-fn5M0EFzVqEX0vJoiT4bI';
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-            fetch(url)
-                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
-                .then(data => {
-                    const rows = data.split('\n').slice(1);
-                    const iconContainer = document.querySelector('.icon-container');
-                    iconContainer.innerHTML = '';
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1);
+            const iconContainer = document.querySelector('.icon-container');
+            iconContainer.innerHTML = '';
 
-                    rows.forEach(row => {
-                        const [imageUrl, name, title, department, committee, representative] = row.split(',').map(col => col.replace(/"/g, '').trim());
+            rows.forEach(row => {
+                const [imageUrl, name, title, department, committee, representative, contannection] = row.split(',').map(col => col.replace(/"/g, '').trim());
 
-                        if (imageUrl && name) {
-                            const icon = document.createElement('div');
-                            icon.classList.add('icon');
+                if (imageUrl && name) {
+                    const icon = document.createElement('div');
+                    icon.classList.add('icon');
 
-                            icon.innerHTML = ` 
-                                <img src="${imageUrl}" alt="${name}">
-                                <div class="icon-text">${name}</div>
-                                ${createDetailButton('職稱', formatText(title))}
-                                ${createDetailButton('系級', formatText(department))}
-                                ${createDetailButton('委員會', formatText(committee))}
-                                ${createDetailButton('校級會議代表', formatText(representative))}
-                            `;
+                    icon.innerHTML = ` 
+                        <img src="${imageUrl}" alt="${name}">
+                        <div class="icon-text">${name}</div>
+                        ${createDetailButton('職稱', formatText(title))}
+                        ${createDetailButton('系級', formatText(department))}
+                        ${createDetailButton('委員會', formatText(committee))}
+                        ${createDetailButton('校級會議代表', formatText(representative))}
+                        ${createDetailButton('聯絡資訊', formatContact(contannection))}
+                    `;
 
-                            iconContainer.appendChild(icon);
-                        }
-                    });
-                })
-                .catch(error => console.error('Error loading icons:', error));
-        }
-
-        function createDetailButton(label, content) {
-            return `
-                <div class="details-section">
-                    <div class="details-header">
-                        <span>${label}</span>
-                        <div class="triangle"></div>
-                    </div>
-                    <div class="details-content">${content}</div>
-                </div>
-            `;
-        }
-
-        function formatText(text) {
-            return text ? text.replace(/、/g, '<br>') : '無';
-        }
-
-        document.addEventListener('click', function(event) {
-            if (event.target.closest('.details-header')) {
-                const header = event.target.closest('.details-header');
-                const content = header.nextElementSibling;
-                const section = header.parentElement;
-                
-                section.classList.toggle('expanded');
-                if (section.classList.contains('expanded')) {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                } else {
-                    content.style.maxHeight = '0';
-                    content.style.padding = '0 15px';
+                    iconContainer.appendChild(icon);
                 }
-            }
-        });
+            });
+        })
+        .catch(error => console.error('Error loading icons:', error));
+}
+
+function createDetailButton(label, content) {
+    return `
+        <div class="details-section">
+            <div class="details-header">
+                <span>${label}</span>
+                <div class="triangle"></div>
+            </div>
+            <div class="details-content">${content}</div>
+        </div>
+    `;
+}
+
+function formatText(text) {
+    return text ? text.replace(/、/g, '<br>') : '無';
+}
+
+function formatContact(contact) {
+    if (!contact) return '無';
+    
+    return contact.split('、').map(item => {
+        const parts = item.split('：');
+        const label = parts[0];
+        const value = parts[1] ? parts[1].trim() : '';
+        
+        // 檢查是否為網址
+        if (value.match(/https?:\/\/[^\s]+/)) {
+            return `${label}：<a href="${value}" target="_blank">${value}</a>`;
+        }
+        
+        // 檢查是否為電子郵件
+        if (value.match(/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$/)) {
+            return `${label}：<a href="mailto:${value}">${value}</a>`;
+        }
+        
+        return item;
+    }).join('<br>');
+}
+
+// 點擊展開收合詳細資訊
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.details-header')) {
+        const header = event.target.closest('.details-header');
+        const content = header.nextElementSibling;
+        const section = header.parentElement;
+        
+        section.classList.toggle('expanded');
+        if (section.classList.contains('expanded')) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+            content.style.maxHeight = '0';
+            content.style.padding = '0 15px';
+        }
+    }
+});
+
+      
+        
 
     </script>
     
