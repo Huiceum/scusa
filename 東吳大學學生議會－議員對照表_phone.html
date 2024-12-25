@@ -9,11 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
     <style>
-        html, body {
-    width: 100%;
-    overflow-x: hidden;
-}
-
         /* 預設連結樣式 */
         a {
             color: rgb(255, 233, 109);
@@ -25,42 +20,90 @@
             color: rgb(255, 255, 255);
             text-decoration: underline;
         }
-
-        /* 中央對齊容器樣式 */
-        .centered {
-            margin-bottom: 20px; /* 調整地圖和其他內容的間距 */
+        body {
+            color: #38322b;
+            font-family: Arial, sans-serif;
+            font-weight: bolder;
         }
-
-        /* 置中顯示 Word 文件 */
-        .google-word {
-            margin-top: 220px; /* 頂部間距 */
-            width: 100%; /* 可根據需求調整 */
-            height: 4000px;
-            margin-top: 20px;
-            margin-bottom: 50px; /* 可調整的底部間距 */
+        .icon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center; /* 水平置中 */
+            align-items: center; /* 垂直置中 */
+            padding-top: 100px;
+            padding-bottom: 100px;
+            width: 80%;
+            margin: 0 auto; /* 確保容器居中 */
         }
-        
-        .iframe-container {
-    position: relative;
-    margin-top: 90px; /* 頂部間距 */
-    width: 200%;
-    height: 400000px;
-    padding-top: 40.25%; /* 設定比例（例如 16:9 的比例） */
-    overflow: hidden; /* 防止出現滾動條 */
-}
+        .icon {
+            width: calc(100% - 50px);
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #f4f5f1;
+            transition: all 0.3s ease;
+        }
+        .icon img {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;  /* 裁切並保持比例 */
+            height: auto;
+        }
+        .icon-text {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #c59663;
+        }
+        .details-section {
+            text-align: center;
+            background-color: #dbdcd1;
+            margin: 10px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .details-header {
+            display: flex;
+            justify-content: space-between; /* 使標題和三角形分開 */
+            align-items: center;
+            padding: 15px;
+            background-color: #f4f5f1;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: #38322b;
 
-    .iframe-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 4000px;
-    transform: scale(0.70); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
-    transform-origin: 0 0; /* 縮放從左上角開始 */
-    border: 0; /* 移除邊框 */
-
-}
-
+        }
+        .details-header span {
+            flex-grow: 1; /* 使標題置中 */
+            text-align: center;
+        }
+        .triangle::after {
+            content: '\25BC';
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .expanded .triangle::after {
+            transform: rotate(180deg);
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            padding: 0;
+            padding-left: 20px;
+            color: #38322b;
+            background-color: #dbdcd1;
+            border-radius: 5px;
+            margin-top: 0;
+            text-align: left; /* 讓內容置左 */
+        }
+        .expanded .details-content {
+            padding-left: 20px;
+            line-height: 200%;
+        }
     </style>
 </head>
 
@@ -124,14 +167,8 @@
             </ul>
         </nav>
 
-            <!-- 置中顯示 Word 文件 -->
-            <div class="centered  slide-up">
-                <div class="google-word">
-                    <div class="iframe-container">
-                        <iframe src="https://docs.google.com/document/d/e/2PACX-1vRAmuKJ9SwKxZUpmUVjwg58njqP751U0xNz8AsqRggtttxL-pAnyPM6HEGu0ix83Q/pub?embedded=true"></iframe>
-                    </div>
-                </div>
-            </div>
+        <div class="icon-container"></div>
+
             
 
     </div>
@@ -204,6 +241,76 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
             observer.observe(element);
         });
 
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadIcons();  
+        });
+
+        function loadIcons() {
+            const sheetId = '18CtTB-_OmGJIWdDlewqyy-fn5M0EFzVqEX0vJoiT4bI';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+                .then(data => {
+                    const rows = data.split('\n').slice(1);
+                    const iconContainer = document.querySelector('.icon-container');
+                    iconContainer.innerHTML = '';
+
+                    rows.forEach(row => {
+                        const [imageUrl, name, title, department, committee, representative] = row.split(',').map(col => col.replace(/"/g, '').trim());
+
+                        if (imageUrl && name) {
+                            const icon = document.createElement('div');
+                            icon.classList.add('icon');
+
+                            icon.innerHTML = ` 
+                                <img src="${imageUrl}" alt="${name}">
+                                <div class="icon-text">${name}</div>
+                                ${createDetailButton('職稱', formatText(title))}
+                                ${createDetailButton('系級', formatText(department))}
+                                ${createDetailButton('委員會', formatText(committee))}
+                                ${createDetailButton('校級會議代表', formatText(representative))}
+                            `;
+
+                            iconContainer.appendChild(icon);
+                        }
+                    });
+                })
+                .catch(error => console.error('Error loading icons:', error));
+        }
+
+        function createDetailButton(label, content) {
+            return `
+                <div class="details-section">
+                    <div class="details-header">
+                        <span>${label}</span>
+                        <div class="triangle"></div>
+                    </div>
+                    <div class="details-content">${content}</div>
+                </div>
+            `;
+        }
+
+        function formatText(text) {
+            return text ? text.replace(/、/g, '<br>') : '無';
+        }
+
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.details-header')) {
+                const header = event.target.closest('.details-header');
+                const content = header.nextElementSibling;
+                const section = header.parentElement;
+                
+                section.classList.toggle('expanded');
+                if (section.classList.contains('expanded')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = '0';
+                    content.style.padding = '0 15px';
+                }
+            }
+        });
 
     </script>
     

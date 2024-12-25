@@ -19,6 +19,88 @@
             color: rgb(255, 255, 255);
             text-decoration: underline;
         }
+        body {
+            color: #38322b;
+            font-family: Arial, sans-serif;
+            font-weight: bolder;
+        }
+        .icon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+            padding-top: 100px;
+            width: 85%;
+            padding-bottom: 200px;
+        }
+        .icon {
+            width: calc(33.333% - 50px);
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #f4f5f1;
+            transition: all 0.3s ease;
+        }
+        .icon img {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;  /* 裁切並保持比例 */
+            height: auto;
+        }
+        .icon-text {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #c59663;
+        }
+        .details-section {
+            text-align: center;
+            background-color: #dbdcd1;
+            margin: 10px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .details-header {
+            display: flex;
+            justify-content: space-between; /* 使標題和三角形分開 */
+            align-items: center;
+            padding: 15px;
+            background-color: #f4f5f1;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: #38322b;
+
+        }
+        .details-header span {
+            flex-grow: 1; /* 使標題置中 */
+            text-align: center;
+        }
+        .triangle::after {
+            content: '\25BC';
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .expanded .triangle::after {
+            transform: rotate(180deg);
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            padding: 0;
+            padding-left: 20px;
+            color: #38322b;
+            background-color: #dbdcd1;
+            border-radius: 5px;
+            margin-top: 0;
+            text-align: left; /* 讓內容置左 */
+        }
+        .expanded .details-content {
+            padding-left: 20px;
+            line-height: 200%;
+        }
     </style>
 </head>
 
@@ -91,7 +173,7 @@
                     </ul>
                 </div>
 
-                <iframe src="https://docs.google.com/document/d/e/2PACX-1vRNyLD6gxwwOO3a7lrX9xtJ5kcle_sDe5XXBZXzhIZeYLcPpd90rESmdAmE-6IdCg/pub?embedded=true"width=100% height=8000px style="border: 0;"></iframe>
+                <div class="icon-container"></div>
 
             </div>
             <div id="ball-container">
@@ -181,6 +263,75 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
             observer.observe(element);
         });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            loadIcons();  
+        });
+
+        function loadIcons() {
+            const sheetId = '18CtTB-_OmGJIWdDlewqyy-fn5M0EFzVqEX0vJoiT4bI';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+                .then(data => {
+                    const rows = data.split('\n').slice(1);
+                    const iconContainer = document.querySelector('.icon-container');
+                    iconContainer.innerHTML = '';
+
+                    rows.forEach(row => {
+                        const [imageUrl, name, title, department, committee, representative, link] = row.split(',').map(col => col.replace(/"/g, '').trim());
+
+                        if (imageUrl && name) {
+                            const icon = document.createElement('div');
+                            icon.classList.add('icon');
+
+                            icon.innerHTML = ` 
+                                <img src="${imageUrl}" alt="${name}">
+                                <div class="link"><a href="${link}" class="icon-text">${name}</a></div>
+                                ${createDetailButton('職稱', formatText(title))}
+                                ${createDetailButton('系級', formatText(department))}
+                                ${createDetailButton('委員會', formatText(committee))}
+                                ${createDetailButton('校級會議代表', formatText(representative))}
+                            `;
+
+                            iconContainer.appendChild(icon);
+                        }
+                    });
+                })
+                .catch(error => console.error('Error loading icons:', error));
+        }
+
+        function createDetailButton(label, content) {
+            return `
+                <div class="details-section">
+                    <div class="details-header">
+                        <span>${label}</span>
+                        <div class="triangle"></div>
+                    </div>
+                    <div class="details-content">${content}</div>
+                </div>
+            `;
+        }
+
+        function formatText(text) {
+            return text ? text.replace(/、/g, '<br>') : '無';
+        }
+
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.details-header')) {
+                const header = event.target.closest('.details-header');
+                const content = header.nextElementSibling;
+                const section = header.parentElement;
+                
+                section.classList.toggle('expanded');
+                if (section.classList.contains('expanded')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = '0';
+                    content.style.padding = '0 15px';
+                }
+            }
+        });
 
     </script>
     
