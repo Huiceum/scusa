@@ -76,31 +76,17 @@
     <script>
         // 根據用戶的裝置導向不同的頁面
         const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        const referrer = document.referrer;
+            // 檢查來源是否包含指定網域
+        const isFromSCUMobile = referrer.includes("https://mobile.sys.scu.edu.tw");
 
-        setTimeout(() => {
-            if (isMobile) {
-                 window.location.href = "東吳大學學生會shop_phone.html"; // 手機用戶導向手機頁面
-            } else {
-                window.location.href = "東吳大學學生會shop_computer.html"; // 電腦用戶導向電腦頁面
-            }
-        }, 4000); // 4秒後導向
-        
-
-                        // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
-                        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        });
-
-        // 監視所有具有 slide-up 類別的元素
-        document.querySelectorAll('.slide-up').forEach(element => {
-            observer.observe(element);
-        });
-
-
+    setTimeout(() => {
+        if (isFromSCUMobile || isMobile) {
+            window.location.href = "東吳大學學生會shop_phone.html"; // 手機版頁面
+        } else {
+            window.location.href = "東吳大學學生會shop_computer.html"; // 電腦版頁面
+        }
+    }, 4000); // 4秒後導向
     </script>
 </body>
 </html>
