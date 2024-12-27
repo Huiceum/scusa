@@ -3,132 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>組織架構圖</title>
+    <title>雙頁電子書翻頁效果</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf.min.js"></script>
     <style>
-        .org-chart {
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-        .level {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             justify-content: center;
-            margin: 20px 0;
-            gap: 20px;
+            height: 100vh;
         }
-
-        .department:hover {
-            border: 1px solid rgb(255, 224, 49);
-        }
-
-        .department {
-            position: relative;
-            padding: 20px 40px;
-            color: white;
+        #pdf-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            cursor: pointer;
+            overflow: hidden;
+            margin-bottom: 20px;
+            width: 90%;
+            max-width: 1000px;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 0 2px;
+            transition: transform 0.7s ease;
+            width: 45%;
+            height: auto;
+        }
+        .fade-out-right {
+            transform: translateX(-100%);
+        }
+        .fade-in-right {
+            transform: translateX(0);
+        }
+        .controls {
             text-align: center;
-            display: inline-block;
-            font-weight: bolder;
+            margin-top: 10px;
         }
-        .tooltip {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px;
+        button, input {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
             border-radius: 5px;
-            white-space: pre-line;
-            display: none;
-            z-index: 1000;
-            width: 210px;
-            text-align: left;
+            cursor: pointer;
         }
-        .remark {
-            color: yellow;
-            font-size: 0.8em;
-            margin-top: 5px;
+        button {
+            background-color: #007bff;
+            color: white;
         }
-        .level[data-level="1"] .department {
-            background-color: #7da9dc;
+        button:hover {
+            background-color: #0056b3;
         }
-        .level[data-level="2"] .department {
-            background-color: #5f8ebd;
-        }
-        .level[data-level="3"] .department {
-            background-color: #53687a;
-        }
-        .level[data-level="4"] .department {
-            background-color: #414b54;
+        input[type="number"] {
+            width: 60px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="org-chart" id="org-chart"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            loadOrgChart();
-        });
+<div id="pdf-container">
+    <canvas id="pdf-canvas-left"></canvas>
+    <canvas id="pdf-canvas-right"></canvas>
+</div>
+<div class="controls">
+    <button onclick="prevPage()">上一頁</button>
+    <input type="number" id="goto-page" min="1" onchange="gotoPage()">
+    <button onclick="nextPage()">下一頁</button>
+</div>
 
-        function loadOrgChart() {
-            const sheetId = '1Fuwbg13SC3ZCiFMpvH0zbrBceXpfubqusl3IDysy4Gk';
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+<script>
+    let url = '東吳大學學生自治法規錄.pdf';  // 替換為你的 PDF 檔案路徑
+    let pdfDoc = null,
+        pageNum = 1,
+        pageRendering = false,
+        scale = 2,  // 提高解析度
+        fixedWidth = 400,  // 固定寬度
+        canvasLeft = document.getElementById('pdf-canvas-left'),
+        canvasRight = document.getElementById('pdf-canvas-right'),
+        ctxLeft = canvasLeft.getContext('2d'),
+        ctxRight = canvasRight.getContext('2d');
 
-            fetch(url)
-                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
-                .then(data => {
-                    const rows = data.split('\n').slice(1);
-                    const levels = {};
-                    
-                    rows.forEach(row => {
-                        const [department, business, remark, level] = row.split(',').map(col => col.replace(/"/g, '').trim());
+    pdfjsLib.getDocument(url).promise.then(function(pdf) {
+        pdfDoc = pdf;
+        document.getElementById('goto-page').value = pageNum;
+        renderPage(pageNum);
+    });
 
-                        if (!levels[level]) levels[level] = [];
-                        levels[level].push({ department, business, remark });
-                    });
+    function renderPage(num) {
+        pageRendering = true;
+        canvasLeft.classList.add('fade-out-right');
+        canvasRight.classList.add('fade-out-right');
 
-                    const orgChart = document.getElementById('org-chart');
-                    orgChart.innerHTML = '';
+        setTimeout(() => {
+            let renderLeft = num;
+            let renderRight = num + 1 <= pdfDoc.numPages ? num + 1 : num;
 
-                    Object.keys(levels).sort().forEach(level => {
-                        const levelContainer = document.createElement('div');
-                        levelContainer.classList.add('level');
-                        levelContainer.setAttribute('data-level', level);
+            pdfDoc.getPage(renderLeft).then(function(page) {
+                let viewport = page.getViewport({ scale: scale });
+                let aspectRatio = viewport.height / viewport.width;
+                canvasLeft.width = fixedWidth;
+                canvasLeft.height = fixedWidth * aspectRatio;
 
-                        const items = levels[level];
-                        const columns = items.length;
-                        levelContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+                let renderContext = {
+                    canvasContext: ctxLeft,
+                    viewport: page.getViewport({ width: fixedWidth })
+                };
+                page.render(renderContext).promise.then(() => {
+                    canvasLeft.classList.remove('fade-out-right');
+                    canvasLeft.classList.add('fade-in-right');
+                });
+            });
 
-                        items.forEach(item => {
-                            const departmentDiv = document.createElement('div');
-                            departmentDiv.classList.add('department');
-                            departmentDiv.textContent = item.department;
-                            
-                            const tooltip = document.createElement('div');
-                            tooltip.classList.add('tooltip');
-                            tooltip.innerHTML = item.business.replace(/、/g, '\n');
-                            if (item.remark) {
-                                tooltip.innerHTML += `<div class="remark">${item.remark}</div>`;
-                            }
-                            
-                            departmentDiv.appendChild(tooltip);
+            pdfDoc.getPage(renderRight).then(function(page) {
+                let viewport = page.getViewport({ scale: scale });
+                let aspectRatio = viewport.height / viewport.width;
+                canvasRight.width = fixedWidth;
+                canvasRight.height = fixedWidth * aspectRatio;
 
-                            departmentDiv.addEventListener('mouseenter', () => {
-                                tooltip.style.display = 'block';
-                            });
-                            departmentDiv.addEventListener('mouseleave', () => {
-                                tooltip.style.display = 'none';
-                            });
+                let renderContext = {
+                    canvasContext: ctxRight,
+                    viewport: page.getViewport({ width: fixedWidth })
+                };
+                page.render(renderContext).promise.then(() => {
+                    canvasRight.classList.remove('fade-out-right');
+                    canvasRight.classList.add('fade-in-right');
+                    pageRendering = false;
+                });
+            });
+        }, 300);
+    }
 
-                            levelContainer.appendChild(departmentDiv);
-                        });
+    function prevPage() {
+        if (pageNum <= 1) return;
+        pageNum -= 2;
+        if (pageNum < 1) pageNum = 1;
+        renderPage(pageNum);
+        document.getElementById('goto-page').value = pageNum;
+    }
 
-                        orgChart.appendChild(levelContainer);
-                    });
-                })
-                .catch(error => console.error('Error loading organization chart:', error));
+    function nextPage() {
+        if (pageNum + 2 > pdfDoc.numPages) return;
+        pageNum += 2;
+        renderPage(pageNum);
+        document.getElementById('goto-page').value = pageNum;
+    }
+
+    function gotoPage() {
+        let inputPage = parseInt(document.getElementById('goto-page').value);
+        if (inputPage >= 1 && inputPage <= pdfDoc.numPages) {
+            pageNum = inputPage % 2 === 0 ? inputPage - 1 : inputPage;
+            renderPage(pageNum);
+        } else {
+            alert('頁數超出範圍');
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>

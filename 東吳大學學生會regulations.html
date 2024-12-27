@@ -254,7 +254,7 @@
                         const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
                         const buttonText = columns[0];
                         const fileLink = columns[1];
-
+                        
                         const downloadButton = document.createElement('a');
                         downloadButton.classList.add('download-button');
                         downloadButton.href = fileLink;

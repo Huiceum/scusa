@@ -10,6 +10,17 @@
     <style>
 
 
+a {
+            color: #6887ae;
+            text-decoration: none;
+        }
+    
+        /* 滑鼠懸停時的樣式 */
+        a:hover {
+            color: rgb(205, 47, 71);
+            text-decoration: underline;
+        }
+
 .NEWScontainer {
     width: 80%;
     margin: 0 auto;
@@ -109,11 +120,16 @@ button {
 
 
 #NEWSword-embed {
-    margin-bottom: 30px;
-    padding: 0px;
-    border: 0px ;
-    padding-left: 13%;
-    overflow: hidden; 
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #0000002a; /* 淺灰色背景 */
+            border: 1px solid #ddd; /* 淺灰邊框 */
+            border-radius: 8px; /* 圓角 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+            font-family: 'Arial', sans-serif; /* 字型 */
+            line-height: 1.6; /* 行高 */
+            color: #ffffff; /* 字體顏色 */
+            overflow-wrap: break-word; /* 自動換行 */
 }
 
 #NEWSupdate-time {
@@ -398,11 +414,53 @@ function changePage(direction) {
 }
 
 function embedWord(wordUrl) {
-    const wordEmbed = document.getElementById('NEWSword-embed');
-    wordEmbed.innerHTML = `
-        <iframe src="${wordUrl}" style="border: 0; width: 100%; aspect-ratio:  7/ 10;transform: scale(1.25); padding-top: 200px;    padding-bottom:200px ;"></iframe>
-    `;
+    const url = `https://docs.google.com/document/d/${wordUrl}/export?format=txt`;
+
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+
+           // 將 tab 轉換為四個空格 (&nbsp;)
+           let formattedData = data.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+
+            // 將空白字元轉換為 &nbsp; 以保留空格
+            formattedData = formattedData.replace(/ {2,}/g, function(match) {
+                return match.replace(/ /g, '&nbsp;');
+            });
+            
+            // 將換行符號轉換為 <br> 標籤
+            formattedData = formattedData.replace(/\n/g, '<br>');
+
+            // 處理粗體文字 (例如 **範例** 變成 <strong>範例</strong>)
+            formattedData = formattedData.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            formattedData = formattedData.replace(/(#+)(.*?)(#+)/g, (match, p1, p2, p3) => {
+            // 根據#的數量設置字體大小
+            const size = 10 + p1.length * 5; // 10為基礎字體大小，每多一個#字，字體增大5
+            return `<span style="font-size: ${size}px">${p2}</span>`;
+            });
+
+            // 偵測網址，分開處理圖片和超連結
+            formattedData = formattedData.replace(/https?:\/\/[^\s]+/g, (match) => {
+                // 檢查是否為圖片網址（png, jpg, gif）
+                if (/\.(png|jpg|gif)$/i.test(match)) {
+                    return `<img src="${match}" alt="Image">`; // 顯示圖片
+                } else {
+                    return `<a href="${match}" target="_blank">${match}</a>`; // 顯示超連結
+                }
+            });
+
+            // 更新頁面上的元素
+            document.getElementById('NEWSword-embed').innerHTML = formattedData;
+        })
+        .catch(error => {
+            console.error('Error loading Google Docs content:', error);
+            document.getElementById('NEWSword-embed').textContent = '無法載入文件內容，請稍後再試。';
+        });
 }
+
+
+
 
 function searchNEWSAnnouncements(query, rows) {
     // Filter based on column 0 (assuming it's the title)
