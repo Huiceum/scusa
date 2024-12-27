@@ -3,157 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>議員資訊</title>
+    <title>組織架構圖</title>
     <style>
-        body {
-            background-color: #f4f5f1;
-            color: #38322b;
-            font-family: Arial, sans-serif;
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .level {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            justify-content: center;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .department:hover {
+            border: 1px solid rgb(255, 224, 49);
+        }
+
+        .department {
+            position: relative;
+            padding: 20px 40px;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
             font-weight: bolder;
         }
-        .icon-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-around;
-        }
-        .icon {
-            width: calc(33.333% - 40px);
-            text-align: center;
-            cursor: pointer;
-            border-radius: 10px;
-            overflow: hidden;
-            background-color: #f4f5f1;
-            transition: all 0.3s ease;
-        }
-        .icon img {
-            width: 100%;
-            height: auto;
-        }
-        .icon-text {
-            font-size: 22px;
-            font-weight: bold;
-            margin: 15px 0;
-            color: #c59663;
-        }
-        .details-section {
-            text-align: center;
-            background-color: #dbdcd1;
-            margin: 10px 0;
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
             border-radius: 5px;
-            overflow: hidden;
+            white-space: pre-line;
+            display: none;
+            z-index: 1000;
+            width: 210px;
+            text-align: left;
         }
-        .details-header {
-            display: flex;
-            justify-content: space-between; /* 使標題和三角形分開 */
-            align-items: center;
-            padding: 15px;
-            background-color: #f4f5f1;
-            cursor: pointer;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+        .remark {
+            color: yellow;
+            font-size: 0.8em;
+            margin-top: 5px;
         }
-        .details-header span {
-            flex-grow: 1; /* 使標題置中 */
-            text-align: center;
+        .level[data-level="1"] .department {
+            background-color: #7da9dc;
         }
-        .triangle::after {
-            content: '\25BC';
-            display: inline-block;
-            transition: transform 0.3s ease;
+        .level[data-level="2"] .department {
+            background-color: #5f8ebd;
         }
-        .expanded .triangle::after {
-            transform: rotate(180deg);
+        .level[data-level="3"] .department {
+            background-color: #53687a;
         }
-        .details-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease, padding 0.3s ease;
-            padding: 0 8%;
-            color: #38322b;
-            background-color: #dbdcd1;
-            border-radius: 5px;
-            margin-top: 0;
-            text-align: left; /* 讓內容置左 */
-        }
-        .expanded .details-content {
-            padding: 8%;
+        .level[data-level="4"] .department {
+            background-color: #414b54;
         }
     </style>
 </head>
 <body>
-    <div class="icon-container"></div>
+    <div class="org-chart" id="org-chart"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            loadIcons();  
+            loadOrgChart();
         });
 
-        function loadIcons() {
-            const sheetId = '18CtTB-_OmGJIWdDlewqyy-fn5M0EFzVqEX0vJoiT4bI';
+        function loadOrgChart() {
+            const sheetId = '1Fuwbg13SC3ZCiFMpvH0zbrBceXpfubqusl3IDysy4Gk';
             const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
             fetch(url)
                 .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
                 .then(data => {
                     const rows = data.split('\n').slice(1);
-                    const iconContainer = document.querySelector('.icon-container');
-                    iconContainer.innerHTML = '';
-
+                    const levels = {};
+                    
                     rows.forEach(row => {
-                        const [imageUrl, name, title, department, committee, representative] = row.split(',').map(col => col.replace(/"/g, '').trim());
+                        const [department, business, remark, level] = row.split(',').map(col => col.replace(/"/g, '').trim());
 
-                        if (imageUrl && name) {
-                            const icon = document.createElement('div');
-                            icon.classList.add('icon');
+                        if (!levels[level]) levels[level] = [];
+                        levels[level].push({ department, business, remark });
+                    });
 
-                            icon.innerHTML = ` 
-                                <img src="${imageUrl}" alt="${name}">
-                                <div class="icon-text">${name}</div>
-                                ${createDetailButton('職稱', formatText(title))}
-                                ${createDetailButton('系級', formatText(department))}
-                                ${createDetailButton('委員會', formatText(committee))}
-                                ${createDetailButton('校級會議代表', formatText(representative))}
-                            `;
+                    const orgChart = document.getElementById('org-chart');
+                    orgChart.innerHTML = '';
 
-                            iconContainer.appendChild(icon);
-                        }
+                    Object.keys(levels).sort().forEach(level => {
+                        const levelContainer = document.createElement('div');
+                        levelContainer.classList.add('level');
+                        levelContainer.setAttribute('data-level', level);
+
+                        const items = levels[level];
+                        const columns = items.length;
+                        levelContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+
+                        items.forEach(item => {
+                            const departmentDiv = document.createElement('div');
+                            departmentDiv.classList.add('department');
+                            departmentDiv.textContent = item.department;
+                            
+                            const tooltip = document.createElement('div');
+                            tooltip.classList.add('tooltip');
+                            tooltip.innerHTML = item.business.replace(/、/g, '\n');
+                            if (item.remark) {
+                                tooltip.innerHTML += `<div class="remark">${item.remark}</div>`;
+                            }
+                            
+                            departmentDiv.appendChild(tooltip);
+
+                            departmentDiv.addEventListener('mouseenter', () => {
+                                tooltip.style.display = 'block';
+                            });
+                            departmentDiv.addEventListener('mouseleave', () => {
+                                tooltip.style.display = 'none';
+                            });
+
+                            levelContainer.appendChild(departmentDiv);
+                        });
+
+                        orgChart.appendChild(levelContainer);
                     });
                 })
-                .catch(error => console.error('Error loading icons:', error));
+                .catch(error => console.error('Error loading organization chart:', error));
         }
-
-        function createDetailButton(label, content) {
-            return `
-                <div class="details-section">
-                    <div class="details-header">
-                        <span>${label}</span>
-                        <div class="triangle"></div>
-                    </div>
-                    <div class="details-content">${content}</div>
-                </div>
-            `;
-        }
-
-        function formatText(text) {
-            return text ? text.replace(/、/g, '<br>') : '無';
-        }
-
-        document.addEventListener('click', function(event) {
-            if (event.target.closest('.details-header')) {
-                const header = event.target.closest('.details-header');
-                const content = header.nextElementSibling;
-                const section = header.parentElement;
-                
-                section.classList.toggle('expanded');
-                if (section.classList.contains('expanded')) {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                } else {
-                    content.style.maxHeight = '0';
-                    content.style.padding = '0 15px';
-                }
-            }
-        });
     </script>
 </body>
 </html>
