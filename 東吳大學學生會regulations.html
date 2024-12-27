@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>法規編錄 - 東吳大學學生會</title>
+    <title>財務報告 - 東吳大學學生會</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.PNG" type="image/x-icon"> <!-- 新增這行 -->
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
 
     <style>
-        
-                /* 表格样式 */
-                .info-table {
+        /* 表格样式 */
+        .info-table {
             width: 100%; 
             border-collapse: collapse; 
             margin-top: 20px;
@@ -64,7 +63,6 @@
             overflow: hidden;
             margin-top: 20px; /* 按鈕間距 */
         }
-
         /* 按鈕特效 */
         .download-button::before {
             content: "";
@@ -102,51 +100,6 @@
             text-align: center;
         }
 
-        /* 表格样式 */
-        .info-table {
-            width: 100%; /* 表格宽度为100% */
-            border-collapse: collapse; /* 去掉间隙 */
-            margin-top: 20px; /* 表格顶部间距 */
-        }
-        .info-table th, .info-table td {
-            padding: 10px; /* 单元格内边距 */
-            text-align: left; /* 左对齐 */
-        }
-        .info-table th {
-            border-bottom: 2px solid black; /* 底线 */
-        }
-        .info-table td {
-            border: none; /* 无边框 */
-        }
-        .business-content ul {
-            margin: 0; /* 去掉默认的margin */
-            padding-left: 20px; /* 左侧填充 */
-        }
-        .additional-links {
-            margin-top: 20px; /* 分頁選項的上方間距 */
-            text-align: center; /* 置中顯示 */
-        }
-        .additional-links a {
-            margin: 0 10px; /* 左右間距 */
-            text-decoration: none; /* 去掉下劃線 */
-            color: #007bff; /* 超鏈接顏色 */
-        }
-        .iframe-container {
-            text-align: center; /* 置中顯示 iframe */
-            margin-top: 20px; /* 上方間距 */
-        }
-        iframe {
-            width: 1200px; /* 設定寬度 */
-            height: 1000px; /* 設定高度 */
-            border: none; /* 去掉邊框 */
-        }
-                /* 針對小屏幕的樣式 */
-@media (max-width: 767px) {
-    .iframe-container{
-        max-width: 100%; /* 使圖片不超過其容器的寬度 */
-        height: auto
-    }
-    }
     </style>
 </head>
 <body>
@@ -167,7 +120,6 @@
                 <!-- 動態加載的鏈接將插入此處 -->
             </ul>
         </nav>
-
 
         <div class="main-content">
             <div class="navbar">
@@ -224,82 +176,39 @@
                 <a href="東吳大學學生會regulations.html" class="link active">法規編錄</a>
             </div>
 
-        <!-- 按鈕區域 -->
-        <div class="button-container  slide-up">
-            <a href="東吳大學學生自治法規錄.pdf" download class="download-button">東吳大學學生自治法規錄.pdf</a>
-        </div>
-            <!-- 嵌入 iframe -->
-            <div class="iframe-container">
-                <iframe src="https://online.fliphtml5.com/iyydl/fnyj/" seamless="seamless" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+            <!-- 按鈕區域 -->
+            <div class="button-container  slide-up" id="download-buttons">
+                <!-- 下載按鈕將從 Google 試算表動態生成 -->
             </div>
 
+            
+            <div id="ball-container">
+                <img id="ball" src="ball.png" alt="Ball">
+                <button id="mobile-btn">開啟手機板</button>
+              </div>
         </div>
+
     </div>
-    <div id="ball-container  slide-up">
-        <img id="ball" src="ball.png" alt="Ball">
-        <button id="mobile-btn">開啟手機板</button>
-      </div>
-    <!-- JavaScript 部分 -->
+
     <script>
         const hamburgerMenu = document.getElementById('hamburger-menu');
-         const sidebar = document.getElementById('sidebar');
-         const mainMenus = document.querySelectorAll('.main-menu');
- 
-         // 漢堡選單功能：顯示或隱藏側邊欄
-         hamburgerMenu.addEventListener('click', function() {
-             sidebar.classList.toggle('active');
-         });
- 
-         // 點擊主選單顯示或隱藏副選單
-         mainMenus.forEach(menu => {
-             menu.addEventListener('click', function() {
-                 const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
-                 targetSubmenu.classList.toggle('show');
-             });
-         });
-         document.addEventListe
-         document.addEventListener('DOMContentLoaded', function() {
-             const dropdownParent = document.querySelector('.dropdown-parent');
-             const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
-             const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-             
-             dropdownToggle.addEventListener('click', function() {
-                 dropdownParent.classList.toggle('active');
-             });
-         });
-         setInterval(() => {
-  if (isBallOne) {
-    ball.src = 'ball2.png';
-  } else {
-    ball.src = 'ball.png';
-  }
-  isBallOne = !isBallOne;
-}, 500);
-
-ball.addEventListener('click', () => {
-  window.location.href = '東吳大學學生會game.html';
-});
-
-document.getElementById('mobile-btn').addEventListener('click', () => {
-  window.location.href = '東吳大學學生會regulations_phone.html';
-});
-
-                // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
-                const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        });
-
-        // 監視所有具有 slide-up 類別的元素
-        document.querySelectorAll('.slide-up').forEach(element => {
-            observer.observe(element);
+        const sidebar = document.getElementById('sidebar');
+    
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+    
+            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.container').style.marginLeft = '200px'; 
+            } else {
+                document.querySelector('.container').style.marginLeft = '0'; 
+            }
         });
 
         document.addEventListener('DOMContentLoaded', function() {
             loadSidebarLinks();
+            loadDownloadButtons(); // 載入下載按鈕
+
         });
 
                 // 載入sidebar鏈接
@@ -330,6 +239,76 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
             });
         }
 
-     </script>
+        function loadDownloadButtons() {
+            const sheetId = '1gqH1VQc0fvfUx8GPl3VAenF9o4B-88adzVjfHSSClxE'; // Google 試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                    const downloadButtonsContainer = document.getElementById('download-buttons');
+                    downloadButtonsContainer.innerHTML = ''; // 清空按鈕容器
+
+                    rows.forEach(row => {
+                        const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+                        const buttonText = columns[0];
+                        const fileLink = columns[1];
+
+                        const downloadButton = document.createElement('a');
+                        downloadButton.classList.add('download-button');
+                        downloadButton.href = fileLink;
+                        downloadButton.download = '';
+                        downloadButton.textContent = buttonText;
+
+                        downloadButtonsContainer.appendChild(downloadButton);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading download buttons:', error);
+                    alert('無法載入下載按鈕，請查看控制台獲取更多資訊。');
+                });
+        }
+        
+ 
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+
+setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生會game.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生會regulations_phone.html';
+});
+
+
+                // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+                const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        // 監視所有具有 slide-up 類別的元素
+        document.querySelectorAll('.slide-up').forEach(element => {
+            observer.observe(element);
+        });
+
+
+
+
+    </script>
 </body>
 </html>
