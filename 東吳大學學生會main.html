@@ -21,84 +21,7 @@
             text-decoration: underline;
         }
     
-        /* 設置文件容器的大小並置中內容 */
-        .docs-container {
-    position: relative;
-    display: flex; /* 使用彈性布局 */
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    width: 100%;
-    height: 390px;
-    overflow: hidden;
-    margin: 0 auto; /* 自動水平居中 */
-    text-align: center; /* 將內容水平置中 */
 
-
-}
-
-.doc img {
-    max-width: 100%; /* 確保圖片不會超過容器大小 */
-    margin: 0 auto; /* 自動水平居中 */
-    max-height: 100%; /* 保持圖片高度不超出 */
-    text-align: center; /* 將內容水平置中 */
-
-}
-
-
-.doc {
-    position: absolute;
-    top: 0;
-    left: 100%; /* 起始位置為畫面外 */
-    width: 100%;
-    height: 100%;
-    transform: scale(0.85); /* 調整縮放比例，例如 0.5 是等比例縮小為 50% */
-    opacity: 0;
-    transition: all 0.7s ease-in-out; /* 動畫效果 */
-}
-
-.doc.active {
-    left: 0; /* 當前頁面進入視窗 */
-    opacity: 1;
-    
-}
-
-.doc.exit-left {
-    left: -100%; /* 離開到左側 */
-    opacity: 0;
-}
-
-.doc.enter-right {
-    left: 100%; /* 從右側進入 */
-    opacity: 0;
-}
-
-.pagination {
-    margin-left: 25%; /* 自動將元素推到右邊 */
-    margin-right: auto;
-    display: flex; /* 確保按鈕布局正常 */
-    gap: 0; /* 按鈕之間無間距 */
-}
-
-.pagination button {
-    padding: 10px 20px; /* 調整按鈕的內邊距 */
-    font-size: 16px; /* 調整字體大小 */
-    background-color: #FFFFFF; /* 按鈕背景色 */
-    color: #16151a; /* 按鈕文字顏色 */
-    border: none; /* 移除按鈕邊框 */
-    cursor: pointer; /* 滑鼠變成手型 */
-    transition: background-color 0.3s; /* 背景顏色變化動畫 */
-    margin: 0; /* 確保按鈕之間無外邊距 */
-}
-
-.pagination button:first-child {
-    margin-left: 0; /* 確保第一個按鈕無間距 */
-}
-
-
-.pagination button:hover {
-    background-color: #6887ae;
-    color: #FFFFFF;
-}
 
         .icon-section {
     background-color: #211a35; /* 設置背景顏色 */
@@ -213,6 +136,76 @@
         
     }
 
+    .image-container {
+            position: relative;
+            width: 70%; /* 使容器寬度自適應 */
+            aspect-ratio: 3 / 1; /* 高度是寬度的三分之一 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+
+        .doc img {
+            width: 100%;
+            height: auto;
+            max-height: 33.33vw; /* 高度為寬度的三分之一 */
+            object-fit: contain;
+            display: block;
+            transition: all 0.7s ease-in-out; /* 動畫效果 */
+        }
+
+        .doc {
+            position: absolute;
+            top: 0;
+            left: 100%; /* 初始位置在畫面外 */
+            width: 100%;
+            height: 100%;
+            transform: scale(0.85);
+            opacity: 0;
+            transition: all 0.7s ease-in-out;
+        }
+
+        .doc.active {
+            left: 0; /* 當前頁面顯示 */
+            opacity: 1;
+        }
+
+        .doc.exit-left {
+            left: -100%; /* 向左退出 */
+            opacity: 0;
+        }
+
+        .doc.enter-right {
+            left: 100%; /* 從右側進入 */
+            opacity: 0;
+        }
+
+        .button-container {
+            position:relative;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            width: 100%;
+
+        }
+
+        .btn {
+            background-color: #ededed;
+            color: rgb(21, 21, 21);
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 30%;
+        }
+
+        .btn:hover {
+            background-color: #b9b9b9;
+        }
+
+    
     </style>
     
 </head>
@@ -284,28 +277,17 @@
                 </ul>
             </div>
 
-            <div class="docs-container slide-up">
-                <div id="doc1" class="doc active">
-                    <img src="https://docs.google.com/drawings/d/e/2PACX-1vTjgy113ngM9I1nrEQoWOuvPcpwHodldHNk6s_3pZJEMcFb9_Jtmku4QT863GSjZtjKklgEe0Xu-Ufx/pub?w=1200&amp;h=400" >
-                </div>
-                <div id="doc2" class="doc">
-                    <img src="https://docs.google.com/drawings/d/e/2PACX-1vTwsqHi3Y8L0m7e7XY3VZVcXB5JHNn-fP85bsxW23XdP1Vyr_Ibx_CLPsZw6UFRF97GjYvEcyXhrXi_/pub?w=1200&amp;h=400" >
-                </div>
-                <div id="doc3" class="doc">
-                    <img src="https://docs.google.com/drawings/d/e/2PACX-1vTbhcel5crd5Xl28INsoUwxd8EU4Xr3v9mOdT8J9KIdVpFooPPgLBkWD7Tkyxg7W5ttUyMyKxVOlnXe/pub?w=1200&amp;h=400" >
-                </div>
-                <div id="doc4" class="doc">
-                    <img src="https://docs.google.com/drawings/d/e/2PACX-1vRUzDEOfDKURDY9JZBiLMZgr4JnkWdVQ11Qr0SHr_jSMRANNfJ8mNCMfiSsl1LNQuw8iI8hWaQOa7G1/pub?w=1200&amp;h=400" >
-                </div>
-                <div id="doc5" class="doc">
-                    <img src="https://docs.google.com/drawings/d/e/2PACX-1vSplvEqfqSAf_1i2t1yaRnCOGJd_fv7AhtFjjr1MCqo_xLXkuFlrmpfPwmNthsEtFsMcQAaoe8NkH10/pub?w=1200&amp;h=400" >
-                </div>
+            <div class="image-container">
+                <!-- 顯示圖片的容器 -->
+        
+            
             </div>
             
-            <div class="pagination">
-                <button id="prev-btn">＜</button>
-                <button id="next-btn">＞</button>
+            <div class="button-container">
+                <button id="prev-btn" class="btn">上一頁</button>
+                <button id="next-btn" class="btn">下一頁</button>
             </div>
+        
             
             
             <div class="announcements slide-up">
@@ -524,58 +506,85 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
   window.location.href = '東吳大學學生會main_phone.html';
 });
 
-let currentIndex = 0; // 當前顯示的頁面索引
-const docs = document.querySelectorAll('.doc');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const autoChangeInterval = 5000; // 自動換頁時間（毫秒）
 
-// 更新頁面顯示
-function showDoc(index) {
-    docs.forEach((doc, i) => {
-        doc.classList.remove('active', 'exit-left', 'enter-right');
-        if (i === index) {
-            doc.classList.add('active');
-        } else if (i < index) {
-            doc.classList.add('exit-left');
-        } else {
-            doc.classList.add('enter-right');
+document.addEventListener('DOMContentLoaded', function() {
+            doctrans(); // 載入圖片
+        });
+
+        let currentIndex = 0; // 當前顯示的頁面索引
+        let docs = []; // 儲存所有圖片元素
+        const sheetId = '117iP2R3W0Ty-YGbIm2nHf5D1nNyjTR-hgCZirJmch0M'; // 試算表 ID
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+        // 載入試算表的資料
+        fetch(url)
+            .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+            .then(data => {
+                const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                const imageContainer = document.querySelector('.image-container');
+                imageContainer.innerHTML = ''; // 清空圖片區域
+
+                rows.forEach(row => {
+                    const [imageUrl, link] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 解析每一行
+
+                    if (imageUrl && link) {
+                        const doc = document.createElement('div');
+                        doc.classList.add('doc');
+                        doc.innerHTML = `
+                            <a href="${link}" target="_blank">
+                                <img src="${imageUrl}" alt="Image">
+                            </a>
+                        `;
+                        imageContainer.appendChild(doc);
+                        docs.push(doc); // 將每張圖片存入 docs
+                    }
+                });
+
+                showDoc(currentIndex); // 初始化顯示
+            })
+            .catch(error => console.error('Error loading icons:', error));
+
+        // 顯示當前圖片
+        function showDoc(index) {
+            docs.forEach((doc, i) => {
+                doc.classList.remove('active', 'exit-left', 'enter-right');
+                if (i === index) {
+                    doc.classList.add('active');
+                } else if (i < index) {
+                    doc.classList.add('exit-left');
+                } else {
+                    doc.classList.add('enter-right');
+                }
+            });
         }
-    });
-}
 
-// 下一頁
-function nextDoc() {
-    currentIndex = (currentIndex + 1) % docs.length;
-    showDoc(currentIndex);
-}
+        // 下一頁
+        function nextDoc() {
+            currentIndex = (currentIndex + 1) % docs.length;
+            showDoc(currentIndex);
+        }
 
-// 上一頁
-function prevDoc() {
-    currentIndex = (currentIndex - 1 + docs.length) % docs.length;
-    showDoc(currentIndex);
-}
+        // 上一頁
+        function prevDoc() {
+            currentIndex = (currentIndex - 1 + docs.length) % docs.length;
+            showDoc(currentIndex);
+        }
 
-// 自動換頁
-let autoChange = setInterval(nextDoc, autoChangeInterval);
+        // 自動換頁
+        let autoChange = setInterval(nextDoc, 5000); // 每 5 秒自動換頁
 
-// 按鈕事件綁定
-nextBtn.addEventListener('click', () => {
-    clearInterval(autoChange); // 停止自動換頁
-    nextDoc();
-    autoChange = setInterval(nextDoc, autoChangeInterval); // 重啟自動換頁
-});
+        // 按鈕事件綁定
+        document.getElementById('next-btn').addEventListener('click', () => {
+            clearInterval(autoChange); // 停止自動換頁
+            nextDoc();
+            autoChange = setInterval(nextDoc, 5000); // 重啟自動換頁
+        });
 
-prevBtn.addEventListener('click', () => {
-    clearInterval(autoChange); // 停止自動換頁
-    prevDoc();
-    autoChange = setInterval(nextDoc, autoChangeInterval); // 重啟自動換頁
-});
-
-// 初始化
-showDoc(currentIndex);
-
-
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            clearInterval(autoChange); // 停止自動換頁
+            prevDoc();
+            autoChange = setInterval(nextDoc, 5000); // 重啟自動換頁
+        });
 
 
 function toggleCalendar() {
