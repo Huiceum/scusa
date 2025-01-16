@@ -1,259 +1,98 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>公告 - 東吳大學學生會</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.PNG" type="image/x-icon">
-
+    <title>英文-中文 文章顯示</title>
     <style>
-
-        /* 預設連結樣式 */
-        a {
-            color: #6887ae;
-            text-decoration: none;
+        .hidden { 
+            display: none; 
         }
-    
-        /* 滑鼠懸停時的樣式 */
-        a:hover {
-            color: rgb(205, 47, 71);
-            text-decoration: underline;
+        .highlight {
+            color: #FF6347; /* Highlighted color for words in curly braces */
         }
-
-        .updateTime {
-        bottom: 10px;
-        font-size: 0.8em;
-        color: #b9b9b9;
-        
-    }
+        #b-article {
+            margin-top: 20px;
+        }
+        .input-area, .output-area {
+            margin-bottom: 20px;
+        }
     </style>
-    
 </head>
-
 <body>
+    <h1>英文-中文 文章查看</h1>
 
-    <div class="container">
-        <!-- 漢堡選單按鈕 -->
-        <div class="hamburger-menu" id="hamburger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+    <!-- 英文文章顯示區域 -->
+    <div id="english-article" class="output-area">
+        <h2>英文文章</h2>
+        <!-- 這裡會顯示從 Google 試算表抓取的英文文章 -->
+    </div>
 
-        <nav class="sidebar" id="sidebar">
-            <div class="logo">
-                <img src="logo.png" alt="Logo">
-                <div class="site-name"></div>
-            </div>
-            <ul class="nav-links" id="sidebar-links">
-                <!-- 動態加載的鏈接將插入此處 -->
-            </ul>
-        </nav>
+    <!-- 輸入區域 -->
+    <div class="input-area">
+        <textarea id="english-input" rows="5" cols="80" placeholder="在這裡輸入英文文章..."></textarea>
+        <button onclick="generateBArticle()">生成中文文章</button>
+    </div>
 
-        <div class="main-content">
-            <div class="navbar">
-                <ul class="nav-options">
-                    <li class="nav-item">
-                        <a href="東吳大學選舉事務委員會.html">選舉事務委員會</a>
-                        <ul class="dropdown-content">
-                            <li><a href="東吳大學選舉事務委員會.html">選舉事務委員會</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="東吳大學學生會main.html">學生會</a>
-                        <ul class="dropdown-content">
-                            <li><a href="東吳大學學生會introduction.html">關於本會</a></li>
-                            <li><a href="東吳大學學生會financial-report.html">財務報告</a></li>
-                            <li><a href="東吳大學學生會about.html">組織架構</a></li>
-                            <li><a href="東吳大學學生會regulations.html">法規彙編</a></li>
-                            <li><a href="東吳大學學生會反映表單－公開.html">我要反映</a></li>
-                            <li><a href="東吳大學學生會快報.html">學權快報</a></li>
+    <!-- 中文文章顯示區域 -->
+    <div id="b-article" class="output-area"></div>
 
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="東吳大學學生會main.html">活動專區</a>
-                        <ul class="dropdown-content">
-                            <li><a href="登入.html">系統登入</a></li>
-                            <li><a href="註冊.html">系統註冊</a></li>
-                            <li><a href="東吳大學學生會學生資料.html">個人資料專區</a></li>
-                            <li><a href="東吳大學學生會shop.html">特約商店</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="東吳大學學生議會.html">學生議會</a>
-                        <ul class="dropdown-content">
-                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
-                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
-                            <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="東吳大學學生仲裁法庭.html">學生仲裁法庭</a>
-                        <ul class="dropdown-content">
-                            <li><a href="東吳大學學生仲裁法庭.html">學生仲裁法庭</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="announcements slide-up">
-                <div id="announcements-list">
-                    <!-- 公告內容將自動載入 -->
-                </div>
-            </div>
-
-        <div id="ball-container">
-            <img id="ball" src="ball.png"  alt="Ball">
-            <button id="mobile-btn">開啟手機板</button>
-          </div>
-          
-    
-    
-
-    <!-- JavaScript -->
     <script>
-// 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        // 當元素進入視窗時
-        if (entry.isIntersecting) {
-            // 為該元素添加 'show' 類別以觸發動畫
-            entry.target.classList.add('show');
-        } else {
-            // 可選：當元素不再進入視窗時，可以移除 'show' 類別
-            entry.target.classList.remove('show');
-        }
-    });
-});
+        const sheetId = '1cydBIHAlBOdWJzpI3o6stFUFNAOOGy5GIhpBlNRicKo'; // 請替換成你的 Google 試算表 ID
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-// 監視所有具有 slide-up 類別的元素
-document.querySelectorAll('.slide-up').forEach(element => {
-    observer.observe(element);
-});
-
-// 餐包菜單和側邊欄的設定（未變更）
-const hamburgerMenu = document.getElementById('hamburger-menu');
-const sidebar = document.getElementById('sidebar');
-const mainMenus = document.querySelectorAll('.main-menu');
-
-        // 漢堡選單功能：顯示或隱藏側邊欄
-        hamburgerMenu.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
-            if (sidebar.classList.contains('active')) {
-                document.querySelector('.main-content').style.marginLeft = '200px';
-            } else {
-                document.querySelector('.main-content').style.marginLeft = '0';
-            }
-        });
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSidebarLinks();
-            loadAnnouncements();
-        });
-
-
-                // 載入sidebar鏈接
-                function loadSidebarLinks() {
-            const sheetId = '16m2JrshR1QyQIRxdn1ZbCS7zyAnqN2OpMhREp-c4Qc8'; // 新的試算表 ID
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
-
+        // 從 Google 試算表抓取資料並顯示英文文章
+        function loadArticles() {
             fetch(url)
-            .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+            .then(response => response.text()) // 解析為文本格式
             .then(data => {
-                const rows = data.split('\n').slice(1); // 分割行並移除標題行
-                const sidebarLinks = document.getElementById('sidebar-links');
-                sidebarLinks.innerHTML = ''; // 清空sidebar
+                const rows = data.split('\n').slice(1); // 分割數據並移除標題行
+
+                const englishArticleDiv = document.getElementById('english-article');
+                englishArticleDiv.innerHTML = "<h2>英文文章</h2>"; // 顯示標題
 
                 rows.forEach(row => {
-                    const [linkText, linkUrl] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 假設第一列為文字，第二列為URL
+                    const columns = row.split(',').map(col => col.replace(/"/g, '').trim()); // 清理數據
+                    const englishText = columns[0]; // 英文文章內容
 
-                    if (linkText && linkUrl) {
-                        const linkItem = document.createElement('li');
-                        linkItem.innerHTML = `<a href="${linkUrl}" target="_blank">${linkText}</a>`;
-                        sidebarLinks.appendChild(linkItem);
-                    }
+                    const englishParagraph = createParagraph(englishText);
+                    englishArticleDiv.appendChild(englishParagraph);
                 });
             })
             .catch(error => {
-                console.error('Error loading sidebar links:', error);
-                alert('無法載入側邊欄內容，請查看控制台獲取更多資訊。');
+                console.error('載入文章時發生錯誤:', error);
+                alert('無法載入文章，請查看控制台以獲取更多資訊');
             });
         }
 
-
-        function loadAnnouncements() {
-    const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 只保留試算表 ID
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
-
-    fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+        // 根據輸入的英文文章生成對應的中文文章
+        function generateBArticle() {
+            const inputText = document.getElementById('english-input').value;
+            const outputDiv = document.getElementById('b-article');
+            const chineseText = convertToChinese(inputText); // 將英文文章轉換為中文，這裡可以加入翻譯邏輯
+            outputDiv.innerHTML = createParagraph(chineseText).innerHTML;
         }
-        return response.text(); // 解析為文本格式
-    })
-    .then(data => {
-        const rows = data.split('\n').slice(1); // 分割行並移除標題行
-        const announcementList = document.getElementById('announcements-list');
-        announcementList.innerHTML = ''; // 清空公告欄
 
-        rows.forEach((row) => {
-            const columns = row.split(',').map(col => col.replace(/"/g, '').trim()); // 移除引號並修剪空格
-            const newAnnouncement = document.createElement('div');
-            newAnnouncement.classList.add('announcement');
-
-            // 假設第一列是標題，第二列是訊息，第三列是超連結
-            newAnnouncement.innerHTML = `
-                <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
-                <p class="message">${columns[1]}</p>
-                <p class="updateTime">發文時間：${columns[3]}</p>
-
-            `;
-
-            announcementList.appendChild(newAnnouncement);
-        });
-    })
-    .catch(error => {
-        console.error('Error loading announcements:', error);
-        alert('無法載入公告，請查看控制台獲取更多資訊。');
-    });
-}
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownParent = document.querySelector('.dropdown-parent');
-            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
-            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
-            
-            dropdownToggle.addEventListener('click', function() {
-                dropdownParent.classList.toggle('active');
+        // 將每段文本處理成顯示格式
+        function createParagraph(text) {
+            const paragraph = document.createElement('p');
+            const regex = /(\d+)\s?({.*?})/g; // 匹配數字和括號中的內容
+            const formattedText = text.replace(regex, (match, number, curlyWord) => {
+                return `<span class="hidden">${number}</span>${curlyWord ? `<span class="highlight">${curlyWord}</span>` : ''}`;
             });
-        });
+            paragraph.innerHTML = formattedText;
+            return paragraph;
+        }
 
-        let ball = document.getElementById('ball');
-let isBallOne = true;
+        // 這裡可以根據需要替換成真實的翻譯邏輯，目前是示範將英文單詞後加上 " 1"
+        function convertToChinese(englishText) {
+            return englishText.replace(/\b(\w+)\b/g, function(match) {
+                return match + ' 1'; // 假設對應的中文是 "1"，可以根據實際需求更改
+            });
+        }
 
-setInterval(() => {
-  if (isBallOne) {
-    ball.src = 'ball2.png';
-  } else {
-    ball.src = 'ball.png';
-  }
-  isBallOne = !isBallOne;
-}, 500);
-
-ball.addEventListener('click', () => {
-  window.location.href = '東吳大學學生會game.html';
-});
-
-document.getElementById('mobile-btn').addEventListener('click', () => {
-  window.location.href = '東吳大學學生會announcements_phone.html';
-});
-
+        // 頁面載入時抓取試算表中的文章
+        loadArticles();
     </script>
-
-    
 </body>
 </html>

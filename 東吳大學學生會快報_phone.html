@@ -455,7 +455,7 @@ function embedWord(wordUrl) {
             // 偵測網址，分開處理圖片和超連結
             formattedData = formattedData.replace(/https?:\/\/[^\s]+/g, (match) => {
                 // 檢查是否為圖片網址（png, jpg, gif）
-                if (/\.(png|jpg|gif)$/i.test(match)) {
+                if (/\.(png|jpg|gif|jpeg)$/i.test(match)) {
                     return `<img src="${match}" alt="Image">`; // 顯示圖片
                 } else {
                     return `<a href="${match}" target="_blank">${match}</a>`; // 顯示超連結
