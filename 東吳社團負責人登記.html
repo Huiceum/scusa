@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社團資料設定</title>
+    <style>
+        /* 精美 CSS 設計 */
+        .xone-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .xone-container h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .xone-form-group {
+            margin-bottom: 15px;
+        }
+
+        .xone-form-group label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .xone-form-group input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .xone-radio-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .xone-radio-group label {
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .xone-radio-group input[type="radio"] {
+            display: none;
+        }
+
+        .xone-radio-group input[type="radio"]:checked + label {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .xone-radio-group label:hover {
+            background-color: #f1f1f1;
+        }
+        
+        /* 設置紅色背景 */
+        #xone-delete:checked + label {
+            background-color: red;
+            color: white;
+            border-color: red;
+        }
+
+        .xone-submit-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .xone-submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .xone-submit-btn:hover:not(:disabled) {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="xone-container">
+        <h1>社團資料設定</h1>
+        <form id="xone-form">
+            <div class="xone-form-group">
+                <label for="xone-club-name">社團名稱：</label>
+                <input type="text" id="xone-club-name" name="entry.340607526" required>
+            </div>
+            <div class="xone-form-group">
+                <label for="xone-leader-id">負責人學號（八碼數字）：</label>
+                <input type="text" id="xone-leader-id" name="entry.1946983161" pattern="\d{8}" required>
+            </div>
+            <div class="xone-form-group xone-radio-group">
+                <input type="radio" id="xone-add" name="entry.993325521" value="新增" required>
+                <label for="xone-add">新增</label>
+                <input type="radio" id="xone-delete" name="entry.993325521" value="刪除" required>
+                <label for="xone-delete">刪除</label>
+            </div>
+            <button type="submit" class="xone-submit-btn" id="xone-submit" disabled>寄送</button>
+        </form>
+    </div>
+
+    <script>
+     const form = document.getElementById('xone-form');
+const submitButton = document.getElementById('xone-submit');
+
+// 啟用按鈕的檢查
+form.addEventListener('input', () => {
+    const clubName = form['entry.340607526'].value.trim();
+    const leaderId = form['entry.1946983161'].value.trim();
+    const actionSelected = form['entry.993325521'].value;
+
+    if (clubName && /^\d{8}$/.test(leaderId) && actionSelected) {
+        submitButton.disabled = false;
+    } else {
+        submitButton.disabled = true;
+    }
+});
+
+// 表單提交
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // 在第二個問題（這裡是領隊編號）前加上 # 字號
+    const leaderIdField = form['entry.1946983161'];
+    leaderIdField.value = '#' + leaderIdField.value.trim();
+
+    const formData = new FormData(form);
+    const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfvH2lcuThpaGneg3C5T4JSTvYvmLfmUl8nGEgDgj0a7nuj9Q/formResponse';
+
+    try {
+        await fetch(googleFormUrl, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors', // Google Form 不回傳 Response，所以使用 no-cors
+        });
+
+        alert('寄送成功！');
+        form.reset();
+        submitButton.disabled = true;
+    } catch (error) {
+        alert('寄送失敗，請重試！');
+        console.error(error);
+    }
+});
+
+    </script>
+</body>
+</html>

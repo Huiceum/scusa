@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首頁 - 東吳大學學生會</title>
+    <title>註冊 - 東吳大學學生會</title>
     <link rel="stylesheet" href="style_phone.css">
     <link rel="stylesheet" href="menu.css">
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
@@ -228,8 +228,85 @@
             opacity: 0;
             transform: scale(0.9);
         }
+
+
+
+    /* 設計提示框樣式 */
+    #x0xconsent-box {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7); /* 深色透明背景 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+    }
+    .x0xconsent-content {
+      background-color: #fff;
+      color: #333;
+      padding: 30px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 650px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      text-align: left;
+    }
+    .x0xconsent-content h2 {
+      margin-top: 0;
+      font-size: 24px;
+      color: #1d3c6e;
+      font-weight: bold;
+    }
+    .x0xconsent-content p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    .x0xconsent-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .x0xconsent-footer label {
+      font-size: 16px;
+    }
+    .x0xconsent-footer input {
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+    #x0xagree-btn {
+      padding: 10px 20px;
+      background-color: #1d3c6e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #x0xagree-btn:disabled {
+      background-color: #ddd;
+      cursor: not-allowed;
+    }
+    #x0xagree-btn:hover:not(:disabled) {
+      background-color: #14508f;
+    }
+    #x0xmain-content {
+      display: none;
+      padding: 20px;
+    }
 </style>
 <body>
+
+
+
+
     <div class="container">
         <!-- 漢堡選單按鈕 -->
         <div class="hamburger-menu" id="hamburger-menu">
@@ -290,6 +367,33 @@
         </nav>
 
 
+
+        <div id="x0xconsent-box">
+            <div class="x0xconsent-content">
+              <h2>東吳大學學生會帳號註冊同意書</h2>
+              <p>為確保註冊的學生擁有東吳大學的學生資格，註冊過程中會使用學校電子郵件驗證<a href="https://webmail.scu.edu.tw/" target="_blank" style="color: #1d3c6e;">webmail.scu.edu.tw</a>（帳號密碼預設皆為學號8碼），請先準備以完成驗證程序。</p>
+              <h2>學生所提供的帳號和密碼將僅用於學生會會務專用</h2>
+              <p>註冊時所設定的密碼不必與東吳大學校務行政系統的密碼相同，僅作為學生會服務所需的認證用途。</p>
+              <h2>資料保護與隱私</h2>
+              <p>為避免學生資料外洩，除非涉及學生權益處理事項，學生會將不會主動要求提供或查詢學生的個人資料。我們承諾將妥善保護學生的隱私，請學生放心使用。</p>
+              <h2>詐騙防範提醒</h2>
+              <p>學生會絕對不會以任何形式（如電子郵件、電話等）要求學生提供網路ATM帳號或其他電信服務帳戶資訊。若您收到任何要求您提供此類信息的訊息，請立即提高警覺，並避免回應。</p>
+            <br>
+            <p>東吳大學學生會 敬上</p>
+            
+              <div class="x0xconsent-footer">
+                <label>
+                  <input type="checkbox" id="x0xconsent-checkbox"> 我同意以上條款
+                </label>
+                <button id="x0xagree-btn" disabled>同意</button>
+              </div>
+            </div>
+          </div>
+        
+          <div id="x0xmain-content">
+            <!-- 真正的網頁內容 -->
+
+          </div>
         
         <div class="form-container">
             <h1>學生會帳號註冊</h1>
@@ -355,8 +459,8 @@ const mainMenus = document.querySelectorAll('.main-menu');
 
 
 
-  // Generate random 6-digit verification code
-  let generatedVerificationCode = '';
+// Generate random 6-digit verification code
+let generatedVerificationCode = '';
 function generateVerificationCode() {
     generatedVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 }
@@ -389,7 +493,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Account input validation
     accountInput.addEventListener('input', function() {
-        const account = accountInput.value;
+        let account = accountInput.value;
+
+        // Add '#' prefix to the input account
+        account = '#' + account;
 
         if (existingAccounts.includes(account)) {
             submitButton.disabled = true;
@@ -461,9 +568,13 @@ document.getElementById('verifyButton').addEventListener('click', function() {
         const account = document.getElementById('account').value;
         const password = document.getElementById('password').value;
 
+        // Add '#' before account and password
+        const modifiedAccount = `#${account}`;
+        const modifiedPassword = `#${password}`;
+
         const secondFormData = new FormData();
-        secondFormData.append('entry.201945990', account);
-        secondFormData.append('entry.2028682636', password);
+        secondFormData.append('entry.201945990', modifiedAccount);
+        secondFormData.append('entry.2028682636', modifiedPassword);
         secondFormData.append('entry.784146641', generatedVerificationCode);
         secondFormData.append('entry.987172996', enteredCode);
 
@@ -473,7 +584,7 @@ document.getElementById('verifyButton').addEventListener('click', function() {
             mode: 'no-cors'
         }).then(() => {
             alert('所有提交已成功！');
-            window.location.href = '登入.html'; // 替換為您的目標頁面
+            window.location.href = 'index.html'; // 替換為您的目標頁面
         }).catch(error => {
             alert('提交失敗，請再試一次！');
         });
@@ -583,6 +694,28 @@ function adjustBannerWidth() {
         banner.style.width = '75%';
     }
 }
+
+
+
+const consentBox = document.getElementById('x0xconsent-box');
+    const mainContent = document.getElementById('x0xmain-content');
+    const consentCheckbox = document.getElementById('x0xconsent-checkbox');
+    const agreeBtn = document.getElementById('x0xagree-btn');
+
+    // 每次開啟網頁都需要同意
+    consentBox.style.display = 'flex';
+    mainContent.style.display = 'none';
+
+    // 當勾選同意框時，啟用同意按鈕
+    consentCheckbox.addEventListener('change', () => {
+      agreeBtn.disabled = !consentCheckbox.checked;
+    });
+
+    // 當按下同意按鈕，隱藏同意書並顯示內容
+    agreeBtn.addEventListener('click', () => {
+      consentBox.style.display = 'none';
+      mainContent.style.display = 'block';
+    });
 
     </script>
 </body>

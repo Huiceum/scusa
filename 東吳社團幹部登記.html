@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社團人員登錄</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .question input, .question select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .question button {
+            padding: 10px 20px;
+            border: none;
+            background-color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .question button.green {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .question button.red {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .question button.white {
+            background-color: white;
+            color: #252525;
+            border: 1px solid #ddd;
+        }
+
+        .question button:hover {
+            opacity: 0.8;
+        }
+
+        #submitBtn {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #submitBtn:hover {
+            background-color: #0056b3;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 20px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="formContainer">
+        <h1>社團人員登錄</h1>
+        <div class="loading" id="loadingMessage">讀取中，請稍候...</div>
+        <form id="userForm" style="display: none;">
+            <div class="question" id="firstQuestion">
+                <label for="name">第一個問題：社團名稱</label>
+                <input type="text" id="name" name="entry.587123488" readonly>
+            </div>
+            <div class="question" id="secondQuestion">
+                <label for="club">第二個問題：社團選擇</label>
+                <select id="club" name="entry.1806213782" disabled>
+                    <option value="">選擇社團</option>
+                </select>
+            </div>
+            <div class="question" id="thirdQuestion">
+                <label for="idNumber">第三個問題：幹部學號</label>
+                <input type="text" id="idNumber" name="entry.900652298" value="#">
+            </div>
+            <div class="question" id="fourthQuestion">
+                <label>第四個問題：新增/刪除</label>
+                <button type="button" class="white" id="addBtn">新增</button>
+                <button type="button" class="white" id="removeBtn">刪除</button>
+            </div>
+            <button type="submit" id="submitBtn">提交</button>
+        </form>
+    </div>
+
+    <script>
+        function pollSpreadsheet(randomCode) {
+            const sheetId = '1ADpHD124E0PVZSCJlxMDasUsM7Wmc_7hc-_SUiYR1dg';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            function checkSpreadsheet() {
+                fetch(url)
+                    .then(response => response.ok ? response.text() : Promise.reject('無法連接試算表'))
+                    .then(data => {
+                        const rows = data.split('\n').map(row => row.split(',').map(col => col.replace(/"/g, '').trim()));
+                        const headers = rows[0];
+                        const userIndex = rows.findIndex(row => row[1] === randomCode);
+
+                        if (userIndex > 0) {
+                            const userRow = rows[userIndex];
+                            document.getElementById('firstQuestion').querySelector('input').value = userRow[0]; // A欄內容
+                            
+                            const clubSelect = document.getElementById('club');
+                            for (let i = 2; i < userRow.length; i++) {
+                                const option = document.createElement('option');
+                                option.value = userRow[i];
+                                option.textContent = userRow[i];
+                                clubSelect.appendChild(option);
+                            }
+                            
+                            document.getElementById('loadingMessage').style.display = 'none';
+                            document.getElementById('userForm').style.display = 'block';
+                        } else {
+                            console.log('尚未找到匹配資料，將繼續查詢...');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('無法檢索試算表資料:', error);
+                    });
+            }
+
+            setInterval(checkSpreadsheet, 1000); // 每秒查詢一次
+        }
+
+        window.onload = function() {
+            const randomCode = sessionStorage.getItem('randomCode');
+            if (!randomCode) {
+                window.location.href = '社團人.html'; // 如果沒有 randomCode，跳轉到登入頁面
+                return;
+            }
+
+            pollSpreadsheet(randomCode);
+
+            // 提交表單
+            document.getElementById('userForm').onsubmit = function(event) {
+                event.preventDefault();
+                const formData = new FormData(document.getElementById('userForm'));
+                const data = {};
+                formData.forEach((value, key) => { data[key] = value });
+
+                fetch('https://docs.google.com/forms/d/e/1FAIpQLScNXLmAxvTmH5uH7HMi46LeH8e-_bGKnOuK2Wxl5rBgfhucMQ/formResponse', {
+                    method: 'POST',
+                    body: new URLSearchParams(data),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload(); // 提交後重新整理頁面
+                    } else {
+                        alert('提交失敗，請稍後再試。');
+                    }
+                })
+                .catch(error => {
+                    alert('提交失敗，請稍後再試。');
+                    console.error(error);
+                });
+            };
+
+            // 綠色新增按鈕
+            document.getElementById('addBtn').onclick = function() {
+                this.classList.remove('white');
+                this.classList.add('green');
+                document.getElementById('removeBtn').classList.remove('green');
+                document.getElementById('removeBtn').classList.add('white');
+            };
+
+            // 紅色刪除按鈕
+            document.getElementById('removeBtn').onclick = function() {
+                this.classList.remove('white');
+                this.classList.add('red');
+                document.getElementById('addBtn').classList.remove('green');
+                document.getElementById('addBtn').classList.add('white');
+            };
+        };
+    </script>
+</body>
+</html>

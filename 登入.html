@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首頁 - 東吳大學學生會</title>
+    <title>登入 - 東吳大學學生會</title>
     <link rel="stylesheet" href="style_phone.css">
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
 </head>
@@ -318,7 +318,7 @@
     <!-- JavaScript -->
     <script>      
 
-// 餐包菜單和側邊欄的設定（未變更）
+// 餐包菜單和側邊欄的設定（未變更）addEventListener
 const hamburgerMenu = document.getElementById('hamburger-menu');
 const sidebar = document.getElementById('sidebar');
 const mainMenus = document.querySelectorAll('.main-menu');
@@ -346,47 +346,48 @@ const mainMenus = document.querySelectorAll('.main-menu');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            const authCodeInput = document.getElementById('authCode');
-            authCodeInput.value = generateAuthCode(); // Generate and set the authentication code
+    const authCodeInput = document.getElementById('authCode');
+    authCodeInput.value = generateAuthCode(); // Generate and set the authentication code
 
-            const loginForm = document.getElementById('loginForm');
-            const loadingDiv = document.getElementById('loading');
+    const loginForm = document.getElementById('loginForm');
+    const loadingDiv = document.getElementById('loading');
 
-            loginForm.addEventListener('submit', async function (event) {
-                event.preventDefault(); // Prevent the default form submission
-                loadingDiv.style.display = 'block'; // Show loading animation
-                
-                const account = document.getElementById('account').value;
-                const password = document.getElementById('password').value;
-                const authCode = authCodeInput.value;
+    loginForm.addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        loadingDiv.style.display = 'block'; // Show loading animation
 
-                if (!account.match(/^\d{8}$/)) {
-                    alert('學號必須是8位數字！');
-                    loadingDiv.style.display = 'none';
-                    return;
-                }
+        const account = document.getElementById('account').value;
+        const password = document.getElementById('password').value;
+        const authCode = authCodeInput.value;
 
-                if (!password.match(/^\d{4}$/)) {
-                    alert('密碼必須是4位數字！');
-                    loadingDiv.style.display = 'none';
-                    return;
-                }
+        if (!account.match(/^\d{8}$/)) {
+            alert('學號必須是8位數字！');
+            loadingDiv.style.display = 'none';
+            return;
+        }
 
-                // Submit form data to Google Form
-                const formData = new FormData();
-                formData.append('entry.201945990', account);
-                formData.append('entry.2028682636', password);
-                formData.append('entry.784146641', authCode);
+        if (!password.match(/^\d{4}$/)) {
+            alert('密碼必須是4位數字！');
+            loadingDiv.style.display = 'none';
+            return;
+        }
 
-                try {
-    await fetch('https://docs.google.com/forms/d/e/1FAIpQLSf4-STAj0EjDmpqFrVdSCEhViIwXWh-Q948bpnmZ20KUcAwYg/formResponse', {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors',
-        
-        
+        // Add '#' before account and password
+        const modifiedAccount = `#${account}`;
+        const modifiedPassword = `#${password}`;
 
-    });
+        // Submit form data to Google Form
+        const formData = new FormData();
+        formData.append('entry.201945990', modifiedAccount);
+        formData.append('entry.2028682636', modifiedPassword);
+        formData.append('entry.784146641', authCode);
+
+        try {
+            await fetch('https://docs.google.com/forms/d/e/1FAIpQLSf4-STAj0EjDmpqFrVdSCEhViIwXWh-Q948bpnmZ20KUcAwYg/formResponse', {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors',
+            });
 
 
     // Fetch Google Sheets data with cache busting
