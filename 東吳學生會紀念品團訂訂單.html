@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第68屆學生會校慶紀念品團購表單</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #990000;
+            --accent: #ffcc00;
+            --light: #f5f5f5;
+            --dark: #333333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            background-color: rgba(0, 51, 102, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        
+        .product-section {
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .product {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(0, 51, 102, 0.02);
+            border: 1px solid #eee;
+        }
+        
+        .product-title {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .size-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .size-option {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .size-label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .total-section {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #totalAmount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            background-color: #660000;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        
+        .success-message h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .size-options {
+                gap: 10px;
+            }
+            
+            .size-option {
+                width: calc(50% - 5px);
+            }
+        }
+                /* Hover animations */
+        /* Hover and interaction animations */
+        .submit-btn, .size-option, input[type="text"], input[type="email"], input[type="radio"] + label {
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .size-option {
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .size-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 51, 102, 0.05);
+        }
+
+        .size-option input[type="number"] {
+            transition: all 0.3s ease;
+            transform-origin: top;
+        }
+
+        .size-option.active {
+            background-color: rgba(0, 51, 102, 0.1);
+            padding: 10px 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            margin-top: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .product-image img {
+            width: 50%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        input[type="radio"] + label {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="orderForm">
+        <header>
+            <h2>第68屆學生會校慶紀念品團購表單</h2>
+            <p>🎉 早上好東吳，現在我要買紀念品 🎉</p>
+        </header>
+        
+        <div class="intro">
+            <p>一百二十五週年校慶來啦！想要來點專屬 Soochow 的潮流單品？</p>
+            <p>這次第六十八屆學生會精心準備了三款超實穿紀念品：</p>
+            <p>🧥 棒球外套：帥氣有型，走路帶風，讓你在校園裡成為焦點！</p>
+            <p>👕 帽踢：舒適百搭，隨性一穿就是大學生活的標配！</p>
+            <p>👚 短踢：輕盈透氣，春夏必備，讓 SCU 精神陪你度過每一天！</p>
+            <p>不論是課堂穿搭、社團聚會，還是優雅跑咖，這些紀念品都是你展現東吳魂的最佳選擇！</p>
+            <p>現在就填單，讓我們一起穿上校慶限定款，紀念這段最青春的時光！🔥</p>
+            <p>📌 團購期限有限，錯過不再！</p>
+        </div>
+        
+        <form id="purchaseForm">
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="name">請問您的姓名是？</label>
+                    <input type="text" id="name" name="entry.523853345" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="class">請問您的系級（舉例：中ㄧＡ）？</label>
+                    <input type="text" id="class" name="entry.1494762971" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentId">請問您的學號？</label>
+                    <input type="text" id="studentId" name="entry.1338138206" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">聯絡用電子信箱</label>
+                    <input type="email" id="email" name="entry.1823945125" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>請問您的取貨地點</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="location1" name="entry.1588125407" value="雙溪校區" required>
+                            <label for="location1">雙溪校區</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="location2" name="entry.1588125407" value="城中校區">
+                            <label for="location2">城中校區</label>
+                        </div>
+                    </div>
+                    <p class="note">取貨時間會在ig、line社群裡另行公告</p>
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <h2>紀念品選購</h2>
+                
+                <div class="product">
+                    <div class="product-title">
+                        <h3>棕色棒球外套</h3>
+                        <span>333元/件</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="Varsity Jacket1.jpg" alt="Product image">
+                    </div>
+                    <div class="size-options">
+                        <div class="size-option">
+                            <span class="size-label">S:</span>
+                            <input type="number" name="entry.67097856" min="0" value="0" class="product-quantity" data-price="333">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">M:</span>
+                            <input type="number" name="entry.456903224" min="0" value="0" class="product-quantity" data-price="333">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">L:</span>
+                            <input type="number" name="entry.857450773" min="0" value="0" class="product-quantity" data-price="333">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">XL:</span>
+                            <input type="number" name="entry.931679935" min="0" value="0" class="product-quantity" data-price="333">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">2L:</span>
+                            <input type="number" name="entry.365699910" min="0" value="0" class="product-quantity" data-price="333">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">3L:</span>
+                            <input type="number" name="entry.775099890" min="0" value="0" class="product-quantity" data-price="333">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product">
+                    <div class="product-title">
+                        <h3>帽踢－拱門款米色</h3>
+                        <span>222元/件</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="hoody2.jpg" alt="Product image">
+                    </div>
+                    <div class="size-options">
+                        <div class="size-option">
+                            <span class="size-label">S:</span>
+                            <input type="number" name="entry.1237698500" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">M:</span>
+                            <input type="number" name="entry.471790982" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">L:</span>
+                            <input type="number" name="entry.771496781" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">XL:</span>
+                            <input type="number" name="entry.388529011" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">2L:</span>
+                            <input type="number" name="entry.1249153806" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">3L:</span>
+                            <input type="number" name="entry.521011415" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product">
+                    <div class="product-title">
+                        <h3>帽踢－拱門款藍色</h3>
+                        <span>222元/件</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="hoody3.jpg" alt="Product image">
+                    </div>
+                    <div class="size-options">
+                        <div class="size-option">
+                            <span class="size-label">S:</span>
+                            <input type="number" name="entry.447205702" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">M:</span>
+                            <input type="number" name="entry.706234088" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">L:</span>
+                            <input type="number" name="entry.1752930885" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">XL:</span>
+                            <input type="number" name="entry.1793384746" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">2L:</span>
+                            <input type="number" name="entry.214040143" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">3L:</span>
+                            <input type="number" name="entry.756022293" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product">
+                    <div class="product-title">
+                        <h3>帽踢－經典款米色</h3>
+                        <span>222元/件</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="hoody4.jpg" alt="Product image">
+                    </div>
+                    <div class="size-options">
+                        <div class="size-option">
+                            <span class="size-label">S:</span>
+                            <input type="number" name="entry.1949376298" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">M:</span>
+                            <input type="number" name="entry.790267880" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">L:</span>
+                            <input type="number" name="entry.1936671092" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">XL:</span>
+                            <input type="number" name="entry.1780661777" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">2L:</span>
+                            <input type="number" name="entry.338078620" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">3L:</span>
+                            <input type="number" name="entry.1634074119" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product">
+                    <div class="product-title">
+                        <h3>帽踢－經典款米色</h3>
+                        <span>222元/件</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="hoody5.jpg" alt="Product image">
+                    </div>
+                    <div class="size-options">
+                        <div class="size-option">
+                            <span class="size-label">S:</span>
+                            <input type="number" name="entry.1896771574" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">M:</span>
+                            <input type="number" name="entry.782519602" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">L:</span>
+                            <input type="number" name="entry.1723251904" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">XL:</span>
+                            <input type="number" name="entry.379726479" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">2L:</span>
+                            <input type="number" name="entry.67895422" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">3L:</span>
+                            <input type="number" name="entry.2028157717" min="0" value="0" class="product-quantity" data-price="222">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product">
+                    <div class="product-title">
+                        <h3>短踢－米色</h3>
+                        <span>111元/件</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="T-shirt6.jpg" alt="Product image">
+                    </div>
+                    <div class="size-options">
+                        <div class="size-option">
+                            <span class="size-label">S:</span>
+                            <input type="number" name="entry.1173284143" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">M:</span>
+                            <input type="number" name="entry.47248344" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">L:</span>
+                            <input type="number" name="entry.1601603735" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">XL:</span>
+                            <input type="number" name="entry.116632921" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">2L:</span>
+                            <input type="number" name="entry.1346455323" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">3L:</span>
+                            <input type="number" name="entry.1910486834" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product">
+                    <div class="product-title">
+                        <h3>短踢－藍色</h3>
+                        <span>111元/件</span>
+                    </div>
+                    <div class="product-image">
+                        <img src="T-shirt7.jpg" alt="Product image">
+                    </div>
+                    <div class="size-options">
+                        <div class="size-option">
+                            <span class="size-label">S:</span>
+                            <input type="number" name="entry.16471316" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">M:</span>
+                            <input type="number" name="entry.488079728" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">L:</span>
+                            <input type="number" name="entry.1161169765" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">XL:</span>
+                            <input type="number" name="entry.1726236972" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">2L:</span>
+                            <input type="number" name="entry.1675513452" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                        <div class="size-option">
+                            <span class="size-label">3L:</span>
+                            <input type="number" name="entry.326181180" min="0" value="0" class="product-quantity" data-price="111">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="total-section">
+                <span>訂單總計:</span>
+                <span id="totalAmount">0 元</span>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>送出訂單</button>
+        </form>
+    </div>
+    
+    <div class="container success-message" id="successMessage">
+        <h2>訂單已送達</h2>
+        <p>請於電子郵件確認訂單</p>
+        <p>若無收件請向學生會確認</p>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('purchaseForm');
+    const formContainer = document.getElementById('orderForm');
+    const successMessage = document.getElementById('successMessage');
+    const submitBtn = document.getElementById('submitBtn');
+    const quantityInputs = document.querySelectorAll('.product-quantity');
+    const totalAmountElement = document.getElementById('totalAmount');
+    
+    // Calculate total price function
+    function calculateTotal() {
+        let total = 0;
+        let hasItems = false;
+        
+        quantityInputs.forEach(input => {
+            const quantity = parseInt(input.value) || 0;
+            const price = parseInt(input.getAttribute('data-price')) || 0;
+            total += quantity * price;
+            
+            if (quantity > 0) {
+                hasItems = true;
+            }
+        });
+        
+        totalAmountElement.textContent = `${total} 元`;
+        
+        // Add or update hidden input for total amount
+        let hiddenTotalInput = document.getElementById('totalAmountHidden');
+        if (!hiddenTotalInput) {
+            hiddenTotalInput = document.createElement('input');
+            hiddenTotalInput.type = 'hidden';
+            hiddenTotalInput.name = 'entry.533881735';
+            hiddenTotalInput.id = 'totalAmountHidden';
+            form.appendChild(hiddenTotalInput);
+        }
+        hiddenTotalInput.value = total;
+        
+        // Check if form is valid
+        const isFormValid = form.checkValidity() && hasItems;
+        submitBtn.disabled = !isFormValid;
+    }
+    
+    // Make size options interactive
+    const sizeOptions = document.querySelectorAll('.size-option');
+    sizeOptions.forEach(option => {
+        const input = option.querySelector('input');
+        
+        // Click on size option
+        option.addEventListener('click', function(e) {
+            // Don't trigger if clicking on the input itself
+            if (e.target !== input) {
+                this.classList.add('active');
+                input.focus();
+            }
+        });
+        
+        // When input gets focus
+        input.addEventListener('focus', function() {
+            option.classList.add('active');
+        });
+        
+        // When input changes
+        input.addEventListener('input', function() {
+            if (parseInt(this.value) > 0) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+            calculateTotal();
+        });
+    });
+    
+    // Add event listeners for quantity changes
+    quantityInputs.forEach(input => {
+        input.addEventListener('input', calculateTotal);
+    });
+    
+    // Add event listeners for form input changes
+    const allInputs = form.querySelectorAll('input');
+    allInputs.forEach(input => {
+        input.addEventListener('input', calculateTotal);
+        input.addEventListener('change', calculateTotal);
+    });
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Double check we have the total in the form
+        const total = totalAmountElement.textContent.replace(/[^0-9]/g, '');
+        let hiddenTotalInput = document.getElementById('totalAmountHidden');
+        if (!hiddenTotalInput) {
+            hiddenTotalInput = document.createElement('input');
+            hiddenTotalInput.type = 'hidden';
+            hiddenTotalInput.name = 'entry.533881735';
+            hiddenTotalInput.id = 'totalAmountHidden';
+            form.appendChild(hiddenTotalInput);
+        }
+        hiddenTotalInput.value = total;
+        
+        // Prepare to submit to Google Forms
+        const formData = new FormData(form);
+        const url = "https://docs.google.com/forms/d/e/1FAIpQLSfmNOtXks8LSPMDd3MOZZWuPkTavobEFEuE7lr_xaZidxjGyA/formResponse";
+        
+        // Send the form data using fetch
+        fetch(url, {
+            method: "POST",
+            body: formData,
+            mode: 'no-cors'
+        })
+        .then(() => {
+            // Show success message
+            formContainer.style.display = 'none';
+            successMessage.style.display = 'block';
+        })
+        .catch(error => {
+            // Still show success message even if there's an error
+            // (due to CORS issues, this will likely go to catch)
+            formContainer.style.display = 'none';
+            successMessage.style.display = 'block';
+        });
+    });
+    
+    // Initial calculation
+    calculateTotal();
+});
+    </script>
+</body>
+</html>

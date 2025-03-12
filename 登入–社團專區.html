@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style_phone.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+</head>
+
+<style>
+
+        .login-container {
+            width: 400px;
+            margin: auto;
+            margin-top: 80px;
+            background: #ffffff00;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: #ffffff;
+
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 40px;
+            box-sizing: border-box;
+            background-color: #ffffff00;
+            color: #f0f0f0;
+            border-color: #4884bd;
+            transition: border-color 0.3s, background-color 0.3s, transform 0.3s;
+            margin: 15px 0 5px;
+        }
+        
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 40px;
+            box-sizing: border-box;
+            background-color: #ffffff00;
+            color: #f0f0f0;
+            border-color: #4884bd;
+            transition: border-color 0.3s, background-color 0.3s, transform 0.3s;
+            margin: 15px 0 5px;
+        }
+
+        
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #5fddcabe;
+            background-color: #9ed5ca00;
+            color: #2a272b;
+            outline: none;
+            transform: scale(1.08);
+
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 40px;
+            box-sizing: border-box;
+            background-color: #4884bd;
+            color: #d9d9d9;
+            transition: border-color 0.3s, background-color 0.3s, transform 0.3s;
+            margin: 15px 0 5px;
+            
+        }
+
+
+        input[type="submit"]:hover {
+            background-color: #5fddcabe;
+            border-color: #5fddcabe;
+            transform: scale(1.08);
+
+
+        }
+
+        .info-message {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #a8a7a7;
+        }
+
+        #loading {
+            display: none;
+            margin-top: 20px;
+        }
+
+        
+        .button-container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .login-register-btn {
+            display: inline-flex;
+            width: 300px;
+            height: 50px;
+            border: 2px solid #4884bd;
+            border-radius: 20px;
+            position: relative;
+            text-decoration: none;
+            overflow: hidden;
+            font-weight: bold;
+            font-size: 14px;
+            background-color: #010010;
+            cursor: pointer;
+        }
+
+        .login-register-btn .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background-color: #4884bd;
+            border: 2px solid #4884bd;
+            z-index: 1;
+            transition: left 0.55s ease-in-out;
+        }
+
+        .login-register-btn:hover .bg-slide {
+            left: 50%;
+        }
+
+        .login-register-btn span {
+            flex: 1;
+            z-index: 2;
+            text-align: center;
+            line-height: 50px;
+            color: #d9d9d9;
+            position: relative;
+        }
+
+        .login-register-btn .login {
+            z-index: 2;
+        }
+
+        .login-register-btn .register {
+            z-index: 2;
+        }
+
+        .banner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-bottom: 50px;
+
+        }
+        
+        .banner {
+            width: 100%;
+            height: auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .banner a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            text-decoration: none;
+        }
+
+        .ad-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: rgb(255, 255, 255);
+            text-shadow: -1px -1px 0 #141414,
+              1px -1px 0 #141414,
+              -1px 1px 0 #141414,
+              1px 1px 0 #141414;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 2px 8px;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .hidden {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+</style>
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+
+            <ul class="nav-links ">
+                <li>
+                    <div class="main-menu" data-target="#submenu-1">東吳大學選舉事務委員會</div>
+                    <ul class="submenu" id="submenu-1">
+                        <li><a href="東吳大學選舉事務委員會_phone.html">東吳大學選舉事務委員會</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-2">東吳大學學生會</div>
+                    <ul class="submenu" id="submenu-2">
+                        <li><a href="東吳大學學生會main_phone.html">首頁</a></li>
+                        <li><a href="東吳大學學生會introduction_phone.html">本會簡介</a></li>
+                        <li><a href="東吳大學學生會financial-report_phone.html">財務報告</a></li>
+                        <li><a href="東吳大學學生會about_phone.html">組織架構</a></li>
+                        <li><a href="東吳大學學生會regulations_phone.html">法規彙編</a></li>
+                        <li><a href="東吳大學學生會反映表單－公開phone.html">我要反映</a></li> 
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-3">活動專區</div>
+                    <ul class="submenu" id="submenu-3">
+                        <li><a href="登入.html">系統登入</a></li>
+                        <li><a href="註冊.html">系統註冊</a></li>
+                        <li><a href="東吳大學學生會學生資料.html">個人資料專區</a></li>
+                        <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                        
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-4">學生議會</div>
+                    <ul class="submenu" id="submenu-4">
+                        <li><a href="東吳大學學生議會_phone.html">東吳大學學生議會</a></li>
+                        <li><a href="東吳大學學生議會－會議資料_phone.html">東吳大學學生議會－會議資料</a></li>
+                        <li><a href="東吳大學學生議會－議員對照表_phone.html">東吳大學學生議會－議員對照表</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-5">東吳大學學生仲裁法庭</div>
+                    <ul class="submenu" id="submenu-5">
+                        <li><a href="東東吳大學學生仲裁法庭_phone.html">東吳大學學生仲裁法庭</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+
+        
+        <div class="login-container">
+            <h1>學生登入</h1>
+            <form id="loginForm">
+                <label for="account">學號:</label>
+                <input type="text" id="account" name="entry.201945990" required maxlength="8" pattern="^\d{8}$" placeholder="請輸入8位數學號">
+                
+                <label for="password">密碼:</label>
+                <input type="password" id="password" name="entry.2028682636" required maxlength="4" pattern="^\d{4}$" placeholder="請輸入4位數密碼">
+                
+                <input type="hidden" id="authCode" name="entry.784146641">
+    
+                <input type="submit" value="登入">
+            </form>
+            <div id="loading">
+                <p>正在處理，請稍候...</p>
+            </div>
+            <p class="info-message">請填寫您的學號及密碼以進行登入。</p>
+
+            <div class="button-container">
+                <a href="註冊.html" class="login-register-btn">
+                    <span class="bg-slide"></span>
+                    <span class="login">登入</span>
+                    <span class="register">註冊</span>
+                </a>
+            </div>
+        </div>
+    
+        <div class="banner-container">
+
+            <div id="banner" class="banner hidden"></div>
+
+        </div>
+
+
+        
+  </div>
+    <!-- JavaScript -->
+    <script>      
+
+// 餐包菜單和側邊欄的設定（未變更）addEventListener
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+const mainMenus = document.querySelectorAll('.main-menu');
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
+            });
+        });
+    
+
+      // Function to generate a random 8-character alphanumeric string
+      function generateAuthCode() {
+            const characters = '!@#$%^&*?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let code = '';
+            for (let i = 0; i < 29; i++) {
+                code += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return code;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+    const authCodeInput = document.getElementById('authCode');
+    authCodeInput.value = generateAuthCode(); // Generate and set the authentication code
+
+    const loginForm = document.getElementById('loginForm');
+    const loadingDiv = document.getElementById('loading');
+
+    loginForm.addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        loadingDiv.style.display = 'block'; // Show loading animation
+
+        const account = document.getElementById('account').value;
+        const password = document.getElementById('password').value;
+        const authCode = authCodeInput.value;
+
+        if (!account.match(/^\d{8}$/)) {
+            alert('學號必須是8位數字！');
+            loadingDiv.style.display = 'none';
+            return;
+        }
+
+        if (!password.match(/^\d{4}$/)) {
+            alert('密碼必須是4位數字！');
+            loadingDiv.style.display = 'none';
+            return;
+        }
+
+        // Add '#' before account and password
+        const modifiedAccount = `#${account}`;
+        const modifiedPassword = `#${password}`;
+
+        // Submit form data to Google Form
+        const formData = new FormData();
+        formData.append('entry.201945990', modifiedAccount);
+        formData.append('entry.2028682636', modifiedPassword);
+        formData.append('entry.784146641', authCode);
+
+        try {
+            await fetch('https://docs.google.com/forms/d/e/1FAIpQLSf4-STAj0EjDmpqFrVdSCEhViIwXWh-Q948bpnmZ20KUcAwYg/formResponse', {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors',
+            });
+
+
+    // Fetch Google Sheets data with cache busting
+    const sheetUrl = `https://docs.google.com/spreadsheets/d/1GkrRJ7h8BaYZ7cvDFabR2fKz34HRCBx-mc5lEQbOrPk/gviz/tq?tqx=out:csv&cacheBust=${Date.now()}`;
+    const maxAttempts = 40;
+    const attemptDelay = 100;
+    let attempts = 0;
+    let match = null;
+
+    while (attempts < maxAttempts) {
+        const response = await fetch(sheetUrl);
+        const data = await response.text();
+        const rows = data.split('\n').slice(1);
+
+        match = rows.find(row => row.split(',')[1].replace(/"/g, '').trim() === authCode);
+
+        if (match) break;
+        attempts++;
+        await new Promise(resolve => setTimeout(resolve, attemptDelay));
+    }
+
+    if (match) {
+        const user = match.split(',')[0].replace(/"/g, '').trim();
+        alert(`歡迎 學號:${user}的學生`);
+        sessionStorage.setItem('user', user);
+        window.location.href = '東吳大學學生會社團人資料轉銜.html';
+    } else {
+        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
+        alert('帳號或密碼錯誤，請重新整理後嘗試。');
+        location.reload();
+    }
+} catch (error) {
+    console.error('Error:', error);
+    alert('未知的錯誤，請檢查網路環境');
+} finally {
+    loadingDiv.style.display = 'none';
+    loginForm.reset();
+}
+
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadAndStartRandomSelection();
+        });
+
+        function loadAndStartRandomSelection() {
+            const sheetId = '1515E6cNigAEITVep2SUgOAo0JAecQdnagjjgNfaMOCo'; // 替換為您的試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+                .then(data => {
+                    const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                    const items = [];
+
+                    rows.forEach(row => {
+                        const [imageUrl, link, percentage] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 解析每一行
+                        if (imageUrl && link && percentage) {
+                            const weight = parseFloat(percentage.replace('%', '')) || 0; // 解析機率
+                            items.push({ imageUrl, link, weight });
+                        }
+                    });
+
+                    if (items.length > 0) {
+                        startRandomSelection(items);
+                    } else {
+                        console.error('No valid data found in the spreadsheet.');
+                    }
+                })
+                .catch(error => console.error('Error loading banners:', error));
+        }
+
+        function startRandomSelection(items) {
+            const banner = document.getElementById('banner');
+            let lastSelectedIndex = -1; // 記錄上一次的選擇
+
+            function selectRandomBanner() {
+                // 根據權重選擇橫幅
+                const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
+                let randomValue = Math.random() * totalWeight;
+                let selectedIndex = -1;
+
+                for (let i = 0; i < items.length; i++) {
+                    randomValue -= items[i].weight;
+                    if (randomValue <= 0) {
+                        selectedIndex = i;
+                        break;
+                    }
+                }
+
+                if (selectedIndex === -1 || selectedIndex === lastSelectedIndex) return; // 如果權重無法選取，則略過
+
+                const selectedItem = items[selectedIndex];
+
+                // 更新機率
+                if (lastSelectedIndex !== -1) {
+                    const lastWeight = items[lastSelectedIndex].weight;
+                    const redistributeWeight = lastWeight / (items.length - 1);
+
+                    items[lastSelectedIndex].weight = 0; // 將上次選擇的機率設為 0
+                    items.forEach((item, index) => {
+                        if (index !== lastSelectedIndex) {
+                            item.weight += redistributeWeight; // 平分給其他項目
+                        }
+                    });
+                }
+
+                lastSelectedIndex = selectedIndex;
+
+                // 設置橫幅內容
+                banner.classList.add('hidden'); // 開始漸變效果
+                setTimeout(() => {
+                    banner.innerHTML = `
+                        <img src="${selectedItem.imageUrl}" alt="Banner Image">
+                        <a href="${selectedItem.link}" target="_blank"></a>
+                        <div class="ad-label">AD</div>
+                    `;
+                    banner.classList.remove('hidden'); // 完成漸變效果
+                }, 1000); // 與 CSS 的 transition 時間一致
+            }
+
+            // 每 8 秒更新一次橫幅
+            selectRandomBanner();
+            setInterval(selectRandomBanner, 8000);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+    adjustBannerWidth();
+    window.addEventListener('resize', adjustBannerWidth); // 當窗口大小改變時重新調整
+});
+
+function adjustBannerWidth() {
+    const banner = document.getElementById('banner');
+    if (!banner) return;
+
+    if (window.innerWidth <= 768) { // 判斷是否為手機裝置（寬度小於或等於 768px）
+        banner.style.width = '100%';
+    } else {
+        banner.style.width = '75%';
+    }
+}
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止表單默認提交行為
+    const submitButton = this.querySelector('input[type="submit"]');
+    submitButton.disabled = true; // 禁用按鈕
+    submitButton.value = '處理中...'; // 顯示處理中的狀態
+    // 在這裡添加任何額外的邏輯，例如 API 請求等
+});
+
+
+    </script>
+</body>
+</html>

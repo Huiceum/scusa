@@ -13,7 +13,7 @@
             // 判斷 user 是否為空
             if (!user) {
                 // 如果 user 為空，導引至登入頁面
-                window.location.href = "登入.html";
+                window.location.href = "登入–社團專區.html";
             } else {
                 // 生成 8 位英數字亂碼
                 const randomCode = generateRandomCode(15);
@@ -26,7 +26,7 @@
                 submitToGoogleForm(user, randomCode)
                     .then(() => {
                         // 提交完成後導引至學生資料頁
-                        window.location.href = '東吳大學學生會社團人資料.html';
+                        window.location.href = '東吳社團幹部登記.html';
                     })
                     .catch((error) => {
                         console.error("表單提交失敗：", error);
