@@ -6,7 +6,7 @@
     <title>第68屆學生會校慶紀念品團購表單</title>
     <style>
         :root {
-            --primary: #003366;
+            --primary: #50445b;
             --secondary: #990000;
             --accent: #ffcc00;
             --light: #f5f5f5;
@@ -30,7 +30,7 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.02);
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -49,7 +49,7 @@
         }
         
         .intro {
-            background-color: rgba(0, 51, 102, 0.05);
+            background-color: rgba(103, 103, 103, 0.05);
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 30px;
@@ -105,7 +105,7 @@
             margin-bottom: 30px;
             padding: 15px;
             border-radius: 8px;
-            background-color: rgba(0, 51, 102, 0.02);
+            background-color: rgb(255, 255, 255);
             border: 1px solid #eee;
         }
         
@@ -121,6 +121,8 @@
             flex-wrap: wrap;
             gap: 15px;
             margin-top: 10px;
+            width: 100%;
+            justify-content: center; /* 讓內部的 .size-option 置中 */
         }
         
         .size-option {
@@ -130,6 +132,8 @@
             padding: 8px 12px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            width: 40%;
+
         }
         
         .size-label {
@@ -276,6 +280,66 @@
             box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
             outline: none;
         }
+
+        .size-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+.size-table th, .size-table td {
+    text-align: center;
+    border: 1px dashed rgba(100, 100, 100, 0.3); /* 更淡的灰色虛線 */
+    border-spacing: 6px; /* 增加格線間距 */
+}
+
+.size-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.size-table tr:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+
+.fitting-report {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    font-size: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* 柔和陰影 */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fitting-report th, .fitting-report td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd; /* 細灰色底線 */
+}
+
+.fitting-report th {
+    background-color: #f6f6f6;
+    font-weight: bold;
+    color: #333;
+}
+
+.fitting-report tr:hover {
+    background-color: rgba(0, 0, 0, 0.04); /* 滑鼠懸停時淺灰背景 */
+}
+
+.size-table caption, .fitting-report caption {
+    font-weight: bold;
+    font-size: large;
+    color:#000000;
+    margin: 10px;
+}
+
     </style>
 </head>
 <body>
@@ -344,7 +408,84 @@
                     </div>
                     <div class="product-image">
                         <img src="Varsity Jacket1.jpg" alt="Product image">
+                        <img src="Varsity Jacket1.2.jpg" alt="Product image">
+
                     </div>
+                    <table class="size-table">
+                        <caption>尺寸表</caption>
+                        <thead>
+                            <tr>
+                                <th>尺寸</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>2L</th>
+                                <th>3L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>胸寬 (cm)</td>
+                                <td>59</td>
+                                <td>63</td>
+                                <td>65</td>
+                                <td>67</td>
+                                <td>69</td>
+                                <td>71</td>
+                            </tr>
+                            <tr>
+                                <td>袖長 (cm)</td>
+                                <td>54.5</td>
+                                <td>57</td>
+                                <td>58</td>
+                                <td>59</td>
+                                <td>60</td>
+                                <td>61</td>
+                            </tr>
+                            <tr>
+                                <td>衣長 (cm)</td>
+                                <td>67.5</td>
+                                <td>70</td>
+                                <td>72</td>
+                                <td>74</td>
+                                <td>76</td>
+                                <td>78</td>
+                            </tr>
+                            <tr>
+                                <td>下擺長 (cm)</td>
+                                <td>41.5</td>
+                                <td>44</td>
+                                <td>45.5</td>
+                                <td>47</td>
+                                <td>48.5</td>
+                                <td>50</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <table class="fitting-report">
+                        <caption>試穿報告</caption>
+                        <thead>
+                            <tr>
+                                <th>試穿人員</th>
+                                <th>身高 (cm)</th>
+                                <th>體重 (kg)</th>
+                                <th>穿著尺寸</th>
+                                <th>穿著感受</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>男</td><td>169</td><td>66</td><td>L</td><td>合身</td></tr>
+                            <tr><td>男</td><td>176</td><td>66</td><td>XL</td><td>寬鬆</td></tr>
+                            <tr><td>男</td><td>178</td><td>80</td><td>2L</td><td>合身</td></tr>
+                            <tr><td>男</td><td>183</td><td>92</td><td>3L</td><td>合身</td></tr>
+                            <tr><td>女</td><td>158</td><td>48</td><td>M</td><td>合身</td></tr>
+                            <tr><td>女</td><td>158</td><td>58</td><td>L</td><td>合身</td></tr>
+                            <tr><td>女</td><td>161</td><td>56</td><td>L</td><td>寬鬆</td></tr>
+                            <tr><td>女</td><td>176</td><td>82</td><td>2L</td><td>合身</td></tr>
+                        </tbody>
+                    </table>
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
@@ -378,9 +519,49 @@
                         <h3>帽踢－拱門款米色</h3>
                         <span>222元/件</span>
                     </div>
+                    
                     <div class="product-image">
                         <img src="hoody2.jpg" alt="Product image">
                     </div>
+                    <table class="size-table">
+                        <caption>尺寸表</caption>
+                        <thead>
+                            <tr>
+                                <th>尺寸</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>2L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>肩+袖 (cm)</td>
+                                <td>71</td>
+                                <td>73.5</td>
+                                <td>75</td>
+                                <td>77</td>
+                                <td>79</td>
+                            </tr>
+                            <tr>
+                                <td>胸寬 (cm)</td>
+                                <td>61.5</td>
+                                <td>64</td>
+                                <td>66</td>
+                                <td>68</td>
+                                <td>70</td>
+                            </tr>
+                            <tr>
+                                <td>衣長 (cm)</td>
+                                <td>66.5</td>
+                                <td>68</td>
+                                <td>69</td>
+                                <td>71</td>
+                                <td>73</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
@@ -402,10 +583,6 @@
                             <span class="size-label">2L:</span>
                             <input type="number" name="entry.1249153806" min="0" value="0" class="product-quantity" data-price="222">
                         </div>
-                        <div class="size-option">
-                            <span class="size-label">3L:</span>
-                            <input type="number" name="entry.521011415" min="0" value="0" class="product-quantity" data-price="222">
-                        </div>
                     </div>
                 </div>
                 
@@ -414,9 +591,49 @@
                         <h3>帽踢－拱門款藍色</h3>
                         <span>222元/件</span>
                     </div>
+                
                     <div class="product-image">
                         <img src="hoody3.jpg" alt="Product image">
                     </div>
+                    <table class="size-table">
+                        <caption>尺寸表</caption>
+                        <thead>
+                            <tr>
+                                <th>尺寸</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>2L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>肩+袖 (cm)</td>
+                                <td>71</td>
+                                <td>73.5</td>
+                                <td>75</td>
+                                <td>77</td>
+                                <td>79</td>
+                            </tr>
+                            <tr>
+                                <td>胸寬 (cm)</td>
+                                <td>61.5</td>
+                                <td>64</td>
+                                <td>66</td>
+                                <td>68</td>
+                                <td>70</td>
+                            </tr>
+                            <tr>
+                                <td>衣長 (cm)</td>
+                                <td>66.5</td>
+                                <td>68</td>
+                                <td>69</td>
+                                <td>71</td>
+                                <td>73</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
@@ -438,10 +655,6 @@
                             <span class="size-label">2L:</span>
                             <input type="number" name="entry.214040143" min="0" value="0" class="product-quantity" data-price="222">
                         </div>
-                        <div class="size-option">
-                            <span class="size-label">3L:</span>
-                            <input type="number" name="entry.756022293" min="0" value="0" class="product-quantity" data-price="222">
-                        </div>
                     </div>
                 </div>
                 
@@ -453,6 +666,45 @@
                     <div class="product-image">
                         <img src="hoody4.jpg" alt="Product image">
                     </div>
+                    <table class="size-table">
+                        <caption>尺寸表</caption>
+                        <thead>
+                            <tr>
+                                <th>尺寸</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>2L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>肩+袖 (cm)</td>
+                                <td>71</td>
+                                <td>73.5</td>
+                                <td>75</td>
+                                <td>77</td>
+                                <td>79</td>
+                            </tr>
+                            <tr>
+                                <td>胸寬 (cm)</td>
+                                <td>61.5</td>
+                                <td>64</td>
+                                <td>66</td>
+                                <td>68</td>
+                                <td>70</td>
+                            </tr>
+                            <tr>
+                                <td>衣長 (cm)</td>
+                                <td>66.5</td>
+                                <td>68</td>
+                                <td>69</td>
+                                <td>71</td>
+                                <td>73</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
@@ -474,21 +726,58 @@
                             <span class="size-label">2L:</span>
                             <input type="number" name="entry.338078620" min="0" value="0" class="product-quantity" data-price="222">
                         </div>
-                        <div class="size-option">
-                            <span class="size-label">3L:</span>
-                            <input type="number" name="entry.1634074119" min="0" value="0" class="product-quantity" data-price="222">
-                        </div>
+
                     </div>
                 </div>
                 
                 <div class="product">
                     <div class="product-title">
-                        <h3>帽踢－經典款米色</h3>
+                        <h3>帽踢－經典款綠色</h3>
                         <span>222元/件</span>
                     </div>
                     <div class="product-image">
                         <img src="hoody5.jpg" alt="Product image">
                     </div>
+                    <table class="size-table">
+                        <caption>尺寸表</caption>
+                        <thead>
+                            <tr>
+                                <th>尺寸</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>2L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>肩+袖 (cm)</td>
+                                <td>71</td>
+                                <td>73.5</td>
+                                <td>75</td>
+                                <td>77</td>
+                                <td>79</td>
+                            </tr>
+                            <tr>
+                                <td>胸寬 (cm)</td>
+                                <td>61.5</td>
+                                <td>64</td>
+                                <td>66</td>
+                                <td>68</td>
+                                <td>70</td>
+                            </tr>
+                            <tr>
+                                <td>衣長 (cm)</td>
+                                <td>66.5</td>
+                                <td>68</td>
+                                <td>69</td>
+                                <td>71</td>
+                                <td>73</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
@@ -510,10 +799,7 @@
                             <span class="size-label">2L:</span>
                             <input type="number" name="entry.67895422" min="0" value="0" class="product-quantity" data-price="222">
                         </div>
-                        <div class="size-option">
-                            <span class="size-label">3L:</span>
-                            <input type="number" name="entry.2028157717" min="0" value="0" class="product-quantity" data-price="222">
-                        </div>
+
                     </div>
                 </div>
                 
@@ -522,9 +808,78 @@
                         <h3>短踢－米色</h3>
                         <span>111元/件</span>
                     </div>
+                    
                     <div class="product-image">
                         <img src="T-shirt6.jpg" alt="Product image">
                     </div>
+
+                    <table class="size-table">
+                        <caption>尺寸表</caption>
+                        <thead>
+                            <tr>
+                                <th>尺寸</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>2L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>肩寬 (cm)</td>
+                                <td>44</td>
+                                <td>44.5</td>
+                                <td>46.5</td>
+                                <td>48.5</td>
+                                <td>55</td>
+                            </tr>
+                            <tr>
+                                <td>胸寬 (cm)</td>
+                                <td>48</td>
+                                <td>50</td>
+                                <td>52.5</td>
+                                <td>55</td>
+                                <td>61.5</td>
+                            </tr>
+                            <tr>
+                                <td>袖長 (cm)</td>
+                                <td>20</td>
+                                <td>22.5</td>
+                                <td>23.5</td>
+                                <td>23.5</td>
+                                <td>24</td>
+                            </tr>
+                            <tr>
+                                <td>衣長 (cm)</td>
+                                <td>64.5</td>
+                                <td>68</td>
+                                <td>71</td>
+                                <td>73</td>
+                                <td>76.5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <table class="fitting-report">
+                        <caption>試穿報告</caption>
+                        <thead>
+                            <tr>
+                                <th>身高 (cm)</th>
+                                <th>體重 (kg)</th>
+                                <th>建議尺寸</th>
+                                <th>緊合度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>163</td><td>53</td><td>S</td><td>合身</td></tr>
+                            <tr><td>168</td><td>58</td><td>M</td><td>合身</td></tr>
+                            <tr><td>173</td><td>75</td><td>L</td><td>合身</td></tr>
+                            <tr><td>178</td><td>82</td><td>XL</td><td>合身</td></tr>
+                            <tr><td>183</td><td>90</td><td>2L</td><td>合身</td></tr>
+
+                        </tbody>
+                    </table>
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
@@ -546,10 +901,7 @@
                             <span class="size-label">2L:</span>
                             <input type="number" name="entry.1346455323" min="0" value="0" class="product-quantity" data-price="111">
                         </div>
-                        <div class="size-option">
-                            <span class="size-label">3L:</span>
-                            <input type="number" name="entry.1910486834" min="0" value="0" class="product-quantity" data-price="111">
-                        </div>
+
                     </div>
                 </div>
                 
@@ -561,6 +913,73 @@
                     <div class="product-image">
                         <img src="T-shirt7.jpg" alt="Product image">
                     </div>
+                    <table class="size-table">
+                        <caption>尺寸表</caption>
+                        <thead>
+                            <tr>
+                                <th>尺寸</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>2L</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>肩寬 (cm)</td>
+                                <td>44</td>
+                                <td>44.5</td>
+                                <td>46.5</td>
+                                <td>48.5</td>
+                                <td>55</td>
+                            </tr>
+                            <tr>
+                                <td>胸寬 (cm)</td>
+                                <td>48</td>
+                                <td>50</td>
+                                <td>52.5</td>
+                                <td>55</td>
+                                <td>61.5</td>
+                            </tr>
+                            <tr>
+                                <td>袖長 (cm)</td>
+                                <td>20</td>
+                                <td>22.5</td>
+                                <td>23.5</td>
+                                <td>23.5</td>
+                                <td>24</td>
+                            </tr>
+                            <tr>
+                                <td>衣長 (cm)</td>
+                                <td>64.5</td>
+                                <td>68</td>
+                                <td>71</td>
+                                <td>73</td>
+                                <td>76.5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <table class="fitting-report">
+                        <caption>試穿報告</caption>
+                        <thead>
+                            <tr>
+                                <th>身高 (cm)</th>
+                                <th>體重 (kg)</th>
+                                <th>建議尺寸</th>
+                                <th>緊合度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>163</td><td>53</td><td>S</td><td>合身</td></tr>
+                            <tr><td>168</td><td>58</td><td>M</td><td>合身</td></tr>
+                            <tr><td>173</td><td>75</td><td>L</td><td>合身</td></tr>
+                            <tr><td>178</td><td>82</td><td>XL</td><td>合身</td></tr>
+                            <tr><td>183</td><td>90</td><td>2L</td><td>合身</td></tr>
+
+                        </tbody>
+                    </table>
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
@@ -582,10 +1001,7 @@
                             <span class="size-label">2L:</span>
                             <input type="number" name="entry.1675513452" min="0" value="0" class="product-quantity" data-price="111">
                         </div>
-                        <div class="size-option">
-                            <span class="size-label">3L:</span>
-                            <input type="number" name="entry.326181180" min="0" value="0" class="product-quantity" data-price="111">
-                        </div>
+
                     </div>
                 </div>
             </div>
