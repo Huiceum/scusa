@@ -110,11 +110,46 @@
         }
         
         .product-title {
-            color: var(--secondary);
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
+    color: var(--secondary);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price-info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: gray;
+    font-size: 14px;
+}
+
+.discount-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #d9534f;
+}
+
+.bulk-pricing {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.bulk-pricing p {
+    margin: 2px 0;
+}
+
+.bulk-pricing span {
+    font-weight: bold;
+    color: #d9534f;
+}
+
         
         .size-options {
             display: flex;
@@ -318,7 +353,7 @@
 }
 
 .fitting-report th, .fitting-report td {
-    padding: 12px;
+    padding: 3px;
     text-align: center;
     border-bottom: 1px solid #ddd; /* 細灰色底線 */
 }
@@ -403,9 +438,17 @@
                 
                 <div class="product">
                     <div class="product-title">
-                        <h3>奶咖色棒球外套</h3>
-                        <span>333元/件</span>
+                        <h2>奶咖色棒球外套</h2>
+                        <div class="price-info">
+                            <span class="original-price">原價 1680</span>
+                            <span class="discount-price">學生會優惠價 1580元/件</span>
+                            <div class="bulk-pricing">
+                                <p>4件以上 每件 <span>1480</span></p>
+                                <p>10件以上 每件 <span>1380</span></p>
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="product-image">
                         <img src="Varsity Jacket1.jpg" alt="Product image">
                         <img src="Varsity Jacket1.2.jpg" alt="Product image">
@@ -489,36 +532,44 @@
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
-                            <input type="number" name="entry.67097856" min="0" value="0" class="product-quantity" data-price="333">
+                            <input type="number" name="entry.67097856" min="0" value="0" class="product-quantity" data-price="1580">
                         </div>
                         <div class="size-option">
                             <span class="size-label">M:</span>
-                            <input type="number" name="entry.456903224" min="0" value="0" class="product-quantity" data-price="333">
+                            <input type="number" name="entry.456903224" min="0" value="0" class="product-quantity" data-price="1580">
                         </div>
                         <div class="size-option">
                             <span class="size-label">L:</span>
-                            <input type="number" name="entry.857450773" min="0" value="0" class="product-quantity" data-price="333">
+                            <input type="number" name="entry.857450773" min="0" value="0" class="product-quantity" data-price="1580">
                         </div>
                         <div class="size-option">
                             <span class="size-label">XL:</span>
-                            <input type="number" name="entry.931679935" min="0" value="0" class="product-quantity" data-price="333">
+                            <input type="number" name="entry.931679935" min="0" value="0" class="product-quantity" data-price="1580">
                         </div>
                         <div class="size-option">
                             <span class="size-label">2L:</span>
-                            <input type="number" name="entry.365699910" min="0" value="0" class="product-quantity" data-price="333">
+                            <input type="number" name="entry.365699910" min="0" value="0" class="product-quantity" data-price="1580">
                         </div>
                         <div class="size-option">
                             <span class="size-label">3L:</span>
-                            <input type="number" name="entry.775099890" min="0" value="0" class="product-quantity" data-price="333">
+                            <input type="number" name="entry.775099890" min="0" value="0" class="product-quantity" data-price="1580">
                         </div>
                     </div>
                 </div>
                 
                 <div class="product">
                     <div class="product-title">
-                        <h3>帽踢－拱門款米色</h3>
-                        <span>222元/件</span>
+                        <h2>帽踢－拱門款米色</h2>
+                        <div class="price-info">
+                            <span class="original-price">原價 880</span>
+                            <span class="discount-price">學生會優惠價 850元/件</span>
+                            <div class="bulk-pricing">
+                                <p>4件以上 每件 <span>800</span></p>
+                                <p>10件以上 每件 <span>750</span></p>
+                            </div>
+                        </div>
                     </div>
+
                     
                     <div class="product-image">
                         <img src="hoody2.jpg" alt="Product image">
@@ -565,23 +616,23 @@
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
-                            <input type="number" name="entry.1237698500" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1237698500" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">M:</span>
-                            <input type="number" name="entry.471790982" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.471790982" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">L:</span>
-                            <input type="number" name="entry.771496781" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.771496781" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">XL:</span>
-                            <input type="number" name="entry.388529011" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.388529011" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">2L:</span>
-                            <input type="number" name="entry.1249153806" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1249153806" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                     </div>
                 </div>
@@ -589,7 +640,14 @@
                 <div class="product">
                     <div class="product-title">
                         <h3>帽踢－拱門款藍色</h3>
-                        <span>222元/件</span>
+                        <div class="price-info">
+                            <span class="original-price">原價 880</span>
+                            <span class="discount-price">學生會優惠價 850元/件</span>
+                            <div class="bulk-pricing">
+                                <p>4件以上 每件 <span>800</span></p>
+                                <p>10件以上 每件 <span>750</span></p>
+                            </div>
+                        </div>
                     </div>
                 
                     <div class="product-image">
@@ -637,23 +695,23 @@
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
-                            <input type="number" name="entry.447205702" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.447205702" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">M:</span>
-                            <input type="number" name="entry.706234088" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.706234088" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">L:</span>
-                            <input type="number" name="entry.1752930885" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1752930885" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">XL:</span>
-                            <input type="number" name="entry.1793384746" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1793384746" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">2L:</span>
-                            <input type="number" name="entry.214040143" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.214040143" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                     </div>
                 </div>
@@ -661,7 +719,14 @@
                 <div class="product">
                     <div class="product-title">
                         <h3>帽踢－經典款米色</h3>
-                        <span>222元/件</span>
+                        <div class="price-info">
+                            <span class="original-price">原價 880</span>
+                            <span class="discount-price">學生會優惠價 850元/件</span>
+                            <div class="bulk-pricing">
+                                <p>4件以上 每件 <span>800</span></p>
+                                <p>10件以上 每件 <span>750</span></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-image">
                         <img src="hoody4.jpg" alt="Product image">
@@ -708,23 +773,23 @@
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
-                            <input type="number" name="entry.1949376298" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1949376298" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">M:</span>
-                            <input type="number" name="entry.790267880" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.790267880" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">L:</span>
-                            <input type="number" name="entry.1936671092" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1936671092" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">XL:</span>
-                            <input type="number" name="entry.1780661777" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1780661777" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">2L:</span>
-                            <input type="number" name="entry.338078620" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.338078620" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
 
                     </div>
@@ -733,7 +798,14 @@
                 <div class="product">
                     <div class="product-title">
                         <h3>帽踢－經典款綠色</h3>
-                        <span>222元/件</span>
+                        <div class="price-info">
+                            <span class="original-price">原價 880</span>
+                            <span class="discount-price">學生會優惠價 850元/件</span>
+                            <div class="bulk-pricing">
+                                <p>4件以上 每件 <span>800</span></p>
+                                <p>10件以上 每件 <span>750</span></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-image">
                         <img src="hoody5.jpg" alt="Product image">
@@ -781,23 +853,23 @@
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
-                            <input type="number" name="entry.1896771574" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1896771574" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">M:</span>
-                            <input type="number" name="entry.782519602" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.782519602" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">L:</span>
-                            <input type="number" name="entry.1723251904" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.1723251904" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">XL:</span>
-                            <input type="number" name="entry.379726479" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.379726479" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
                         <div class="size-option">
                             <span class="size-label">2L:</span>
-                            <input type="number" name="entry.67895422" min="0" value="0" class="product-quantity" data-price="222">
+                            <input type="number" name="entry.67895422" min="0" value="0" class="product-quantity" data-price="850">
                         </div>
 
                     </div>
@@ -806,7 +878,14 @@
                 <div class="product">
                     <div class="product-title">
                         <h3>短踢－米色</h3>
-                        <span>111元/件</span>
+                        <div class="price-info">
+                            <span class="original-price">原價 490</span>
+                            <span class="discount-price">學生會優惠價 450元/件</span>
+                            <div class="bulk-pricing">
+                                <p>4件以上 每件 <span>420</span></p>
+                                <p>10件以上 每件 <span>390</span></p>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="product-image">
@@ -883,23 +962,23 @@
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
-                            <input type="number" name="entry.1173284143" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.1173284143" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
                         <div class="size-option">
                             <span class="size-label">M:</span>
-                            <input type="number" name="entry.47248344" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.47248344" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
                         <div class="size-option">
                             <span class="size-label">L:</span>
-                            <input type="number" name="entry.1601603735" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.1601603735" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
                         <div class="size-option">
                             <span class="size-label">XL:</span>
-                            <input type="number" name="entry.116632921" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.116632921" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
                         <div class="size-option">
                             <span class="size-label">2L:</span>
-                            <input type="number" name="entry.1346455323" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.1346455323" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
 
                     </div>
@@ -908,8 +987,16 @@
                 <div class="product">
                     <div class="product-title">
                         <h3>短踢－藍色</h3>
-                        <span>111元/件</span>
+                        <div class="price-info">
+                            <span class="original-price">原價 490</span>
+                            <span class="discount-price">學生會優惠價 450元/件</span>
+                            <div class="bulk-pricing">
+                                <p>4件以上 每件 <span>420</span></p>
+                                <p>10件以上 每件 <span>390</span></p>
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="product-image">
                         <img src="T-shirt7.jpg" alt="Product image">
                     </div>
@@ -983,23 +1070,23 @@
                     <div class="size-options">
                         <div class="size-option">
                             <span class="size-label">S:</span>
-                            <input type="number" name="entry.16471316" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.16471316" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
                         <div class="size-option">
                             <span class="size-label">M:</span>
-                            <input type="number" name="entry.488079728" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.488079728" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
                         <div class="size-option">
                             <span class="size-label">L:</span>
-                            <input type="number" name="entry.1161169765" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.1161169765" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
                         <div class="size-option">
                             <span class="size-label">XL:</span>
-                            <input type="number" name="entry.1726236972" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.1726236972" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
                         <div class="size-option">
                             <span class="size-label">2L:</span>
-                            <input type="number" name="entry.1675513452" min="0" value="0" class="product-quantity" data-price="111">
+                            <input type="number" name="entry.1675513452" min="0" value="0" class="product-quantity" data-price="450">
                         </div>
 
                     </div>
@@ -1032,20 +1119,61 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Calculate total price function
     function calculateTotal() {
+        let totalQuantity = 0;
         let total = 0;
         let hasItems = false;
         
+        // 先計算總件數
         quantityInputs.forEach(input => {
             const quantity = parseInt(input.value) || 0;
-            const price = parseInt(input.getAttribute('data-price')) || 0;
-            total += quantity * price;
+            totalQuantity += quantity;
             
             if (quantity > 0) {
                 hasItems = true;
             }
         });
         
+        // 根據總件數決定各個價格等級的折扣
+        let discount1580 = 1580; // 原價
+        let discount850 = 850;   // 原價
+        let discount450 = 450;   // 原價
+        
+        // 當總件數大於等於4件時的折扣
+        if (totalQuantity >= 4 && totalQuantity < 10) {
+            discount1580 = 1480;
+            discount850 = 800;
+            discount450 = 420;
+        } 
+        // 當總件數大於等於10件時的折扣
+        else if (totalQuantity >= 10) {
+            discount1580 = 1380;
+            discount850 = 750;
+            discount450 = 390;
+        }
+        
+        // 計算總金額
+        quantityInputs.forEach(input => {
+            const quantity = parseInt(input.value) || 0;
+            const originalPrice = parseInt(input.getAttribute('data-price')) || 0;
+            
+            // 根據原價套用相應的折扣價格
+            let discountedPrice = originalPrice;
+            if (originalPrice === 1580) {
+                discountedPrice = discount1580;
+            } else if (originalPrice === 850) {
+                discountedPrice = discount850;
+            } else if (originalPrice === 450) {
+                discountedPrice = discount450;
+            }
+            
+            total += quantity * discountedPrice;
+        });
+        
+        // 更新顯示的總金額
         totalAmountElement.textContent = `${total} 元`;
+        
+        // 顯示優惠訊息
+        updateDiscountMessage(totalQuantity);
         
         // Add or update hidden input for total amount
         let hiddenTotalInput = document.getElementById('totalAmountHidden');
@@ -1061,6 +1189,52 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if form is valid
         const isFormValid = form.checkValidity() && hasItems;
         submitBtn.disabled = !isFormValid;
+    }
+    
+    // 更新優惠訊息
+    function updateDiscountMessage(totalQuantity) {
+        // 移除舊的訊息
+        let oldMessage = document.getElementById('discountMessage');
+        if (oldMessage) {
+            oldMessage.remove();
+        }
+        
+        // 添加新的訊息
+        let discountMessage = document.createElement('div');
+        discountMessage.id = 'discountMessage';
+        discountMessage.style.padding = '10px';
+        discountMessage.style.marginTop = '10px';
+        discountMessage.style.borderRadius = '5px';
+        discountMessage.style.textAlign = 'center';
+        discountMessage.style.fontWeight = 'bold';
+        
+        if (totalQuantity >= 10) {
+            discountMessage.style.backgroundColor = '#ffcc00';
+            discountMessage.style.color = '#333';
+            discountMessage.innerHTML = `
+                <p>🎉 恭喜！你已達到最高優惠折扣！</p>
+                <p>棒球外套每件$1380元，帽踢每件$750元，短踢每件$390元</p>
+            `;
+        } else if (totalQuantity >= 4) {
+            discountMessage.style.backgroundColor = '#e6f7ff';
+            discountMessage.style.color = '#333';
+            discountMessage.innerHTML = `
+                <p>🎉 已達到優惠折扣！</p>
+                <p>棒球外套每件$1480元，帽踢每件$800元，短踢每件$420元</p>
+                <p>再購買${10 - totalQuantity}件即可享有最高折扣！</p>
+            `;
+        } else if (totalQuantity > 0) {
+            discountMessage.style.backgroundColor = '#f9f9f9';
+            discountMessage.style.color = '#666';
+            discountMessage.innerHTML = `
+                <p>🛍️ 購買4件以上可享優惠折扣！</p>
+                <p>還差${4 - totalQuantity}件即可享有折扣</p>
+            `;
+        }
+        
+        // 將訊息加入到總金額區塊之前
+        const totalSection = document.querySelector('.total-section');
+        totalSection.parentNode.insertBefore(discountMessage, totalSection);
     }
     
     // Make size options interactive
@@ -1147,6 +1321,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial calculation
     calculateTotal();
 });
+
     </script>
 </body>
 </html>
