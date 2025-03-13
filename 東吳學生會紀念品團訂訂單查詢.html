@@ -589,8 +589,7 @@
         /* Pulse effect for important elements */
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(153, 0, 0, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(153, 0, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(153, 0, 0, 0); }
+
         }
         
         .pulse {
@@ -836,7 +835,7 @@
                 const orderDate = order[2] || `訂單 ${index + 1}`;
                 const tabButton = document.createElement('button');
                 tabButton.className = 'order-tab-btn' + (index === 0 ? ' active' : '');
-                tabButton.innerHTML = `<i class="fas fa-shopping-bag"></i>`;
+                tabButton.innerHTML = `<i class="fas fa-shopping-bag">${index + 1}</i>`;
                 tabButton.setAttribute('data-order-index', index);
                 tabsContainer.appendChild(tabButton);
                 
@@ -878,10 +877,10 @@
             pickupInfo.className = 'pickup-info';
             pickupInfo.innerHTML = `
                 <div class="section-title">
-                    <h3><i class="fas fa-map-marker-alt"></i> 取貨資訊 (訂單 ${index + 1})</h3>
+                    <h3><i class="fas fa-map-marker-alt"></i> 取貨資訊 </h3>
                 </div>
                 <p><i class="fas fa-map-marker-alt"></i> 取貨地點: <strong>${orderData[1] || '未指定'}</strong></p>
-                <p><i class="fas fa-calendar-alt"></i> 訂單日期: <strong>${orderData[2] || '未指定'}</strong></p>
+                <p><i class="fas fa-calendar-alt"></i> 訂單日期: <strong>${orderData[45] || '未指定'}</strong></p>
             `;
             orderDetailsContainer.appendChild(pickupInfo);
             
@@ -891,7 +890,7 @@
             itemsContainer.innerHTML = `
                 <div class="items-heading">
                     <div class="section-title">
-                        <h3><i class="fas fa-shopping-cart"></i> 商品明細 (訂單 ${index + 1})</h3>
+                        <h3><i class="fas fa-shopping-cart"></i> 商品明細</h3>
                     </div>
                 </div>
                 <div class="item-list" id="item-list-${index}"></div>
@@ -962,7 +961,7 @@
             
             freeGiftsContainer.innerHTML = `
                 <div class="section-title">
-                    <h3><i class="fas fa-gift"></i> 贈品資訊 (訂單 ${index + 1})</h3>
+                    <h3><i class="fas fa-gift"></i> 贈品</h3>
                 </div>
                 <p>${giftDisplay}</p>
             `;
