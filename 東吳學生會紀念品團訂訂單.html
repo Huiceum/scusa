@@ -375,6 +375,137 @@
     margin: 10px;
 }
 
+.confirmation-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirmation-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 80%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.confirmation-content h2 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 10px;
+}
+
+.confirmation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.back-btn, .confirm-btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.back-btn {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.confirm-btn {
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+}
+
+.back-btn:hover {
+    background-color: #e5e5e5;
+}
+
+.confirm-btn:hover {
+    background-color: #660000;
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.product-name {
+    font-weight: bold;
+}
+
+.product-details {
+    color: #666;
+}
+
+.gift-bear {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.gift-bear img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.user-info-block {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    margin-bottom: 5px;
+}
+
+.info-label {
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.section-title {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: var(--primary);
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.total-block {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.total-price {
+    color: var(--secondary);
+    font-size: 20px;
+}
+
     </style>
 </head>
 <body>
@@ -392,7 +523,7 @@
             <p>👚 短踢：輕盈透氣，春夏必備，讓 SCU 精神陪你度過每一天！</p>
             <p>不論是課堂穿搭、社團聚會，還是優雅跑咖，這些紀念品都是你展現東吳魂的最佳選擇！</p>
             <p>現在就填單，讓我們一起穿上校慶限定款，紀念這段最青春的時光！🔥</p>
-            <p>📌 團購期限有限，錯過不再！</p>
+            <p>📌 預購只到3/26，錯過不再！</p>
         </div>
         
         <form id="purchaseForm">
@@ -438,7 +569,7 @@
                 
                 <div class="product">
                     <div class="product-title">
-                        <h2>奶咖色棒球外套</h2>
+                        <h3>奶咖色棒球外套</h3>
                         <div class="price-info">
                             <span class="original-price">原價 1680</span>
                             <span class="discount-price">學生會優惠價 1580元/件</span>
@@ -559,7 +690,7 @@
                 
                 <div class="product">
                     <div class="product-title">
-                        <h2>帽踢－拱門款米色</h2>
+                        <h3>帽踢－拱門款米色</h3>
                         <div class="price-info">
                             <span class="original-price">原價 880</span>
                             <span class="discount-price">學生會優惠價 850元/件</span>
@@ -651,7 +782,7 @@
                     </div>
                 
                     <div class="product-image">
-                        <img src="hoody3.jpg" alt="Product image">
+                        <img src="hoody3.png" alt="Product image" style="width: 40%;">
                     </div>
                     <table class="size-table">
                         <caption>尺寸表</caption>
@@ -996,7 +1127,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="product-image">
                         <img src="T-shirt7.jpg" alt="Product image">
                     </div>
@@ -1091,6 +1222,25 @@
 
                     </div>
                 </div>
+
+
+                <div class="product">
+                    <div class="product-title">
+                        <h3>團主禮－𝗦𝗖𝗨帽T小熊掛飾鑰匙圈</h3>
+                        <div class="price-info">
+                            <span class="discount-price">累積15件就送 可累贈</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-image">
+                        <img src="scubear1.jpg" alt="Product image" style="width: 30%;">
+                        <img src="scubear2.jpg" alt="Product image" style="width: 30%;">
+
+                    </div>
+
+                    
+                </div>
+
             </div>
             
             <div class="total-section">
@@ -1101,7 +1251,19 @@
             <button type="submit" class="submit-btn" id="submitBtn" disabled>送出訂單</button>
         </form>
     </div>
-    
+    <div id="confirmationDialog" class="confirmation-dialog" style="display:none;">
+        <div class="confirmation-content">
+            <h2>訂單確認</h2>
+            <div id="userInfoConfirm"></div>
+            <div id="productListConfirm"></div>
+            <div id="totalConfirm"></div>
+            <div id="giftBearsConfirm" style="margin-top: 15px; font-weight: bold; color: #990000;"></div>
+            <div class="confirmation-buttons">
+                <button id="backToFormBtn" class="back-btn">返回修改</button>
+                <button id="confirmOrderBtn" class="confirm-btn">確認送出</button>
+            </div>
+        </div>
+    </div>
     <div class="container success-message" id="successMessage">
         <h2>訂單已送達</h2>
         <p>請於電子郵件確認訂單</p>
@@ -1116,6 +1278,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     const quantityInputs = document.querySelectorAll('.product-quantity');
     const totalAmountElement = document.getElementById('totalAmount');
+    const confirmationDialog = document.getElementById('confirmationDialog');
+    const userInfoConfirm = document.getElementById('userInfoConfirm');
+    const productListConfirm = document.getElementById('productListConfirm');
+    const totalConfirm = document.getElementById('totalConfirm');
+    const giftBearsConfirm = document.getElementById('giftBearsConfirm');
+    const backToFormBtn = document.getElementById('backToFormBtn');
+    const confirmOrderBtn = document.getElementById('confirmOrderBtn');
     
     // Calculate total price function
     function calculateTotal() {
@@ -1189,6 +1358,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if form is valid
         const isFormValid = form.checkValidity() && hasItems;
         submitBtn.disabled = !isFormValid;
+        
+        return {total, totalQuantity};
     }
     
     // 更新優惠訊息
@@ -1237,6 +1408,98 @@ document.addEventListener('DOMContentLoaded', function() {
         totalSection.parentNode.insertBefore(discountMessage, totalSection);
     }
     
+    // 計算贈送的熊數量
+    function calculateGiftBears(totalQuantity) {
+        return Math.floor(totalQuantity / 15);
+    }
+    
+    // 準備確認對話框的內容
+    function prepareConfirmationDialog() {
+        const {total, totalQuantity} = calculateTotal();
+        const giftBears = calculateGiftBears(totalQuantity);
+        
+        // 用戶資料
+        const name = document.getElementById('name').value;
+        const classValue = document.getElementById('class').value;
+        const studentId = document.getElementById('studentId').value;
+        const email = document.getElementById('email').value;
+        const location = document.querySelector('input[name="entry.1588125407"]:checked')?.value || '未選擇';
+        
+        userInfoConfirm.innerHTML = `
+            <h3>訂購人資料</h3>
+            <p><strong>姓名：</strong> ${name}</p>
+            <p><strong>系級：</strong> ${classValue}</p>
+            <p><strong>學號：</strong> ${studentId}</p>
+            <p><strong>電子信箱：</strong> ${email}</p>
+            <p><strong>取貨地點：</strong> ${location}</p>
+        `;
+        
+        // 產品列表
+        let productsHTML = '<h3>訂購商品明細</h3><table style="width:100%; border-collapse: collapse; margin-top: 10px;">';
+        productsHTML += '<tr style="background-color: #f2f2f2;"><th style="border: 1px solid #ddd; padding: 8px; text-align: left;">商品</th><th style="border: 1px solid #ddd; padding: 8px; text-align: center;">尺寸</th><th style="border: 1px solid #ddd; padding: 8px; text-align: center;">數量</th><th style="border: 1px solid #ddd; padding: 8px; text-align: right;">單價</th><th style="border: 1px solid #ddd; padding: 8px; text-align: right;">小計</th></tr>';
+        
+        // 設定折扣價格
+        let discountedPriceVarsity = 1580;
+        let discountedPriceHoodie = 850;
+        let discountedPriceTshirt = 450;
+        
+        if (totalQuantity >= 10) {
+            discountedPriceVarsity = 1380;
+            discountedPriceHoodie = 750;
+            discountedPriceTshirt = 390;
+        } else if (totalQuantity >= 4) {
+            discountedPriceVarsity = 1480;
+            discountedPriceHoodie = 800;
+            discountedPriceTshirt = 420;
+        }
+        
+        // 遍歷所有產品
+        const products = [
+            {title: '奶咖色棒球外套', sizes: ['S', 'M', 'L', 'XL', '2L', '3L'], entries: ['entry.67097856', 'entry.456903224', 'entry.857450773', 'entry.931679935', 'entry.365699910', 'entry.775099890'], price: discountedPriceVarsity},
+            {title: '帽踢－拱門款米色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.1237698500', 'entry.471790982', 'entry.771496781', 'entry.388529011', 'entry.1249153806'], price: discountedPriceHoodie},
+            {title: '帽踢－拱門款藍色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.447205702', 'entry.706234088', 'entry.1752930885', 'entry.1793384746', 'entry.214040143'], price: discountedPriceHoodie},
+            {title: '帽踢－經典款米色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.1949376298', 'entry.790267880', 'entry.1936671092', 'entry.1780661777', 'entry.338078620'], price: discountedPriceHoodie},
+            {title: '帽踢－經典款綠色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.1896771574', 'entry.782519602', 'entry.1723251904', 'entry.379726479', 'entry.67895422'], price: discountedPriceHoodie},
+            {title: '短踢－米色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.1173284143', 'entry.47248344', 'entry.1601603735', 'entry.116632921', 'entry.1346455323'], price: discountedPriceTshirt},
+            {title: '短踢－藍色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.16471316', 'entry.488079728', 'entry.1161169765', 'entry.1726236972', 'entry.1675513452'], price: discountedPriceTshirt}
+        ];
+        
+        products.forEach(product => {
+            let hasItems = false;
+            product.sizes.forEach((size, index) => {
+                const entryName = product.entries[index];
+                const quantityInput = document.querySelector(`[name="${entryName}"]`);
+                const quantity = parseInt(quantityInput.value) || 0;
+                
+                if (quantity > 0) {
+                    hasItems = true;
+                    const subtotal = quantity * product.price;
+                    productsHTML += `<tr style="border-bottom: 1px solid #ddd;">
+                        <td style="border: 1px solid #ddd; padding: 8px;">${product.title}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${size}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${quantity}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">$${product.price}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">$${subtotal}</td>
+                    </tr>`;
+                }
+            });
+        });
+        
+        productsHTML += '</table>';
+        productListConfirm.innerHTML = productsHTML;
+        
+        // 總金額
+        totalConfirm.innerHTML = `<h3 style="margin-top: 15px;">訂單總計：<span style="color: #e63946; font-size: 1.2em;">$${total} 元</span></h3>`;
+        
+        // 贈品熊訊息
+        if (giftBears > 0) {
+            giftBearsConfirm.innerHTML = `🎁 恭喜！您將獲得 ${giftBears} 隻 SCU 帽T小熊！`;
+        } else {
+            const bearsNeeded = 15 - (totalQuantity % 15);
+            giftBearsConfirm.innerHTML = `再購買 ${bearsNeeded} 件商品即可獲得一隻 SCU 帽T小熊！`;
+        }
+    }
+    
     // Make size options interactive
     const sizeOptions = document.querySelectorAll('.size-option');
     sizeOptions.forEach(option => {
@@ -1279,42 +1542,65 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('change', calculateTotal);
     });
     
-    // Form submission
-    form.addEventListener('submit', function(e) {
+    // Submit 按鈕點擊事件 - 顯示確認對話框
+    submitBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        prepareConfirmationDialog();
+        confirmationDialog.style.display = 'flex';
+    });
+    
+    // 返回修改按鈕
+    backToFormBtn.addEventListener('click', function() {
+        confirmationDialog.style.display = 'none';
+    });
+    
+    // 確認送出按鈕
+    confirmOrderBtn.addEventListener('click', function() {
+        // 確認熊的數量並添加到表單
+        const {totalQuantity} = calculateTotal();
+        const giftBears = calculateGiftBears(totalQuantity);
         
-        // Double check we have the total in the form
-        const total = totalAmountElement.textContent.replace(/[^0-9]/g, '');
-        let hiddenTotalInput = document.getElementById('totalAmountHidden');
-        if (!hiddenTotalInput) {
-            hiddenTotalInput = document.createElement('input');
-            hiddenTotalInput.type = 'hidden';
-            hiddenTotalInput.name = 'entry.533881735';
-            hiddenTotalInput.id = 'totalAmountHidden';
-            form.appendChild(hiddenTotalInput);
+        let hiddenBearsInput = document.getElementById('giftBearsHidden');
+        if (!hiddenBearsInput) {
+            hiddenBearsInput = document.createElement('input');
+            hiddenBearsInput.type = 'hidden';
+            hiddenBearsInput.name = 'entry.1998765432'; // 請確認此欄位名稱
+            hiddenBearsInput.id = 'giftBearsHidden';
+            form.appendChild(hiddenBearsInput);
         }
-        hiddenTotalInput.value = total;
+        hiddenBearsInput.value = giftBears;
         
-        // Prepare to submit to Google Forms
+        // 準備提交到 Google Forms
         const formData = new FormData(form);
         const url = "https://docs.google.com/forms/d/e/1FAIpQLSfmNOtXks8LSPMDd3MOZZWuPkTavobEFEuE7lr_xaZidxjGyA/formResponse";
         
-        // Send the form data using fetch
+        // 發送表單數據
         fetch(url, {
             method: "POST",
             body: formData,
             mode: 'no-cors'
         })
         .then(() => {
-            // Show success message
+            // 顯示成功訊息
             formContainer.style.display = 'none';
+            confirmationDialog.style.display = 'none';
             successMessage.style.display = 'block';
         })
         .catch(error => {
-            // Still show success message even if there's an error
-            // (due to CORS issues, this will likely go to catch)
+            // 即使有錯誤也顯示成功訊息
+            // (由於 CORS 問題，這可能會進入 catch)
             formContainer.style.display = 'none';
+            confirmationDialog.style.display = 'none';
             successMessage.style.display = 'block';
+        });
+    });
+    
+    // 阻止 Enter 鍵直接提交表單
+    document.querySelectorAll("input").forEach(input => {
+        input.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+            }
         });
     });
     
