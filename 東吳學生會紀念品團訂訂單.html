@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Monster Shooting Game</title>
     <style>
         * {
@@ -278,7 +279,6 @@
     <p>5. 正確擊中怪物得分，錯誤點擊會有懲罰</p>
     <button id="close-help">了解了</button>
 </div>
-        <h1 class="game-title">Monster Shooting Game</h1>
         
         <div class="game-menu">
 
@@ -683,6 +683,32 @@ document.querySelector('.help-button').addEventListener('click', () => {
 document.getElementById('close-help').addEventListener('click', () => {
     document.querySelector('.help-modal').style.display = 'none';
 });
+
+// 禁用觸控縮放
+document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+document.addEventListener('touchmove', function(e) {
+    if (e.scale !== 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// 禁用滾輪縮放
+window.addEventListener('wheel', function(e) {
+    if (e.ctrlKey) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// 禁用手勢縮放
+window.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+});
+
     </script>
 </body>
 </html>
