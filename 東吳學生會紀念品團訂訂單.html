@@ -3,1629 +3,686 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第68屆學生會校慶紀念品團購表單</title>
+    <title>Monster Shooting Game</title>
     <style>
-        :root {
-            --primary: #50445b;
-            --secondary: #990000;
-            --accent: #ffcc00;
-            --light: #f5f5f5;
-            --dark: #333333;
-        }
-        
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Microsoft JhengHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
         
         body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             padding: 20px;
         }
         
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.02);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 20px;
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        .intro {
-            background-color: rgba(103, 103, 103, 0.05);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .form-section {
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        input[type="text"],
-        input[type="email"] {
+        .game-container {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
         
-        .radio-group {
+        .game-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #494e7d;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.7);
+        }
+        
+        .game-board {
+            width: 100%;
+            aspect-ratio: 4/5;
+            display: grid;
+            grid-template-rows: repeat(5, 1fr);
+            gap: 10px;
+            background-color: #1e1e1e;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .cell {
+            background-color: #2a2a2a;
+            border-radius: 5px;
+            position: relative;
+            transition: background-color 0.1s;
+        }
+        
+        .monster {
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+        
+        .controls {
             display: flex;
-            gap: 20px;
+            width: 100%;
+            justify-content: space-around;
             margin-top: 10px;
         }
         
-        .radio-option {
+        .key {
+            width: 60px;
+            height: 60px;
+            background-color: #333;
+            border-radius: 10px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 4px 0 #222;
+            transition: all 0.1s;
         }
         
-        input[type="radio"] {
-            margin-right: 5px;
+        .key:active, .key.active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #222;
+            background-color: #555;
         }
         
-        .product-section {
-            margin-top: 40px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-        }
-        
-        .product {
-            margin-bottom: 30px;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: rgb(255, 255, 255);
-            border: 1px solid #eee;
-        }
-        
-        .product-title {
-    color: var(--secondary);
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.price-info {
+        .game-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: rgba(30, 30, 30, 0.95);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    z-index: 1000; /* 確保在最上層 */
     display: flex;
     flex-direction: column;
-    text-align: right;
+    gap: 15px;
 }
 
-.original-price {
-    text-decoration: line-through;
-    color: gray;
-    font-size: 14px;
+.mode-selection {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }
 
-.discount-price {
-    font-size: 16px;
-    font-weight: bold;
-    color: #d9534f;
+.mode-selection button {
+    flex: 1;
 }
 
-.bulk-pricing {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #333;
+.game-menu h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #494e7d;
 }
-
-.bulk-pricing p {
-    margin: 2px 0;
-}
-
-.bulk-pricing span {
-    font-weight: bold;
-    color: #d9534f;
-}
-
         
-        .size-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 10px;
-            width: 100%;
-            justify-content: center; /* 讓內部的 .size-option 置中 */
-        }
-        
-        .size-option {
-            display: flex;
-            align-items: center;
-            background-color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            width: 40%;
-
-        }
-        
-        .size-label {
-            margin-right: 10px;
-            font-weight: bold;
-            color: var(--dark);
-        }
-        
-        input[type="number"] {
-            width: 60px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-        }
-        
-        .total-section {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 30px;
+        .mode-selection {
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
         
-        #totalAmount {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: var(--secondary);
+        button {
+            padding: 10px 15px;
+            background-color: #494e7d;
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
+            font-size: 1rem;
+            transition: all 0.2s;
         }
         
-        .submit-btn:disabled {
-            background-color: #888;
-            cursor: not-allowed;
+        button:hover {
+            background-color: #2c2e44;
         }
         
-        .submit-btn:hover:not(:disabled) {
-            background-color: #660000;
+        button:active {
+            transform: scale(0.95);
         }
         
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 100px 20px;
-        }
-        
-        .success-message h2 {
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        .note {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
-        }
-        
-        @media (max-width: 600px) {
-            .size-options {
-                gap: 10px;
-            }
-            
-            .size-option {
-                width: calc(50% - 5px);
-            }
-        }
-                /* Hover animations */
-        /* Hover and interaction animations */
-        .submit-btn, .size-option, input[type="text"], input[type="email"], input[type="radio"] + label {
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .size-option {
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-
-        .size-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: rgba(0, 51, 102, 0.05);
-        }
-
-        .size-option input[type="number"] {
-            transition: all 0.3s ease;
-            transform-origin: top;
-        }
-
-        .size-option.active {
-            background-color: rgba(0, 51, 102, 0.1);
-            padding: 10px 15px;
-        }
-
-        .product-image {
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
             width: 100%;
-            height: auto;
-            margin-top: 15px;
+            margin-top: 10px;
+        }
+        
+        .timer, .score {
+            font-size: 1.2rem;
+            background-color: #333;
+            padding: 10px;
             border-radius: 5px;
-            overflow: hidden;
+            min-width: 120px;
             text-align: center;
         }
-
-        .product-image img {
-            width: 50%;
-            height: auto;
-            object-fit: cover;
+        
+        .high-scores {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
         }
-
-        input[type="radio"] + label {
-            cursor: pointer;
-            padding: 5px 10px;
+        
+        .high-scores h3 {
+            margin-bottom: 10px;
+            color: #494e7d;
+        }
+        
+        .records {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .record {
+            background-color: #333;
+            padding: 10px;
             border-radius: 5px;
+            min-width: 120px;
+        }
+        
+        @media (max-width: 768px) {
+            .desktop-controls {
+                display: none;
+            }
         }
 
-        input[type="radio"]:checked + label {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
-            outline: none;
-        }
-
-        .size-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 16px;
-    background-color: #f9f9f9;
-}
-
-.size-table th, .size-table td {
-    text-align: center;
-    border: 1px dashed rgba(100, 100, 100, 0.3); /* 更淡的灰色虛線 */
-    border-spacing: 6px; /* 增加格線間距 */
-}
-
-.size-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    color: #333;
-}
-
-.size-table tr:nth-child(even) {
-    background-color: #fcfcfc;
-}
 
 
-.fitting-report {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 30px;
-    font-size: 16px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* 柔和陰影 */
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.fitting-report th, .fitting-report td {
-    padding: 3px;
-    text-align: center;
-    border-bottom: 1px solid #ddd; /* 細灰色底線 */
-}
-
-.fitting-report th {
-    background-color: #f6f6f6;
-    font-weight: bold;
-    color: #333;
-}
-
-.fitting-report tr:hover {
-    background-color: rgba(0, 0, 0, 0.04); /* 滑鼠懸停時淺灰背景 */
-}
-
-.size-table caption, .fitting-report caption {
-    font-weight: bold;
-    font-size: large;
-    color:#000000;
-    margin: 10px;
-}
-
-.confirmation-dialog {
+.help-button {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    color: white;
+    border-radius: 50%;
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 1000;
-}
-
-.confirmation-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    width: 80%;
-    max-width: 600px;
-    max-height: 80vh;
-    overflow-y: auto;
-}
-
-.confirmation-content h2 {
-    color: var(--primary);
-    margin-bottom: 20px;
-    text-align: center;
-    border-bottom: 2px solid var(--primary);
-    padding-bottom: 10px;
-}
-
-.confirmation-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
-}
-
-.back-btn, .confirm-btn {
-    padding: 10px 20px;
-    border-radius: 5px;
+    justify-content: center;
+    font-size: 24px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 100;
 }
 
-.back-btn {
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ddd;
-}
-
-.confirm-btn {
-    background-color: var(--secondary);
+.help-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: rgba(30, 30, 30, 0.95);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    z-index: 1001;
     color: white;
-    border: none;
 }
 
-.back-btn:hover {
-    background-color: #e5e5e5;
+.help-modal h3 {
+    color: #494e7d;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
-.confirm-btn:hover {
-    background-color: #660000;
-}
-
-.product-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.product-name {
-    font-weight: bold;
-}
-
-.product-details {
-    color: #666;
-}
-
-.gift-bear {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.gift-bear img {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
-}
-
-.user-info-block {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.info-item {
-    margin-bottom: 5px;
-}
-
-.info-label {
-    font-weight: bold;
-    color: var(--primary);
-}
-
-.section-title {
-    font-weight: bold;
-    margin-top: 15px;
+.help-modal p {
     margin-bottom: 10px;
-    color: var(--primary);
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
 }
 
-.total-block {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-weight: bold;
+.help-modal button {
+    margin-top: 15px;
+    width: 100%;
 }
-
-.total-price {
-    color: var(--secondary);
-    font-size: 20px;
-}
-
-    .btn2u420 {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #50445b;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: 0.3s ease;
-        }
-        .btn2u420:hover {
-            background-color: #242027;
-        }
-
     </style>
 </head>
 <body>
-    <div class="container" id="orderForm">
-        <header>
-            <h2>第68屆學生會校慶紀念品團購表單</h2>
-            <p>🎉 早上好東吳，現在我要買紀念品 🎉</p>
-        </header>
+
+
+
+
+    <div class="game-container">      
         
-        <div class="intro">
-            <p>一百二十五週年校慶來啦！想要來點專屬 Soochow 的潮流單品？</p>
-            <p>這次第六十八屆學生會精心準備了三款超實穿紀念品：</p>
-            <p>🧥 棒球外套：帥氣有型，走路帶風，讓你在校園裡成為焦點！</p>
-            <p>👕 帽踢：舒適百搭，隨性一穿就是大學生活的標配！</p>
-            <p>👚 短踢：輕盈透氣，春夏必備，讓 SCU 精神陪你度過每一天！</p>
-            <p>不論是課堂穿搭、社團聚會，還是優雅跑咖，這些紀念品都是你展現東吳魂的最佳選擇！</p>
-            <p>現在就填單，讓我們一起穿上校慶限定款，紀念這段最青春的時光！🔥</p>
-            <p>📌 預購只到3/26，錯過不再！</p>
+        <div class="help-button">?</div>
+
+
+<div class="help-modal">
+    <h3>如何遊玩</h3>
+    <p>1. 選擇遊戲模式：限時模式或打擊模式</p>
+    <p>2. 點擊「開始遊戲」按鈕開始遊戲</p>
+    <p>3. 電腦用戶：使用鍵盤的 A、S、D、F 鍵擊打最底部的怪物</p>
+    <p>4. 手機用戶：直接點擊最底部的怪物</p>
+    <p>5. 正確擊中怪物得分，錯誤點擊會有懲罰</p>
+    <button id="close-help">了解了</button>
+</div>
+        <h1 class="game-title">Monster Shooting Game</h1>
+        
+        <div class="game-menu">
+
+            
+            <h2>很抱歉，訂單已經截止</h2>
+            <p style="text-align: center; margin-bottom: 15px;">您可以玩玩我們的小遊戲，選擇遊戲模式開始遊戲</p>
+            <div class="mode-selection">
+                <button id="time-mode">限時模式 (30秒)</button>
+                <button id="target-mode">打擊模式 (100個)</button>
+            </div>
+            <button id="start-game">開始遊戲</button>
         </div>
         
-        <form id="purchaseForm">
-            <div class="form-section">
-                <div class="form-group">
-                    <label for="name">請問您的姓名是？</label>
-                    <input type="text" id="name" name="entry.523853345" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="class">請問您的系級（舉例：中ㄧＡ）？</label>
-                    <input type="text" id="class" name="entry.1494762971" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="studentId">請問您的學號？</label>
-                    <input type="text" id="studentId" name="entry.1338138206" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">聯絡用電子信箱</label>
-                    <input type="email" id="email" name="entry.1823945125" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>請問您的取貨地點</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="location1" name="entry.1588125407" value="雙溪校區" required>
-                            <label for="location1">雙溪校區</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="location2" name="entry.1588125407" value="城中校區">
-                            <label for="location2">城中校區</label>
-                        </div>
-                    </div>
-                    <p class="note">取貨時間會在ig、電子郵件中另行公告</p>
-                </div>
+        <div class="game-stats">
+            <div class="timer">時間: 0s</div>
+            <div class="score">得分: 0</div>
+        </div>
+        
+        <div class="game-board">
+            <div class="row" data-row="0">
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
             </div>
-            
-            <div class="product-section">
-                <h2>紀念品選購</h2>
-                
-                <div class="product">
-                    <div class="product-title">
-                        <h3>奶咖色棒球外套</h3>
-                        <div class="price-info">
-                            <span class="original-price">原價 1680</span>
-                            <span class="discount-price">學生會優惠價 1580元/件</span>
-                            <div class="bulk-pricing">
-                                <p>4件以上 每件 <span>1480</span></p>
-                                <p>10件以上 每件 <span>1380</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-image">
-                        <img src="Varsity Jacket1.jpg" alt="Product image">
-                        <img src="Varsity Jacket1.2.jpg" alt="Product image">
-
-                    </div>
-                    <table class="size-table">
-                        <caption>尺寸表</caption>
-                        <thead>
-                            <tr>
-                                <th>尺寸</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>2L</th>
-                                <th>3L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>胸寬 (cm)</td>
-                                <td>59</td>
-                                <td>63</td>
-                                <td>65</td>
-                                <td>67</td>
-                                <td>69</td>
-                                <td>71</td>
-                            </tr>
-                            <tr>
-                                <td>袖長 (cm)</td>
-                                <td>54.5</td>
-                                <td>57</td>
-                                <td>58</td>
-                                <td>59</td>
-                                <td>60</td>
-                                <td>61</td>
-                            </tr>
-                            <tr>
-                                <td>衣長 (cm)</td>
-                                <td>67.5</td>
-                                <td>70</td>
-                                <td>72</td>
-                                <td>74</td>
-                                <td>76</td>
-                                <td>78</td>
-                            </tr>
-                            <tr>
-                                <td>下擺長 (cm)</td>
-                                <td>41.5</td>
-                                <td>44</td>
-                                <td>45.5</td>
-                                <td>47</td>
-                                <td>48.5</td>
-                                <td>50</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <table class="fitting-report">
-                        <caption>試穿報告</caption>
-                        <thead>
-                            <tr>
-                                <th>試穿人員</th>
-                                <th>身高 (cm)</th>
-                                <th>體重 (kg)</th>
-                                <th>穿著尺寸</th>
-                                <th>穿著感受</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>男</td><td>169</td><td>66</td><td>L</td><td>合身</td></tr>
-                            <tr><td>男</td><td>176</td><td>66</td><td>XL</td><td>寬鬆</td></tr>
-                            <tr><td>男</td><td>178</td><td>80</td><td>2L</td><td>合身</td></tr>
-                            <tr><td>男</td><td>183</td><td>92</td><td>3L</td><td>合身</td></tr>
-                            <tr><td>女</td><td>158</td><td>48</td><td>M</td><td>合身</td></tr>
-                            <tr><td>女</td><td>158</td><td>58</td><td>L</td><td>合身</td></tr>
-                            <tr><td>女</td><td>161</td><td>56</td><td>L</td><td>寬鬆</td></tr>
-                            <tr><td>女</td><td>176</td><td>82</td><td>2L</td><td>合身</td></tr>
-                        </tbody>
-                    </table>
-                    <div class="size-options">
-                        <div class="size-option">
-                            <span class="size-label">S:</span>
-                            <input type="number" name="entry.67097856" min="0" value="0" class="product-quantity" data-price="1580">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">M:</span>
-                            <input type="number" name="entry.456903224" min="0" value="0" class="product-quantity" data-price="1580">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">L:</span>
-                            <input type="number" name="entry.857450773" min="0" value="0" class="product-quantity" data-price="1580">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">XL:</span>
-                            <input type="number" name="entry.931679935" min="0" value="0" class="product-quantity" data-price="1580">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">2L:</span>
-                            <input type="number" name="entry.365699910" min="0" value="0" class="product-quantity" data-price="1580">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">3L:</span>
-                            <input type="number" name="entry.775099890" min="0" value="0" class="product-quantity" data-price="1580">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product">
-                    <div class="product-title">
-                        <h3>帽踢－拱門款米色</h3>
-                        <div class="price-info">
-                            <span class="original-price">原價 880</span>
-                            <span class="discount-price">學生會優惠價 850元/件</span>
-                            <div class="bulk-pricing">
-                                <p>4件以上 每件 <span>800</span></p>
-                                <p>10件以上 每件 <span>750</span></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="product-image">
-                        <img src="hoody2.jpg" alt="Product image">
-                    </div>
-                    <table class="size-table">
-                        <caption>尺寸表</caption>
-                        <thead>
-                            <tr>
-                                <th>尺寸</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>2L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>肩+袖 (cm)</td>
-                                <td>71</td>
-                                <td>73.5</td>
-                                <td>75</td>
-                                <td>77</td>
-                                <td>79</td>
-                            </tr>
-                            <tr>
-                                <td>胸寬 (cm)</td>
-                                <td>61.5</td>
-                                <td>64</td>
-                                <td>66</td>
-                                <td>68</td>
-                                <td>70</td>
-                            </tr>
-                            <tr>
-                                <td>衣長 (cm)</td>
-                                <td>66.5</td>
-                                <td>68</td>
-                                <td>69</td>
-                                <td>71</td>
-                                <td>73</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="size-options">
-                        <div class="size-option">
-                            <span class="size-label">S:</span>
-                            <input type="number" name="entry.1237698500" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">M:</span>
-                            <input type="number" name="entry.471790982" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">L:</span>
-                            <input type="number" name="entry.771496781" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">XL:</span>
-                            <input type="number" name="entry.388529011" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">2L:</span>
-                            <input type="number" name="entry.1249153806" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product">
-                    <div class="product-title">
-                        <h3>帽踢－拱門款藍色</h3>
-                        <div class="price-info">
-                            <span class="original-price">原價 880</span>
-                            <span class="discount-price">學生會優惠價 850元/件</span>
-                            <div class="bulk-pricing">
-                                <p>4件以上 每件 <span>800</span></p>
-                                <p>10件以上 每件 <span>750</span></p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="product-image">
-                        <img src="hoody3.png" alt="Product image" style="width: 40%;">
-                    </div>
-                    <table class="size-table">
-                        <caption>尺寸表</caption>
-                        <thead>
-                            <tr>
-                                <th>尺寸</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>2L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>肩+袖 (cm)</td>
-                                <td>71</td>
-                                <td>73.5</td>
-                                <td>75</td>
-                                <td>77</td>
-                                <td>79</td>
-                            </tr>
-                            <tr>
-                                <td>胸寬 (cm)</td>
-                                <td>61.5</td>
-                                <td>64</td>
-                                <td>66</td>
-                                <td>68</td>
-                                <td>70</td>
-                            </tr>
-                            <tr>
-                                <td>衣長 (cm)</td>
-                                <td>66.5</td>
-                                <td>68</td>
-                                <td>69</td>
-                                <td>71</td>
-                                <td>73</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="size-options">
-                        <div class="size-option">
-                            <span class="size-label">S:</span>
-                            <input type="number" name="entry.447205702" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">M:</span>
-                            <input type="number" name="entry.706234088" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">L:</span>
-                            <input type="number" name="entry.1752930885" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">XL:</span>
-                            <input type="number" name="entry.1793384746" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">2L:</span>
-                            <input type="number" name="entry.214040143" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product">
-                    <div class="product-title">
-                        <h3>帽踢－經典款米色</h3>
-                        <div class="price-info">
-                            <span class="original-price">原價 880</span>
-                            <span class="discount-price">學生會優惠價 850元/件</span>
-                            <div class="bulk-pricing">
-                                <p>4件以上 每件 <span>800</span></p>
-                                <p>10件以上 每件 <span>750</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-image">
-                        <img src="hoody4.jpg" alt="Product image">
-                    </div>
-                    <table class="size-table">
-                        <caption>尺寸表</caption>
-                        <thead>
-                            <tr>
-                                <th>尺寸</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>2L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>肩+袖 (cm)</td>
-                                <td>71</td>
-                                <td>73.5</td>
-                                <td>75</td>
-                                <td>77</td>
-                                <td>79</td>
-                            </tr>
-                            <tr>
-                                <td>胸寬 (cm)</td>
-                                <td>61.5</td>
-                                <td>64</td>
-                                <td>66</td>
-                                <td>68</td>
-                                <td>70</td>
-                            </tr>
-                            <tr>
-                                <td>衣長 (cm)</td>
-                                <td>66.5</td>
-                                <td>68</td>
-                                <td>69</td>
-                                <td>71</td>
-                                <td>73</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="size-options">
-                        <div class="size-option">
-                            <span class="size-label">S:</span>
-                            <input type="number" name="entry.1949376298" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">M:</span>
-                            <input type="number" name="entry.790267880" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">L:</span>
-                            <input type="number" name="entry.1936671092" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">XL:</span>
-                            <input type="number" name="entry.1780661777" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">2L:</span>
-                            <input type="number" name="entry.338078620" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-
-                    </div>
-                </div>
-                
-                <div class="product">
-                    <div class="product-title">
-                        <h3>帽踢－經典款綠色</h3>
-                        <div class="price-info">
-                            <span class="original-price">原價 880</span>
-                            <span class="discount-price">學生會優惠價 850元/件</span>
-                            <div class="bulk-pricing">
-                                <p>4件以上 每件 <span>800</span></p>
-                                <p>10件以上 每件 <span>750</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-image">
-                        <img src="hoody5.jpg" alt="Product image">
-                    </div>
-                    <table class="size-table">
-                        <caption>尺寸表</caption>
-                        <thead>
-                            <tr>
-                                <th>尺寸</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>2L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>肩+袖 (cm)</td>
-                                <td>71</td>
-                                <td>73.5</td>
-                                <td>75</td>
-                                <td>77</td>
-                                <td>79</td>
-                            </tr>
-                            <tr>
-                                <td>胸寬 (cm)</td>
-                                <td>61.5</td>
-                                <td>64</td>
-                                <td>66</td>
-                                <td>68</td>
-                                <td>70</td>
-                            </tr>
-                            <tr>
-                                <td>衣長 (cm)</td>
-                                <td>66.5</td>
-                                <td>68</td>
-                                <td>69</td>
-                                <td>71</td>
-                                <td>73</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="size-options">
-                        <div class="size-option">
-                            <span class="size-label">S:</span>
-                            <input type="number" name="entry.1896771574" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">M:</span>
-                            <input type="number" name="entry.782519602" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">L:</span>
-                            <input type="number" name="entry.1723251904" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">XL:</span>
-                            <input type="number" name="entry.379726479" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">2L:</span>
-                            <input type="number" name="entry.67895422" min="0" value="0" class="product-quantity" data-price="850">
-                        </div>
-
-                    </div>
-                </div>
-                
-                <div class="product">
-                    <div class="product-title">
-                        <h3>短踢－米色</h3>
-                        <div class="price-info">
-                            <span class="original-price">原價 490</span>
-                            <span class="discount-price">學生會優惠價 450元/件</span>
-                            <div class="bulk-pricing">
-                                <p>4件以上 每件 <span>420</span></p>
-                                <p>10件以上 每件 <span>390</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-image">
-                        <img src="T-shirt6.jpg" alt="Product image">
-                    </div>
-
-                    <table class="size-table">
-                        <caption>尺寸表</caption>
-                        <thead>
-                            <tr>
-                                <th>尺寸</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>2L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>肩寬 (cm)</td>
-                                <td>44</td>
-                                <td>44.5</td>
-                                <td>46.5</td>
-                                <td>48.5</td>
-                                <td>55</td>
-                            </tr>
-                            <tr>
-                                <td>胸寬 (cm)</td>
-                                <td>48</td>
-                                <td>50</td>
-                                <td>52.5</td>
-                                <td>55</td>
-                                <td>61.5</td>
-                            </tr>
-                            <tr>
-                                <td>袖長 (cm)</td>
-                                <td>20</td>
-                                <td>22.5</td>
-                                <td>23.5</td>
-                                <td>23.5</td>
-                                <td>24</td>
-                            </tr>
-                            <tr>
-                                <td>衣長 (cm)</td>
-                                <td>64.5</td>
-                                <td>68</td>
-                                <td>71</td>
-                                <td>73</td>
-                                <td>76.5</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <table class="fitting-report">
-                        <caption>試穿報告</caption>
-                        <thead>
-                            <tr>
-                                <th>身高 (cm)</th>
-                                <th>體重 (kg)</th>
-                                <th>建議尺寸</th>
-                                <th>緊合度</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>163</td><td>53</td><td>S</td><td>合身</td></tr>
-                            <tr><td>168</td><td>58</td><td>M</td><td>合身</td></tr>
-                            <tr><td>173</td><td>75</td><td>L</td><td>合身</td></tr>
-                            <tr><td>178</td><td>82</td><td>XL</td><td>合身</td></tr>
-                            <tr><td>183</td><td>90</td><td>2L</td><td>合身</td></tr>
-
-                        </tbody>
-                    </table>
-                    <div class="size-options">
-                        <div class="size-option">
-                            <span class="size-label">S:</span>
-                            <input type="number" name="entry.1173284143" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">M:</span>
-                            <input type="number" name="entry.47248344" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">L:</span>
-                            <input type="number" name="entry.1601603735" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">XL:</span>
-                            <input type="number" name="entry.116632921" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">2L:</span>
-                            <input type="number" name="entry.1346455323" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-
-                    </div>
-                </div>
-                
-                <div class="product">
-                    <div class="product-title">
-                        <h3>短踢－藍色</h3>
-                        <div class="price-info">
-                            <span class="original-price">原價 490</span>
-                            <span class="discount-price">學生會優惠價 450元/件</span>
-                            <div class="bulk-pricing">
-                                <p>4件以上 每件 <span>420</span></p>
-                                <p>10件以上 每件 <span>390</span></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-image">
-                        <img src="T-shirt7.jpg" alt="Product image">
-                    </div>
-                    <table class="size-table">
-                        <caption>尺寸表</caption>
-                        <thead>
-                            <tr>
-                                <th>尺寸</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>2L</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>肩寬 (cm)</td>
-                                <td>44</td>
-                                <td>44.5</td>
-                                <td>46.5</td>
-                                <td>48.5</td>
-                                <td>55</td>
-                            </tr>
-                            <tr>
-                                <td>胸寬 (cm)</td>
-                                <td>48</td>
-                                <td>50</td>
-                                <td>52.5</td>
-                                <td>55</td>
-                                <td>61.5</td>
-                            </tr>
-                            <tr>
-                                <td>袖長 (cm)</td>
-                                <td>20</td>
-                                <td>22.5</td>
-                                <td>23.5</td>
-                                <td>23.5</td>
-                                <td>24</td>
-                            </tr>
-                            <tr>
-                                <td>衣長 (cm)</td>
-                                <td>64.5</td>
-                                <td>68</td>
-                                <td>71</td>
-                                <td>73</td>
-                                <td>76.5</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <table class="fitting-report">
-                        <caption>試穿報告</caption>
-                        <thead>
-                            <tr>
-                                <th>身高 (cm)</th>
-                                <th>體重 (kg)</th>
-                                <th>建議尺寸</th>
-                                <th>緊合度</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>163</td><td>53</td><td>S</td><td>合身</td></tr>
-                            <tr><td>168</td><td>58</td><td>M</td><td>合身</td></tr>
-                            <tr><td>173</td><td>75</td><td>L</td><td>合身</td></tr>
-                            <tr><td>178</td><td>82</td><td>XL</td><td>合身</td></tr>
-                            <tr><td>183</td><td>90</td><td>2L</td><td>合身</td></tr>
-
-                        </tbody>
-                    </table>
-                    <div class="size-options">
-                        <div class="size-option">
-                            <span class="size-label">S:</span>
-                            <input type="number" name="entry.16471316" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">M:</span>
-                            <input type="number" name="entry.488079728" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">L:</span>
-                            <input type="number" name="entry.1161169765" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">XL:</span>
-                            <input type="number" name="entry.1726236972" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-                        <div class="size-option">
-                            <span class="size-label">2L:</span>
-                            <input type="number" name="entry.1675513452" min="0" value="0" class="product-quantity" data-price="450">
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="product">
-                    <div class="product-title">
-                        <h3>團主禮－𝗦𝗖𝗨帽T小熊掛飾鑰匙圈</h3>
-                        <div class="price-info">
-                            <span class="discount-price">累積15件就送 可累贈</span>
-                        </div>
-                    </div>
-                    
-                    <div class="product-image">
-                        <img src="scubear1.jpg" alt="Product image" style="width: 30%;">
-                        <img src="scubear2.jpg" alt="Product image" style="width: 30%;">
-
-                    </div>
-
-                    
-                </div>
-
+            <div class="row" data-row="1">
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
             </div>
-            
-            <div class="total-section">
-                <span>訂單總計:</span>
-                <span id="totalAmount">0 元</span>
+            <div class="row" data-row="2">
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
             </div>
-            
-            <button type="submit" class="submit-btn" id="submitBtn" disabled>送出訂單</button>
-        </form>
-    </div>
-    <div id="confirmationDialog" class="confirmation-dialog" style="display:none;">
-        <div class="confirmation-content">
-            <h2>訂單確認</h2>
-            <div id="userInfoConfirm"></div>
-            <div id="productListConfirm"></div>
-            <div id="totalConfirm"></div>
-            <div id="giftBearsConfirm" style="margin-top: 15px; font-weight: bold; color: #990000;"></div>
-            <div class="confirmation-buttons">
-                <button id="backToFormBtn" class="back-btn">返回修改</button>
-                <button id="confirmOrderBtn" class="confirm-btn">確認送出</button>
+            <div class="row" data-row="3">
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
+            </div>
+            <div class="row" data-row="4">
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
+            </div>
+        </div>
+        
+        <div class="controls desktop-controls">
+            <div class="key" data-key="a">A</div>
+            <div class="key" data-key="s">S</div>
+            <div class="key" data-key="d">D</div>
+            <div class="key" data-key="f">F</div>
+        </div>
+        
+        <div class="high-scores">
+            <h3>最高紀錄</h3>
+            <div class="records">
+                <div class="record" id="time-record">限時模式: 0</div>
+                <div class="record" id="target-record">打擊模式: 0s</div>
             </div>
         </div>
     </div>
-    <div class="container success-message" id="successMessage">
-        <h2>訂單已送達</h2>
-        <p>請於電子郵件確認訂單</p>
-        <p>若無收件請向學生會確認</p>
-        <a href="東吳學生會紀念品團訂訂單查詢.html" class="btn2u420">訂單查詢</a>
-
-    </div>
+    <!-- 在head標籤中加入，來預加載圖片和音效 -->
 
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('purchaseForm');
-    const formContainer = document.getElementById('orderForm');
-    const successMessage = document.getElementById('successMessage');
-    const submitBtn = document.getElementById('submitBtn');
-    const quantityInputs = document.querySelectorAll('.product-quantity');
-    const totalAmountElement = document.getElementById('totalAmount');
-    const confirmationDialog = document.getElementById('confirmationDialog');
-    const userInfoConfirm = document.getElementById('userInfoConfirm');
-    const productListConfirm = document.getElementById('productListConfirm');
-    const totalConfirm = document.getElementById('totalConfirm');
-    const giftBearsConfirm = document.getElementById('giftBearsConfirm');
-    const backToFormBtn = document.getElementById('backToFormBtn');
-    const confirmOrderBtn = document.getElementById('confirmOrderBtn');
-    
-    // Calculate total price function
-    function calculateTotal() {
-        let totalQuantity = 0;
-        let total = 0;
-        let hasItems = false;
-        
-        // 先計算總件數
-        quantityInputs.forEach(input => {
-            const quantity = parseInt(input.value) || 0;
-            totalQuantity += quantity;
-            
-            if (quantity > 0) {
-                hasItems = true;
-            }
+
+    // 預加載圖片和音效
+    function preloadAssets() {
+        // 預加載圖片
+        const images = ['ball7.gif', 'ball8.gif', 'ball6.gif'];
+        images.forEach(img => {
+            const image = new Image();
+            image.src = img;
         });
         
-        // 根據總件數決定各個價格等級的折扣
-        let discount1580 = 1580; // 原價
-        let discount850 = 850;   // 原價
-        let discount450 = 450;   // 原價
+        // 預加載音效
+        const sounds = ['select01.mp3', 'select02.mp3', 'select03.mp3', 'select04.mp3', 'select08.mp3'];
+        sounds.forEach(sound => {
+            const audio = new Audio(sound);
+            // 設置為不自動播放，只預加載
+            audio.preload = 'auto';
+        });
+    }
+    
+    // 頁面加載時預加載資源
+    window.addEventListener('load', preloadAssets);
+
+    function playSound(type) {
+    let soundFile;
+    
+    if (type === 'correct') {
+        // 隨機選擇正確音效
+        const correctSounds = ['select01.mp3', 'select02.mp3', 'select03.mp3', 'select04.mp3'];
+        soundFile = correctSounds[Math.floor(Math.random() * correctSounds.length)];
+    } else if (type === 'wrong') {
+        // 錯誤音效
+        soundFile = 'select08.mp3';
+    }
+    
+    if (soundFile) {
+        const audio = new Audio(soundFile);
+        audio.play();
+    }
+}
+
+
+
+        // 遊戲變數
+        let gameActive = false;
+        let gameMode = null; // 'time' 或 'target'
+        let score = 0;
+        let time = 0;
+        let timer = null;
+        let monsters = [];
+        let penaltyActive = false;
         
-        // 當總件數大於等於4件時的折扣
-        if (totalQuantity >= 4 && totalQuantity < 10) {
-            discount1580 = 1480;
-            discount850 = 800;
-            discount450 = 420;
-        } 
-        // 當總件數大於等於10件時的折扣
-        else if (totalQuantity >= 10) {
-            discount1580 = 1380;
-            discount850 = 750;
-            discount450 = 390;
+        // DOM 元素
+        const gameBoard = document.querySelector('.game-board');
+        const rows = document.querySelectorAll('.row');
+        const cells = document.querySelectorAll('.cell');
+        const keys = document.querySelectorAll('.key');
+        const timeModeBtn = document.getElementById('time-mode');
+        const targetModeBtn = document.getElementById('target-mode');
+        const startGameBtn = document.getElementById('start-game');
+        const timerDisplay = document.querySelector('.timer');
+        const scoreDisplay = document.querySelector('.score');
+        const timeRecordDisplay = document.getElementById('time-record');
+        const targetRecordDisplay = document.getElementById('target-record');
+        
+        // 初始化高分紀錄
+        let timeHighScore = localStorage.getItem('timeHighScore') || 0;
+        let targetHighScore = localStorage.getItem('targetHighScore') || Infinity;
+        
+        timeRecordDisplay.textContent = `限時模式: ${timeHighScore}`;
+        targetRecordDisplay.textContent = `打擊模式: ${targetHighScore === Infinity ? '0s' : targetHighScore + 's'}`;
+        
+        // 檢查設備類型
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const controls = document.querySelector('.desktop-controls');
+        if (isMobile) {
+            controls.style.display = 'none';
         }
         
-        // 計算總金額
-        quantityInputs.forEach(input => {
-            const quantity = parseInt(input.value) || 0;
-            const originalPrice = parseInt(input.getAttribute('data-price')) || 0;
-            
-            // 根據原價套用相應的折扣價格
-            let discountedPrice = originalPrice;
-            if (originalPrice === 1580) {
-                discountedPrice = discount1580;
-            } else if (originalPrice === 850) {
-                discountedPrice = discount850;
-            } else if (originalPrice === 450) {
-                discountedPrice = discount450;
-            }
-            
-            total += quantity * discountedPrice;
+        // 遊戲模式選擇
+        timeModeBtn.addEventListener('click', () => {
+            gameMode = 'time';
+            timeModeBtn.style.backgroundColor = '#2c2e44';
+            targetModeBtn.style.backgroundColor = '#494e7d';
         });
         
-        // 更新顯示的總金額
-        totalAmountElement.textContent = `${total} 元`;
+        targetModeBtn.addEventListener('click', () => {
+            gameMode = 'target';
+            targetModeBtn.style.backgroundColor = '#2c2e44';
+            timeModeBtn.style.backgroundColor = '#494e7d';
+        });
         
-        // 顯示優惠訊息
-        updateDiscountMessage(totalQuantity);
-        
-        // Add or update hidden input for total amount
-        let hiddenTotalInput = document.getElementById('totalAmountHidden');
-        if (!hiddenTotalInput) {
-            hiddenTotalInput = document.createElement('input');
-            hiddenTotalInput.type = 'hidden';
-            hiddenTotalInput.name = 'entry.533881735';
-            hiddenTotalInput.id = 'totalAmountHidden';
-            form.appendChild(hiddenTotalInput);
-        }
-        hiddenTotalInput.value = total;
-        
-        // Check if form is valid
-        const isFormValid = form.checkValidity() && hasItems;
-        submitBtn.disabled = !isFormValid;
-        
-        return {total, totalQuantity};
+// 開始遊戲
+startGameBtn.addEventListener('click', () => {
+    if (!gameMode) {
+        alert('請先選擇遊戲模式！');
+        return;
     }
     
-    // 更新優惠訊息
-    function updateDiscountMessage(totalQuantity) {
-        // 移除舊的訊息
-        let oldMessage = document.getElementById('discountMessage');
-        if (oldMessage) {
-            oldMessage.remove();
-        }
-        
-        // 添加新的訊息
-        let discountMessage = document.createElement('div');
-        discountMessage.id = 'discountMessage';
-        discountMessage.style.padding = '10px';
-        discountMessage.style.marginTop = '10px';
-        discountMessage.style.borderRadius = '5px';
-        discountMessage.style.textAlign = 'center';
-        discountMessage.style.fontWeight = 'bold';
-        
-        if (totalQuantity >= 10) {
-            discountMessage.style.backgroundColor = '#ffcc00';
-            discountMessage.style.color = '#333';
-            discountMessage.innerHTML = `
-                <p>🎉 恭喜！你已達到最高優惠折扣！</p>
-                <p>棒球外套每件$1380元，帽踢每件$750元，短踢每件$390元</p>
-            `;
-        } else if (totalQuantity >= 4) {
-            discountMessage.style.backgroundColor = '#e6f7ff';
-            discountMessage.style.color = '#333';
-            discountMessage.innerHTML = `
-                <p>🎉 已達到優惠折扣！</p>
-                <p>棒球外套每件$1480元，帽踢每件$800元，短踢每件$420元</p>
-                <p>再購買${10 - totalQuantity}件即可享有最高折扣！</p>
-            `;
-        } else if (totalQuantity > 0) {
-            discountMessage.style.backgroundColor = '#f9f9f9';
-            discountMessage.style.color = '#666';
-            discountMessage.innerHTML = `
-                <p>🛍️ 購買4件以上可享優惠折扣！</p>
-                <p>還差${4 - totalQuantity}件即可享有折扣</p>
-            `;
-        }
-        
-        // 將訊息加入到總金額區塊之前
-        const totalSection = document.querySelector('.total-section');
-        totalSection.parentNode.insertBefore(discountMessage, totalSection);
-    }
+    if (gameActive) return;
     
-    // 計算贈送的熊數量
-    function calculateGiftBears(totalQuantity) {
-        return Math.floor(totalQuantity / 15);
-    }
+    resetGame();
+    gameActive = true;
     
-    // 準備確認對話框的內容
-    function prepareConfirmationDialog() {
-        const {total, totalQuantity} = calculateTotal();
-        const giftBears = calculateGiftBears(totalQuantity);
+    // 隱藏選單
+    document.querySelector('.game-menu').style.display = 'none';
+    
+    // 初始化遊戲版面
+    initializeBoard();
+    
+    // 開始計時
+    timer = setInterval(() => {
+        time += 0.1;
+        timerDisplay.textContent = `時間: ${time.toFixed(1)}s`;
         
-        // 用戶資料
-        const name = document.getElementById('name').value;
-        const classValue = document.getElementById('class').value;
-        const studentId = document.getElementById('studentId').value;
-        const email = document.getElementById('email').value;
-        const location = document.querySelector('input[name="entry.1588125407"]:checked')?.value || '未選擇';
-        
-        userInfoConfirm.innerHTML = `
-            <h3>訂購人資料</h3>
-            <p><strong>姓名：</strong> ${name}</p>
-            <p><strong>系級：</strong> ${classValue}</p>
-            <p><strong>學號：</strong> ${studentId}</p>
-            <p><strong>電子信箱：</strong> ${email}</p>
-            <p><strong>取貨地點：</strong> ${location}</p>
-        `;
-        
-        // 產品列表
-        let productsHTML = '<h3>訂購商品明細</h3><table style="width:100%; border-collapse: collapse; margin-top: 10px;">';
-        productsHTML += '<tr style="background-color: #f2f2f2;"><th style="border: 1px solid #ddd; padding: 8px; text-align: left;">商品</th><th style="border: 1px solid #ddd; padding: 8px; text-align: center;">尺寸</th><th style="border: 1px solid #ddd; padding: 8px; text-align: center;">數量</th><th style="border: 1px solid #ddd; padding: 8px; text-align: right;">單價</th><th style="border: 1px solid #ddd; padding: 8px; text-align: right;">小計</th></tr>';
-        
-        // 設定折扣價格
-        let discountedPriceVarsity = 1580;
-        let discountedPriceHoodie = 850;
-        let discountedPriceTshirt = 450;
-        
-        if (totalQuantity >= 10) {
-            discountedPriceVarsity = 1380;
-            discountedPriceHoodie = 750;
-            discountedPriceTshirt = 390;
-        } else if (totalQuantity >= 4) {
-            discountedPriceVarsity = 1480;
-            discountedPriceHoodie = 800;
-            discountedPriceTshirt = 420;
+        if (gameMode === 'time' && time >= 30) {
+            endGame();
         }
+    }, 100);
+});
+
+// 結束遊戲
+function endGame() {
+    gameActive = false;
+    clearInterval(timer);
+    
+    // 重新顯示選單
+    document.querySelector('.game-menu').style.display = 'flex';
+    
+    // 更新高分
+    if (gameMode === 'time') {
+        if (score > timeHighScore) {
+            timeHighScore = score;
+            localStorage.setItem('timeHighScore', timeHighScore);
+            timeRecordDisplay.textContent = `限時模式: ${timeHighScore}`;
+        }
+        alert(`遊戲結束！你在30秒內擊中了 ${score} 個怪物！`);
+    } else {
+        if (time < targetHighScore || targetHighScore === Infinity) {
+            targetHighScore = time;
+            localStorage.setItem('targetHighScore', targetHighScore);
+            targetRecordDisplay.textContent = `打擊模式: ${targetHighScore.toFixed(1)}s`;
+        }
+        alert(`遊戲結束！你在 ${time.toFixed(1)} 秒內擊中了100個怪物！`);
+    }
+}
         
-        // 遍歷所有產品
-        const products = [
-            {title: '奶咖色棒球外套', sizes: ['S', 'M', 'L', 'XL', '2L', '3L'], entries: ['entry.67097856', 'entry.456903224', 'entry.857450773', 'entry.931679935', 'entry.365699910', 'entry.775099890'], price: discountedPriceVarsity},
-            {title: '帽踢－拱門款米色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.1237698500', 'entry.471790982', 'entry.771496781', 'entry.388529011', 'entry.1249153806'], price: discountedPriceHoodie},
-            {title: '帽踢－拱門款藍色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.447205702', 'entry.706234088', 'entry.1752930885', 'entry.1793384746', 'entry.214040143'], price: discountedPriceHoodie},
-            {title: '帽踢－經典款米色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.1949376298', 'entry.790267880', 'entry.1936671092', 'entry.1780661777', 'entry.338078620'], price: discountedPriceHoodie},
-            {title: '帽踢－經典款綠色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.1896771574', 'entry.782519602', 'entry.1723251904', 'entry.379726479', 'entry.67895422'], price: discountedPriceHoodie},
-            {title: '短踢－米色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.1173284143', 'entry.47248344', 'entry.1601603735', 'entry.116632921', 'entry.1346455323'], price: discountedPriceTshirt},
-            {title: '短踢－藍色', sizes: ['S', 'M', 'L', 'XL', '2L'], entries: ['entry.16471316', 'entry.488079728', 'entry.1161169765', 'entry.1726236972', 'entry.1675513452'], price: discountedPriceTshirt}
-        ];
-        
-        products.forEach(product => {
-            let hasItems = false;
-            product.sizes.forEach((size, index) => {
-                const entryName = product.entries[index];
-                const quantityInput = document.querySelector(`[name="${entryName}"]`);
-                const quantity = parseInt(quantityInput.value) || 0;
+        // 鍵盤事件監聽
+        document.addEventListener('keydown', (e) => {
+            if (!gameActive || penaltyActive) return;
+            
+            const key = e.key.toLowerCase();
+            const keyIndex = ['a', 's', 'd', 'f'].indexOf(key);
+            
+            if (keyIndex !== -1) {
+                handleInput(keyIndex);
                 
-                if (quantity > 0) {
-                    hasItems = true;
-                    const subtotal = quantity * product.price;
-                    productsHTML += `<tr style="border-bottom: 1px solid #ddd;">
-                        <td style="border: 1px solid #ddd; padding: 8px;">${product.title}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${size}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${quantity}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">$${product.price}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">$${subtotal}</td>
-                    </tr>`;
-                }
+                // 添加視覺效果
+                keys[keyIndex].classList.add('active');
+                setTimeout(() => {
+                    keys[keyIndex].classList.remove('active');
+                }, 100);
+            }
+        });
+        
+        // 螢幕點擊事件監聽（適用於手機）
+        gameBoard.addEventListener('click', (e) => {
+            if (!gameActive || penaltyActive) return;
+            
+            const cell = e.target.closest('.cell');
+            if (!cell) return;
+            
+            const col = parseInt(cell.dataset.col);
+            const row = parseInt(cell.closest('.row').dataset.row);
+            
+            // 只有點擊最底部的怪物才有效
+            if (row === 4) {
+                handleInput(col);
+            }
+        });
+        
+        // 點擊按鍵
+        keys.forEach((key, index) => {
+            key.addEventListener('click', () => {
+                if (!gameActive || penaltyActive) return;
+                handleInput(index);
             });
         });
         
-        productsHTML += '</table>';
-        productListConfirm.innerHTML = productsHTML;
-        
-        // 總金額
-        totalConfirm.innerHTML = `<h3 style="margin-top: 15px;">訂單總計：<span style="color: #e63946; font-size: 1.2em;">$${total} 元</span></h3>`;
-        
-        // 贈品熊訊息
-        if (giftBears > 0) {
-            giftBearsConfirm.innerHTML = `🎁 恭喜！您將獲得 ${giftBears} 隻 SCU 帽T小熊！`;
-        } else {
-            const bearsNeeded = 15 - (totalQuantity % 15);
-            giftBearsConfirm.innerHTML = `再購買 ${bearsNeeded} 件商品即可獲得一隻 SCU 帽T小熊！`;
+ // 修改初始化遊戲版面函數
+function initializeBoard() {
+    // 清空版面
+    cells.forEach(cell => {
+        while (cell.firstChild) {
+            cell.removeChild(cell.firstChild);
         }
+    });
+    
+    monsters = [];
+    
+    // 為每一列生成一個怪物
+    for (let row = 0; row < 5; row++) {
+        const randomCol = Math.floor(Math.random() * 4);
+        const randomBall = `ball${Math.floor(Math.random() * 3) + 6}.gif`; // ball7.gif, ball8.gif, or ball9.gif
+        
+        monsters.push({ row, col: randomCol, ballImage: randomBall });
+        
+        const cell = document.querySelector(`.row[data-row="${row}"] .cell[data-col="${randomCol}"]`);
+        const monster = document.createElement('img');
+        monster.classList.add('monster');
+        monster.src = randomBall;
+        cell.appendChild(monster);
     }
+}
+
+// 修改處理玩家輸入函數
+function handleInput(col) {
+    // 檢查最底部的怪物
+    const bottomMonster = monsters.find(m => m.row === 4);
     
-    // Make size options interactive
-    const sizeOptions = document.querySelectorAll('.size-option');
-    sizeOptions.forEach(option => {
-        const input = option.querySelector('input');
+    if (bottomMonster && bottomMonster.col === col) {
+        // 點擊正確
+        playSound('correct'); // 播放正確音效
         
-        // Click on size option
-        option.addEventListener('click', function(e) {
-            // Don't trigger if clicking on the input itself
-            if (e.target !== input) {
-                this.classList.add('active');
-                input.focus();
-            }
-        });
+        score++;
+        scoreDisplay.textContent = `得分: ${score}`;
         
-        // When input gets focus
-        input.addEventListener('focus', function() {
-            option.classList.add('active');
-        });
-        
-        // When input changes
-        input.addEventListener('input', function() {
-            if (parseInt(this.value) > 0) {
-                option.classList.add('active');
-            } else {
-                option.classList.remove('active');
-            }
-            calculateTotal();
-        });
-    });
-    
-    // Add event listeners for quantity changes
-    quantityInputs.forEach(input => {
-        input.addEventListener('input', calculateTotal);
-    });
-    
-    // Add event listeners for form input changes
-    const allInputs = form.querySelectorAll('input');
-    allInputs.forEach(input => {
-        input.addEventListener('input', calculateTotal);
-        input.addEventListener('change', calculateTotal);
-    });
-    
-    // Submit 按鈕點擊事件 - 顯示確認對話框
-    submitBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        prepareConfirmationDialog();
-        confirmationDialog.style.display = 'flex';
-    });
-    
-    // 返回修改按鈕
-    backToFormBtn.addEventListener('click', function() {
-        confirmationDialog.style.display = 'none';
-    });
-    
-    // 確認送出按鈕
-    confirmOrderBtn.addEventListener('click', function() {
-        // 確認熊的數量並添加到表單
-        const {totalQuantity} = calculateTotal();
-        const giftBears = calculateGiftBears(totalQuantity);
-        
-        let hiddenBearsInput = document.getElementById('giftBearsHidden');
-        if (!hiddenBearsInput) {
-            hiddenBearsInput = document.createElement('input');
-            hiddenBearsInput.type = 'hidden';
-            hiddenBearsInput.name = 'entry.1998765432'; // 請確認此欄位名稱
-            hiddenBearsInput.id = 'giftBearsHidden';
-            form.appendChild(hiddenBearsInput);
+        // 檢查目標模式是否完成
+        if (gameMode === 'target' && score >= 100) {
+            endGame();
+            return;
         }
-        hiddenBearsInput.value = giftBears;
         
-        // 準備提交到 Google Forms
-        const formData = new FormData(form);
-        const url = "https://docs.google.com/forms/d/e/1FAIpQLSfmNOtXks8LSPMDd3MOZZWuPkTavobEFEuE7lr_xaZidxjGyA/formResponse";
+        // 移除底部怪物
+        monsters = monsters.filter(m => m.row !== 4);
         
-        // 發送表單數據
-        fetch(url, {
-            method: "POST",
-            body: formData,
-            mode: 'no-cors'
-        })
-        .then(() => {
-            // 顯示成功訊息
-            formContainer.style.display = 'none';
-            confirmationDialog.style.display = 'none';
-            successMessage.style.display = 'block';
-        })
-        .catch(error => {
-            // 即使有錯誤也顯示成功訊息
-            // (由於 CORS 問題，這可能會進入 catch)
-            formContainer.style.display = 'none';
-            confirmationDialog.style.display = 'none';
-            successMessage.style.display = 'block';
+        // 其他怪物下移
+        monsters.forEach(monster => {
+            monster.row++;
         });
+        
+        // 新增一個怪物到頂部
+        const randomCol = Math.floor(Math.random() * 4);
+        const randomBall = `ball${Math.floor(Math.random() * 3) + 6}.gif`; // ball7.gif, ball8.gif, or ball9.gif
+        monsters.push({ row: 0, col: randomCol, ballImage: randomBall });
+        
+        // 更新顯示
+        updateMonsters();
+    } else {
+        // 點擊錯誤
+        playSound('wrong'); // 播放錯誤音效
+        applyPenalty();
+    }
+}
+
+// 修改更新怪物顯示函數
+function updateMonsters() {
+    // 清空版面
+    cells.forEach(cell => {
+        while (cell.firstChild) {
+            cell.removeChild(cell.firstChild);
+        }
     });
     
-    // 阻止 Enter 鍵直接提交表單
-    document.querySelectorAll("input").forEach(input => {
-        input.addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
+    // 重新繪製怪物
+    monsters.forEach(monster => {
+        const cell = document.querySelector(`.row[data-row="${monster.row}"] .cell[data-col="${monster.col}"]`);
+        const monsterElement = document.createElement('img');
+        monsterElement.classList.add('monster');
+        monsterElement.src = monster.ballImage;
+        cell.appendChild(monsterElement);
+    });
+}
+        // 錯誤懲罰
+        function applyPenalty() {
+            if (penaltyActive) return;
+            
+            penaltyActive = true;
+            gameBoard.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                penaltyActive = false;
+                gameBoard.style.opacity = '1';
+            }, 500);
+        }
+        
+        // 結束遊戲
+        function endGame() {
+            gameActive = false;
+            clearInterval(timer);
+            
+            startGameBtn.textContent = '開始遊戲';
+            
+            // 更新高分
+            if (gameMode === 'time') {
+                if (score > timeHighScore) {
+                    timeHighScore = score;
+                    localStorage.setItem('timeHighScore', timeHighScore);
+                    timeRecordDisplay.textContent = `限時模式: ${timeHighScore}`;
+                }
+                alert(`遊戲結束！你在30秒內擊中了 ${score} 個怪物！`);
+            } else {
+                if (time < targetHighScore || targetHighScore === Infinity) {
+                    targetHighScore = time;
+                    localStorage.setItem('targetHighScore', targetHighScore);
+                    targetRecordDisplay.textContent = `打擊模式: ${targetHighScore.toFixed(1)}s`;
+                }
+                alert(`遊戲結束！你在 ${time.toFixed(1)} 秒內擊中了100個怪物！`);
             }
-        });
-    });
-    
-    // Initial calculation
-    calculateTotal();
+        }
+        
+        // 重置遊戲
+        function resetGame() {
+            score = 0;
+            time = 0;
+            monsters = [];
+            penaltyActive = false;
+            
+            scoreDisplay.textContent = `得分: ${score}`;
+            timerDisplay.textContent = `時間: ${time.toFixed(1)}s`;
+            
+            gameBoard.style.opacity = '1';
+            
+            clearInterval(timer);
+        }
+
+// 在 <script> 中添加以下 JavaScript
+// 添加幫助按鈕功能
+document.querySelector('.help-button').addEventListener('click', () => {
+    document.querySelector('.help-modal').style.display = 'block';
 });
 
+// 添加關閉幫助的功能
+document.getElementById('close-help').addEventListener('click', () => {
+    document.querySelector('.help-modal').style.display = 'none';
+});
     </script>
 </body>
 </html>
