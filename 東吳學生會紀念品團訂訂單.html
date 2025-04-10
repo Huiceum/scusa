@@ -61,11 +61,18 @@
         }
         
         .cell {
-            background-color: #2a2a2a;
-            border-radius: 5px;
-            position: relative;
-            transition: background-color 0.1s;
-        }
+    background-color: #2a2a2a;
+    border-radius: 5px;
+    position: relative;
+    transition: background-color 0.1s;
+}
+
+/* 改變最下面一排顏色 */
+.game-board .row:last-child .cell {
+    background-color: #5e5c68; /* 這裡設置你想要的顏色 */
+}
+
+        
         
         .monster {
     width: 80%;
@@ -684,30 +691,27 @@ document.getElementById('close-help').addEventListener('click', () => {
     document.querySelector('.help-modal').style.display = 'none';
 });
 
-// 禁用觸控縮放
-document.addEventListener('touchstart', function(e) {
-    if (e.touches.length > 1) {
-        e.preventDefault();
+// 禁用雙擊縮放
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (e) {
+    let currentTime = new Date().getTime();
+    if (currentTime - lastTouchEnd <= 300) {
+        e.preventDefault(); // 禁用雙擊縮放
     }
-}, { passive: false });
-
-document.addEventListener('touchmove', function(e) {
-    if (e.scale !== 1) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-// 禁用滾輪縮放
-window.addEventListener('wheel', function(e) {
-    if (e.ctrlKey) {
-        e.preventDefault();
-    }
-}, { passive: false });
+    lastTouchEnd = currentTime;
+}, false);
 
 // 禁用手勢縮放
-window.addEventListener('gesturestart', function(e) {
+document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
 });
+
+// 禁用觸控縮放
+document.addEventListener('touchstart', function (e) {
+    if (e.touches.length > 1) {
+        e.preventDefault(); // 禁用多點觸控
+    }
+}, { passive: false });
 
     </script>
 </body>
