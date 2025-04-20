@@ -3,14 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東吳大學學生議會議會</title>
-    <link rel="stylesheet" href="style議會.css">
-    <link rel="icon" href="議會LOGO.png" type="image/x-icon">
+    <title>東吳大學選舉事務委員會</title>
+    <link rel="stylesheet" href="style選舉.css">
+    <link rel="icon" href="" type="image/x-icon">
 
     <style>
+        .form-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+        }
+
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid #eaeaea;
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .form-header {
+            background: rgb(224, 227, 230);
+            color: rgb(0, 0, 0);
+            padding: 15px 20px;
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .form-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-detail {
+            font-size: 14px;
+            color: #d4d8de;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .deadline {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #a20808;
+            font-weight: bold;
+        }
+
+        .deadline-icon {
+            margin-right: 5px;
+        }
+
+        .eligibility {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .countdown {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+            color: #272727;
+            font-weight: bold;
+        }
+
+        .form-button {
+            display: block;
+            background: #272727;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .form-button:hover {
+            background: #000000;
+        }
+
+        .empty-state {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 18px;
+            margin-top: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .empty-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+
+/* 在中大螢幕上居中顯示單筆表單 */
+@media (min-width: 601px) {
+    .single-form {
+        grid-template-columns: minmax(0, 400px) !important;
+        justify-content: center;
+    }
+
+    .double-forms {
+        grid-template-columns: repeat(2, minmax(0, 400px)) !important;
+        justify-content: center;
+    }
+}
+
+/* 保留原本的響應式設計 */
+@media (max-width: 900px) {
+    .forms-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .forms-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        
+
+
+
+
+
+
+
+
         /* 預設連結樣式 */
         a {
-            color: #566268;
+            color:rgb(0, 65, 97);
             text-decoration: none;
         }
 
@@ -36,10 +196,10 @@
         .calendar {
             width: 50%;
             padding: 20px;
-            background-color: rgb(51, 49, 45);
+            background-color: rgb(255, 255, 255);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            color: #f5f5f5;
+            color: #1f1f1f;
             margin-bottom: 100px;
 
         }
@@ -47,7 +207,7 @@
         .events {
             width: 50%;
             padding: 20px;
-            background-color: rgb(51, 49, 45);
+            background-color: rgb(255, 255, 255);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-left: 20px;
@@ -76,16 +236,16 @@
         }
 
         .calendar-day:hover {
-            background-color: #000000;
+            background-color: #ffffff;
         }
 
         .highlight {
-            background-color: #a73043;
-            color: white;
+            background-color: #212121;
+            color: rgb(227, 170, 0);
         }
         
         .events h2 {
-            color: #f5f5f5;
+            color: #2b2b2b;
         }
 
         .event-list {
@@ -96,13 +256,13 @@
         .event-item {
             padding: 10px;
             margin: 5px 0;
-            background-color: #f5f5f5;
+            background-color: #2b2b2b;
             border-radius: 5px;
-            color: #1f1e1e;
+            color: #ffffff;
         }
 
         .event-item a {
-            color: #566268;
+            color: #c6a200;
             text-decoration: none;
         }
 
@@ -124,13 +284,13 @@
 
         .weekday {
             padding: 5px;
-            background-color: #1f1e1e;
+            background-color: #d8d8d8;
         }
         .view-more-btn {
         display: block;
         margin: 20px auto;
         padding: 10px 20px;
-        background-color: #c59663;
+        background-color: #2b2b2b;
         color: white;
         border: none;
         border-radius: 5px;
@@ -138,7 +298,7 @@
     }
 
     .view-more-btn:hover {
-        background-color: #8f6c46;
+        background-color: #000000;
     }
 
 
@@ -216,7 +376,6 @@ button:active {
 
         <nav class="sidebar" id="sidebar">
             <div class="logo">
-                <img src="議會logo.png" alt="Logo">
                 <div class="site-name"></div>
             </div>
             <ul class="nav-links" id="sidebar-links">
@@ -272,6 +431,16 @@ button:active {
                 </ul>
             </div>
 
+
+
+
+
+            <div class="form-container">
+                <div id="formsArea" class="loading">
+                    <p>載入中，請稍候...</p>
+                </div>
+            </div>
+
                
 
             <div class="announcements slide-up">
@@ -304,14 +473,14 @@ button:active {
             
                 <!-- Events Section -->
                 <div class="events">
-                    <h2>會議預報</h2>
+                    <h2>選務活動</h2>
                     <div id="eventsList" class="event-list"></div>
                 </div>
             </div>
         </div>
     </div>
     <div id="ball-container">
-        <img id="ball" src="ball3.png" alt="Ball">
+        <img id="ball" src="ball8.gif" alt="Ball">
         <button id="mobile-btn">開啟手機板</button>
       </div>
 
@@ -338,7 +507,7 @@ button:active {
 
                 // 載入sidebar鏈接
                 function loadSidebarLinks() {
-            const sheetId = '1UZUtAFKqnf-6lDvlhLiM_il-ffZoutz_1BLE2cHtdjk'; // 新的試算表 ID
+            const sheetId = '1hx6Uj_eCOH5nuAOtrRktdjWbM5Xk4Bo5ZxRsUZ_WSgI'; // 新的試算表 ID
             const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
             fetch(url)
@@ -365,7 +534,7 @@ button:active {
         }
 
         function loadAnnouncements() {
-        const sheetId = '1qzZxrbbucVhdXIRGvIfRqdYGRLRfinUmJ1zitWT6IQQ'; // 試算表 ID
+        const sheetId = '1gqn49ZfKbBaqwe-D5VqrBJ0n37AiVK1VHp_e-DlAiNo'; // 試算表 ID
         const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
         fetch(url)
@@ -413,24 +582,14 @@ button:active {
             });
         });
 
-let ball = document.getElementById('ball');
-let isBallOne = true;
 
-setInterval(() => {
-  if (isBallOne) {
-    ball.src = 'ball4.png';
-  } else {
-    ball.src = 'ball3.png';
-  }
-  isBallOne = !isBallOne;
-}, 500);
 
 ball.addEventListener('click', () => {
-  window.location.href = '東吳大學學生議會_phone.html';
+  window.location.href = 'scusec_p.html';
 });
 
 document.getElementById('mobile-btn').addEventListener('click', () => {
-  window.location.href = '東吳大學學生議會_phone.html';
+  window.location.href = 'scusec_p.html';
 });
 
                 // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
@@ -447,7 +606,7 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
             observer.observe(element);
         });
 
-        const sheetId = '1mgUyRJwP-Z2fJwNzCYNOnrjvMU_mjWmO62KOO-5UqMc'; // Your Google Sheets ID
+        const sheetId = '1r4WC3P2OPuamjoz3vSximkd2qi43FHoyQlhbInSHOv4'; // Your Google Sheets ID
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
     let currentMonth = new Date().getMonth();
@@ -566,6 +725,226 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
 
     // Initialize the page
     loadEvents();
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    loadForms();
+});
+
+function loadForms() {
+    const sheetId = '1f7rgg-Ti1hwpQd7Y7RfoKcGwpdPLS2UEHAJEcWB97qA';
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1); // 分割行並移除標題行
+            const formsArea = document.getElementById('formsArea');
+            formsArea.innerHTML = ''; // 清空載入訊息
+            
+            // 過濾出開啟中的表單
+            const activeForms = rows.filter(row => {
+                const columns = parseCSVRow(row);
+                return columns.length >= 5 && columns[4].trim().toLowerCase() === '是';
+            });
+
+            if (activeForms.length === 0) {
+                // 顯示沒有表單的狀態
+                formsArea.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <p>目前沒有選舉進行中</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // 創建表單網格，並根據項目數量設定適當的布局
+            const formsGrid = document.createElement('div');
+            formsGrid.classList.add('forms-grid');
+            
+            // 根據項目數量調整布局
+            if (activeForms.length === 1) {
+                formsGrid.style.gridTemplateColumns = "1fr";
+                formsGrid.style.maxWidth = "400px";
+                formsGrid.style.margin = "0 auto"; // 居中布局
+            } else if (activeForms.length === 2) {
+                formsGrid.style.gridTemplateColumns = "1fr 1fr";
+                formsGrid.style.maxWidth = "800px";
+                formsGrid.style.margin = "0 auto"; // 居中布局
+            } else {
+                // 三筆或更多維持原本的布局
+                formsGrid.style.gridTemplateColumns = "repeat(3, 1fr)";
+                formsGrid.style.margin = "0";
+            }
+            
+            activeForms.forEach(row => {
+                const [formName, deadline, eligibility, formLink] = parseCSVRow(row);
+                
+                // 創建表單卡片
+                const formCard = createFormCard(formName, deadline, eligibility, formLink);
+                formsGrid.appendChild(formCard);
+            });
+            
+            formsArea.appendChild(formsGrid);
+            
+            // 啟動倒數計時器
+            startCountdowns();
+        })
+        .catch(error => {
+            console.error('Error loading forms:', error);
+            document.getElementById('formsArea').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">⚠️</div>
+                    <p>載入表單資料時發生錯誤</p>
+                </div>
+            `;
+        });
+}
+
+function parseCSVRow(row) {
+    const result = [];
+    let inQuotes = false;
+    let currentValue = '';
+    
+    for (let i = 0; i < row.length; i++) {
+        const char = row[i];
+        
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            result.push(currentValue.trim());
+            currentValue = '';
+        } else {
+            currentValue += char;
+        }
+    }
+    
+    // 添加最後一個值
+    result.push(currentValue.trim());
+    
+    return result.map(value => {
+        // 移除包裹的引號
+        if (value.startsWith('"') && value.endsWith('"')) {
+            return value.substring(1, value.length - 1);
+        }
+        return value;
+    });
+}
+
+function createFormCard(formName, deadline, eligibility, formLink) {
+    const card = document.createElement('div');
+    card.classList.add('form-card');
+    
+    // 準備標題區
+    let headerContent = `
+        <div class="form-header">
+            <h2 class="form-title">${formName}</h2>
+        </div>
+    `;
+    
+    // 準備內容區，根據資料是否為空來決定是否顯示對應的區塊
+    let contentHtml = '<div class="form-content">';
+    
+    // 只有當截止日期存在時才顯示
+    if (deadline && deadline.trim() !== '') {
+        contentHtml += `
+            <div class="deadline">
+                <span class="deadline-icon"></span>
+                報名截止日：${deadline}
+            </div>
+            <div class="countdown" data-deadline="${deadline}">
+                計算剩餘時間中...
+            </div>
+        `;
+    }
+    
+    // 只有當資格摘要存在時才顯示
+    if (eligibility && eligibility.trim() !== '') {
+        contentHtml += `
+            <div class="eligibility form-detail">
+                <strong>報名資格：</strong>${eligibility}
+            </div>
+        `;
+    }
+    
+    // 加入報名按鈕
+    contentHtml += `
+        <a href="${formLink}" target="_blank" class="form-button">立即報名</a>
+    </div>`;
+    
+    card.innerHTML = headerContent + contentHtml;
+    
+    return card;
+}
+
+function startCountdowns() {
+    const countdownElements = document.querySelectorAll('.countdown');
+    
+    countdownElements.forEach(element => {
+        const deadline = element.getAttribute('data-deadline');
+        updateCountdown(element, deadline);
+        
+        // 每小時更新一次倒數
+        setInterval(() => {
+            updateCountdown(element, deadline);
+        }, 1000 * 60 * 60); // 每小時更新
+    });
+}
+
+function updateCountdown(element, deadlineStr) {
+    // 解析截止日期 (假設格式為 YYYY-MM-DD 或 YYYY/MM/DD)
+    const deadlineParts = deadlineStr.split(/[-\/]/);
+    
+    if (deadlineParts.length !== 3) {
+        element.textContent = '日期格式錯誤';
+        return;
+    }
+    
+    const year = parseInt(deadlineParts[0], 10);
+    const month = parseInt(deadlineParts[1], 10) - 1; // 月份從0開始
+    const day = parseInt(deadlineParts[2], 10);
+    
+    const deadlineDate = new Date(year, month, day, 23, 59, 59);
+    const currentDate = new Date();
+    
+    // 計算剩餘天數
+    const timeDifference = deadlineDate.getTime() - currentDate.getTime();
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    
+    if (daysRemaining < 0) {
+        element.textContent = '報名已截止';
+        element.style.color = '#9e9e9e';
+    } else if (daysRemaining === 0) {
+        element.textContent = '今天截止！';
+        element.style.color = '#f44336';
+    } else {
+        element.textContent = `距離截止還剩 ${daysRemaining} 天`;
+    }
+}
+
+
+// 根據項目數量調整布局 - 應在loadForms函數中
+if (activeForms.length === 1) {
+    // 只有一筆時，在中大螢幕上居中顯示
+    formsGrid.classList.add('single-form');
+} else if (activeForms.length === 2) {
+    // 只有兩筆時，在中大螢幕上居中顯示
+    formsGrid.classList.add('double-forms');
+}
     </script>
     
 </body>
