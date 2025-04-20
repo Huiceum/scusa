@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>議員對照表－東吳大學學生議會</title>
+    <link rel="stylesheet" href="style議會_phone.css">
+    <link rel="icon" href="議會logo.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <style>
+        /* 預設連結樣式 */
+        a {
+            color: rgb(199, 102, 53);
+            text-decoration: none;
+        }
+
+        /* 滑鼠懸停時的樣式 */
+        a:hover {
+            color: rgb(255, 255, 255);
+            text-decoration: underline;
+        }
+        body {
+            color: #38322b;
+            font-family: Arial, sans-serif;
+            font-weight: bolder;
+        }
+        .icon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center; /* 水平置中 */
+            align-items: center; /* 垂直置中 */
+            padding-top: 100px;
+            padding-bottom: 100px;
+            width: 80%;
+            margin: 0 auto; /* 確保容器居中 */
+        }
+        .icon {
+            width: calc(100% - 50px);
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #f4f5f1;
+            transition: all 0.3s ease;
+        }
+        .icon img {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;  /* 裁切並保持比例 */
+            height: auto;
+        }
+        .icon-text {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #c59663;
+        }
+        .details-section {
+            text-align: center;
+            background-color: #dbdcd1;
+            margin: 10px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .details-header {
+            display: flex;
+            justify-content: space-between; /* 使標題和三角形分開 */
+            align-items: center;
+            padding: 15px;
+            background-color: #f4f5f1;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: #38322b;
+
+        }
+        .details-header span {
+            flex-grow: 1; /* 使標題置中 */
+            text-align: center;
+        }
+        .triangle::after {
+            content: '\25BC';
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .expanded .triangle::after {
+            transform: rotate(180deg);
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            padding: 0;
+            padding-left: 20px;
+            color: #38322b;
+            background-color: #dbdcd1;
+            border-radius: 5px;
+            margin-top: 0;
+            text-align: left; /* 讓內容置左 */
+        }
+        .expanded .details-content {
+            padding-left: 20px;
+            line-height: 200%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="議會logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+
+            <ul class="nav-links slide-up">
+                <li>
+                    <div class="main-menu" data-target="#submenu-1">東吳大學學生選舉委員會</div>
+                    <ul class="submenu" id="submenu-1">
+                        <li><a href="東吳大學學生選舉委員會_phone.html">東吳大學學生選舉委員會</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-2">東吳大學學生會</div>
+                    <ul class="submenu" id="submenu-2">
+                        <li><a href="東吳大學學生會main_phone.html">首頁</a></li>
+                        <li><a href="東吳大學學生會introduction_phone.html">本會簡介</a></li>
+                        <li><a href="東吳大學學生會financial-report_phone.html">財務報告</a></li>
+                        <li><a href="東吳大學學生會about_phone.html">組織架構</a></li>
+                        <li><a href="東吳大學學生會regulations_phone.html">法規彙編</a></li>
+                        <li><a href="東吳大學學生會反映表單－公開phone.html">我要反映</a></li> 
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-3">活動專區</div>
+                    <ul class="submenu" id="submenu-3">
+                        <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                        <li><a href="東吳大學學生會會產租借phone.html">會產租借</a></li>
+                        <li><a href="東吳大學學生會社團人資料轉銜.html">社幹登記</a></li>
+                        <li><a href="東吳大學學生會學生資料轉銜.html">網路會員</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-4">學生議會</div>
+                    <ul class="submenu" id="submenu-4">
+                        <li><a href="東吳大學學生議會_phone.html">東吳大學學生議會</a></li>
+                        <li><a href="東吳大學學生議會－會議資料_phone.html">東吳大學學生議會－會議資料</a></li>
+                        <li><a href="東吳大學學生議會－議員對照表_phone.html">東吳大學學生議會－議員對照表</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="main-menu" data-target="#submenu-5">東吳大學學生仲裁法庭</div>
+                    <ul class="submenu" id="submenu-5">
+                        <li><a href="東東吳大學學生仲裁法庭_phone.html">東吳大學學生仲裁法庭</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="icon-container"></div>
+
+            
+
+    </div>
+
+    <div id="ball-container">
+        <img id="ball" src="ball3.png" alt="Ball">
+        <button id="mobile-btn">開啟電腦板</button>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+       const hamburgerMenu = document.getElementById('hamburger-menu');
+        const sidebar = document.getElementById('sidebar');
+        const mainMenus = document.querySelectorAll('.main-menu');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
+            });
+        });
+        document.addEventListe
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
+
+
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+        setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball4.png';
+  } else {
+    ball.src = 'ball3.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生議會－議員對照表.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生議會－議員對照表.html';
+});
+
+                // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+                const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        // 監視所有具有 slide-up 類別的元素
+        document.querySelectorAll('.slide-up').forEach(element => {
+            observer.observe(element);
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    loadIcons();  
+});
+
+function loadIcons() {
+    const sheetId = '18CtTB-_OmGJIWdDlewqyy-fn5M0EFzVqEX0vJoiT4bI';
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(1);
+            const iconContainer = document.querySelector('.icon-container');
+            iconContainer.innerHTML = '';
+
+            rows.forEach(row => {
+                const [imageUrl, name, title, department, committee, representative, contannection] = row.split(',').map(col => col.replace(/"/g, '').trim());
+
+                if (imageUrl && name) {
+                    const icon = document.createElement('div');
+                    icon.classList.add('icon');
+
+                    icon.innerHTML = ` 
+                        <img src="${imageUrl}" alt="${name}">
+                        <div class="icon-text">${name}</div>
+                        ${createDetailButton('職稱', formatText(title))}
+                        ${createDetailButton('系級', formatText(department))}
+                        ${createDetailButton('委員會', formatText(committee))}
+                        ${createDetailButton('校級會議代表', formatText(representative))}
+                        ${createDetailButton('聯絡資訊', formatContact(contannection))}
+                    `;
+
+                    iconContainer.appendChild(icon);
+                }
+            });
+        })
+        .catch(error => console.error('Error loading icons:', error));
+}
+
+function createDetailButton(label, content) {
+    return `
+        <div class="details-section">
+            <div class="details-header">
+                <span>${label}</span>
+                <div class="triangle"></div>
+            </div>
+            <div class="details-content">${content}</div>
+        </div>
+    `;
+}
+
+function formatText(text) {
+    return text ? text.replace(/、/g, '<br>') : '無';
+}
+
+function formatContact(contact) {
+    if (!contact) return '無';
+    
+    return contact.split('、').map(item => {
+        const parts = item.split('：');
+        const label = parts[0];
+        const value = parts[1] ? parts[1].trim() : '';
+        
+        // 檢查是否為網址
+        if (value.match(/https?:\/\/[^\s]+/)) {
+            return `${label}：<a href="${value}" target="_blank">${value}</a>`;
+        }
+        
+        // 檢查是否為電子郵件
+        if (value.match(/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$/)) {
+            return `${label}：<a href="mailto:${value}">${value}</a>`;
+        }
+        
+        return item;
+    }).join('<br>');
+}
+
+// 點擊展開收合詳細資訊
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.details-header')) {
+        const header = event.target.closest('.details-header');
+        const content = header.nextElementSibling;
+        const section = header.parentElement;
+        
+        section.classList.toggle('expanded');
+        if (section.classList.contains('expanded')) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+            content.style.maxHeight = '0';
+            content.style.padding = '0 15px';
+        }
+    }
+});
+
+      
+        
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務報告 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+
+    <style>
+        /* 表格样式 */
+        .info-table {
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            text-align: left; 
+        }
+        .info-table th {
+            border-bottom: 2px solid #252525; 
+        }
+        .info-table td {
+            border: none; 
+        }
+        .business-content ul {
+            margin: 0;
+            padding-left: 20px; 
+        }
+        .additional-links {
+            margin-top: 20px; 
+            text-align: center; 
+        }
+        .additional-links a {
+            margin: 0 10px;
+            text-decoration: none; 
+            color: white;
+            font-size: 1.2em;
+            font-weight: normal;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        .additional-links a.active {
+            font-weight: bold;
+            border-bottom: 2px solid white;
+        }
+        /* 按鈕樣式 */
+        .download-button {
+            display: inline-block;
+            padding: 15px 30px;
+            border: 2px solid white; 
+            border-radius: 25px; 
+            background-color: transparent;
+            color: white;
+            font-size: 1.2em;
+            text-decoration: none;
+            text-align: left; 
+            width: 600px; 
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px; /* 按鈕間距 */
+        }
+        /* 按鈕特效 */
+        .download-button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: all 0.5s ease;
+        }
+
+        .download-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .download-button:hover {
+            background-color: white;
+            color: #252525;
+        }
+
+        .download-button:active {
+            transform: scale(0.95);
+        }
+
+        /* 讓按鈕置中顯示 */
+        .button-container {
+            display: flex;
+            flex-direction: column; /* 按鈕垂直排列 */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="sidebar-links">
+                <!-- 動態加載的鏈接將插入此處 -->
+            </ul>
+        </nav>
+
+
+        <div class="main-content">
+            <div class="navbar">
+                <ul class="nav-options">
+                    <li class="nav-item">
+                        <a href="東吳大學選舉事務委員會.html">選舉事務委員會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學選舉事務委員會.html">選舉事務委員會</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生會main.html">學生會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生會introduction.html">關於本會</a></li>
+                            <li><a href="東吳大學學生會financial-report.html">財務報告</a></li>
+                            <li><a href="東吳大學學生會about.html">組織架構</a></li>
+                            <li><a href="東吳大學學生會regulations.html">法規彙編</a></li>
+                            <li><a href="東吳大學學生會反映表單－公開.html">我要反映</a></li>
+                            <li><a href="東吳大學學生會快報.html">學權快報</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生會main.html">活動專區</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生會學生資料轉銜.html">網路會員</a></li>
+                            <li><a href="東吳大學學生會會產租借.html">會產租借</a></li>
+                            <li><a href="東吳大學學生會社團人資料轉銜.html">社幹登記</a></li>
+                            <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生議會.html">學生議會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
+                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
+                            <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生仲裁法庭.html">學生仲裁法庭</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生仲裁法庭.html">學生仲裁法庭</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+
+            <!-- 新增分頁選項 -->
+            <div class="additional-links  slide-up">
+                <a href="東吳大學學生會introduction.html" class="link">本會簡介</a>
+                <a href="東吳大學學生會financial-report.html" class="link active">財務報告</a>
+                <a href="東吳大學學生會about.html" class="link">組織架構</a>
+                <a href="東吳大學學生會regulations.html" class="link">法規編錄</a>
+            </div>
+
+            <!-- 按鈕區域 -->
+            <div class="button-container  slide-up" id="download-buttons">
+                <!-- 下載按鈕將從 Google 試算表動態生成 -->
+            </div>
+
+            
+            <div id="ball-container">
+                <img id="ball" src="ball.png" alt="Ball">
+                <button id="mobile-btn">開啟手機板</button>
+              </div>
+        </div>
+
+    </div>
+
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const sidebar = document.getElementById('sidebar');
+    
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+    
+            // 根據側邊欄的顯示或隱藏狀態調整主要內容位置
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.container').style.marginLeft = '200px'; 
+            } else {
+                document.querySelector('.container').style.marginLeft = '0'; 
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSidebarLinks();
+            loadDownloadButtons(); // 載入下載按鈕
+
+        });
+
+                // 載入sidebar鏈接
+                function loadSidebarLinks() {
+            const sheetId = '16m2JrshR1QyQIRxdn1ZbCS7zyAnqN2OpMhREp-c4Qc8'; // 新的試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+            .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+            .then(data => {
+                const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                const sidebarLinks = document.getElementById('sidebar-links');
+                sidebarLinks.innerHTML = ''; // 清空sidebar
+
+                rows.forEach(row => {
+                    const [linkText, linkUrl] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 假設第一列為文字，第二列為URL
+
+                    if (linkText && linkUrl) {
+                        const linkItem = document.createElement('li');
+                        linkItem.innerHTML = `<a href="${linkUrl}" target="_blank">${linkText}</a>`;
+                        sidebarLinks.appendChild(linkItem);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading sidebar links:', error);
+                alert('無法載入側邊欄內容，請查看控制台獲取更多資訊。');
+            });
+        }
+
+        function loadDownloadButtons() {
+            const sheetId = '1Gas84Nly72_C1_c954neuSj5PVWUQSxf9WHzPb2IobI'; // Google 試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                    const downloadButtonsContainer = document.getElementById('download-buttons');
+                    downloadButtonsContainer.innerHTML = ''; // 清空按鈕容器
+
+                    rows.forEach(row => {
+                        const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+                        const buttonText = columns[0];
+                        const fileLink = columns[1];
+
+                        const downloadButton = document.createElement('a');
+                        downloadButton.classList.add('download-button');
+                        downloadButton.href = fileLink;
+                        downloadButton.download = '';
+                        downloadButton.textContent = buttonText;
+
+                        downloadButtonsContainer.appendChild(downloadButton);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading download buttons:', error);
+                    alert('無法載入下載按鈕，請查看控制台獲取更多資訊。');
+                });
+        }
+        
+ 
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+
+setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生會game.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生會financial-report_phone.html';
+});
+
+
+                // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+                const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        // 監視所有具有 slide-up 類別的元素
+        document.querySelectorAll('.slide-up').forEach(element => {
+            observer.observe(element);
+        });
+
+
+
+
+    </script>
+</body>
+</html>

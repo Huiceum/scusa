@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我要反映 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+
+    <style>
+        #student-feedback-container {
+            width: 70%;
+            margin: 70px auto; /* 自動水平置中 */
+            background-color: #252525;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #dcdcdc;
+            margin-bottom: 20px; /* 標題下方間距 */
+            text-align: center; /* 標題置中 */
+
+        }
+
+        .feedback-item {
+            background-color: #e8e8e8; /* 每個反映的背景顏色 */
+            color: #010001;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .feedback-item h2 {
+            font-size: 24px;
+            font-weight: bold; 
+            margin: 0;
+            color: #010001;
+        }
+
+        .feedback-item p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #010001; /* 內文顏色 */
+            margin: 10px 0; /* 內文上下間距 */
+        }
+
+        .reply {
+            background-color: #010010; /* 回覆區塊背景顏色 */
+            border-radius: 5px;
+            padding: 10px;
+            color: #c0c0c0; /* 回覆顏色 */
+            margin-top: 10px;
+            font-size: 14px; /* 回覆字體大小 */
+        }
+
+        .feedback-item a {
+            color:  #455b76;
+            text-decoration: none;
+        }
+
+        .feedback-item a:hover {
+            text-decoration: underline;
+            color:  #f4164a;
+
+        }
+
+        .circle-button {
+            font-weight: bold; 
+            position: fixed;
+            bottom: 20px; /* 調整到右下角 */
+            right: 20px; /* 調整到右下角 */
+            width: 60px; /* 按鈕直徑 */
+            height: 60px; /* 按鈕直徑 */
+            background-color: rgba(255, 255, 255, 0.8); /* 白色背景，稍微透明 */
+            border-radius: 50%; /* 圓形 */
+            text-align: center;
+            line-height: 60px; /* 垂直居中 */
+            font-size: 20px; /* 字體大小 */
+            color: #000; /* 字體顏色 */
+            text-decoration: none; /* 去掉下劃線 */
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* 內陰影效果 */
+            animation: blink 3s infinite; /* 閃爍動畫 */
+            transition: transform 0.3s ease; /* 平滑過渡 */
+            z-index: 1000; /* 確保按鈕位於最上層 */
+        }
+
+        .circle-button:hover {
+            transform: scale(1.2); /* 懸停放大 */
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5; /* 閃爍時透明度 */
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .main-content {
+            padding-bottom: 80px; /* 避免內容被按鈕遮擋 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="sidebar-links">
+            </ul>
+        </nav>
+
+
+        <div class="main-content">
+            <div class="navbar">
+                <ul class="nav-options">
+                    <li class="nav-item">
+                        <a href="東吳大學選舉事務委員會.html">選舉事務委員會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學選舉事務委員會.html">選舉事務委員會</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生會main.html">學生會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生會introduction.html">關於本會</a></li>
+                            <li><a href="東吳大學學生會financial-report.html">財務報告</a></li>
+                            <li><a href="東吳大學學生會about.html">組織架構</a></li>
+                            <li><a href="東吳大學學生會regulations.html">法規彙編</a></li>
+                            <li><a href="東吳大學學生會反映表單－公開.html">我要反映</a></li>
+                            <li><a href="東吳大學學生會快報.html">學權快報</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生會main.html">活動專區</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生會學生資料轉銜.html">網路會員</a></li>
+                            <li><a href="東吳大學學生會會產租借.html">會產租借</a></li>
+                            <li><a href="東吳大學學生會社團人資料轉銜.html">社幹登記</a></li>
+                            <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生議會.html">學生議會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
+                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
+                            <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生仲裁法庭.html">學生仲裁法庭</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生仲裁法庭.html">學生仲裁法庭</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+
+            <a href="#" class="circle-button" onclick="openFeedbackForm()">反映</a>
+
+            <div id="student-feedback-container">
+                <h1>學生反映欄位</h1>
+                <div id="feedback-list">
+                    <!-- 學生反映項目將在這裡動態加載 -->
+                </div>
+            </div>
+        </div>
+
+        <div id="ball-container">
+            <img id="ball" src="ball.png"  alt="Ball">
+            <button id="mobile-btn">開啟手機板</button>
+        </div>
+          
+    
+    
+
+    <!-- JavaScript -->
+    <script>
+// 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        // 當元素進入視窗時
+        if (entry.isIntersecting) {
+            // 為該元素添加 'show' 類別以觸發動畫
+            entry.target.classList.add('show');
+        } else {
+            // 可選：當元素不再進入視窗時，可以移除 'show' 類別
+            entry.target.classList.remove('show');
+        }
+    });
+});
+
+// 監視所有具有 slide-up 類別的元素
+document.querySelectorAll('.slide-up').forEach(element => {
+    observer.observe(element);
+});
+
+// 餐包菜單和側邊欄的設定（未變更）
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+const mainMenus = document.querySelectorAll('.main-menu');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.main-content').style.marginLeft = '200px';
+            } else {
+                document.querySelector('.main-content').style.marginLeft = '0';
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSidebarLinks();
+            loadStudentFeedback();
+        });
+
+        function loadStudentFeedback() {
+    const sheetId = '13yvf_5N2uYhg9D0GjDUOGyADUqmB_isvOt80ToHup10';
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+        .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            const rows = data.split('\n').slice(0); // 从第二行开始提取数据
+            const feedbackList = document.getElementById('feedback-list');
+            feedbackList.innerHTML = '';
+
+            rows.forEach(row => {
+                const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+                const title = columns[1]; // 第二列作为标题
+                const content = columns[2]; // 第三列作为内文
+                const reply = columns[3]; // 第四列作为学生会回复
+                const publishTime = columns[4]; // 第五列作为发佈时间
+
+                const feedbackItem = document.createElement('div');
+                feedbackItem.classList.add('feedback-item');
+                feedbackItem.innerHTML = `
+                    <h2>${title} <span style="font-size: smaller; color: gray;">(${publishTime})</span></h2>
+                    <p>${convertLinks(content)}</p>
+                    <div class="reply"><strong>學生會回覆：</strong> ${reply}</div>
+                `;
+                feedbackList.appendChild(feedbackItem);
+            });
+        })
+        .catch(error => console.error('Error loading feedback:', error));
+}
+
+
+
+        // 將內文中的 URL 轉換為超連結
+        function convertLinks(text) {
+            const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            return text.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
+        }
+
+                // 載入sidebar鏈接
+                function loadSidebarLinks() {
+            const sheetId = '16m2JrshR1QyQIRxdn1ZbCS7zyAnqN2OpMhREp-c4Qc8'; // 新的試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+            .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+            .then(data => {
+                const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                const sidebarLinks = document.getElementById('sidebar-links');
+                sidebarLinks.innerHTML = ''; // 清空sidebar
+
+                rows.forEach(row => {
+                    const [linkText, linkUrl] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 假設第一列為文字，第二列為URL
+
+                    if (linkText && linkUrl) {
+                        const linkItem = document.createElement('li');
+                        linkItem.innerHTML = `<a href="${linkUrl}" target="_blank">${linkText}</a>`;
+                        sidebarLinks.appendChild(linkItem);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading sidebar links:', error);
+                alert('無法載入側邊欄內容，請查看控制台獲取更多資訊。');
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
+
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+
+setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生會game.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生會反映表單－公開phone.html';
+});
+
+function openFeedbackForm() {
+    window.open("東吳大學學生會反映表單－反映.html", "反映表單", "width=720,height=1280,top=100,left=100");
+}
+
+    
+    </script>
+
+    
+</body>
+</html>

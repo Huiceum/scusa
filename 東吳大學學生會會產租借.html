@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學學生會會產租借.html</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+
+    <style>
+
+        h1 {
+            text-align: center;
+            color: #6f849d;
+        }
+
+        .item-container {
+            display: grid;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            grid-template-columns: repeat(4, 1fr);
+            margin-bottom: 60vh;
+            padding-left: 15%;
+            padding-right: 15%;
+
+        }
+
+        .item {
+            display: block;
+            padding: 10px 15px;
+            font-size: 16px;
+            text-align: center;
+            color: #fff;
+            background-color: #25252584;
+            border: 1px solid #455b76;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .item:hover {
+            transform: scale(1.05);
+        }
+
+        .tooltip {
+            position: fixed;
+            padding: 10px;
+            border-radius: 5px;
+            background: #33333315;
+            color: #dedede;
+            display: none;
+            z-index: 1000;
+        }
+
+        .tooltip-content {
+            border: 1px solid #dedede;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px 0;
+            
+        }
+
+
+        .button-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+}
+
+.interactive-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #2b2b2b, #000000);
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 15px 30px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(201, 201, 201, 0.6);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.interactive-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(226, 226, 226, 0.8);
+}
+
+.interactive-button:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow: 0 2px 10px rgba(236, 236, 236, 0.5);
+}
+
+    </style>
+    
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="sidebar-links">
+                <!-- 動態加載的鏈接將插入此處 -->
+            </ul>
+        </nav>
+
+     
+        <div class="main-content">
+            <div class="navbar">
+                <ul class="nav-options">
+                    <li class="nav-item">
+                        <a href="東吳大學選舉事務委員會.html">選舉事務委員會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學選舉事務委員會.html">選舉事務委員會</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生會main.html">學生會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生會introduction.html">關於本會</a></li>
+                            <li><a href="東吳大學學生會financial-report.html">財務報告</a></li>
+                            <li><a href="東吳大學學生會about.html">組織架構</a></li>
+                            <li><a href="東吳大學學生會regulations.html">法規彙編</a></li>
+                            <li><a href="東吳大學學生會反映表單－公開.html">我要反映</a></li>
+                            <li><a href="東吳大學學生會快報.html">學權快報</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生會main.html">活動專區</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生會學生資料轉銜.html">網路會員</a></li>
+                            <li><a href="東吳大學學生會會產租借.html">會產租借</a></li>
+                            <li><a href="東吳大學學生會社團人資料轉銜.html">社幹登記</a></li>
+                            <li><a href="東吳大學學生會shop.html">特約商店</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生議會.html">學生議會</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
+                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
+                            <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="東吳大學學生仲裁法庭.html">學生仲裁法庭</a>
+                        <ul class="dropdown-content">
+                            <li><a href="東吳大學學生仲裁法庭.html">學生仲裁法庭</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+          
+           
+            
+        </div>
+
+
+
+                <h1>東吳大學學生會會產租借</h1>
+                <div class="item-container" id="item-container">
+                    Loading items...
+                </div>
+            
+                <div class="tooltip" id="tooltip"></div>
+                <div class="button-container">
+                    <a href="東吳大學學生會會產租借表單.html" class="interactive-button">
+                        會產租借
+                    </a>
+                </div>
+        <div id="ball-container">
+            <img id="ball" src="ball.png"  alt="Ball">
+            <button id="mobile-btn">開啟手機板</button>
+          </div>
+          
+    
+    
+
+    <!-- JavaScript -->
+    <script>
+// 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        // 當元素進入視窗時
+        if (entry.isIntersecting) {
+            // 為該元素添加 'show' 類別以觸發動畫
+            entry.target.classList.add('show');
+        } else {
+            // 可選：當元素不再進入視窗時，可以移除 'show' 類別
+            entry.target.classList.remove('show');
+        }
+    });
+});
+
+// 監視所有具有 slide-up 類別的元素
+document.querySelectorAll('.slide-up').forEach(element => {
+    observer.observe(element);
+});
+
+// 餐包菜單和側邊欄的設定（未變更）
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+const mainMenus = document.querySelectorAll('.main-menu');
+
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                document.querySelector('.main-content').style.marginLeft = '200px';
+            } else {
+                document.querySelector('.main-content').style.marginLeft = '0';
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSidebarLinks();
+        });
+
+                // 載入sidebar鏈接
+                function loadSidebarLinks() {
+            const sheetId = '16m2JrshR1QyQIRxdn1ZbCS7zyAnqN2OpMhREp-c4Qc8'; // 新的試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+            .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+            .then(data => {
+                const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                const sidebarLinks = document.getElementById('sidebar-links');
+                sidebarLinks.innerHTML = ''; // 清空sidebar
+
+                rows.forEach(row => {
+                    const [linkText, linkUrl] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 假設第一列為文字，第二列為URL
+
+                    if (linkText && linkUrl) {
+                        const linkItem = document.createElement('li');
+                        linkItem.innerHTML = `<a href="${linkUrl}" target="_blank">${linkText}</a>`;
+                        sidebarLinks.appendChild(linkItem);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading sidebar links:', error);
+                alert('無法載入側邊欄內容，請查看控制台獲取更多資訊。');
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownParent = document.querySelector('.dropdown-parent');
+            const dropdownToggle = dropdownParent.querySelector('.dropdown-toggle');
+            const dropdownContent = dropdownParent.querySelector('.dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownParent.classList.toggle('active');
+            });
+        });
+
+        let ball = document.getElementById('ball');
+let isBallOne = true;
+
+setInterval(() => {
+  if (isBallOne) {
+    ball.src = 'ball2.png';
+  } else {
+    ball.src = 'ball.png';
+  }
+  isBallOne = !isBallOne;
+}, 500);
+
+ball.addEventListener('click', () => {
+  window.location.href = '東吳大學學生會game.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = '東吳大學學生會會產租借phone.html';
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+            const sheetId = '1PFEcq2GLA1xAs9du-hNPMl0x1r3vQ7mxWF3GQiCsJy8';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+            const itemContainer = document.getElementById('item-container');
+            const tooltip = document.getElementById('tooltip');
+    
+            // Fetch and update data from the Google Spreadsheet
+            function fetchData() {
+                fetch(url)
+                    .then(response => response.ok ? response.text() : Promise.reject('Failed to fetch data'))
+                    .then(data => {
+                        const rows = data.split('\n').slice(1); // Skip header row
+                        itemContainer.innerHTML = ''; // Clear existing items
+    
+                        rows.forEach(row => {
+                            const [itemName, isAvailable, borrower, club, returnDate] = row.split(',').map(col => col.replace(/"/g, '').trim());
+    
+                            if (itemName) {
+                                const itemDiv = document.createElement('div');
+                                itemDiv.classList.add('item');
+                                itemDiv.textContent = itemName;
+                                itemDiv.dataset.details = `
+                                    <div class='tooltip-content'>
+                                        <strong>租借狀態:</strong> 
+                                        <span style="color: ${isAvailable === 'TRUE' ? 'green' : 'red'};">
+                                            ${isAvailable === 'TRUE' ? '可租借' : '使用中'}
+                                        </span>
+                                    </div>
+                                    <div class='tooltip-content'><strong>租借負責人:</strong> ${borrower || '無'}</div>
+                                    <div class='tooltip-content'><strong>租借社團:</strong> ${club || '無'}</div>
+                                    <div class='tooltip-content'><strong>結束日期:</strong> ${returnDate || '無'}</div>
+                                `;
+    
+                                itemDiv.addEventListener('mouseenter', showTooltip);
+                                itemDiv.addEventListener('mouseleave', hideTooltip);
+    
+                                itemContainer.appendChild(itemDiv);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        itemContainer.textContent = 'Failed to load items. Please try again later.';
+                    });
+            }
+    
+            function showTooltip(event) {
+                tooltip.innerHTML = event.currentTarget.dataset.details;
+                tooltip.style.display = 'block';
+                positionTooltip(event);
+            }
+    
+            function hideTooltip() {
+                tooltip.style.display = 'none';
+            }
+    
+            function positionTooltip(event) {
+                const tooltipWidth = tooltip.offsetWidth;
+                const tooltipHeight = tooltip.offsetHeight;
+    
+                const pageX = event.pageX;
+                const pageY = event.pageY;
+    
+                let left = pageX + 15;
+                let top = pageY + 15;
+    
+                if (left + tooltipWidth > window.innerWidth) {
+                    left = pageX - tooltipWidth - 15;
+                }
+    
+                if (top + tooltipHeight > window.innerHeight) {
+                    top = pageY - tooltipHeight - 15;
+                }
+    
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+            }
+    
+            // Fetch data initially and set interval to update every 3 seconds
+            fetchData();
+            setInterval(fetchData, 3000);
+        });
+
+    
+    </script>
+
+    
+</body>
+</html>
+
+
