@@ -59,7 +59,15 @@
 
         .form-detail {
             font-size: 14px;
-            color: #d4d8de;
+            color:rgb(171, 179, 191);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .form-detail h2 {
+            font-size: 18px;
+            color: rgb(255, 0, 0);
+            font-weight: bold;
             margin-bottom: 15px;
             line-height: 1.5;
         }
@@ -388,9 +396,9 @@ button:active {
             <div class="navbar">
                 <ul class="nav-options">
                     <li class="nav-item">
-                        <a href="東吳大學選舉事務委員會.html">選舉事務委員會</a>
+                        <a href="scusec.html">選舉事務委員會</a>
                         <ul class="dropdown-content">
-                            <li><a href="東吳大學選舉事務委員會.html">選舉事務委員會</a></li>
+                            <li><a href="scusec.html">選舉事務委員會</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -742,6 +750,9 @@ document.getElementById('mobile-btn').addEventListener('click', () => {
 
     document.addEventListener('DOMContentLoaded', function() {
     loadForms();
+    
+    // 監聽窗口大小變化，重新調整布局
+    window.addEventListener('resize', adjustLayout);
 });
 
 function loadForms() {
@@ -772,34 +783,28 @@ function loadForms() {
                 return;
             }
 
-            // 創建表單網格，並根據項目數量設定適當的布局
+            // 創建表單網格
             const formsGrid = document.createElement('div');
             formsGrid.classList.add('forms-grid');
-            
-            // 根據項目數量調整布局
-            if (activeForms.length === 1) {
-                formsGrid.style.gridTemplateColumns = "1fr";
-                formsGrid.style.maxWidth = "400px";
-                formsGrid.style.margin = "0 auto"; // 居中布局
-            } else if (activeForms.length === 2) {
-                formsGrid.style.gridTemplateColumns = "1fr 1fr";
-                formsGrid.style.maxWidth = "800px";
-                formsGrid.style.margin = "0 auto"; // 居中布局
-            } else {
-                // 三筆或更多維持原本的布局
-                formsGrid.style.gridTemplateColumns = "repeat(3, 1fr)";
-                formsGrid.style.margin = "0";
-            }
+            formsGrid.id = 'forms-grid';
             
             activeForms.forEach(row => {
-                const [formName, deadline, eligibility, formLink] = parseCSVRow(row);
+                const columns = parseCSVRow(row);
+                const formName = columns[0] || '';
+                const deadline = columns[1] || '';
+                const eligibility = columns[2] || '';
+                const formLink = columns[3] || '';
+                const registrationCount = columns.length > 5 ? columns[5] : ''; // F欄目前報名組數
                 
                 // 創建表單卡片
-                const formCard = createFormCard(formName, deadline, eligibility, formLink);
+                const formCard = createFormCard(formName, deadline, eligibility, formLink, registrationCount);
                 formsGrid.appendChild(formCard);
             });
             
             formsArea.appendChild(formsGrid);
+            
+            // 根據窗口大小和項目數量調整布局
+            adjustLayout();
             
             // 啟動倒數計時器
             startCountdowns();
@@ -813,6 +818,36 @@ function loadForms() {
                 </div>
             `;
         });
+}
+
+function adjustLayout() {
+    const formsGrid = document.getElementById('forms-grid');
+    if (!formsGrid) return;
+    
+    const windowWidth = window.innerWidth;
+    const itemCount = formsGrid.children.length;
+    
+    // 根據窗口寬度設置布局
+    if (windowWidth <= 600) {
+        // 手機版：一排一個
+        formsGrid.style.gridTemplateColumns = "1fr";
+    } else {
+        // 電腦版：處理少於三筆的情況，使其居中
+        if (itemCount === 1) {
+            formsGrid.style.gridTemplateColumns = "1fr";
+            formsGrid.style.maxWidth = "400px";
+            formsGrid.style.margin = "0 auto";
+        } else if (itemCount === 2) {
+            formsGrid.style.gridTemplateColumns = "1fr 1fr";
+            formsGrid.style.maxWidth = "800px";
+            formsGrid.style.margin = "0 auto";
+        } else {
+            // 三筆或更多維持原本的布局
+            formsGrid.style.gridTemplateColumns = "repeat(3, 1fr)";
+            formsGrid.style.maxWidth = "100%";
+            formsGrid.style.margin = "0";
+        }
+    }
 }
 
 function parseCSVRow(row) {
@@ -845,7 +880,7 @@ function parseCSVRow(row) {
     });
 }
 
-function createFormCard(formName, deadline, eligibility, formLink) {
+function createFormCard(formName, deadline, eligibility, formLink, registrationCount) {
     const card = document.createElement('div');
     card.classList.add('form-card');
     
@@ -877,6 +912,15 @@ function createFormCard(formName, deadline, eligibility, formLink) {
         contentHtml += `
             <div class="eligibility form-detail">
                 <strong>報名資格：</strong>${eligibility}
+            </div>
+        `;
+    }
+    
+    // 只有當目前報名組數存在時才顯示
+    if (registrationCount && registrationCount.trim() !== '') {
+        contentHtml += `
+            <div class="registration-count form-detail">
+                <strong>目前報名組數：</strong><h2>${registrationCount}</h2>
             </div>
         `;
     }
@@ -934,16 +978,6 @@ function updateCountdown(element, deadlineStr) {
     } else {
         element.textContent = `距離截止還剩 ${daysRemaining} 天`;
     }
-}
-
-
-// 根據項目數量調整布局 - 應在loadForms函數中
-if (activeForms.length === 1) {
-    // 只有一筆時，在中大螢幕上居中顯示
-    formsGrid.classList.add('single-form');
-} else if (activeForms.length === 2) {
-    // 只有兩筆時，在中大螢幕上居中顯示
-    formsGrid.classList.add('double-forms');
 }
     </script>
     

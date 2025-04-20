@@ -59,7 +59,15 @@
 
         .form-detail {
             font-size: 14px;
-            color: #d4d8de;
+            color: rgb(171, 179, 191);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .form-detail h2 {
+            font-size: 18px;
+            color: rgb(255, 0, 0);
+            font-weight: bold;
             margin-bottom: 15px;
             line-height: 1.5;
         }
@@ -711,6 +719,15 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', adjustLayout);
 });
 
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadForms();
+    window.addEventListener('resize', adjustLayout);
+});
+
 function loadForms() {
     const sheetId = '1f7rgg-Ti1hwpQd7Y7RfoKcGwpdPLS2UEHAJEcWB97qA';
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
@@ -745,10 +762,15 @@ function loadForms() {
             formsGrid.id = 'forms-grid';
             
             activeForms.forEach(row => {
-                const [formName, deadline, eligibility, formLink] = parseCSVRow(row);
+                const columns = parseCSVRow(row);
+                const formName = columns[0] || '';
+                const deadline = columns[1] || '';
+                const eligibility = columns[2] || '';
+                const formLink = columns[3] || '';
+                const registrationCount = columns.length > 5 ? columns[5] : ''; // F欄目前報名組數
                 
                 // 創建表單卡片
-                const formCard = createFormCard(formName, deadline, eligibility, formLink);
+                const formCard = createFormCard(formName, deadline, eligibility, formLink, registrationCount);
                 formsGrid.appendChild(formCard);
             });
             
@@ -831,7 +853,7 @@ function parseCSVRow(row) {
     });
 }
 
-function createFormCard(formName, deadline, eligibility, formLink) {
+function createFormCard(formName, deadline, eligibility, formLink, registrationCount) {
     const card = document.createElement('div');
     card.classList.add('form-card');
     
@@ -863,6 +885,15 @@ function createFormCard(formName, deadline, eligibility, formLink) {
         contentHtml += `
             <div class="eligibility form-detail">
                 <strong>報名資格：</strong>${eligibility}
+            </div>
+        `;
+    }
+    
+    // 只有當目前報名組數存在時才顯示
+    if (registrationCount && registrationCount.trim() !== '') {
+        contentHtml += `
+            <div class="registration-count form-detail">
+                <strong>目前報名組數：</strong><h2>${registrationCount}</h2>
             </div>
         `;
     }
