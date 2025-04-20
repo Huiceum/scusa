@@ -11,14 +11,14 @@
 .container {
     display: flex;
     height: 100vh;
-    color: #f0f0f0;
+    color: #aeb5be;
     min-height: 100vh; /* 确保页面最小高度为100vh */
 }
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
     width: 100%;
-    background-color: #010010; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    background-color: #c59663; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -51,13 +51,13 @@
     display: flex;
     align-items: center;
     position: fixed; /* 固定位置以保持在左上角 */
-    top: 15px; /* 與漢堡選單對齊 */
-    left: 70px; /* 調整到漢堡選單右側 */
+    top: 20px; /* 與漢堡選單對齊 */
+    left: 110px; /* 調整到漢堡選單右側 */
 }
 
 .logo img {
-    width: 300px!important;
-    height: 60px!important;
+    width: 50px!important;
+    height: 50px!important;
     margin-right: 10px;
 }
 
@@ -100,14 +100,14 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #e28a1e !;
+    color: #aeb5be;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
 }
 
 .nav-links a:hover {
-    color: #ba7b2d;
+    color:rgb(255, 255, 255);
 }
 
 /* 中央內容區域設置 */
@@ -135,22 +135,22 @@
 }
 
 .announcement {
-    background-color: #dbdcd1;
-    border: 2px solid #38322b;
+    background-color: #eeeeee;
+    border: 2px solid #252525;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
     width: 100%;
-    color: #38322b;
+    color: #252525;
 }
 
 h2, h3 {
-    color: #38322b;
+    color: #252525;
 }
 
 /* 主選單樣式 */
 .main-menu {
-    color: #e28a1e;
+    color: #eeeeee;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
@@ -178,12 +178,12 @@ h2, h3 {
 }
 
 .submenu a {
-    color: #e28a1e;
+    color: #aeb5be;
     text-decoration: none;
 }
 
 .submenu a:hover {
-    color: #a76d28;
+    color: #ffb7c3;
 }
 
 /* 主內容區域設置 */
@@ -219,7 +219,7 @@ h2, h3 {
     display: block;
     width: 100%;
     height: 4px;
-    background-color: #000000;
+    background-color: #252525;
     border-radius: 2px;
 }
 
@@ -274,7 +274,7 @@ h2, h3 {
 
 .additional-links a.active {
     font-weight: bold; /* 當前連結變為粗體 */
-    text-shadow:#e28a1e    ; /* 增加醒目效果 */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* 增加醒目效果 */
 }
 
 .additional-links a::after {
@@ -282,7 +282,7 @@ h2, h3 {
     display: block; /* 使底線成為塊級元素 */
     width: 100%; /* 寬度100% */
     height: 3px; /* 底線高度 */
-    background-color: #e28a1e; /* 底線顏色 */
+    background-color: white; /* 底線顏色 */
     position: absolute; /* 絕對定位 */
     left: 0; /* 左對齊 */
     bottom: -5px; /* 底線距離文字的距離 */
@@ -297,8 +297,8 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #e0d0c5; /* 設定底色 */
-    color: #141414; /* 全局文字顏色 */
+    background-color: #ffffff; /* 設定底色 */
+    color: #252525 /* 全局文字顏色 */
 }
 .container {
     display: flex;

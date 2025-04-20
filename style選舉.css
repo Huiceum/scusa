@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
 
@@ -12,25 +11,24 @@
 .container {
     display: flex;
     height: 100vh;
-    color: #f0f0f0;
     min-height: 100vh; /* 确保页面最小高度为100vh */
-    overflow-x: hidden; /* 隱藏超出容器範圍的內容 */
-
 }
 
 /* 左側邊欄設置，默認隱藏，增加動畫效果 */
 .sidebar {
-    width: 300px;
-    background-color: #181818; /* 使用 rgba 設置半透明背景 */    padding: 20px;
+    width: 250px;
+    background-color: #373737; /* 使用 rgba 設置半透明背景 */    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     position: fixed;
     top: 0;
-    left: -300px; /* 初始位置在視窗外 */
+    left: -250px; /* 初始位置在視窗外 */
     height: 100%;
     z-index: 1000;
     transition: left 0.5s ease; /* 緩慢移動效果 */
+    color: #ffffff;
+
 }
 
 /* 當側邊欄處於激活狀態時顯示 */
@@ -49,19 +47,18 @@
             padding: 20px;
         }
 
-
 /* Logo 樣式 */
 .logo {
     display: flex;
     align-items: center;
     position: fixed; /* 固定位置以保持在左上角 */
-    top: 12px; /* 與漢堡選單對齊 */
-    left: 70px; /* 調整到漢堡選單右側 */
+    top: 20px; /* 與漢堡選單對齊 */
+    left: 110px; /* 調整到漢堡選單右側 */
 }
 
 .logo img {
-    width: 200px!important;
-    height: 60px!important;
+    width: 50px!important;
+    height: 50px!important;
     margin-right: 10px;
 }
 
@@ -98,14 +95,14 @@
 }
 /* 超連結樣式 */
 .nav-links a {
-    color: #e28a1e;
+    color: #aeb5be;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
 }
 
 .nav-links a:hover {
-    color: #e28a1e;
+    color: #ffffff;
 }
 
 /* 中央內容區域設置 */
@@ -119,23 +116,21 @@
     transition: margin-left 0.5s ease; /* 平滑過渡 */
 }
 
-
 /* 當側邊欄被激活時 */
 .sidebar.active ~ .main-content {
-    margin-left: 300px; /* 側邊欄顯示時給予留白 */
+    margin-left: 200px; /* 側邊欄顯示時給予留白 */
 }
+
 
 /* 將下拉選單樣式改為橫列式選項 */
 .navbar {
-    display: flex;
+    display: flex;  
     justify-content: flex-start;
-    background-color: #010010;
+    background-color: #ebebeb;
     padding: 10px;
     border-radius: 50px; /* 設定圓角 */
+    border: 2px solid #3c3a39;
     font-weight: bold;
-    z-index: 1000; /* 確保按鈕位於最上層 */
-
-
 
 }
 
@@ -147,22 +142,24 @@
 .nav-item {
     position: relative; /* 使下拉選單可以相對於此元素定位 */
     margin-right: 50px; /* 選項之間的間距 */
+    
+    
 }
 
 .nav-item a {
-    color: #e28a1e;
+    color: #3c3a39;
     text-decoration: none;
     padding: 10px 15px;
+    font-weight: bold;
     transition: transform 0.3s ease; /* 動畫效果 */
     white-space: nowrap; /* 防止自動換行 */
     border-radius: 50px; /* 設定圓角 */
-    font-weight: bold;
+    
 }
 
 .nav-item a:hover {
     transform: translateY(-5px); /* 文件抽離效果 */
-    color: #7d4c10;
-
+    color: #756a64;
 }
 
 /* 下拉內容樣式 */
@@ -170,7 +167,7 @@
     position: absolute; /* 定位在主選項下方 */
     top: 100%; /* 定位在主選項下方 */
     left: 0; /* 將下拉選單定位在主選項的左側 */
-    background-color: #181818;
+    background-color: #eeeeee;
     display: none; /* 默認隱藏 */
     list-style-type: none;
     padding: 10px;
@@ -180,10 +177,12 @@
     transition: opacity 0.3s ease, max-height 0.5s ease; /* 緩慢下滑效果 */
     border-radius: 50px; /* 設定圓角 */
     z-index: 1000; /* 確保下拉選單在最上層 */
+    display: flex; /* 使用 flex 讓選單橫向排列 */
+    flex-direction: row; /* 橫向排列 */
+    border: 2px solid #252525;
     display: grid; /* 使用 Grid 佈局 */
-    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
     gap: 10px; /* 設定格子間距 */
-;
+    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
 
 }
 
@@ -191,10 +190,9 @@
 .nav-item:hover .dropdown-content {
     display: flex; /* 懸停時顯示下拉選單 */
     opacity: 1; /* 懸停時變為可見 */
-    max-height: 250px; /* 最大高度 */
+    max-height: 350px; /* 最大高度 */
     display: grid; /* 使用 Grid 佈局 */
     grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
-    
 }
 
 /* 調整下拉內容的樣式 */
@@ -203,7 +201,8 @@
 }
 
 .dropdown-content a {
-    color: #e28a1e;
+    color: #252525;
+    font-weight: bold;
     white-space: nowrap; /* 防止自動換行 */
 }
 
@@ -211,7 +210,6 @@
 .dropdown-content li {
     display: inline-block; /* 確保下拉選單的每個選項在一行中顯示 */
 }
-
 
 
 /* 公告樣式 */
@@ -223,17 +221,17 @@
 }
 
 .announcement {
-    background-color: #181818;
-    border: 2px solid #455b76;
+    background-color: #cfcfcf;
+    border: 2px solid #252525;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 10px;
     width: 100%;
-    color: #ffffff;
+    color: #3c3a39;
 }
 
 h2, h3 {
-    color: #ffffff;
+    color: #3c3a39;
 }
 
 /* 漢堡選單樣式 */
@@ -254,7 +252,7 @@ h2, h3 {
     display: block;
     width: 100%;
     height: 4px;
-    background-color: #000000;
+    background-color: #252525;
     border-radius: 2px;
 }
 
@@ -298,7 +296,7 @@ h2, h3 {
 .additional-links a {
     margin: 0 10px; /* 左右間距 */
     text-decoration: none; /* 去掉下劃線 */
-    color: #faf8ff !important; /* 字體顏色為白色 */
+    color: white !important; /* 字體顏色為白色 */
     font-size: 1.2em; /* 字體大小 */
     position: relative; /* 用於定位底線 */
 }
@@ -317,7 +315,7 @@ h2, h3 {
     display: block; /* 使底線成為塊級元素 */
     width: 100%; /* 寬度100% */
     height: 3px; /* 底線高度 */
-    background-color: #faf8ff; /* 底線顏色 */
+    background-color: white; /* 底線顏色 */
     position: absolute; /* 絕對定位 */
     left: 0; /* 左對齊 */
     bottom: -5px; /* 底線距離文字的距離 */
@@ -332,8 +330,8 @@ h2, h3 {
 
 /* 背景樣式設定 */
 body {
-    background-color: #e0d0c5; /* 設定底色 */
-    color: #141414; /* 全局文字顏色 */
+    background-color: #ffffff; /* 設定底色 */
+    color: #252525; /* 全局文字顏色 */
 }
 .container {
     display: flex;
@@ -369,10 +367,10 @@ body {
 }
 
 .store-details {
-    color: #faf8ff; /* 文字顏色改成白色 */
-
-    
+    color: #252525; /* 文字顏色改成白色 */
 }
+
+
 #ball-container {
     position: fixed;
     bottom: 0;
@@ -389,8 +387,6 @@ body {
     width: 25px;
     animation: moveBall 25s linear infinite;
     cursor: pointer;
-    z-index: 9999; /* 確保球在最上層 */
-
   }
   
   #mobile-btn {
@@ -409,7 +405,7 @@ body {
   }
   
   #mobile-btn:hover {
-    background-color: #181818;
+    background-color: #272727;
     transform: scale(1.1); /* 放大效果 */
   }
   
@@ -431,18 +427,18 @@ body {
       left: calc(100% - 20px);
     }
   }
-
-          /* 設置動畫樣式 */
-          .slide-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-
-        /* 當元素進入視窗時，套用的動畫 */
-        .slide-up.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
   
+
+
+            /* 設置動畫樣式 */
+            .slide-up {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 1s ease-out, transform 1s ease-out;
+            }
+    
+            /* 當元素進入視窗時，套用的動畫 */
+            .slide-up.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
