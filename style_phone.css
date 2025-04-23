@@ -137,6 +137,8 @@
     text-align: left;
     width: 100%;
     max-width: 100%;
+    margin-bottom: 55px;
+
 }
 
 .announcement {
@@ -147,6 +149,7 @@
     border-radius: 10px;
     width: 100%;
     color: #ffffff;
+    
 }
 
 h2, h3 {
