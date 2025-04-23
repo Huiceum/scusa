@@ -64,15 +64,16 @@
       align-items: center;
       position: fixed; /* 固定位置以保持在左上角 */
       top: 20px; /* 與漢堡選單對齊 */
-      left: 110px; /* 調整到漢堡選單右側 */
+      left: 85px; /* 調整到漢堡選單右側 */
   }
   
   .logo img {
-      width: 50px!important;
-      height: 50px!important;
+      width: 80px!important;
+      height: 60px!important;
       margin-right: 10px;
   }
-  
+
+
   .site-name {
       font-size: 18px;
       color: var(--light-accent);
