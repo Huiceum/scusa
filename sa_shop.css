@@ -1,0 +1,597 @@
+/* 顏色變數定義 */
+:root {
+    --text-light: #312d88;         /* 淺色文字 */
+    --text-white: #312d88;         /* 白色文字 */
+    --navbarback: #ffdf5a;
+    --sidebar-bg: #ffdf5a;         /* 側邊欄背景 */
+    --main-bg: rgba(242, 241, 241, 0.8);            /* 主背景色 */
+    --border-color: #455b76;       /* 邊框顏色 */
+    --link-hover: #44296b; /* 連結懸停顏色 */
+    --link-color: #6887ae;         /* 一般連結顏色 */
+    --submenu-hover: #ffb7c3;      /* 子選單懸停顏色 */
+    --footer-bg: #312d88;             /* 頁腳背景 */
+    --footer-link: #7a7a89;           /* 頁腳連結 */
+    --footer-hover-bg: #777699;       /* 頁腳懸停背景 */
+    --footer-border: #32314a;         /* 頁腳分隔線 */
+    --footer-text: #7a7a89;           /* 頁腳文字 */
+    --faf8ff: #312d88;             /* 額外白色文字 */
+}
+
+/* 全局樣式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 頁面容器設置，使用 Flexbox 佈局 */
+.container {
+    display: flex;
+    height: 100vh;
+    color: var(--text-light);
+    min-height: 100vh; /* 确保页面最小高度为100vh */
+    overflow-x: hidden; /* 隱藏超出容器範圍的內容 */
+}
+
+/* 左側邊欄設置，默認隱藏，增加動畫效果 */
+.sidebar {
+    width: 100%;
+    background-color: var(--sidebar-bg);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    top: 0;
+    left: -100%; /* 初始位置在視窗外 */
+    height: 100%;
+    z-index: 1000;
+    transition: left 0.5s ease; /* 緩慢移動效果 */
+}
+
+/* 當側邊欄處於激活狀態時顯示 */
+.sidebar.active {
+    left: 0; /* 顯示時滑入螢幕 */
+}
+
+/* 預設的樣式 */
+body {
+    font-family: Arial, sans-serif;
+}       
+
+/* 調整主要內容 */
+.main-content {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+/* Logo 樣式 */
+.logo {
+    display: flex;
+    align-items: center;
+    position: fixed; /* 固定位置以保持在左上角 */
+    top: 20px; /* 與漢堡選單對齊 */
+    left: 80px; /* 調整到漢堡選單右側 */
+}
+
+.logo img {
+    width: 50px!important;
+    height: 50px!important;
+    margin-right: 10px;
+}
+
+.site-name {
+    font-size: 16px;
+    color: var(--text-white);
+    font-weight: bold;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+/* 超連結列表設置 */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px; /* 增加距離，避免和漢堡選單重疊 */
+}
+
+.nav-links li {
+    margin-bottom: 40px;
+}
+
+/* 超連結樣式 */
+.nav-links a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: var(--link-hover);
+}
+
+/* 中央內容區域設置 */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-left: 0; /* 預設為 0，讓主要欄靠左 */
+    transition: margin-left 0.5s ease; /* 平滑過渡 */
+}
+
+/* 將下拉選單樣式改為橫列式選項 */
+.navbar {
+    display: flex;
+    justify-content: flex-start;
+    background-color: var(--navbarback);
+    border: 2px solid var(--text-white);
+    padding: 10px;
+    border-radius: 50px; /* 設定圓角 */
+    font-weight: bold;
+    z-index: 1000; /* 確保按鈕位於最上層 */
+}
+
+.nav-options {
+    list-style-type: none;
+    display: flex;
+}
+
+.nav-item {
+    position: relative; /* 使下拉選單可以相對於此元素定位 */
+    margin-right: 50px; /* 選項之間的間距 */
+}
+
+.nav-item a {
+    color: var(--text-white);
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: transform 0.3s ease; /* 動畫效果 */
+    white-space: nowrap; /* 防止自動換行 */
+    border-radius: 50px; /* 設定圓角 */
+    font-weight: bold;
+}
+
+.nav-item a:hover {
+    transform: translateY(-5px); /* 文件抽離效果 */
+    color: var(--link-hover);
+}
+
+/* 下拉內容樣式 */
+.dropdown-content {
+    position: absolute; /* 定位在主選項下方 */
+    top: 100%; /* 定位在主選項下方 */
+    left: 0; /* 將下拉選單定位在主選項的左側 */
+    background-color: var(--sidebar-bg);
+    display: none; /* 默認隱藏 */
+    list-style-type: none;
+    padding: 10px;
+    opacity: 0; /* 初始不透明度 */
+    max-height: 0; /* 初始最大高度 */
+    overflow: hidden; /* 隱藏溢出部分 */
+    transition: opacity 0.3s ease, max-height 0.5s ease; /* 緩慢下滑效果 */
+    border-radius: 50px; /* 設定圓角 */
+    z-index: 1000; /* 確保下拉選單在最上層 */
+    display: grid; /* 使用 Grid 佈局 */
+    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
+    gap: 10px; /* 設定格子間距 */
+    border: 1px solid var(--border-color);
+}
+
+/* 懸停時顯示下拉選單 */
+.nav-item:hover .dropdown-content {
+    display: flex; /* 懸停時顯示下拉選單 */
+    opacity: 1; /* 懸停時變為可見 */
+    max-height: 250px; /* 最大高度 */
+    display: grid; /* 使用 Grid 佈局 */
+    grid-template-columns: repeat(3, auto); /* 每行最多放 3 個元素 */
+}
+
+/* 調整下拉內容的樣式 */
+.dropdown-content li {
+    margin: 0 10px; /* 設定左右間距 */
+}
+
+.dropdown-content a {
+    color: var(--text-light);
+    white-space: nowrap; /* 防止自動換行 */
+}
+
+/* 防止下拉選單影響其他元素 */
+.dropdown-content li {
+    display: inline-block; /* 確保下拉選單的每個選項在一行中顯示 */
+}
+
+/* 公告樣式 */
+.announcements {
+    margin-top: 60px;
+    text-align: left;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 55px;
+}
+
+.announcement {
+    background-color: var(--sidebar-bg);
+    border: 2px solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    width: 100%;
+    color: var(--text-white);
+}
+
+h2, h3 {
+    color: var(--text-white);
+}
+
+/* 漢堡選單樣式 */
+.hamburger-menu {
+    display: none;
+    position: fixed;
+    top: 23px;
+    left: 23px;
+    width: 43px;
+    height: 43px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: var(--text-white);
+    border-radius: 2px;
+}
+
+.photo-gallery {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 中心對齊 */
+    margin-top: 20px; /* 頂部間距 */
+}
+
+.photo-gallery img {
+    width: 80%; /* 設置圖片寬度為80% */
+    max-width: 600px; /* 最大寬度為600px */
+    margin-bottom: 10px; /* 圖片之間的間距 */
+    border-radius: 10px; /* 圓角邊框 */
+}
+
+/* 特約商店主圖示樣式 */
+.shop-logo img {
+    width: 80%!important; /* 設定寬度為80% */
+    max-width: 200px!important; /* 最大寬度為600px */
+    height: auto!important; /* 自動調整高度以保持比例 */
+    margin-bottom: 20px!important; /* 下面的間距 */
+}
+.photo-gallery, .info-table {
+    margin-top: 20px; /* 上邊距 */
+}
+
+.nav-links img {
+    width: 50px!important; /* 設定圖示寬度 */
+    height: 50px!important; /* 設定圖示高度 */
+    margin-right: 15px; /* 圖示和文字間的距離 */
+}
+
+.additional-links {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* 元素間距 */
+    padding: 0 10px;
+}
+
+.additional-links a {
+    text-decoration: none;
+    color: var(--faf8ff) !important;
+    font-size: 1.2em;
+    position: relative;
+    flex: 1 1 calc(10% - 20px); /* 預設為一行4個，減去間距 */
+    max-width: calc(30% - 15px);
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .additional-links a {
+        flex: 1 1 calc(50% - 20px); /* 手機上每行2個 */
+        max-width: calc(50% - 20px);
+    }
+}
+
+.additional-links a:hover {
+    font-weight: bold;
+}
+
+.additional-links a.active {
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+.additional-links a::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--faf8ff);
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.additional-links a:hover::after,
+.additional-links a.active::after {
+    transform: scaleX(1);
+}
+
+
+/* 背景樣式設定 */
+body {
+    background-color: var(--main-bg); /* 設定底色 */
+    color: var(--faf8ff); /* 全局文字顏色 */
+}
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 例如，對於按鈕和導航列的樣式 */
+.button {
+    padding: 15px 20px;
+    font-size: 18px; /* 根據需要調整字體大小 */
+    width: 100%; /* 使按鈕寬度為100% */
+    box-sizing: border-box; /* 包含內邊距和邊框 */
+}
+
+.admin-button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+.store-item {
+    display: flex;
+    align-items: flex-start; /* 垂直置中 */
+    margin-bottom: 20px;
+}
+
+.store-image {
+    margin-right: 20px; /* 圖片與文字之間的間距 */
+}
+
+.store-image img {
+    width: 100px; /* 調整圖片寬度 */
+    height: auto; /* 自動調整高度 */
+}
+
+.store-details {
+    color: var(--faf8ff); /* 文字顏色改成白色 */   
+}
+
+#ball-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10px; /* 調整高度以適應滑板和球 */
+}
+  
+#ball {
+    position: fixed;
+    bottom: 5px; /* 確保球位於滑板正中間 */
+    left: 23px;
+    height: 65px;
+    width: 65px;
+    animation: moveBall 25s linear infinite;
+    cursor: pointer;
+    z-index: 9999; /* 確保球在最上層 */
+}
+  
+#ball::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, gray, lightblue);
+    bottom: 25px;
+    left: 0;
+}
+  
+@keyframes moveBall {
+    0% {
+      left: 33;
+    }
+    100% {
+      left: calc(100% - 20px);
+    }
+}
+
+/* 設置動畫樣式 */
+.slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+/* 當元素進入視窗時，套用的動畫 */
+.slide-up.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.main-menu {
+    color: var(--text-light);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+/* 主選單樣式 */
+.main-menu {
+    color: var(--text-light);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+/* 副選單樣式 */
+.submenu {
+    list-style: none;
+    padding-left: 15px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+
+.submenu.active {  /* 改為 active 以匹配 JavaScript */
+    max-height: 2000px; /* 依據副選單內容大小調整 */
+    opacity: 1;
+}
+
+/* 副選單連結樣式 */
+.submenu li {
+    margin-bottom: 10px;
+}
+
+.submenu a {
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.submenu a:hover {
+    color: var(--submenu-hover);
+}
+
+/* 預設連結樣式 */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+        
+/* 滑鼠懸停時的樣式 */
+a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+}
+ 
+/* 漢堡選單按鈕 */
+.hamburger-menu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 3px;
+}
+        
+.hamburger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-white);
+    margin: 5px 0;
+    transition: 0.4s;
+}
+        
+/* 頁腳區域 - 原本的 sidebar 內容 */
+.footer {
+    background-color: var(--footer-bg);
+    color: var(--text-white);
+    padding: 30px 0;
+    margin-top: auto;
+    width: 100%;
+
+}
+        
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+        
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    padding: 0 20px;
+}
+        
+.footer-links a {
+    color: var(--footer-link);
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+}
+        
+.footer-links a:hover {
+    color: var(--text-white);
+    background-color: var(--footer-hover-bg);
+    border-radius: 3px;
+}
+        
+.footer-info {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px 0;
+    border-top: 1px solid var(--footer-border);
+    font-size: 14px;
+    color: var(--footer-text);
+}
+        
+/* 動畫效果 */
+.slide-up {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+        
+.slide-up.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+        
+/* 響應式設計 */
+@media screen and (max-width: 768px) {
+    .hamburger-menu {
+        display: block;
+    }
+            
+    .navbar {
+        display: none; /* 隱藏電腦版導航欄 */
+    }
+            
+    .main-content {
+        margin-left: 0;
+        padding-top: 70px; /* 為漢堡選單按鈕留出空間 */
+    }
+            
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+}
