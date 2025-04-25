@@ -204,6 +204,14 @@ button:active {
     max-width: 25px; /* 避免過大圖破版 */
     vertical-align: middle;
 }
+
+.no-proposals {
+    text-align: center;
+    font-size: 1.2em;
+    color: #888;
+    margin-top: 2em;
+}
+
     </style>
     
 </head>
@@ -309,6 +317,11 @@ button:active {
         function renderProposals(rows) {
             const container = document.getElementById('proposals-list');
             container.innerHTML = '';
+            if (rows.length === 1) {
+        container.innerHTML = '<p class="no-proposals">目前沒有提案。</p>';
+        return;
+    }
+
             const start = (currentPage - 1) * rowsPerPage;
             const end = start + rowsPerPage;
             const currentRows = rows.slice(start, end);
