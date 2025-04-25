@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學學生會 公共參與覆附議</title>
+    <link rel="stylesheet" href="sa.css">
+
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <style>
+        #search-input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--sidebar-bg);
+            margin-top: 33px;
+            color: var(--text-white);
+        }
+
+        #proposals-list {
+            display: flex;
+            flex-wrap: wrap; /* 允許換行 */
+            flex-direction: row;
+            gap: 30px;
+            width: 100%;
+            justify-content: center; /* 內容置中 */
+            
+        }
+
+        .proposal {
+            display: flex;
+            width: calc(30% - 20px); 
+            align-items: center;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            background-color: var(--sidebar-bg);
+        }
+        @media screen and (max-width: 768px) {
+
+            .proposal {
+            display: flex;
+            width: calc(95% - 20px); 
+            align-items: center;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            background-color: var(--sidebar-bg);
+        }
+}
+        .proposal:hover {
+            background-color: var(--footer-bg);
+            border: 2px solid var(--text-white);
+
+        }
+
+        .proposal img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border-radius: 6px;
+            margin-right: 15px;
+        }
+
+        .proposal-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .proposal-info h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--link-color);
+        }
+
+        .proposal-info .meta {
+            color: var(--text-white);
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            background-color: var(--link-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .pagination button:hover {
+            background-color: var(--link-hover);
+        }
+
+        .detail {
+            margin-top: 30px;
+            padding: 20px;
+            padding-left: 3%;
+            border-top: 2px solid var(--border-color);
+            background: var(--sidebar-bg);
+            color: var(--text-white);
+            display: none;
+            border-radius: 5px;
+            width:90% ;
+            margin-bottom: 50px;
+        }
+
+        .detail h2 {
+            margin-top: 0;
+            font-size: 30px;
+            color: var(--link-color);
+        }
+
+        .detail h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: var(--border-color);
+        }
+
+        .detail p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        button {
+    background-color: var(--link-color);
+    color: var(--text-white);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+    position: relative;
+    border: none;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, var(--link-hover), var(--link-hover));
+    transition: left 0.4s;
+    z-index: 1;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:hover {
+    background-color: var(--link-hover);
+    box-shadow: 0 0 10px var(--link-hover);
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: var(--link-hover);
+    box-shadow: 0 0 5px var(--link-hover) inset;
+    transform: scale(0.95);
+}
+.tia{
+    margin: 24px;
+}
+
+.endorsement-count, .endorsement-count-detail {
+    font-size: 14px;
+    color: var(--link-color);
+    border-radius: 4px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    flex-wrap: wrap;
+    font-weight: bold;
+}
+
+.endorsement-count img,
+.endorsement-count-detail img {
+    width: 1.5vw;     /* 佔螢幕寬度的 1% */
+    height: auto;   /* 自動調整高度 */
+    min-width: 12px; /* 設定最小寬度避免過小 */
+    max-width: 25px; /* 避免過大圖破版 */
+    vertical-align: middle;
+}
+    </style>
+    
+</head>
+
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- 手機版側邊欄 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="mobile-nav">
+                <!-- 動態加載的導航項目將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 桌面版導航欄 -->
+            <div class="navbar">
+                <ul class="nav-options" id="nav-container">
+                    <!-- 動態加載的導航項目將插入此處 -->
+                </ul>
+            </div>
+
+
+
+                <input id="search-input" type="text" placeholder="搜尋標題關鍵字..." />
+                <button class="tia" onclick="location.href='sajoin.scu.html'">我要提案</button>
+                <div id="proposals-list"></div>
+                <div class="pagination" id="pagination"></div>
+                <div id="proposal-detail" class="detail"></div>
+                
+
+
+
+
+            <!-- 浮動球 -->
+            <div id="ball-container">
+                <img id="ball" src="ball7.gif" alt="Ball">
+            </div>
+
+            <div class="footer">
+                <div class="footer-content">
+                    <ul class="footer-links" id="footer-links">
+                        <!-- 動態加載的底部鏈接將插入此處 -->
+                    </ul>
+                    <div class="footer-info">
+                        © 2025 東吳大學學生會 版權所有
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+    <script src="sa.js"></script>
+    <script src="sa0.js"></script>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', function () {
+            loadProposals();
+        });
+
+        let allRows = [];
+        let currentPage = 1;
+        const rowsPerPage = 5;
+
+        function loadProposals() {
+            const sheetId = '1e4Uguc4HkQcHOxj1_Lp8KutXMzZnEnD8omlEW3pGhTs';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(csv => {
+                    const rows = csv.split('\n').slice(1).filter(row => row.trim() !== '');
+                    allRows = rows;
+                    renderProposals(rows);
+                    renderPagination(rows.length);
+                });
+
+            document.getElementById('search-input').addEventListener('input', function () {
+                const keyword = this.value.toLowerCase();
+                const filtered = allRows.filter(row => {
+                    const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
+                    return cols[1]?.toLowerCase().includes(keyword);
+                });
+                renderProposals(filtered);
+                renderPagination(filtered.length);
+            });
+        }
+
+        function renderProposals(rows) {
+            const container = document.getElementById('proposals-list');
+            container.innerHTML = '';
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const currentRows = rows.slice(start, end);
+
+            currentRows.forEach(row => {
+                const cols = row.split(',').map(c => c.replace(/"/g, '').trim());
+                const [nickname, title, suggestion, impact, imageUrl, searchCode, endorseCountRaw] = cols;
+                const endorseCount = endorseCountRaw?.trim() || '0';
+
+                const div = document.createElement('div');
+                div.className = 'proposal';
+                div.onclick = () => showDetail(title, nickname, suggestion, impact, searchCode, endorseCount);
+
+                let imageElement = '';
+                if (imageUrl) {
+                    imageElement = `<img src="${imageUrl}" alt="Image">`;
+                }
+
+                div.innerHTML = `
+                    ${imageElement}  
+                    <div class="proposal-info">
+                        <h3>${title}</h3>
+                        <div class="meta">提案人：${nickname}｜搜尋編號：${searchCode}</div>
+                        <div class="endorsement-count">
+                            附議人數：${endorseCount}
+                            <div class="endorsement-icons">
+                                ${generateEndorseIcons(endorseCount)}
+                            </div>
+                        </div>
+
+                        </div>
+                `;
+
+                container.appendChild(div);
+            });
+
+        }
+
+        function renderPagination(totalRows) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.onclick = () => {
+                    currentPage = i;
+                    renderProposals(allRows);
+                };
+                pagination.appendChild(button);
+            }
+        }
+
+                function showDetail(title, nickname, suggestion, impact, searchCode, endorseCount = '—') {
+            const detailDiv = document.getElementById('proposal-detail');
+            detailDiv.innerHTML = `
+                <h2>${title}</h2>
+                <p><h3>提案人：</h3>${nickname}</p>
+                <p><h3>提議內容或建議事項：</h3><br>${suggestion}</p>
+                <p><h3>利益與影響：</h3><br>${impact}</p>
+                <p class="endorsement-count-detail">
+                    <strong>附議人數：</strong>${endorseCount} ${generateEndorseIcons(endorseCount)}
+                </p>
+                <button onclick="handleEndorse('${title}', '${searchCode}')">附議</button>
+            `;
+            detailDiv.style.display = 'block';
+        }
+
+
+        function handleEndorse(title, searchCode) {
+            const user = sessionStorage.getItem('user');
+            const randomCode = sessionStorage.getItem('randomCode');
+
+            if (!user || !randomCode) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const confirmation = confirm(`你確定要附議「${title}」嗎？ (若用戶已經附議過則不會重複計次)`);
+            if (!confirmation) return;
+
+            const formData = new FormData();
+            formData.append('entry.85680464', user); 
+            formData.append('entry.1749620074', randomCode); 
+            formData.append('entry.51338272', searchCode); 
+
+            const submitBtn = document.getElementById('submit-btn');
+            const form = document.querySelector('form'); 
+
+            fetch('https://docs.google.com/forms/d/e/1FAIpQLSdR8OavaYTzPmIJDxxk9-IBl8JhI3mGGVFPL0gxCxL7n-t6Gg/formResponse', {
+                method: "POST",
+                body: formData
+            }).then(() => {
+                alert("請檢查電子郵件以確認是否成功附議。");
+                form.reset();
+                submitBtn.disabled = false;
+            }).catch(() => {
+                alert("送請檢查電子郵件以確認是否成功附議。");
+                form.reset();
+                submitBtn.disabled = false;
+            });
+        }
+
+        function generateEndorseIcons(count) {
+    const n = parseInt(count) || 0;
+    let icons = '';
+
+    if (n >= 10000) {
+        icons = `<img src="ball9.gif" width="25" height="25" alt="10000+">`;
+    } else if (n >= 1000) {
+        const ball8Count = Math.min(Math.floor(n / 1000), 10);
+        icons = '<img src="ball6.gif" width="25" height="25" alt="100">'.repeat(ball8Count);
+    } else if (n >= 100) {
+        const ball8Count = Math.min(Math.floor(n / 100), 10);
+        icons = '<img src="ball8.gif" width="25" height="25" alt="100">'.repeat(ball8Count);
+    } else {
+        const ball7Count = Math.min(Math.floor(n / 10), 10);
+        icons = '<img src="ball7.gif" width="25" height="25" alt="10">'.repeat(ball7Count);
+    }
+
+    return icons;
+}
+
+    </script>
+</body>
+</html>
