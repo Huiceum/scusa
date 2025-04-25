@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東吳大學學生會 公共參與附議</title>
+    <title>東吳大學學生會 公共參與與附議</title>
     <link rel="stylesheet" href="sa.css">
 
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
@@ -316,11 +316,7 @@ button:active {
 
         function renderProposals(rows) {
             const container = document.getElementById('proposals-list');
-            container.innerHTML = '';
-            if (rows.length === 1) {
-        container.innerHTML = '<p class="no-proposals">目前沒有提案。</p>';
-        return;
-    }
+
 
             const start = (currentPage - 1) * rowsPerPage;
             const end = start + rowsPerPage;
