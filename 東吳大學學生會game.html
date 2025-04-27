@@ -1,334 +1,790 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>彈幕遊戲 - 東吳大學學生會</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <title>太空彈幕射擊遊戲</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background-color: rgb(220, 220, 220);
+            font-family: Arial, sans-serif;
+            touch-action: none;
         }
-        .sidebar.active {
-            left: 0;
+        
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: 100vh;
+            position: relative;
         }
-
-        #ball-container {
-    position: relative;
-    width: 100%;
-    height: 100vh; /* 使用視窗的高度 */
-}
-
-
-
-
-        @keyframes moveBall {
-            from {
-                left: 0;
-            }
-            to {
-                left: calc(100% - 50px);
-            }
-        }
-
-        #start-btn {
+        
+        #startBtn, #restartBtn {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 20px 40px;
-            font-size: 1.5em;
-            background-color: #8685ef;
-            color: white;
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: #3c8b3f;
+            color: rgb(196, 196, 196);
             border: none;
+            border-radius: 8px;
             cursor: pointer;
+            z-index: 10;
         }
-
-        .bullet {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            border-radius: 50%;
-        }
-
-        #timer {
+        
+        #gameStats {
             position: absolute;
             top: 10px;
-            right: 10px;
-            color: white;
-            font-size: 2em;
+            left: 10px;
+            color: rgb(35, 35, 35);
+            font-size: 18px;
+            z-index: 5;
+        }
+        
+        .player, .enemy, .boss, .bullet, .powerup {
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+        
+        .bullet {
+            background-color: #6b7c93;
+            width: 10px;
+            height: 10px;
+        }
+        
+        .bullet.yellow {
+            background-color: yellow;
+        }
+        
+        .bullet.purple {
+            background-color: purple;
+            width: 8px;
+            height: 8px;
+        }
+        
+        .bullet.red {
+            background-color: red;
+        }
+        
+        .powerup {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        #gameOver {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: red;
+            font-size: 48px;
+            display: none;
+            z-index: 10;
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <!-- 漢堡選單按鈕 -->
-        <div class="hamburger-menu" id="hamburger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
+    <div id="gameCanvas">
+        <div id="gameStats">
+            時間: <span id="timer">0</span>秒 | 最高紀錄: <span id="highScore">0</span>秒
         </div>
-
-        <nav class="sidebar" id="sidebar">
-            <div class="logo">
-                <img src="logo.png" alt="Logo">
-                <div class="site-name"></div>
-            </div>
-            <ul class="nav-links" id="sidebar-links">
-                <!-- 動態加載的鏈接將插入此處 -->
-            </ul>
-        </nav>
-
-
-        <div class="main-content">
-            <div class="navbar">
-                <ul class="nav-options">
-                    <li class="nav-item">
-                        <a href="scusec.html">選舉事務委員會</a>
-                        <ul class="dropdown-content">
-                            <li><a href="scusec.html">選舉事務委員會</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="東吳大學學生會main.html">學生會</a>
-                        <ul class="dropdown-content">
-                            <li><a href="東吳大學學生會introduction.html">關於本會</a></li>
-                            <li><a href="東吳大學學生會financial-report.html">財務報告</a></li>
-                            <li><a href="東吳大學學生會about.html">組織架構</a></li>
-                            <li><a href="東吳大學學生會regulations.html">法規彙編</a></li>
-                            <li><a href="東吳大學學生會反映表單－公開.html">我要反映</a></li>
-                            <li><a href="東吳大學學生會快報.html">學權快報</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="東吳大學學生會main.html">活動專區</a>
-                        <ul class="dropdown-content">
-                            <li><a href="東吳大學學生會學生資料轉銜.html">網路會員</a></li>
-                            <li><a href="東吳大學學生會會產租借.html">會產租借</a></li>
-                            <li><a href="東吳大學學生會社團人資料轉銜.html">社幹登記</a></li>
-                            <li><a href="東吳大學學生會shop.html">特約商店</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="東吳大學學生議會.html">學生議會</a>
-                        <ul class="dropdown-content">
-                            <li><a href="東吳大學學生議會－會議資料.html">會議資料</a></li>
-                            <li><a href="東吳大學學生議會.html">議會公告</a></li>
-                            <li><a href="東吳大學學生議會－議員對照表.html">學生議員對照表</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="scu_studentcourt.html">學生仲裁法庭</a>
-                        <ul class="dropdown-content">
-                            <li><a href="scu_studentcourt.html">學生仲裁法庭</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            
-            <div id="ball-container">
-                <img id="ball" src="ball8.gif" alt="Ball">
-                <button id="start-btn">開始遊戲</button>
-                <button id="mobile-btn">開啟手機板</button>
-                <div id="timer">0</div>
-            </div>
-        </div>
+        <button id="startBtn">開始遊戲</button>
+        <button id="restartBtn" style="display: none;">重新遊戲</button>
+        <div id="gameOver">遊戲結束!</div>
     </div>
 
-    <!-- JavaScript -->
     <script>
+const gameCanvas = document.getElementById('gameCanvas');
+const startBtn = document.getElementById('startBtn');
+const restartBtn = document.getElementById('restartBtn');
+const gameOver = document.getElementById('gameOver');
+const timerEl = document.getElementById('timer');
+const highScoreEl = document.getElementById('highScore');
 
-document.addEventListener('DOMContentLoaded', function() {
-            loadSidebarLinks();
-        });
+// 遊戲狀態
+let game = {
+    isActive: false,
+    timer: 0,
+    timerInterval: null,
+    players: [],
+    enemies: [],
+    bullets: [],
+    powerups: [],
+    difficulty: 1,
+    enemyInterval: 3000, // 降低敵人生成速度
+    bossInterval: 30000,
+    powerupInterval: 10000,
+    lastEnemyTime: 0,
+    lastBossTime: 0,
+    lastPowerupTime: 0,
+    playerType: 'ball7',
+    canvasWidth: window.innerWidth,
+    canvasHeight: window.innerHeight,
+    shootDirection: 'up', // 預設向上射擊
+    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+};
 
-                // 載入sidebar鏈接
-                function loadSidebarLinks() {
-            const sheetId = '16m2JrshR1QyQIRxdn1ZbCS7zyAnqN2OpMhREp-c4Qc8'; // 新的試算表 ID
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+// 設置電腦模式下的窄畫布
+if (!game.isMobile) {
+    gameCanvas.style.width = '800px';
+    gameCanvas.style.margin = '0 auto';
+    game.canvasWidth = 800;
+}
 
-            fetch(url)
-            .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
-            .then(data => {
-                const rows = data.split('\n').slice(1); // 分割行並移除標題行
-                const sidebarLinks = document.getElementById('sidebar-links');
-                sidebarLinks.innerHTML = ''; // 清空sidebar
+// 設置最高分數
+const highScore = localStorage.getItem('highScore') || 0;
+highScoreEl.textContent = highScore;
 
-                rows.forEach(row => {
-                    const [linkText, linkUrl] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 假設第一列為文字，第二列為URL
+// 遊戲開始
+startBtn.addEventListener('click', startGame);
+restartBtn.addEventListener('click', startGame);
 
-                    if (linkText && linkUrl) {
-                        const linkItem = document.createElement('li');
-                        linkItem.innerHTML = `<a href="${linkUrl}" target="_blank">${linkText}</a>`;
-                        sidebarLinks.appendChild(linkItem);
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('Error loading sidebar links:', error);
-                alert('無法載入側邊欄內容，請查看控制台獲取更多資訊。');
-            });
-        }
+function startGame() {
+    // 重置遊戲狀態
+    game.isActive = true;
+    game.timer = 0;
+    game.players = [];
+    game.enemies = [];
+    game.bullets = [];
+    game.powerups = [];
+    game.difficulty = 1;
+    game.lastEnemyTime = Date.now();
+    game.lastBossTime = Date.now();
+    game.lastPowerupTime = Date.now();
+    game.playerType = 'ball7';
 
+
+        // 為手機添加左右射擊按鈕
+        if (game.isMobile) {
+        const leftBtn = document.createElement('button');
+        leftBtn.id = 'leftShootBtn';
+        leftBtn.textContent = '←';
+        leftBtn.style.position = 'absolute';
+        leftBtn.style.left = '20px';
+        leftBtn.style.bottom = '20px';
+        leftBtn.style.width = '60px';
+        leftBtn.style.height = '60px';
+        leftBtn.style.fontSize = '24px';
+        leftBtn.style.borderRadius = '50%';
+        leftBtn.style.backgroundColor = 'rgba(255,255,255,0.5)';
+        leftBtn.style.border = 'none';
+        leftBtn.style.zIndex = '10';
         
-let isBallOne = true;
-
-setInterval(() => {
-  if (isBallOne) {
-    ball.src = 'ball2.png';
-  } else {
-    ball.src = 'ball.png';
-  }
-  isBallOne = !isBallOne;
-}, 500);
-
-document.getElementById('mobile-btn').addEventListener('click', () => {
-  window.location.href = '東吳大學學生會game_phone.html';
-});
-
-
-        let ball = document.getElementById('ball');
-        let startBtn = document.getElementById('start-btn');
-        let timerElement = document.getElementById('timer');
-        let gameContainer = document.getElementById('ball-container');
-        let interval;
-        let bulletInterval;
-        let gameStarted = false;
-        let time = 0;
-
-        // 漢堡選單控制
-        const hamburgerMenu = document.getElementById('hamburger-menu');
-        const sidebar = document.getElementById('sidebar');
-
-        hamburgerMenu.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
+        const rightBtn = document.createElement('button');
+        rightBtn.id = 'rightShootBtn';
+        rightBtn.textContent = '→';
+        rightBtn.style.position = 'absolute';
+        rightBtn.style.right = '20px';
+        rightBtn.style.bottom = '20px';
+        rightBtn.style.width = '60px';
+        rightBtn.style.height = '60px';
+        rightBtn.style.fontSize = '24px';
+        rightBtn.style.borderRadius = '50%';
+        rightBtn.style.backgroundColor = 'rgba(255,255,255,0.5)';
+        rightBtn.style.border = 'none';
+        rightBtn.style.zIndex = '10';
+        
+        gameCanvas.appendChild(leftBtn);
+        gameCanvas.appendChild(rightBtn);
+        
+        // 添加手機按鈕事件
+        leftBtn.addEventListener('touchstart', () => {
+            game.shootDirection = 'left';
         });
+        
+        leftBtn.addEventListener('touchend', () => {
+            game.shootDirection = 'up';
+        });
+        
+        rightBtn.addEventListener('touchstart', () => {
+            game.shootDirection = 'right';
+        });
+        
+        rightBtn.addEventListener('touchend', () => {
+            game.shootDirection = 'up';
+        });
+    }
 
-        // 開始遊戲按鈕事件
-        startBtn.addEventListener('click', startGame);
 
-        function startGame() {
-            // 移除開始遊戲按鈕
-            startBtn.style.display = 'none';
-            gameStarted = true;
+    // 清除畫面
+    Array.from(document.querySelectorAll('.player, .enemy, .boss, .bullet, .powerup')).forEach(el => el.remove());
+    
+    // 隱藏按鈕，顯示遊戲
+    startBtn.style.display = 'none';
+    restartBtn.style.display = 'none';
+    gameOver.style.display = 'none';
+    
+    // 創建第一個玩家
+    createPlayer();
+    
+// 修改計時器中的難度增加部分
+game.timerInterval = setInterval(() => {
+    game.timer++;
+    timerEl.textContent = game.timer;
+    
+    // 每15秒顯著增加難度
+    if (game.timer % 15 === 0) {
+        game.difficulty += 0.5; // 更顯著的難度增加
+        game.enemyInterval = Math.max(500, 3000 - game.timer * 23); // 更快的敵人生成
+        game.powerupInterval = Math.max(5000, 10000 - game.timer * 33); // 道具生成加快
+    }
+}, 1000);
+    
+    // 開始遊戲循環
+    requestAnimationFrame(gameLoop);
+}
 
-            // 停止 ball 的自動移動和超連結
-            ball.style.animation = 'none';
-            ball.removeEventListener('click', () => {});
+function gameLoop() {
+    if (!game.isActive) return;
+    
+    const now = Date.now();
+    
+    // 生成敵人
+    if (now - game.lastEnemyTime > game.enemyInterval / game.difficulty) {
+        createEnemy();
+        game.lastEnemyTime = now;
+    }
+    
+    // 生成Boss
+    if (now - game.lastBossTime > game.bossInterval) {
+        createBoss();
+        game.lastBossTime = now;
+    }
+    
+    // 生成道具
+    if (now - game.lastPowerupTime > game.powerupInterval) {
+        createPowerup();
+        game.lastPowerupTime = now;
+    }
+    
+    // 更新子彈位置
+    updateBullets();
+    
+    // 更新敵人位置
+    updateEnemies();
+    
+    // 更新道具位置
+    updatePowerups();
+    
+    // 碰撞檢測
+    checkCollisions();
+    
+    // 繼續遊戲循環
+    requestAnimationFrame(gameLoop);
+}
 
-            // 啟動計時器
-            interval = setInterval(updateTimer, 1000);
+function createPlayer() {
+    const player = document.createElement('img');
+    player.src = `ball7.gif`;
+    player.className = 'player';
+    player.style.width = '40px';
+    player.style.height = '40px';
+    player.style.bottom = '20px';
+    player.style.left = `${game.canvasWidth / 2}px`;
+    player.style.position = 'absolute';
+    player.dataset.bulletTimer = Date.now();
+    
+    
+    gameCanvas.appendChild(player);
+    game.players.push(player);
+    
+    // 設置玩家控制
+    if (game.isMobile) {
+        gameCanvas.addEventListener('touchmove', handleTouchMove);
+    } else {
+        gameCanvas.addEventListener('mousemove', handleMouseMove);
+    }
 
-            // 開始生成子彈
-            bulletInterval = setInterval(generateBullet, 1000);
+        // 添加鍵盤事件
+        if (!game.isMobile) {
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keyup', handleKeyUp);
+    }
 
-            // 讓球球隨著滑鼠移動
-            gameContainer.addEventListener('mousemove', moveBallWithMouse);
+}
+
+
+function handleKeyDown(event) {
+    if (!game.isActive) return;
+    
+    if (event.key.toLowerCase() === 'l' || event.key.toLowerCase() === 'a' || event.key === 'ArrowLeft') {
+    game.shootDirection = 'left';
+} else if (event.key.toLowerCase() === 'r' || event.key.toLowerCase() === 'd' || event.key === 'ArrowRight') {
+    game.shootDirection = 'right';
+}
+
+}
+
+
+function handleKeyUp(event) {
+    if (!game.isActive) return;
+    
+    if (
+        event.key.toLowerCase() === 'l' ||
+        event.key.toLowerCase() === 'r' ||
+        event.key.toLowerCase() === 'a' ||
+        event.key.toLowerCase() === 'd' ||
+        event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight'
+    ) {
+        game.shootDirection = 'up';
+    }
+}
+
+
+function handleMouseMove(event) {
+    if (!game.isActive) return;
+    
+    // 計算相對於畫布的位置
+    const rect = gameCanvas.getBoundingClientRect();
+    const x = Math.max(20, Math.min(game.canvasWidth - 20, event.clientX - rect.left));
+    
+    // 緩慢DPI移動
+    game.players.forEach((player, index) => {
+        // 獲取玩家在畫面中的水平偏移位置
+        const offset = (index - Math.floor(game.players.length / 2)) * 50;
+        const currentX = parseFloat(player.style.left);
+        const newX = currentX + (x - currentX + offset) * 0.1;
+        player.style.left = `${newX}px`;
+    });
+}
+
+function handleTouchMove(event) {
+    if (!game.isActive) return;
+    event.preventDefault();
+    
+    const touch = event.touches[0];
+    const rect = gameCanvas.getBoundingClientRect();
+    const x = Math.max(20, Math.min(game.canvasWidth - 20, touch.clientX - rect.left));
+    
+    game.players.forEach((player, index) => {
+        const offset = (index - Math.floor(game.players.length / 2)) * 50;
+        player.style.left = `${x + offset}px`;
+    });
+}
+
+function createEnemy() {
+    const enemy = document.createElement('img');
+    enemy.src = 'ball6.gif';
+    enemy.className = 'enemy';
+    enemy.style.width = '30px';
+    enemy.style.height = '30px';
+    enemy.style.top = '0px';
+    enemy.style.left = `${Math.random() * game.canvasWidth}px`;
+    enemy.dataset.health = 1;
+    enemy.dataset.tracking = false; // 是否追踪玩家
+    
+    gameCanvas.appendChild(enemy);
+    game.enemies.push(enemy);
+}
+
+// 在createBoss函數中添加血條
+function createBoss() {
+    const boss = document.createElement('img');
+    boss.src = 'ball6.gif';
+    boss.className = 'boss';
+    boss.style.width = '60px';
+    boss.style.height = '60px';
+    boss.style.top = '0px';
+    boss.style.left = `${Math.random() * game.canvasWidth}px`;
+    boss.dataset.health = 5;
+    boss.dataset.bulletTimer = Date.now();
+    boss.dataset.tracking = false; // 是否追踪玩家
+    
+    gameCanvas.appendChild(boss);
+    game.enemies.push(boss);
+}
+
+// 在updateEnemies函數中更新血條的顯示
+// 在敵人生命值變化時（在checkCollisions函數中）：
+if (enemy.className === 'boss-container') {
+    const healthPercent = (enemy.dataset.health / enemy.dataset.maxHealth) * 100;
+    const healthFill = enemy.querySelector('.health-fill');
+    healthFill.style.width = `${healthPercent}%`;
+}
+
+function createPowerup() {
+    const types = ['+1', '+2', 'ball7', 'ball8', 'ball9'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    
+    const powerup = document.createElement('div');
+    powerup.className = 'powerup';
+    powerup.dataset.type = type;
+    powerup.style.top = '0px';
+    powerup.style.left = `${Math.random() * game.canvasWidth}px`;
+    
+    // 根據類型設置不同的樣式
+    if (type === '+1' || type === '+2') {
+        // 更好看的 +1/+2 設計
+        powerup.style.background = type === '+1' ? 'radial-gradient(circle, #4CAF50, #2E7D32)' : 'radial-gradient(circle, #2196F3, #0D47A1)';
+        powerup.style.color = 'white';
+        powerup.style.fontWeight = 'bold';
+        powerup.style.fontSize = '18px';
+        powerup.style.textShadow = '0 0 5px rgba(255,255,255,0.7)';
+        powerup.style.boxShadow = '0 0 10px rgba(255,255,255,0.5)';
+        powerup.style.border = '2px solid white';
+        powerup.textContent = type;
+    } else {
+// 球類道具使用實際圖像
+const img = document.createElement('img');
+img.src = `${type}.gif`;
+img.style.width = '100%';
+img.style.height = '100%';
+img.style.opacity = '0.3'; // 半透明
+powerup.appendChild(img);
+
+// 添加發光效果
+powerup.style.boxShadow = '0 0 15px 5px rgba(255, 255, 255, 0.7)';
+powerup.style.filter = 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))';
+        
+        // 移除預設的背景和邊框
+        powerup.style.background = 'transparent';
+    }
+    
+    gameCanvas.appendChild(powerup);
+    game.powerups.push(powerup);
+}
+
+// 修改updateBullets函數中的子彈發射部分
+function updateBullets() {
+    // 為每個玩家發射子彈
+    game.players.forEach(player => {
+        const now = Date.now();
+        let bulletInterval, bulletColor, bulletCount;
+        
+        // 根據玩家類型設置子彈屬性
+        switch (game.playerType) {
+            case 'ball8':
+                bulletInterval = 700;
+                bulletColor = 'yellow';
+                bulletCount = 1;
+                break;
+            case 'ball9':
+                bulletInterval = 1800;
+                bulletColor = 'purple';
+                bulletCount = 5;
+                break;
+            default:
+                bulletInterval = 1000;
+                bulletColor = '';
+                bulletCount = 1;
         }
-
-        function updateTimer() {
-            time++;
-            timerElement.textContent = time;
-
-            // 增加子彈生成速度
-            if (time % 10 === 0) {
-                clearInterval(bulletInterval);
-                bulletInterval = setInterval(generateBullet, 1000 - (time * 10));
+        
+        if (now - player.dataset.bulletTimer > bulletInterval) {
+            const playerX = parseFloat(player.style.left);
+            const playerY = game.canvasHeight - 40;
+            
+            for (let i = 0; i < bulletCount; i++) {
+                const offset = (bulletCount > 1) ? (i - (bulletCount - 1) / 2) * 10 : 0;
+                
+                // 根據射擊方向發射子彈
+                switch (game.shootDirection) {
+                    case 'left':
+                        // 純左方向，垂直速度為0
+                        createBullet(playerX + offset, playerY, 0, bulletColor, false, -10);
+                        break;
+                    case 'right':
+                        // 純右方向，垂直速度為0
+                        createBullet(playerX + offset, playerY, 0, bulletColor, false, 10);
+                        break;
+                    default: // 上方
+                        createBullet(playerX + offset, playerY, -10, bulletColor);
+                        break;
+                }
+            }
+            
+            player.dataset.bulletTimer = now;
+        }
+    });
+    // 為Boss發射子彈
+    game.enemies.forEach(enemy => {
+        if (enemy.className === 'boss') {
+            const now = Date.now();
+            if (now - enemy.dataset.bulletTimer > 2000) {
+                const enemyX = parseFloat(enemy.style.left);
+                const enemyY = parseFloat(enemy.style.top);
+                createBullet(enemyX, enemyY + 30, 5, 'red', true);
+                enemy.dataset.bulletTimer = now;
             }
         }
+    });
+    
+// 在子彈更新部分添加水平移動
+// 更新子彈位置的部分修改為
+game.bullets = game.bullets.filter(bullet => {
+    const y = parseFloat(bullet.style.top);
+    const x = parseFloat(bullet.style.left);
+    
+    // 讀取垂直和水平速度
+    let verticalSpeed;
+    if (bullet.dataset.isEnemy === 'true') {
+        verticalSpeed = 5;
+    } else if (bullet.className.includes('yellow')) {
+        verticalSpeed = parseFloat(bullet.dataset.verticalSpeed) * 2; // 黃色子彈速度加倍
+    } else {
+        verticalSpeed = parseFloat(bullet.dataset.verticalSpeed);
+    }
+    
+    const horizontalSpeed = parseFloat(bullet.dataset.horizontalSpeed || 0);
+    
+    // 更新位置
+    bullet.style.top = `${y + verticalSpeed}px`;
+    bullet.style.left = `${x + horizontalSpeed}px`;
+    
+    // 移除超出畫面的子彈
+    if (y < 0 || y > game.canvasHeight || x < 0 || x > game.canvasWidth) {
+        bullet.remove();
+        return false;
+    }
+    return true;
+});
+}
 
-        function moveBallWithMouse(event) {
-            let x = event.clientX - ball.offsetWidth / 2;
-            let y = event.clientY - ball.offsetHeight / 2;
-            ball.style.left = `${x}px`;
-            ball.style.top = `${y}px`;
+// 修改createBullet函數，使垂直速度和水平速度分開
+function createBullet(x, y, verticalSpeed, color = '', isEnemy = false, horizontalSpeed = 0) {
+    const bullet = document.createElement('div');
+    bullet.className = `bullet ${color}`;
+    bullet.style.left = `${x}px`;
+    bullet.style.top = `${y}px`;
+    bullet.dataset.isEnemy = isEnemy;
+    bullet.dataset.verticalSpeed = verticalSpeed; // 垂直速度
+    bullet.dataset.horizontalSpeed = horizontalSpeed; // 水平速度
+    
+    gameCanvas.appendChild(bullet);
+    game.bullets.push(bullet);
+}
+
+// 在updateEnemies函數中修改垂直移動邏輯
+function updateEnemies() {
+    game.enemies = game.enemies.filter(enemy => {
+        const y = parseFloat(enemy.style.top);
+        const x = parseFloat(enemy.style.left);
+        const isBoss = enemy.className === 'boss-container' || enemy.className === 'boss';
+        const baseSpeed = isBoss ? 1 : 2;
+        
+        // 追蹤玩家邏輯
+        if (y >= game.canvasHeight * 2 / 3 && enemy.dataset.tracking === 'false') {
+            enemy.dataset.tracking = 'true';
         }
-
-        function generateBullet() {
-            let bullet = document.createElement('div');
-            bullet.classList.add('bullet');
-
-            // 設定子彈初始位置 (四個邊隨機)
-            let side = Math.floor(Math.random() * 4); // 0:上, 1:右, 2:下, 3:左
-            let x, y, angle;
-
-            switch (side) {
-                case 0: // 上
-                    x = Math.random() * gameContainer.clientWidth;
-                    y = 0;
-                    angle = Math.atan2(gameContainer.clientHeight - y, gameContainer.clientWidth / 2 - x);
-                    break;
-                case 1: // 右
-                    x = gameContainer.clientWidth;
-                    y = Math.random() * gameContainer.clientHeight;
-                    angle = Math.atan2(gameContainer.clientHeight / 2 - y, -x);
-                    break;
-                case 2: // 下
-                    x = Math.random() * gameContainer.clientWidth;
-                    y = gameContainer.clientHeight;
-                    angle = Math.atan2(-y, gameContainer.clientWidth / 2 - x);
-                    break;
-                case 3: // 左
-                    x = 0;
-                    y = Math.random() * gameContainer.clientHeight;
-                    angle = Math.atan2(gameContainer.clientHeight / 2 - y, gameContainer.clientWidth - x);
-                    break;
+        
+        // 如果敵人正在追蹤玩家
+        if (enemy.dataset.tracking === 'true' && game.players.length > 0) {
+            const playerX = parseFloat(game.players[0].style.left);
+            const moveX = playerX > x ? baseSpeed : (playerX < x ? -baseSpeed : 0);
+            enemy.style.left = `${x + moveX}px`;
+            
+            // 取玩家的垂直位置
+            const playerY = game.canvasHeight - 40; // 玩家位於底部大約這個位置
+            
+            // 如果敵人還沒到達玩家水平線，才繼續下降
+            if (y < playerY - 20) { // 留一點空間
+                enemy.style.top = `${y + baseSpeed}px`;
             }
+        } else {
+            // 非追蹤狀態，正常下降
+            enemy.style.top = `${y + baseSpeed}px`;
+        }
+        
+        // 移除超出畫面的敵人
+        if (y > game.canvasHeight) {
+            enemy.remove();
+            return false;
+        }
+        return true;
+    });
+}
 
-            bullet.style.left = `${x}px`;
-            bullet.style.top = `${y}px`;
-            gameContainer.appendChild(bullet);
+function updatePowerups() {
+    game.powerups = game.powerups.filter(powerup => {
+        const y = parseFloat(powerup.style.top);
+        powerup.style.top = `${y + 4}px`;
+        
+        // 移除超出畫面的道具
+        if (y > game.canvasHeight) {
+            powerup.remove();
+            return false;
+        }
+        return true;
+    });
+}
 
-            // 子彈移動
-            let speed = 2 + time / 5;
-            let dx = Math.cos(angle) * speed;
-            let dy = Math.sin(angle) * speed;
-
-            let bulletMove = setInterval(() => {
-                x += dx;
-                y += dy;
-                bullet.style.left = `${x}px`;
-                bullet.style.top = `${y}px`;
-
-                // 移除超出範圍的子彈
-                if (x < 0 || x > gameContainer.clientWidth || y < 0 || y > gameContainer.clientHeight) {
-                    clearInterval(bulletMove);
+function checkCollisions() {
+    // 檢查敵人與玩家直接碰撞
+    game.enemies.forEach((enemy, enemyIndex) => {
+        game.players.forEach((player, playerIndex) => {
+            if (isColliding(enemy, player)) {
+                // 移除敵人
+                enemy.remove();
+                game.enemies.splice(enemyIndex, 1);
+                
+                // 移除玩家
+                player.remove();
+                game.players.splice(playerIndex, 1);
+                
+                if (game.players.length === 0) {
+                    endGame();
+                }
+            }
+        });
+    });
+    
+    // 檢查子彈與敵人/玩家碰撞
+    for (let bulletIndex = game.bullets.length - 1; bulletIndex >= 0; bulletIndex--) {
+        const bullet = game.bullets[bulletIndex];
+        
+        if (bullet.dataset.isEnemy === 'true') {
+            // 敵人子彈與玩家碰撞
+            for (let playerIndex = game.players.length - 1; playerIndex >= 0; playerIndex--) {
+                const player = game.players[playerIndex];
+                if (isColliding(bullet, player)) {
+                    // 移除子彈
                     bullet.remove();
+                    game.bullets.splice(bulletIndex, 1);
+                    
+                    // 移除玩家
+                    player.remove();
+                    game.players.splice(playerIndex, 1);
+                    
+                    if (game.players.length === 0) {
+                        endGame();
+                    }
+                    break;
                 }
-
-                // 碰撞檢測
-                if (gameStarted && detectCollision(ball, bullet)) {
-                    gameOver();
+            }
+        } else {
+            // 玩家子彈與敵人碰撞
+            for (let enemyIndex = game.enemies.length - 1; enemyIndex >= 0; enemyIndex--) {
+                const enemy = game.enemies[enemyIndex];
+                if (isColliding(bullet, enemy)) {
+                    // 移除子彈
+                    bullet.remove();
+                    game.bullets.splice(bulletIndex, 1);
+                    
+                    // 扣除敵人生命值
+                    enemy.dataset.health--;
+                    if (enemy.dataset.health <= 0) {
+                        enemy.remove();
+                        game.enemies.splice(enemyIndex, 1);
+                    }
+                    break;
                 }
-            }, 20);
+            }
         }
-
-        function detectCollision(ball, bullet) {
-            let ballRect = ball.getBoundingClientRect();
-            let bulletRect = bullet.getBoundingClientRect();
-
-            return !(
-                ballRect.top > bulletRect.bottom ||
-                ballRect.bottom < bulletRect.top ||
-                ballRect.left > bulletRect.right ||
-                ballRect.right < bulletRect.left
-            );
+    }
+    
+    // 檢查道具與玩家碰撞
+    for (let index = game.powerups.length - 1; index >= 0; index--) {
+        const powerup = game.powerups[index];
+        
+        for (let playerIndex = 0; playerIndex < game.players.length; playerIndex++) {
+            const player = game.players[playerIndex];
+            
+            if (isColliding(powerup, player)) {
+                const type = powerup.dataset.type;
+                
+                if (type === '+1' || type === '+2') {
+                    const count = type === '+1' ? 1 : 2;
+                    for (let i = 0; i < count; i++) {
+                        const newPlayer = document.createElement('img');
+                        newPlayer.src = `${game.playerType}.gif`;
+                        newPlayer.className = 'player';
+                        newPlayer.style.width = '40px';
+                        newPlayer.style.height = '40px';
+                        newPlayer.style.bottom = '20px';
+                        
+                        // 在現有玩家旁邊生成新玩家
+                        const offset = 50 * (game.players.length + 1);
+                        newPlayer.style.left = `${parseFloat(player.style.left) + offset}px`;
+                        newPlayer.style.position = 'absolute';
+                        newPlayer.dataset.bulletTimer = Date.now();
+                        
+                        gameCanvas.appendChild(newPlayer);
+                        game.players.push(newPlayer);
+                    }
+                } else {
+                    // 更改所有玩家圖片
+                    game.playerType = type;
+                    game.players.forEach(p => {
+                        p.src = `${type}.gif`;
+                    });
+                }
+                
+                powerup.remove();
+                game.powerups.splice(index, 1);
+                break;
+            }
         }
+    }
+}
 
-        function gameOver() {
-            clearInterval(interval);
-            clearInterval(bulletInterval);
-            gameStarted = false;
-            alert(`遊戲結束！你存活了 ${time} 秒！`);
-            location.reload(); // 重新載入頁面
-        }
+function isColliding(element1, element2) {
+    const rect1 = element1.getBoundingClientRect();
+    const rect2 = element2.getBoundingClientRect();
+    
+    return !(rect1.right < rect2.left || 
+             rect1.left > rect2.right || 
+             rect1.bottom < rect2.top || 
+             rect1.top > rect2.bottom);
+}
+
+function endGame() {
+    game.isActive = false;
+    clearInterval(game.timerInterval);
+    
+    // 顯示遊戲結束信息
+    gameOver.style.display = 'block';
+    restartBtn.style.display = 'block';
+    
+    // 更新最高分
+    if (game.timer > highScore) {
+        localStorage.setItem('highScore', game.timer);
+        highScoreEl.textContent = game.timer;
+    }
+    
+    // 移除事件監聽器
+    if (game.isMobile) {
+        gameCanvas.removeEventListener('touchmove', handleTouchMove);
+    } else {
+        gameCanvas.removeEventListener('mousemove', handleMouseMove);
+    }
+
+
+        // 移除鍵盤事件監聽器
+        if (!game.isMobile) {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.removeEventListener('keyup', handleKeyUp);
+    }
+    
+    // 移除手機控制按鈕
+    if (game.isMobile) {
+        const leftBtn = document.getElementById('leftShootBtn');
+        const rightBtn = document.getElementById('rightShootBtn');
+        if (leftBtn) leftBtn.remove();
+        if (rightBtn) rightBtn.remove();
+    }
+}
+
+// 響應窗口大小變化
+window.addEventListener('resize', () => {
+    if (game.isMobile) {
+        game.canvasWidth = window.innerWidth;
+        game.canvasHeight = window.innerHeight;
+    } else {
+        game.canvasWidth = 800; // 桌面版固定寬度
+        game.canvasHeight = window.innerHeight;
+    }
+});
     </script>
 </body>
 </html>
