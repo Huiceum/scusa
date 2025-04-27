@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Imgur 圖片上傳器</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    img { max-width: 100%; margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; }
+    input[type="file"] { margin-top: 20px; }
+    .link-box { margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>上傳圖片到 Imgur</h2>
+  <input type="file" id="fileInput" accept="image/*">
+  <button onclick="uploadImage()">上傳</button>
+
+  <div id="result" class="link-box"></div>
+
+  <script>
+    const clientId = 'c1f80e25b01fa7c'; // 改成你的 Imgur Client ID
+  
+    async function uploadImage() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      const resultBox = document.getElementById('result');
+  
+      if (!file) {
+        alert('請先選擇一張圖片');
+        return;
+      }
+  
+      resultBox.innerHTML = "<p>⏳ 上傳中，請稍候...</p>";
+  
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      try {
+        const response = await fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          headers: {
+            Authorization: "Client-ID " + clientId,
+          },
+          body: formData,
+        });
+  
+        const data = await response.json();
+  
+        if (data.success) {
+          const imageUrl = data.data.link;
+          resultBox.innerHTML = `
+            <p>✅ 上傳成功！圖片連結：</p>
+            <p><a href="${imageUrl}" target="_blank">${imageUrl}</a></p>
+            <img src="${imageUrl}" alt="上傳圖片">
+          `;
+        } else {
+          throw new Error(data.data.error || "未知錯誤");
+        }
+      } catch (err) {
+        resultBox.innerHTML = `<p style="color:red;">❌ 上傳失敗：${err.message}</p>`;
+      }
+    }
+  </script>
+  
+</body>
+</html>
