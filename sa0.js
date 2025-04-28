@@ -169,3 +169,9 @@ menu.addEventListener('click', function() {
 });
 });
 }
+window.addEventListener('scroll', function() {
+    var bellButton = document.querySelector('.onesignal-bell-launcher-button');
+    if (bellButton) {
+        bellButton.click();
+    }
+});
