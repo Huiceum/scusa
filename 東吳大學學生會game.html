@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: rgb(220, 220, 220);
+            background-color: rgb(214, 219, 226);
             font-family: Arial, sans-serif;
             touch-action: none;
         }
@@ -51,17 +51,17 @@
         }
         
         .bullet {
-            background-color: #6b7c93;
+            background-color: #586f8f;
             width: 10px;
             height: 10px;
         }
         
         .bullet.yellow {
-            background-color: yellow;
+            background-color: rgb(210, 163, 21);
         }
         
         .bullet.purple {
-            background-color: purple;
+            background-color: rgb(139, 40, 167);
             width: 8px;
             height: 8px;
         }
@@ -92,6 +92,17 @@
             display: none;
             z-index: 10;
         }
+
+        @media (max-width: 768px) {
+  .game-container {
+    padding-bottom: 50px; /* 留出足夠空間給按鈕 */
+  }
+  .player, .button {
+    position: absolute;
+    bottom: 10px; /* 固定在螢幕底部 */
+  }
+}
+
     </style>
 </head>
 <body>
@@ -137,7 +148,7 @@ let game = {
 
 // 設置電腦模式下的窄畫布
 if (!game.isMobile) {
-    gameCanvas.style.width = '800px';
+    gameCanvas.style.width = '900px';
     gameCanvas.style.margin = '0 auto';
     game.canvasWidth = 800;
 }
@@ -236,8 +247,8 @@ game.timerInterval = setInterval(() => {
     // 每15秒顯著增加難度
     if (game.timer % 15 === 0) {
         game.difficulty += 0.5; // 更顯著的難度增加
-        game.enemyInterval = Math.max(500, 3000 - game.timer * 23); // 更快的敵人生成
-        game.powerupInterval = Math.max(5000, 10000 - game.timer * 33); // 道具生成加快
+        game.enemyInterval = Math.max(500, 3000 - game.timer * 20); // 更快的敵人生成
+        game.powerupInterval = Math.max(5000, 10000 - game.timer * 50); // 道具生成加快
     }
 }, 1000);
     
@@ -350,15 +361,20 @@ function handleMouseMove(event) {
     const rect = gameCanvas.getBoundingClientRect();
     const x = Math.max(20, Math.min(game.canvasWidth - 20, event.clientX - rect.left));
     
-    // 緩慢DPI移動
     game.players.forEach((player, index) => {
-        // 獲取玩家在畫面中的水平偏移位置
+        // 計算玩家與目標位置的差距
         const offset = (index - Math.floor(game.players.length / 2)) * 50;
         const currentX = parseFloat(player.style.left);
-        const newX = currentX + (x - currentX + offset) * 0.1;
+        
+        // 緩慢移動的邏輯：使用插值讓玩家平滑過渡到目標位置
+        const moveSpeed = 0.5; // 控制移動速度，數值越小越慢
+        const newX = currentX + (x - currentX + offset) * moveSpeed;
+        
+        // 更新玩家的位置
         player.style.left = `${newX}px`;
     });
 }
+
 
 function handleTouchMove(event) {
     if (!game.isActive) return;
@@ -366,11 +382,15 @@ function handleTouchMove(event) {
     
     const touch = event.touches[0];
     const rect = gameCanvas.getBoundingClientRect();
-    const x = Math.max(20, Math.min(game.canvasWidth - 20, touch.clientX - rect.left));
+    const targetX = Math.max(20, Math.min(game.canvasWidth - 20, touch.clientX - rect.left));
     
     game.players.forEach((player, index) => {
         const offset = (index - Math.floor(game.players.length / 2)) * 50;
-        player.style.left = `${x + offset}px`;
+        
+        // 緩慢移動到目標位置
+        const currentX = parseFloat(player.style.left);
+        const moveSpeed = 0.1; // 可以調整這個值來控制移動速度
+        player.style.left = `${currentX + (targetX - currentX + offset) * moveSpeed}px`;
     });
 }
 
@@ -394,11 +414,11 @@ function createBoss() {
     const boss = document.createElement('img');
     boss.src = 'ball6.gif';
     boss.className = 'boss';
-    boss.style.width = '60px';
-    boss.style.height = '60px';
+    boss.style.width = '80px';
+    boss.style.height = '80px';
     boss.style.top = '0px';
     boss.style.left = `${Math.random() * game.canvasWidth}px`;
-    boss.dataset.health = 5;
+    boss.dataset.health = 7;
     boss.dataset.bulletTimer = Date.now();
     boss.dataset.tracking = false; // 是否追踪玩家
     
@@ -466,19 +486,19 @@ function updateBullets() {
         // 根據玩家類型設置子彈屬性
         switch (game.playerType) {
             case 'ball8':
-                bulletInterval = 700;
+                bulletInterval = 400;
                 bulletColor = 'yellow';
                 bulletCount = 1;
                 break;
             case 'ball9':
-                bulletInterval = 1800;
+                bulletInterval = 1700;
                 bulletColor = 'purple';
-                bulletCount = 5;
+                bulletCount = 6;
                 break;
             default:
-                bulletInterval = 1000;
+                bulletInterval = 950;
                 bulletColor = '';
-                bulletCount = 1;
+                bulletCount = 2;
         }
         
         if (now - player.dataset.bulletTimer > bulletInterval) {
