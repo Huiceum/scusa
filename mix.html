@@ -34,27 +34,44 @@
       height: 100%;
     }
 
-    #slidePanel {
+    #leftPanel {
       position: fixed;
       top: 0;
-      right: -100%;
-      width: 100%;
+      left: -85%;
+      width: 85%;
       height: 100%;
-      background: #403156; /* 統一背景色 */
-      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
-      transition: right 1s ease;
+      background: #201c25; /* 統一背景色 */
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+      transition: left 0.5s ease;
       z-index: 10;
       display: flex;
       flex-direction: column;
     }
 
-    #slidePanel.open {
-      right: 0;
+    #leftPanel.open {
+      left: 0;
     }
 
-    #panelHeader {
+    #leftPanel iframe {
+      margin: 5%;
+      height: 90%;
+      width: 90%;
+    }
+
+    #panelHeaderLeft {
       height: 40px;
-      background: #403156;
+      background: #201c25;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    #panelHeaderRight {
+      height: 40px;
+      background: #201c25;
       color: white;
       display: flex;
       align-items: center;
@@ -67,9 +84,9 @@
       position: fixed;
       top: 50%;
       right: 0;
-      width: 5%;
-      height: 80px;
-      background: #403156;
+      width: 40px;
+      height: 40px;
+      background: #201c25;
       color: white;
       display: flex;
       align-items: center;
@@ -77,12 +94,60 @@
       cursor: pointer;
       z-index: 5;
       transform: translateY(-50%);
-      font-size: 24px;
+      font-size: 0;
+    }
+
+    #rightTab::before {
+      content: "";
+      border-top: 12px solid transparent; /* 這一行 */
+  border-bottom: 12px solid transparent; /* 這一行 */
+  border-right: 18px solid #ffffff; /* 這一行 */
+    }
+
+    #leftTab {
+      position: fixed;
+      top: 50%;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      background: #201c25;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      transform: translateY(-50%);
+      font-size: 0;
+    }
+
+    #leftTab::before {
+        content: "";
+  border-top: 12px solid transparent; /* 這一行 */
+  border-bottom: 12px solid transparent; /* 這一行 */
+  border-left: 18px solid #ffffff; /* 這一行 */
+}
+    #slidePanel {
+      position: fixed;
+      top: 0;
+      right: -85%;
+      width: 85%;
+      height: 100%;
+      background: #201c25; /* 統一背景色 */
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+      transition: right 0.5s ease;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #slidePanel.open {
+      right: 0;
     }
 
     #slidePanel iframe {
       margin: 5%;
-      height: 100%;
+      height: 90%;
       width: 90%;
     }
 
@@ -93,27 +158,50 @@
     <!-- 主頁面嵌入 Canva 簡報 -->
     <iframe id="mainFrame" src="https://www.canva.com/design/DAGVtn_lkcM/d2vzsv4ypwLRCZsWpaGGuA/view?embed" allowfullscreen></iframe>
 
+    <!-- 左側滑出面板 -->
+    <div id="leftPanel">
+      <div id="panelHeaderLeft">&#8592; 返回</div>
+      <iframe src="https://drive.google.com/file/d/1TtWGVe5MZzCJq3zXMFZ3hEKs5RIzwEtm/preview"></iframe>
+    </div>
+
     <!-- 右側滑出面板 -->
     <div id="slidePanel">
-      <div id="panelHeader">&#8592; 返回</div>
+      <div id="panelHeaderRight">&#8592; 返回</div>
       <iframe src="https://scusatw.com"></iframe>
     </div>
 
     <!-- 右側拉出按鈕 -->
-    <div id="rightTab">&#8592;</div>
+    <div id="rightTab"></div>
+
+    <!-- 左側拉出按鈕 -->
+    <div id="leftTab"></div>
   </div>
 
   <script>
     const rightTab = document.getElementById('rightTab');
     const slidePanel = document.getElementById('slidePanel');
-    const panelHeader = document.getElementById('panelHeader');
+    const panelHeaderRight = document.getElementById('panelHeaderRight');
 
+    const leftTab = document.getElementById('leftTab');
+    const leftPanel = document.getElementById('leftPanel');
+    const panelHeaderLeft = document.getElementById('panelHeaderLeft');
+
+    // 右側面板開啟與關閉
     rightTab.addEventListener('click', () => {
       slidePanel.classList.add('open');
     });
 
-    panelHeader.addEventListener('click', () => {
+    panelHeaderRight.addEventListener('click', () => {
       slidePanel.classList.remove('open');
+    });
+
+    // 左側面板開啟與關閉
+    leftTab.addEventListener('click', () => {
+      leftPanel.classList.add('open');
+    });
+
+    panelHeaderLeft.addEventListener('click', () => {
+      leftPanel.classList.remove('open');
     });
   </script>
 </body>
