@@ -96,7 +96,13 @@
         @media (max-width: 768px) {
   .game-container {
     padding-bottom: 50px; /* 留出足夠空間給按鈕 */
+
+    
   }
+  #gameCanvas {
+            height: 90vh;
+            position: relative;
+        }
   .player, .button {
     position: absolute;
     bottom: 10px; /* 固定在螢幕底部 */
@@ -806,5 +812,7 @@ window.addEventListener('resize', () => {
     }
 });
     </script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="onesignal.js" defer></script>
 </body>
 </html>
