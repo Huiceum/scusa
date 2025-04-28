@@ -8,6 +8,3 @@ window.OneSignalDeferred = window.OneSignalDeferred || [];
       },
     });
   });
-
-
-  
