@@ -483,6 +483,7 @@ function toggleCalendar() {
 <!-- HTML 檔案修正版 -->
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js"></script>
+
 <script>
     // 初始化 Firebase
     const firebaseConfig = {
@@ -522,7 +523,7 @@ function toggleCalendar() {
               // 確保使用正確的 VAPID key
               // VAPID key 必須是從 Firebase 控制台獲取的網頁應用 (Web App) 的 key
               messaging.getToken({
-                vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM',
+                vapidKey: 'BEMHYRwE7yZoi4vO4TxbtOV83MTPQnGYxB3iwbCOTTdtn04YJWqk93AGhgkDsGOPb0FzWD-Puia2aGkk-xZ70KY',
                 serviceWorkerRegistration: registration
               }).then((currentToken) => {
                 if (currentToken) {
@@ -561,4 +562,5 @@ function toggleCalendar() {
   
 
 </body>
+
 </html>
