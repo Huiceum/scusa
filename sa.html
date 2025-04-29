@@ -496,44 +496,67 @@ function toggleCalendar() {
     };
   
     firebase.initializeApp(firebaseConfig);
-    const messaging = firebase.messaging();
-  
-    // 啟動通知請求
-    Notification.requestPermission().then(permission => {
-      if (permission === 'granted') {
-        console.log('✅ 用戶同意接收通知');
-  
-        navigator.serviceWorker.register('/firebase-messaging-sw.js')
-          .then((registration) => {
-            // 在 v9 中，不需要在這裡設定 setBackgroundMessageHandler
-            // 背景訊息處理已移到 service worker 檔案中處理
-            messaging.getToken({
-              vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM',
-              serviceWorkerRegistration: registration  // 提供 service worker 註冊
-            }).then((currentToken) => {
-              if (currentToken) {
-                console.log('📱 推播 Token:', currentToken);
-                // TODO: 可以送到 Google Sheet 存下來
-              } else {
-                console.warn('⚠️ 無法取得推播 Token');
-              }
-            }).catch((err) => {
-              console.error('❌ Token 錯誤:', err);
+    
+    // 檢查瀏覽器是否支援推播
+    if (!('Notification' in window)) {
+      console.error('❌ 此瀏覽器不支援推播通知');
+    } else if (!('serviceWorker' in navigator)) {
+      console.error('❌ 此瀏覽器不支援 Service Workers');
+    } else {
+      // 繼續
+      const messaging = firebase.messaging();
+      
+      // 啟動通知請求
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          console.log('✅ 用戶同意接收通知');
+          
+          // 確保使用正確的 service worker 文件路徑
+          // 注意：此文件必須在網站根目錄，如果在子目錄中，請調整路徑
+          const swPath = '/firebase-messaging-sw.js';
+          
+          navigator.serviceWorker.register(swPath)
+            .then((registration) => {
+              console.log('✅ Service Worker 註冊成功');
+              
+              // 確保使用正確的 VAPID key
+              // VAPID key 必須是從 Firebase 控制台獲取的網頁應用 (Web App) 的 key
+              messaging.getToken({
+                vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM',
+                serviceWorkerRegistration: registration
+              }).then((currentToken) => {
+                if (currentToken) {
+                  console.log('📱 推播 Token:', currentToken);
+                  // TODO: 將 token 發送到您的服務器
+                } else {
+                  console.warn('⚠️ 無法取得推播 Token，可能需要請用戶允許通知');
+                }
+              }).catch((err) => {
+                console.error('❌ Token 錯誤:', err);
+              });
+              
+              // 前景訊息處理
+              messaging.onMessage((payload) => {
+                console.log('前景收到訊息:', payload);
+                // 顯示自定義通知
+                const notificationTitle = payload.notification.title || '新通知';
+                const notificationOptions = {
+                  body: payload.notification.body || '',
+                  icon: '/icon.png'
+                };
+                
+                // 使用 Service Worker 顯示通知
+                registration.showNotification(notificationTitle, notificationOptions);
+              });
+            })
+            .catch((err) => {
+              console.error('❌ Service Worker 註冊失敗:', err);
             });
-          })
-          .catch((err) => {
-            console.error('❌ Service Worker 註冊失敗:', err);
-          });
-      } else {
-        console.warn('❌ 用戶拒絕通知權限');
-      }
-    });
-
-    // 前景訊息處理
-    messaging.onMessage((payload) => {
-      console.log('前景收到訊息:', payload);
-      // 在前景中收到訊息時可以在這裡處理，例如顯示自訂通知
-    });
+        } else {
+          console.warn('❌ 用戶拒絕通知權限');
+        }
+      });
+    }
   </script>
   
 
