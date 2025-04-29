@@ -186,3 +186,15 @@ window.addEventListener('load', function() {
     document.body.appendChild(bellButton);
   });
   
+///訂閱按鈕///
+
+let hasPrompted = false;
+
+document.addEventListener('click', function () {
+  if (!hasPrompted) {
+    hasPrompted = true; // 設成已經問過
+    OneSignal.push(function() {
+      OneSignal.showSlidedownPrompt(); // 彈出推播訂閱提示
+    });
+  }
+});
