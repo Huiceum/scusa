@@ -39,10 +39,14 @@ OneSignalDeferred.push(async function(OneSignal) {
     subscribeBtn.style.backgroundColor = 'black';
   });
 
-  // 按下按鈕時觸發 OneSignal 推播
+  // 按下按鈕時觸發 OneSignal 推播 - 修正這裡的點擊處理
+  let hasPrompted = false;  // 移到這個作用域內
   subscribeBtn.addEventListener('click', function() {
     console.log('🔔 開始推播授權');
-    OneSignal.showSlidedownPrompt();
+    if (!hasPrompted) {
+      hasPrompted = true;
+      OneSignal.showSlidedownPrompt();
+    }
   });
 
   // 把按鈕加到 logo 旁邊
@@ -51,22 +55,11 @@ OneSignalDeferred.push(async function(OneSignal) {
     logoDiv.appendChild(subscribeBtn);
   } else {
     console.warn('❗ 找不到 logo 區塊');
+    // 嘗試添加到備用位置，如果 logo 找不到
+    document.body.appendChild(subscribeBtn);
   }
 
   console.log('✅ OneSignal 已初始化完成');
-});
+  
 
-// 點擊事件觸發
-let hasPrompted = false;
-OneSignal.push(function() {
-  console.log("OneSignal Ready");
-
-  // 再去監聽點擊
-  document.addEventListener('click', function () {
-    if (!hasPrompted) {
-      hasPrompted = true;
-      console.log("Trigger prompt from click");
-      OneSignal.showSlidedownPrompt(); // 彈出推播提示
-    }
-  });
 });
