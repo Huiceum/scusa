@@ -188,47 +188,49 @@ window.addEventListener('load', function() {
   
 ///////////////////////
 
-
-    // Firebase 配置
-    const firebaseConfig = {
-        apiKey: "AIzaSyDisL-GjghNaUWsDItEjqudlV0G2n_X2YE",
-        authDomain: "scusa-85b13.firebaseapp.com",
-        projectId: "scusa-85b13",
-        storageBucket: "scusa-85b13.firebasestorage.app",
-        messagingSenderId: "1050587816495",
-        appId: "1:1050587816495:web:d2410e92470dc05d3edcda",
-        measurementId: "G-XPP606Y64S"
-      };
+// Firebase 配置
+const firebaseConfig = {
+    apiKey: "AIzaSyDisL-GjghNaUWsDItEjqudlV0G2n_X2YE",
+    authDomain: "scusa-85b13.firebaseapp.com",
+    projectId: "scusa-85b13",
+    storageBucket: "scusa-85b13.firebasestorage.app",
+    messagingSenderId: "1050587816495",
+    appId: "1:1050587816495:web:d2410e92470dc05d3edcda",
+    measurementId: "G-XPP606Y64S"
+  };
   
-      // 初始化 Firebase
-      const app = firebase.initializeApp(firebaseConfig);
-      const messaging = firebase.messaging();
+  // 初始化 Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const messaging = firebase.messaging();
   
-      // 問用戶是否允許通知
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          console.log('用戶同意接收通知');
-          // 註冊 Service Worker 來處理通知
-          navigator.serviceWorker.register('/firebase-messaging-sw.js')
-            .then(registration => {
-              // 獲取推播 Token
-              messaging.getToken({
-                vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM'
-              }).then((currentToken) => {
-                if (currentToken) {
-                  console.log('推播 Token: ', currentToken);
-                  // 可以將 Token 存到 Google Sheets 或其他地方
-                } else {
-                  console.log('無法取得 Token');
-                }
-              }).catch(err => {
-                console.log('無法取得 Token:', err);
-              });
-            })
-            .catch(err => {
-              console.log('Service Worker 註冊失敗：', err);
+  // 延遲 1 秒後再請求通知權限
+  setTimeout(() => {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        console.log('用戶同意接收通知');
+  
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+          .then(registration => {
+            messaging.getToken({
+              vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM',
+              serviceWorkerRegistration: registration // ⭐ 這行是重點！記得加
+            }).then((currentToken) => {
+              if (currentToken) {
+                console.log('推播 Token: ', currentToken);
+                // 將 Token 傳到 Google Sheets 或儲存起來
+              } else {
+                console.log('無法取得 Token');
+              }
+            }).catch(err => {
+              console.log('無法取得 Token:', err);
             });
-        } else {
-          console.log('用戶拒絕通知');
-        }
-      });
+          })
+          .catch(err => {
+            console.log('Service Worker 註冊失敗：', err);
+          });
+      } else {
+        console.log('用戶拒絕通知');
+      }
+    });
+  }, 3000); // 延遲 1000 毫秒（1 秒）
+  
