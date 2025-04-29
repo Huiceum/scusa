@@ -203,6 +203,9 @@ window.onload = function() {
             .then(data => {
                 const userIp = data.ip;
 
+                // 獲取用戶裝置的相關信息
+                const userAgent = navigator.userAgent;  // 這會返回用戶裝置的用戶代理字符串
+
                 // 建立表單提交的 URL
                 const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSee333ui-5tHD8izZHLWaBIMnp-qfph6DygBHi9Tn7_XmUGQg/formResponse';
                 
@@ -210,6 +213,7 @@ window.onload = function() {
                 const params = new URLSearchParams();
                 params.append('entry.728480600', userIp);  // IP 地址
                 params.append('entry.1279210333', currentUrl);  // 當前網址
+                params.append('entry.1545224359', userAgent);  // 裝置信息（user agent）
 
                 // 發送 POST 請求到 Google 表單
                 fetch(formUrl, {
