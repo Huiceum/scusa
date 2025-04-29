@@ -23,9 +23,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-.onesignal-bell-launcher-button {
-    display: none !important;
-}
 
 /* 頁面容器設置，使用 Flexbox 佈局 */
 .container {

@@ -169,9 +169,20 @@ menu.addEventListener('click', function() {
 });
 });
 }
-window.addEventListener('scroll', function() {
-    var bellButton = document.querySelector('.onesignal-bell-launcher-button');
-    if (bellButton) {
-        bellButton.click();
-    }
-});
+window.addEventListener('load', function() {
+    // 創建新的 bell 按鈕
+    var bellButton = document.createElement('div');
+    bellButton.classList.add('custom-bell-launcher-button');
+    
+    // 這裡是控制點擊事件的函數，根據你的需求調整
+    bellButton.addEventListener('click', function() {
+      // 觸發 OneSignal 訂閱的行為
+      OneSignal.push(function() {
+        OneSignal.showNativePrompt();
+      });
+    });
+  
+    // 將按鈕加入頁面
+    document.body.appendChild(bellButton);
+  });
+  
