@@ -485,6 +485,7 @@ function toggleCalendar() {
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js"></script>
 
 <script>
+    
     // 初始化 Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDisL-GjghNaUWsDItEjqudlV0G2n_X2YE",
@@ -543,7 +544,7 @@ function toggleCalendar() {
                 const notificationTitle = payload.notification.title || '新通知';
                 const notificationOptions = {
                   body: payload.notification.body || '',
-                  icon: '/icon.png'
+                  icon: '/logo.png'
                 };
                 
                 // 使用 Service Worker 顯示通知

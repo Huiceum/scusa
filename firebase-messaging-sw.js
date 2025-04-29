@@ -1,17 +1,25 @@
 // firebase-messaging-sw.js 檔案內容：
-importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js');
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-// 初始化 Firebase - 確保與主頁面配置相同
-firebase.initializeApp({
-  apiKey: "AIzaSyDisL-GjghNaUWsDItEjqudlV0G2n_X2YE",
-  authDomain: "scusa-85b13.firebaseapp.com",
-  projectId: "scusa-85b13",
-  storageBucket: "scusa-85b13.firebasestorage.app",
-  messagingSenderId: "1050587816495",
-  appId: "1:1050587816495:web:d2410e92470dc05d3edcda",
-  measurementId: "G-XPP606Y64S"
-});
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDisL-GjghNaUWsDItEjqudlV0G2n_X2YE",
+    authDomain: "scusa-85b13.firebaseapp.com",
+    projectId: "scusa-85b13",
+    storageBucket: "scusa-85b13.firebasestorage.app",
+    messagingSenderId: "1050587816495",
+    appId: "1:1050587816495:web:d2410e92470dc05d3edcda",
+    measurementId: "G-XPP606Y64S"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
 // 取得 messaging 實例
 const messaging = firebase.messaging();
