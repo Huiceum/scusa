@@ -481,52 +481,56 @@ function toggleCalendar() {
 
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js"></script>
-
 <script>
-  // 初始化 Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyDisL-GjghNaUWsDItEjqudlV0G2n_X2YE",
-    authDomain: "scusa-85b13.firebaseapp.com",
-    projectId: "scusa-85b13",
-    storageBucket: "scusa-85b13.firebasestorage.app",
-    messagingSenderId: "1050587816495",
-    appId: "1:1050587816495:web:d2410e92470dc05d3edcda",
-    measurementId: "G-XPP606Y64S"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
-
-  // 啟動通知請求
-  Notification.requestPermission().then(permission => {
-    if (permission === 'granted') {
-      console.log('✅ 用戶同意接收通知');
-
-      navigator.serviceWorker.register('/firebase-messaging-sw.js')
-        .then((registration) => {
-          messaging.useServiceWorker(registration);
-
-          messaging.getToken({
-            vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM'
-          }).then((currentToken) => {
-            if (currentToken) {
-              console.log('📱 推播 Token:', currentToken);
-              // TODO: 可以送到 Google Sheet 存下來
-            } else {
-              console.warn('⚠️ 無法取得推播 Token');
-            }
-          }).catch((err) => {
-            console.error('❌ Token 錯誤:', err);
+    // 初始化 Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDisL-GjghNaUWsDItEjqudlV0G2n_X2YE",
+      authDomain: "scusa-85b13.firebaseapp.com",
+      projectId: "scusa-85b13",
+      storageBucket: "scusa-85b13.firebasestorage.app",
+      messagingSenderId: "1050587816495",
+      appId: "1:1050587816495:web:d2410e92470dc05d3edcda",
+      measurementId: "G-XPP606Y64S"
+    };
+  
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+  
+    // 啟動通知請求
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        console.log('✅ 用戶同意接收通知');
+  
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+          .then((registration) => {
+            // 設定 Service Worker 並處理背景通知
+            messaging.setBackgroundMessageHandler(function(payload) {
+              console.log('✅ 背景通知接收:', payload);
+              // 可以自定義顯示通知等操作
+            });
+  
+            messaging.getToken({
+              vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM'
+            }).then((currentToken) => {
+              if (currentToken) {
+                console.log('📱 推播 Token:', currentToken);
+                // TODO: 可以送到 Google Sheet 存下來
+              } else {
+                console.warn('⚠️ 無法取得推播 Token');
+              }
+            }).catch((err) => {
+              console.error('❌ Token 錯誤:', err);
+            });
+          })
+          .catch((err) => {
+            console.error('❌ Service Worker 註冊失敗:', err);
           });
-        })
-        .catch((err) => {
-          console.error('❌ Service Worker 註冊失敗:', err);
-        });
-    } else {
-      console.warn('❌ 用戶拒絕通知權限');
-    }
-  });
-</script>
+      } else {
+        console.warn('❌ 用戶拒絕通知權限');
+      }
+    });
+  </script>
+  
 
 </body>
 </html>
