@@ -7,41 +7,57 @@ OneSignalDeferred.push(async function(OneSignal) {
       enable: true // 不要顯示右下角的紅色按鈕
     },
   });
-});
 
+  // 隱藏預設紅色按鈕（但不禁用功能）
+  const style = document.createElement('style');
+  style.textContent = `
+    .onesignal-bell-launcher,
+    .onesignal-bell-launcher-button {
+      display: none !important;
+    }
+  `;
+  document.head.appendChild(style);
 
-///
+  // 在 OneSignal 初始化後插入 "我要收到通知" 按鈕
+  const subscribeBtn = document.createElement('button');
+  subscribeBtn.textContent = '我要收到通知';
+  subscribeBtn.style.backgroundColor = 'black';
+  subscribeBtn.style.color = 'white';
+  subscribeBtn.style.border = 'none';
+  subscribeBtn.style.padding = '8px 16px';
+  subscribeBtn.style.marginLeft = '10px';
+  subscribeBtn.style.borderRadius = '4px';
+  subscribeBtn.style.cursor = 'pointer';
+  subscribeBtn.style.fontSize = '14px';
+  subscribeBtn.style.transition = 'background-color 0.3s';
 
-
-
-OneSignal.push(function () {
-  // 建立 DOM 元素
-  const dot = document.createElement('div');
-  dot.textContent = '.';
-  Object.assign(dot.style, {
-    position: 'fixed',
-    top: '10px',
-    right: '10px',
-    color: '#ccc',
-    fontSize: '24px',
-    zIndex: 9999,
-    pointerEvents: 'none',
-    userSelect: 'none',
+  // Hover 時變紅色
+  subscribeBtn.addEventListener('mouseenter', function() {
+    subscribeBtn.style.backgroundColor = 'red';
+  });
+  subscribeBtn.addEventListener('mouseleave', function() {
+    subscribeBtn.style.backgroundColor = 'black';
   });
 
-  // 加到畫面上
-  document.body.appendChild(dot);
+  // 按下按鈕時觸發 OneSignal 推播
+  subscribeBtn.addEventListener('click', function() {
+    console.log('🔔 開始推播授權');
+    OneSignal.showSlidedownPrompt();
+  });
+
+  // 把按鈕加到 logo 旁邊
+  const logoDiv = document.querySelector('#sidebar .logo');
+  if (logoDiv) {
+    logoDiv.appendChild(subscribeBtn);
+  } else {
+    console.warn('❗ 找不到 logo 區塊');
+  }
 
   console.log('✅ OneSignal 已初始化完成');
 });
 
-
-////
-
-
+// 點擊事件觸發
 let hasPrompted = false;
-
-// 先等 OneSignal 準備好
 OneSignal.push(function() {
   console.log("OneSignal Ready");
 
