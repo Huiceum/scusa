@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學仲裁法庭 公告</title>
+    <link rel="stylesheet" href="scu_studentcourt.css">
+
+    <link rel="icon" href="logo.c1.png" type="image/x-icon">
+    <style>
+        /* 預設連結樣式 */
+        a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        /* 滑鼠懸停時的樣式 */
+        a:hover {
+            color: rgb(255, 255, 255);
+            text-decoration: underline;
+        }
+        .updateTime {
+        bottom: 10px;
+        font-size: 0.8em;
+        color: #434553;
+        
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- 手機版側邊欄 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.c1.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="mobile-nav">
+                <!-- 動態加載的導航項目將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 桌面版導航欄 -->
+            <div class="navbar">
+                <ul class="nav-options" id="nav-container">
+                    <!-- 動態加載的導航項目將插入此處 -->
+                </ul>
+
+
+            </div>
+
+            <div class="announcements">
+                <div id="announcements-list">
+                    <!-- 公告內容將自動載入 -->
+                </div>
+            </div>
+
+            <!-- 浮動球 -->
+            <div id="ball-container">
+                <img id="ball" src="ball9.gif" alt="Ball">
+            </div>
+
+            <div class="footer">
+                <div class="footer-content">
+                    <ul class="footer-links" id="footer-links">
+                        <!-- 動態加載的底部鏈接將插入此處 -->
+                    </ul>
+                    <div class="footer-info">
+                        2025 東吳大學學生仲裁法庭
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+    <script src="scu_studentcourt.js"></script>
+    <script src="sa0.js"></script>
+
+    <script>
+
+
+        // 當文檔加載完成後的事件
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAnnouncements(); // 載入公告
+        });
+
+
+        function loadAnnouncements() {
+    const sheetId = '10dtRcOfSostUxKodyU85VIi_otRS_z9KppjzksXbj5E'; // 只保留試算表 ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text(); // 解析為文本格式
+    })
+    .then(data => {
+        const rows = data.split('\n').slice(1); // 分割行並移除標題行
+        const announcementList = document.getElementById('announcements-list');
+        announcementList.innerHTML = ''; // 清空公告欄
+
+        rows.forEach((row) => {
+            const columns = row.split(',').map(col => col.replace(/"/g, '').trim()); // 移除引號並修剪空格
+            const newAnnouncement = document.createElement('div');
+            newAnnouncement.classList.add('announcement');
+
+            // 假設第一列是標題，第二列是訊息，第三列是超連結
+            newAnnouncement.innerHTML = `
+                <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
+                <p class="message">${columns[1]}</p>
+                <p class="updateTime">發文時間：${columns[3]}</p>
+
+            `;
+
+            announcementList.appendChild(newAnnouncement);
+        });
+    })
+    .catch(error => {
+        console.error('Error loading announcements:', error);
+        alert('無法載入公告，請查看控制台獲取更多資訊。');
+    });
+}
+
+
+ball.addEventListener('click', () => {
+  window.location.href = 'scu_studentcourta_p.html';
+});
+
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  window.location.href = 'scu_studentcourta_p.html';
+});
+
+                // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
+                const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        // 監視所有具有 slide-up 類別的元素
+        document.querySelectorAll('.slide-up').forEach(element => {
+            observer.observe(element);
+        });
+
+    </script>
+
+</body>
+</html>

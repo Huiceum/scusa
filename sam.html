@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學學生會 網路會員</title>
+    <link rel="stylesheet" href="sa.css">
+
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <style>
+.data-container {
+            width: 100%;
+            margin: auto;
+            margin-top: 100px;
+            background: #010010;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #ffffff;
+
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+        }
+
+        
+        /* 自定義 QR Code 容器 */
+        #qrcode {
+            margin: 25px;
+            text-align: center;  /* 文字靠左對齊 */
+
+            
+        }
+
+        #points {
+            background-color: #ffffff;
+            color: #000c2f;
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 2.2;  /* 行距為 1.5 倍的字體大小 */
+            text-align: left;  /* 文字靠左對齊 */
+            border-radius: 10px;
+            border-left:  10px #010010;
+            padding-left: 10%;
+            padding-top: 3%;
+            width: 80%;
+            align-self: center;
+
+
+        }
+
+        .timer {
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .reset-button {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .reset-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #555;
+            transition: transform 0.2s ease;
+        }
+        .reset-button:hover svg {
+            transform: rotate(90deg);
+        }
+
+        .banner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-bottom: 50px;
+
+        }
+
+
+        .banner {
+            width: 100%;
+            height: auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .banner a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            text-decoration: none;
+        }
+
+        .ad-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: rgb(255, 255, 255);
+            text-shadow: -1px -1px 0 #141414,
+              1px -1px 0 #141414,
+              -1px 1px 0 #141414,
+              1px 1px 0 #141414;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 2px 8px;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .hidden {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- 手機版側邊欄 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="mobile-nav">
+                <!-- 動態加載的導航項目將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 桌面版導航欄 -->
+            <div class="navbar">
+                <ul class="nav-options" id="nav-container">
+                    <!-- 動態加載的導航項目將插入此處 -->
+                </ul>
+
+
+            </div>
+
+            <div class="data-container">
+                <h1>學生臨時編碼：</h1>
+                <p id="message"></p>
+                <canvas id="qrcode"></canvas>
+                <div class="timer" id="timer">
+                    <span>03:00</span>
+                    <button class="reset-button" id="reset-button" title="重置">
+                        <!-- 圈的箭頭圖標 -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2a10 10 0 0 1 10 10h-2a8 8 0 1 0-8 8 8.04 8.04 0 0 0 6.26-3H13v-2h9v9h-2v-4.93A9.94 9.94 0 0 1 12 22a10 10 0 1 1 0-20z"/>
+                        </svg>
+                    </button>
+                </div>
+                    <div class="banner-container">
+                        
+
+                        <div id="banner" class="banner hidden"></div>
+            
+                    </div>
+                </div>
+                <div>
+                    
+                </div>
+                <p id="points"></p>
+
+        </div>
+
+            <!-- 浮動球 -->
+            <div id="ball-container">
+                <img id="ball" src="ball7.gif" alt="Ball">
+            </div>
+
+            <div class="footer">
+                <div class="footer-content">
+                    <ul class="footer-links" id="footer-links">
+                        <!-- 動態加載的底部鏈接將插入此處 -->
+                    </ul>
+                    <div class="footer-info">
+                        © 2025 東吳大學學生會 版權所有
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+    <script src="sa.js"></script>
+    <script src="sa0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>      
+       // 設定倒數時間（3 分鐘）
+       let timeLeft = 180; // 180 秒
+        const timerElement = document.getElementById('timer').querySelector('span');
+        const resetButton = document.getElementById('reset-button');
+
+        // 更新顯示的倒數時間
+        function updateTimer() {
+            let minutes = Math.floor(timeLeft / 60); // 計算分鐘
+            let seconds = timeLeft % 60; // 計算剩餘秒數
+
+            // 格式化為 MM:SS 形式
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            // 顯示更新後的時間
+            timerElement.textContent = `${minutes}:${seconds}`;
+
+            // 倒數結束時跳轉
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval); // 停止倒數
+                window.location.href = "transition.html"; // 跳轉到指定頁面
+            } else {
+                timeLeft--; // 減少時間
+            }
+        }
+
+        // 每秒更新倒數計時
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        // 初始化顯示的時間
+        updateTimer();
+
+        // 點擊重置按鈕立即跳轉
+        resetButton.addEventListener('click', function() {
+            clearInterval(timerInterval); // 停止倒數計時
+            window.location.href = "transition.html"; // 跳轉到指定頁面
+        });
+// 餐包菜單和側邊欄的設定（未變更）
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const sidebar = document.getElementById('sidebar');
+const mainMenus = document.querySelectorAll('.main-menu');
+        // 漢堡選單功能：顯示或隱藏側邊欄
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+        // 點擊主選單顯示或隱藏副選單
+        mainMenus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const targetSubmenu = document.querySelector(menu.getAttribute('data-target'));
+                targetSubmenu.classList.toggle('show');
+            });
+        });
+    
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // 從 sessionStorage 獲取 user 和 randomCode
+            const user = sessionStorage.getItem('user');
+            const randomCode = sessionStorage.getItem('randomCode');
+
+            if (!user || !randomCode) {
+                document.getElementById('message').textContent = "無法獲取資料，請確保您已登入。";
+                return;
+                
+            }
+
+            document.getElementById('points').innerHTML = "載入點數中...";
+
+
+            // 生成 QR code
+            generateQRCode(randomCode);
+
+            // 不斷輪詢試算表，直到找到匹配的資料
+            pollSpreadsheet(user, randomCode);
+        });
+
+// 生成 QR code 的函式
+function generateQRCode(code) {
+    const qrContainer = document.getElementById('qrcode');
+
+    // 設置 QR code 的配置選項
+    const options = {
+        width: 200,  // 設定 QR code 的寬度
+        height: 200, // 設定 QR code 的高度
+        color: {
+            dark: '#f0f0f0',  // 設定模塊顏色（這裡設為橙色）
+            light: '#010010'  // 設定背景顏色（這裡設為淡黃色）
+        },
+        margin: 5,  // 設定邊框大小
+        errorCorrectionLevel: 'H',  // 設定錯誤修正級別（H為最高級別）
+        scale: 6,  // 設定每個模塊的大小
+        logo: 'logo2.PNG',  // 可選：設置 logo 圖片的路徑（需要替換為實際路徑）
+        logoSize: 0.2  // 設置 logo 的大小比例（0.2 是占 QR code 寬度的 20%）
+    };
+
+    // 生成 QR code
+    QRCode.toCanvas(qrContainer, code, options, function (error) {
+        if (error) {
+            console.error('QR code 生成失敗:', error);
+        }
+    });
+}
+
+
+        // 試算表輪詢函式
+        function pollSpreadsheet(user, randomCode) {
+            const sheetId = '1ADpHD124E0PVZSCJlxMDasUsM7Wmc_7hc-_SUiYR1dg';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            function checkSpreadsheet() {
+                fetch(url)
+                    .then(response => response.ok ? response.text() : Promise.reject('無法連接試算表'))
+                    .then(data => {
+                        const rows = data.split('\n').map(row => row.split(',').map(col => col.replace(/"/g, '').trim()));
+                        const headers = rows[0]; // 第一排是標題行
+                        const userIndex = rows.findIndex(row => row[0] === user && row[1] === randomCode);
+
+                        if (userIndex > 0) { // 找到匹配的資料行
+                            const userRow = rows[userIndex];
+                            let pointsText = '';
+                            for (let i = 2; i < headers.length; i++) {
+                                if (userRow[i]) {
+                                    pointsText += `${headers[i]}: ${userRow[i]}<br>`;
+                                }
+                            }
+
+                            if (pointsText) {
+                                document.getElementById('points').innerHTML = `您目前的點數：<br>${pointsText}`;
+                            } else {
+                                document.getElementById('points').textContent = `找到匹配的用戶，但沒有點數資料。`;
+                            }
+                            clearInterval(pollingInterval); // 停止輪詢
+                        } else {
+                            console.log('尚未找到匹配資料，將繼續查詢...');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('無法檢索試算表資料:', error);
+                    });
+            }
+
+            const pollingInterval = setInterval(checkSpreadsheet, 3000); // 每 3 秒查詢一次試算表
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadAndStartRandomSelection();
+        });
+
+        function loadAndStartRandomSelection() {
+            const sheetId = '1515E6cNigAEITVep2SUgOAo0JAecQdnagjjgNfaMOCo'; // 替換為您的試算表 ID
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+                .then(data => {
+                    const rows = data.split('\n').slice(1); // 分割行並移除標題行
+                    const items = [];
+
+                    rows.forEach(row => {
+                        const [imageUrl, link, percentage] = row.split(',').map(col => col.replace(/"/g, '').trim()); // 解析每一行
+                        if (imageUrl && link && percentage) {
+                            const weight = parseFloat(percentage.replace('%', '')) || 0; // 解析機率
+                            items.push({ imageUrl, link, weight });
+                        }
+                    });
+
+                    if (items.length > 0) {
+                        startRandomSelection(items);
+                    } else {
+                        console.error('No valid data found in the spreadsheet.');
+                    }
+                })
+                .catch(error => console.error('Error loading banners:', error));
+        }
+
+        function startRandomSelection(items) {
+            const banner = document.getElementById('banner');
+            let lastSelectedIndex = -1; // 記錄上一次的選擇
+
+            function selectRandomBanner() {
+                // 根據權重選擇橫幅
+                const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
+                let randomValue = Math.random() * totalWeight;
+                let selectedIndex = -1;
+
+                for (let i = 0; i < items.length; i++) {
+                    randomValue -= items[i].weight;
+                    if (randomValue <= 0) {
+                        selectedIndex = i;
+                        break;
+                    }
+                }
+
+                if (selectedIndex === -1 || selectedIndex === lastSelectedIndex) return; // 如果權重無法選取，則略過
+
+                const selectedItem = items[selectedIndex];
+
+                // 更新機率
+                if (lastSelectedIndex !== -1) {
+                    const lastWeight = items[lastSelectedIndex].weight;
+                    const redistributeWeight = lastWeight / (items.length - 1);
+
+                    items[lastSelectedIndex].weight = 0; // 將上次選擇的機率設為 0
+                    items.forEach((item, index) => {
+                        if (index !== lastSelectedIndex) {
+                            item.weight += redistributeWeight; // 平分給其他項目
+                        }
+                    });
+                }
+
+                lastSelectedIndex = selectedIndex;
+
+                // 設置橫幅內容
+                banner.classList.add('hidden'); // 開始漸變效果
+                setTimeout(() => {
+                    banner.innerHTML = `
+                        <img src="${selectedItem.imageUrl}" alt="Banner Image">
+                        <a href="${selectedItem.link}" target="_blank"></a>
+                        <div class="ad-label">AD</div>
+                    `;
+                    banner.classList.remove('hidden'); // 完成漸變效果
+                }, 1000); // 與 CSS 的 transition 時間一致
+            }
+
+            // 每 8 秒更新一次橫幅
+            selectRandomBanner();
+            setInterval(selectRandomBanner, 8000);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+    adjustBannerWidth();
+    window.addEventListener('resize', adjustBannerWidth); // 當窗口大小改變時重新調整
+});
+
+function adjustBannerWidth() {
+    const banner = document.getElementById('banner');
+    if (!banner) return;
+
+    if (window.innerWidth <= 768) { // 判斷是否為手機裝置（寬度小於或等於 768px）
+        banner.style.width = '100%';
+    } else {
+        banner.style.width = '75%';
+    }
+}
+
+    </script>
+
+</body>
+</html>
