@@ -1,5 +1,6 @@
-importScripts('https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/11.6.1/firebase-messaging.js');
+// 正確版本：使用 compat（相容）版本
+importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js');
 
 // 初始化 Firebase
 firebase.initializeApp({
@@ -12,19 +13,7 @@ firebase.initializeApp({
   measurementId: "G-XPP606Y64S"
 });
 
-// 取得 Firebase Messaging 實例
+// 取得 messaging 實例
 const messaging = firebase.messaging();
 
-// 當接收到背景消息時
-messaging.onBackgroundMessage(function(payload) {
-  console.log('收到背景訊息: ', payload);
-  
-  // 通知標題與內容
-  const notificationTitle = '有新通知！';
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: '/icon.png'  // 這邊可以設置圖標
-  };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
