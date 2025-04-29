@@ -479,6 +479,8 @@ function toggleCalendar() {
 
     </script>
 
+
+<!-- HTML 檔案修正版 -->
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js"></script>
 <script>
@@ -503,14 +505,11 @@ function toggleCalendar() {
   
         navigator.serviceWorker.register('/firebase-messaging-sw.js')
           .then((registration) => {
-            // 設定 Service Worker 並處理背景通知
-            messaging.setBackgroundMessageHandler(function(payload) {
-              console.log('✅ 背景通知接收:', payload);
-              // 可以自定義顯示通知等操作
-            });
-  
+            // 在 v9 中，不需要在這裡設定 setBackgroundMessageHandler
+            // 背景訊息處理已移到 service worker 檔案中處理
             messaging.getToken({
-              vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM'
+              vapidKey: 'BCw5EjKtOV3A1GQz8F8AZc_k4oZ9gMwNrrBqtP4c3zYX-j5rD7tA-S5-rHmbZ3aXJ2UN0h0k_MuJhjpRA5lm9lM',
+              serviceWorkerRegistration: registration  // 提供 service worker 註冊
             }).then((currentToken) => {
               if (currentToken) {
                 console.log('📱 推播 Token:', currentToken);
@@ -528,6 +527,12 @@ function toggleCalendar() {
       } else {
         console.warn('❌ 用戶拒絕通知權限');
       }
+    });
+
+    // 前景訊息處理
+    messaging.onMessage((payload) => {
+      console.log('前景收到訊息:', payload);
+      // 在前景中收到訊息時可以在這裡處理，例如顯示自訂通知
     });
   </script>
   

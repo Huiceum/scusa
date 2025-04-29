@@ -1,8 +1,8 @@
-// 正確版本：使用 compat（相容）版本
+//在 Service Worker 檔案中:
 importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js');
 
-// 初始化 Firebase
+//初始化 Firebase
 firebase.initializeApp({
   apiKey: "AIzaSyDisL-GjghNaUWsDItEjqudlV0G2n_X2YE",
   authDomain: "scusa-85b13.firebaseapp.com",
@@ -13,7 +13,18 @@ firebase.initializeApp({
   measurementId: "G-XPP606Y64S"
 });
 
-// 取得 messaging 實例
+//取得 messaging 實例
 const messaging = firebase.messaging();
 
+//背景訊息處理 - 正確方式
+messaging.onBackgroundMessage(function(payload) {
+  console.log('✅ 背景通知接收:', payload);
+  
+  const notificationTitle = payload.notification.title || '新通知';
+  const notificationOptions = {
+    body: payload.notification.body || '',
+    icon: '/icon.png'  //替換為您的應用圖示
+  };
 
+  return self.registration.showNotification(notificationTitle, notificationOptions);
+});
