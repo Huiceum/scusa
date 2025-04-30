@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東吳大學學生會 歷屆會長</title>
+    <title>東吳大學學生會 歷屆三長</title>
     <link rel="stylesheet" href="sa.css">
     <link rel="icon" href="favicon.png" type="image/x-icon">
     <style>
@@ -225,7 +225,7 @@
 
             <!-- 浮動球 -->
             <div id="ball-container">
-                <img id="ball" src="ball6.gif" alt="Ball">
+                <img id="ball" src="ball7.gif" alt="Ball">
             </div>
 
             <div class="footer">
@@ -385,8 +385,12 @@
             sortedTerms.forEach(term => {
                 const termLabel = document.createElement('div');
                 termLabel.classList.add('term-label');
-                termLabel.textContent = `第 ${term} 屆 學生會`;
-                container.appendChild(termLabel);
+                const note = termGroups[term][0]?.note || '';
+if (note && note.trim() !== '') {
+    termLabel.innerHTML = `第 ${term} 屆 學生議會 <span style="font-size: 0.8em; color: #777;">(${note})</span>`;
+} else {
+    termLabel.textContent = `第 ${term} 屆 學生議會`;
+}                container.appendChild(termLabel);
                 
                 termGroups[term].forEach(person => {
                     if (person.name && person.imageUrl) {
