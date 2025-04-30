@@ -386,11 +386,11 @@
                 const termLabel = document.createElement('div');
                 termLabel.classList.add('term-label');
                 const note = termGroups[term][0]?.note || '';
-if (note && note.trim() !== '') {
-    termLabel.innerHTML = `第 ${term} 屆 學生議會 <span style="font-size: 0.8em; color: #777;">(${note})</span>`;
-} else {
-    termLabel.textContent = `第 ${term} 屆 學生議會`;
-}                container.appendChild(termLabel);
+            if (note && note.trim() !== '') {
+                termLabel.innerHTML = `第 ${term} 屆 學議會 <span style="font-size: 0.8em; color: #777;">(${note})</span>`;
+            } else {
+                termLabel.textContent = `第 ${term} 屆 學生會`;
+            }                container.appendChild(termLabel);
                 
                 termGroups[term].forEach(person => {
                     if (person.name && person.imageUrl) {
