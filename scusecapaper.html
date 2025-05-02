@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學選舉事務委員會 選舉公報</title>
+    <link rel="stylesheet" href="sa_election.css">
+
+    <link rel="icon" href="elected.png" type="image/x-icon">
+    <style>
+ :root {
+    --primary-color: #ffffff;
+    --secondary-color: #f5f5f5;
+    --accent-color: #333333;
+    --border-color: #e0e0e0;
+    --hover-color: #f0f0f0;
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, "Microsoft JhengHei", sans-serif;
+}
+
+/* 增大整體寬度 */
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.Dontainer {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 2rem 4rem; /* 增加左右內邊距 */
+}
+
+/* 主內容區塊調整 */
+.main-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeIn 1s ease;
+    width: 100%;
+}
+
+h1 {
+    font-size: 3rem; /* 增大標題字體 */
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.description {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 900px; /* 增加描述文字的最大寬度 */
+    margin: 0 auto;
+}
+
+.selection-container {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    padding: 2.5rem 3rem; /* 增加內邊距 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2.5rem;
+    animation: slideUp 0.8s ease;
+    width: 100%;
+}
+
+.select-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem; /* 增加間距 */
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.select-wrapper {
+    flex: 1;
+    min-width: 48%; /* 調整為略小於50%，讓兩個選擇器可以並排 */
+}
+
+/* 在較大螢幕時，讓兩個選擇器並排 */
+@media (min-width: 992px) {
+    .select-wrapper {
+        min-width: 48%;
+    }
+}
+
+.select-label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 1.1rem; /* 增大標籤字體 */
+}
+
+select {
+    width: 100%;
+    padding: 15px 18px; /* 增加內邊距使選擇器更大 */
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+    font-size: 1.1rem; /* 增大字體 */
+    cursor: pointer;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 18px; /* 稍微增大下拉箭頭 */
+}
+
+select:hover {
+    border-color: #aaa;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.1);
+}
+
+select:disabled {
+    background-color: var(--secondary-color);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* PDF 容器調整 */
+.pdf-container {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    height: 0;
+    max-height: 0;
+    width: 100%;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease, height 0.5s ease;
+}
+
+.pdf-container.active {
+    height: 800px;
+    max-height: 80vh; /* 使用視窗高度的百分比 */
+    opacity: 1;
+}
+
+.pdf-embed {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.loading {
+    text-align: center;
+    padding: 3rem; /* 增加內邊距 */
+    display: none;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 50px; /* 增大尺寸 */
+    height: 50px; /* 增大尺寸 */
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--accent-color);
+    animation: spin 1s linear infinite;
+}
+
+.no-selection {
+    text-align: center;
+    padding: 4rem; /* 增加內邊距 */
+    color: #666;
+    font-size: 1.4rem; /* 增大字體 */
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.8s ease;
+    margin: 0 auto;
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 響應式調整 */
+@media (max-width: 1200px) {
+    .Dontainer {
+        padding: 2rem 3rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .select-wrapper {
+        min-width: 100%; /* 在中等螢幕上讓選擇器堆疊 */
+    }
+    
+    .Dontainer {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0;
+    }
+    
+    .Dontainer {
+        padding: 1.5rem;
+    }
+    
+    .selection-container {
+        padding: 1.5rem;
+    }
+    
+    .select-group {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .pdf-container.active {
+        height: 500px;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+    }
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- 手機版側邊欄 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="elected.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="mobile-nav">
+                <!-- 動態加載的導航項目將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 桌面版導航欄 -->
+            <div class="navbar">
+                <ul class="nav-options" id="nav-container">
+                    <!-- 動態加載的導航項目將插入此處 -->
+                </ul>
+            </div>
+
+                <div class="Dontainer">
+                    <header>
+                        <h1>選舉公報</h1>
+                        <div class="description">請從下方選單選擇想要查看的選舉公報及其屆數，選擇完成後將顯示對應的公報內容。</div>
+                    </header>
+            
+                    <div class="selection-container">
+                        <div class="select-group">
+                            <div class="select-wrapper">
+                                <label for="bulletin-name" class="select-label">選舉公報名稱</label>
+                                <select id="bulletin-name">
+                                    <option value="">請選擇公報名稱</option>
+                                </select>
+                            </div>
+                            <div class="select-wrapper">
+                                <label for="bulletin-edition" class="select-label">屆數</label>
+                                <select id="bulletin-edition" disabled>
+                                    <option value="">請先選擇公報名稱</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div id="content-area">
+                        <div class="no-selection">請先選擇選舉公報名稱與屆數</div>
+                    </div>
+            
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>正在載入公報資料...</p>
+                    </div>
+                </div>
+
+
+            <!-- 浮動球 -->
+            <div id="ball-container">
+                <img id="ball" src="ball8.gif" alt="Ball">
+            </div>
+
+            <div class="footer">
+                <div class="footer-content">
+                    <ul class="footer-links" id="footer-links">
+                        <!-- 動態加載的底部鏈接將插入此處 -->
+                    </ul>
+                    <div class="footer-info">
+                        2025 東吳大學選舉事務委員會
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+    <script src="sa_election.js"></script>
+    <script src="sa0.js"></script>
+
+    <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            loadBulletinData();
+        });
+
+        function loadBulletinData() {
+            const sheetId = '1F0OWws8VAyp-2iEkJ4NfRyx85soYNiQ3_wrVXDLENXg';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+            
+            showLoading(true);
+            
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+                .then(data => {
+                    try {
+                        // 從 Google Sheets API 響應中提取 JSON 數據
+                        // 去除 Google 添加的前綴和後綴
+                        const jsonString = data.substring(data.indexOf('{'), data.lastIndexOf('}') + 1);
+                        const jsonData = JSON.parse(jsonString);
+                        
+                        if (!jsonData.table || !jsonData.table.rows || jsonData.table.rows.length === 0) {
+                            throw new Error('無法從試算表中獲取數據');
+                        }
+                        
+                        // 從 JSON 格式轉換為更易處理的數組格式
+                        const rows = jsonData.table.rows.map(row => {
+                            return row.c ? row.c.map(cell => cell ? (cell.v || '') : '') : [];
+                        });
+                        
+                        processData(rows);
+                    } catch (error) {
+                        console.error('解析數據時出錯:', error);
+                        document.getElementById('content-area').innerHTML = `
+                            <div class="no-selection">
+                                解析數據時出錯。<br>
+                                錯誤詳情: ${error.message}
+                            </div>
+                        `;
+                    }
+                    
+                    showLoading(false);
+                })
+                .catch(error => {
+                    console.error('載入公報數據時出錯:', error);
+                    document.getElementById('content-area').innerHTML = `
+                        <div class="no-selection">
+                            載入數據失敗，請稍後再試。<br>
+                            錯誤詳情: ${error.message}
+                        </div>
+                    `;
+                    showLoading(false);
+                });
+        }
+
+        function processData(rows) {
+            // 集合所有數據，假設第一行是標題
+            const dataRows = rows.length > 0 ? rows.slice(1) : [];
+            
+            // 分組數據，按照公報名稱
+            const bulletinData = {};
+            
+            dataRows.forEach(row => {
+                if (row.length < 3) return; // 確保有足夠的列
+                
+                const name = row[0]; // 公報名稱
+                const edition = row[1]; // 屆數
+                const pdfUrl = row[2]; // Google PDF 連結
+                
+                // 提取 Google Drive 文件 ID
+                let fileId = extractFileId(pdfUrl);
+                
+                if (!bulletinData[name]) {
+                    bulletinData[name] = [];
+                }
+                
+                bulletinData[name].push({
+                    edition: edition,
+                    url: pdfUrl,
+                    fileId: fileId
+                });
+            });
+            
+            // 填充選舉公報名稱下拉選單
+            const bulletinNameSelect = document.getElementById('bulletin-name');
+            bulletinNameSelect.innerHTML = '<option value="">請選擇公報名稱</option>';
+            
+            // 按照名稱字母順序排序
+            Object.keys(bulletinData).sort().forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                bulletinNameSelect.appendChild(option);
+            });
+            
+            // 設置事件監聽器
+            setupEventListeners(bulletinData);
+        }
+
+        // 從 Google Drive 鏈接中提取文件 ID
+        function extractFileId(url) {
+            if (!url) return '';
+            
+            // 處理 Google Drive 直接鏈接
+            const directPattern = /\/d\/([a-zA-Z0-9_-]+)/;
+            const directMatch = url.match(directPattern);
+            if (directMatch && directMatch[1]) {
+                return directMatch[1];
+            }
+            
+            // 處理 Google Drive 共享鏈接
+            const sharedPattern = /id=([a-zA-Z0-9_-]+)/;
+            const sharedMatch = url.match(sharedPattern);
+            if (sharedMatch && sharedMatch[1]) {
+                return sharedMatch[1];
+            }
+            
+            return url; // 如果沒有匹配，返回原始 URL
+        }
+
+        function setupEventListeners(bulletinData) {
+            const bulletinNameSelect = document.getElementById('bulletin-name');
+            const bulletinEditionSelect = document.getElementById('bulletin-edition');
+            
+            bulletinNameSelect.addEventListener('change', function() {
+                const selectedName = this.value;
+                
+                // 重置屆數下拉選單
+                bulletinEditionSelect.innerHTML = '';
+                
+                if (selectedName) {
+                    // 啓用屆數下拉選單
+                    bulletinEditionSelect.disabled = false;
+                    bulletinEditionSelect.innerHTML = '<option value="">請選擇屆數</option>';
+                    
+                    // 排序屆數，盡可能按數字大小
+                    const editions = bulletinData[selectedName].map(item => item.edition);
+                    editions.sort((a, b) => {
+                        const numA = parseInt(a);
+                        const numB = parseInt(b);
+                        
+                        if (!isNaN(numA) && !isNaN(numB)) {
+                            return numB - numA; // 降序排列，新的在前
+                        }
+                        
+                        // 如果不是數字，按字符串排序
+                        return a.localeCompare(b);
+                    });
+                    
+                    // 添加屆數選項
+                    editions.forEach(edition => {
+                        const option = document.createElement('option');
+                        option.value = edition;
+                        option.textContent = edition;
+                        bulletinEditionSelect.appendChild(option);
+                    });
+                } else {
+                    // 如果沒有選擇公報名稱，停用屆數下拉選單
+                    bulletinEditionSelect.disabled = true;
+                    bulletinEditionSelect.innerHTML = '<option value="">請先選擇公報名稱</option>';
+                    hidePdfViewer();
+                }
+            });
+            
+            bulletinEditionSelect.addEventListener('change', function() {
+                const selectedName = bulletinNameSelect.value;
+                const selectedEdition = this.value;
+                
+                if (selectedName && selectedEdition) {
+                    // 查找匹配的項目
+                    const item = bulletinData[selectedName].find(item => item.edition === selectedEdition);
+                    
+                    if (item) {
+                        // 使用 Google Drive 預覽連結
+                        const embedUrl = item.fileId.startsWith('http') 
+                            ? item.url 
+                            : `https://drive.google.com/file/d/${item.fileId}/preview`;
+                        showPdfViewer(embedUrl);
+                    } else {
+                        hidePdfViewer();
+                    }
+                } else {
+                    hidePdfViewer();
+                }
+            });
+        }
+
+        function showPdfViewer(embedUrl) {
+            const contentArea = document.getElementById('content-area');
+            
+            // 創建 PDF 容器（如果不存在）
+            let pdfContainer = document.querySelector('.pdf-container');
+            
+            if (!pdfContainer) {
+                pdfContainer = document.createElement('div');
+                pdfContainer.className = 'pdf-container';
+                contentArea.innerHTML = '';
+                contentArea.appendChild(pdfContainer);
+                
+                // 添加小延遲以觸發動畫
+                setTimeout(() => {
+                    pdfContainer.classList.add('active');
+                }, 10);
+            } else {
+                pdfContainer.classList.add('active');
+            }
+            
+            // 創建或更新嵌入元素
+            let pdfEmbed = pdfContainer.querySelector('.pdf-embed');
+            
+            if (!pdfEmbed) {
+                pdfEmbed = document.createElement('iframe');
+                pdfEmbed.className = 'pdf-embed';
+                pdfContainer.appendChild(pdfEmbed);
+            }
+            
+            pdfEmbed.src = embedUrl;
+        }
+
+        function hidePdfViewer() {
+            const contentArea = document.getElementById('content-area');
+            const pdfContainer = document.querySelector('.pdf-container');
+            
+            if (pdfContainer) {
+                pdfContainer.classList.remove('active');
+                
+                // 動畫結束後移除容器
+                setTimeout(() => {
+                    contentArea.innerHTML = '<div class="no-selection">請選擇選舉公報名稱與屆數</div>';
+                }, 500);
+            } else {
+                contentArea.innerHTML = '<div class="no-selection">請選擇選舉公報名稱與屆數</div>';
+            }
+        }
+
+        function showLoading(show) {
+            const loadingElement = document.querySelector('.loading');
+            
+            if (show) {
+                loadingElement.style.display = 'block';
+            } else {
+                loadingElement.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>
