@@ -244,14 +244,17 @@
       font-family: 'Arial', sans-serif;
     }
     .x0xconsent-content {
-      background-color: #fff;
-      color: #333;
-      padding: 30px;
-      border-radius: 12px;
-      width: 80%;
-      max-width: 650px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-      text-align: left;
+        background-color: #fff;
+  color: #333;
+  padding: 30px;
+  padding-left: 50px;
+  border-radius: 12px;
+  width: 70%;
+  max-width: 60%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  overflow-y: auto; /* ✅ 已有 */
+  max-height: 80vh; /* ✅ 加上這一行，限制最大高度為視窗高度的 80% */
+  text-align: left;
     }
     .x0xconsent-content h2 {
       margin-top: 0;
