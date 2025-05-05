@@ -25,6 +25,33 @@
         color: #434553;
         
     }
+
+    /* 新增樣式 */
+.announcement-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.detail-btn {
+    background-color: #626262;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.detail-btn:hover {
+    background-color: #3d3d3d;
+}
+
+.iframe-container {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
     </style>
 </head>
 
@@ -91,43 +118,80 @@
 
     <script>
 
-
-        // 當文檔加載完成後的事件
-        document.addEventListener('DOMContentLoaded', function() {
-            loadAnnouncements(); // 載入公告
-        });
-
-
-        function loadAnnouncements() {
-    const sheetId = '10dtRcOfSostUxKodyU85VIi_otRS_z9KppjzksXbj5E'; // 只保留試算表 ID
+function loadAnnouncements() {
+    const sheetId = '10dtRcOfSostUxKodyU85VIi_otRS_z9KppjzksXbj5E'; // 試算表 ID
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
     fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text(); // 解析為文本格式
-    })
+    .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
     .then(data => {
         const rows = data.split('\n').slice(1); // 分割行並移除標題行
         const announcementList = document.getElementById('announcements-list');
         announcementList.innerHTML = ''; // 清空公告欄
 
-        rows.forEach((row) => {
-            const columns = row.split(',').map(col => col.replace(/"/g, '').trim()); // 移除引號並修剪空格
+        // 顯示全部公告
+        rows.forEach((row, index) => {
+            const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
             const newAnnouncement = document.createElement('div');
             newAnnouncement.classList.add('announcement');
+            
+            // 創建唯一ID用於識別每個公告
+            const announcementId = `announcement-${index}`;
+            const iframeId = `iframe-${index}`;
+
+            // 提取Google Drive文件ID
+            let driveFileId = columns[2];
+            // 檢查是否是Google Drive連結，並提取文件ID
+            if (driveFileId.includes('drive.google.com')) {
+                // 從URL中提取文件ID
+                const match = driveFileId.match(/[-\w]{25,}/);
+                if (match) {
+                    driveFileId = match[0];
+                }
+            }
 
             // 假設第一列是標題，第二列是訊息，第三列是超連結
             newAnnouncement.innerHTML = `
-                <h2 class="title"><a href="${columns[2]}" class="link">${columns[0]}</a></h2>
+                <h2 class="title"><a href="${columns[2]}" class="link" target="_blank">${columns[0]}</a></h2>
                 <p class="message">${columns[1]}</p>
-                <p class="updateTime">發文時間：${columns[3]}</p>
-
+                <div class="announcement-footer">
+                    <p class="updateTime">發文時間：${columns[3]}</p>
+                    <button class="detail-btn" data-file-id="${driveFileId}" data-target="${iframeId}">詳</button>
+                </div>
+                <div class="iframe-container" id="${iframeId}" style="display: none; width: 100%; margin-top: 10px;"></div>
             `;
-
+            
             announcementList.appendChild(newAnnouncement);
+        });
+        
+        // 為所有"詳"按鈕添加點擊事件
+        document.querySelectorAll('.detail-btn').forEach(button => {
+            button.addEventListener('click', function() {
+    const fileId = this.getAttribute('data-file-id');
+    const targetId = this.getAttribute('data-target');
+    const container = document.getElementById(targetId);
+
+    // 對應的原始連結
+    const originalLink = this.closest('.announcement').querySelector('.link').href;
+
+    // 檢查是否為 Google Drive PDF 分享連結
+    const isGoogleDrivePDF = /https:\/\/drive\.google\.com\/.*\/d\/[-\w]{25,}/.test(originalLink) || /https:\/\/drive\.google\.com\/file\/d\/[-\w]{25,}/.test(originalLink);
+
+    if (!isGoogleDrivePDF) {
+        window.open(originalLink, '_blank');
+        return;
+    }
+
+    // 切換iframe的顯示狀態
+    if (container.style.display === 'none') {
+        container.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" width="100%" height="500px" frameborder="0" allowtransparency="true" allowfullscreen></iframe>`;
+        container.style.display = 'block';
+    } else {
+        container.style.display = 'none';
+        container.innerHTML = '';
+    }
+});
+
         });
     })
     .catch(error => {
@@ -136,29 +200,10 @@
     });
 }
 
-
-ball.addEventListener('click', () => {
-  window.location.href = 'scu_studentcourta_p.html';
+// 確保在頁面加載完成後執行
+document.addEventListener('DOMContentLoaded', function() {
+    loadAnnouncements();
 });
-
-document.getElementById('mobile-btn').addEventListener('click', () => {
-  window.location.href = 'scu_studentcourta_p.html';
-});
-
-                // 當文檔滑入視窗時，添加 'show' 類別以觸發動畫
-                const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        });
-
-        // 監視所有具有 slide-up 類別的元素
-        document.querySelectorAll('.slide-up').forEach(element => {
-            observer.observe(element);
-        });
-
     </script>
 
 </body>

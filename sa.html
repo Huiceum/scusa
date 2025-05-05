@@ -504,21 +504,31 @@ function loadAnnouncements() {
         // 為所有"詳"按鈕添加點擊事件
         document.querySelectorAll('.detail-btn').forEach(button => {
             button.addEventListener('click', function() {
-                const fileId = this.getAttribute('data-file-id');
-                const targetId = this.getAttribute('data-target');
-                const container = document.getElementById(targetId);
-                
-                // 切換iframe的顯示狀態
-                if (container.style.display === 'none') {
-                    // 使用Google Drive預覽嵌入
-                    container.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" width="100%" height="500px" frameborder="0" allowtransparency="true" allowfullscreen></iframe>`;
-                    container.style.display = 'block';
-                } else {
-                    // 隱藏並清空iframe
-                    container.style.display = 'none';
-                    container.innerHTML = '';
-                }
-            });
+    const fileId = this.getAttribute('data-file-id');
+    const targetId = this.getAttribute('data-target');
+    const container = document.getElementById(targetId);
+
+    // 對應的原始連結
+    const originalLink = this.closest('.announcement').querySelector('.link').href;
+
+    // 檢查是否為 Google Drive PDF 分享連結
+    const isGoogleDrivePDF = /https:\/\/drive\.google\.com\/.*\/d\/[-\w]{25,}/.test(originalLink) || /https:\/\/drive\.google\.com\/file\/d\/[-\w]{25,}/.test(originalLink);
+
+    if (!isGoogleDrivePDF) {
+        window.open(originalLink, '_blank');
+        return;
+    }
+
+    // 切換iframe的顯示狀態
+    if (container.style.display === 'none') {
+        container.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" width="100%" height="500px" frameborder="0" allowtransparency="true" allowfullscreen></iframe>`;
+        container.style.display = 'block';
+    } else {
+        container.style.display = 'none';
+        container.innerHTML = '';
+    }
+});
+
         });
     })
     .catch(error => {
