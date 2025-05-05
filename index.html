@@ -8,21 +8,19 @@
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
     <style>
         body {
-            overflow: hidden; /* 隱藏滾動條 */
+            overflow: hidden;
         }
 
         .welcome-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 1000; /* 保證歡迎畫面在最上層 */
+            z-index: 1000;
             animation: fadeIn 1s ease-in;
+            text-align: center;
         }
 
         .stamp-container {
@@ -41,19 +39,24 @@
         }
 
         .stamp {
-            width: 200px; /* 根據需要調整印章大小 */
-            margin-bottom: 20px; /* 印章和文字之間的間距 */
+            width: 200px;
+            margin-bottom: 20px;
         }
 
         h1 {
-            font-size: 24px; /* 根據需要調整字體大小 */
-            color: #ffffff; /* 根據需要調整字體顏色 */
+            font-size: 24px;
             animation: slideDown 1s forwards;
         }
 
         @keyframes slideDown {
             from { transform: translateY(-50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
+        }
+
+        #stats {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #ccc;
         }
     </style>
 </head>
@@ -63,34 +66,45 @@
             <img src="logo2.PNG" alt="東吳大學學生會" class="stamp" />
         </div>
         <h1>歡迎光臨東吳大學學生會</h1>
-        <!--計數器的圖像已被設定的鏈接站點。不要執行代碼的任何修改。-->
-        <h1><a href="https://www.stylemap.co.jp/counter/taiwan/"><img src="https://www.f-counter.net/j/64/1727947341/" alt="網站計數器"></a> <h1></h1>
 
-    </div>
-
-    <div class="container">
-        <!-- 你的原有內容 -->
-
+        <!-- 顯示 Google Sheets 數據 -->
+        <div id="stats">載入中...</div>
     </div>
 
     <script>
-        // 根據用戶的裝置導向不同的頁面
-        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-        const referrer = document.referrer;
-            // 檢查來源是否包含指定網域
-    const isFromSCUMobile = referrer.includes("https://mobile.sys.scu.edu.tw");
+        // 四秒後導向到 sa.html
+        setTimeout(() => {
+            window.location.href = "sa.html";
+        }, 4000);
 
+        // 載入 Google Sheets 數據
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchGoogleSheetData();
+        });
 
-    setTimeout(() => {
-        if (isFromSCUMobile || isMobile) {
-            window.location.href = "sa.html"; // 手機版頁面
-        } else {
-            window.location.href = "sa.html"; // 電腦版頁面
+        function fetchGoogleSheetData() {
+            const sheetId = '1Q413gYtQLlxH_mvSAegSZu272OP5bc0_MeDMev4-29I';
+            const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=工作表1`; // 替換為實際工作表名稱
+
+            fetch(sheetUrl)
+                .then(res => res.text())
+                .then(text => {
+                    const json = JSON.parse(text.substring(47).slice(0, -2)); // 去除 JSONP 包裝
+                    const data = json.table.rows;
+
+                    const views = data[0]?.c[0]?.v || 0;
+                    const visitors = data[0]?.c[1]?.v || 0;
+
+                    document.getElementById("stats").innerHTML = `
+                        瀏覽數：${views} 次<br>
+                        訪客：${visitors} 人
+                    `;
+                })
+                .catch(err => {
+                    console.error("無法載入試算表資料：", err);
+                    document.getElementById("stats").textContent = "統計資料載入失敗";
+                });
         }
-    }, 4000); // 4秒後導向
-</script>
-
-
-
+    </script>
 </body>
 </html>
