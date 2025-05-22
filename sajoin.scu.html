@@ -329,123 +329,132 @@ button:active {
     <script src="sa0.js"></script>
 
     <script>
-    document.getElementById("studentId").value = sessionStorage.getItem("user") || "";
-    document.getElementById("randomCode").value = sessionStorage.getItem("randomCode") || "";
+document.getElementById("studentId").value = sessionStorage.getItem("user") || "";
+document.getElementById("randomCode").value = sessionStorage.getItem("randomCode") || "";
 
-    fetch("https://api.ipify.org?format=json")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("userIp").value = data.ip;
-      });
+fetch("https://api.ipify.org?format=json")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("userIp").value = data.ip;
+  });
 
-    function convertTextareaBreaks(text) {
-      return text.replace(/\n/g, "<br>");
+function convertTextareaBreaks(text) {
+  return text.replace(/\n/g, "<br>");
+}
+
+document.getElementById("proposalForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const submitBtn = document.getElementById("submitBtn");
+  submitBtn.disabled = true;
+
+  const imageInput = document.getElementById("imageInput");
+  const imageFile = imageInput.files[0];
+
+  if (imageFile) {
+    if (imageFile.size > 2 * 1024 * 1024) {
+      alert("圖片檔案超過 2MB");
+      submitBtn.disabled = false;
+      return;
     }
 
-    document.getElementById("proposalForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const submitBtn = document.getElementById("submitBtn");
-      submitBtn.disabled = true;
-      
-      const imageInput = document.getElementById("imageInput");
-      const imageFile = imageInput.files[0];
-
-      if (imageFile) {
-        if (imageFile.size > 2 * 1024 * 1024) {
-          alert("圖片檔案超過 2MB");
-          submitBtn.disabled = false;
-          return;
-        }
-
-        const img = new Image();
-        img.onload = async () => {
-          if (img.width > 720) {
-            alert("圖片寬度大於 720px");
-            submitBtn.disabled = false;
-            return;
-          }
-
-          const formData = new FormData();
-          formData.append("image", imageFile);
-          formData.append("type", "file");
-          formData.append("title", "代表圖");
-
-          const response = await fetch("https://api.imgur.com/3/image", {
-            method: "POST",
-            headers: {
-              Authorization: "Client-ID c1f80e25b01fa7c"
-            },
-            body: formData
-          });
-
-          const data = await response.json();
-          document.getElementById("imageUrl").value = data.data.link;
-          submitToGoogleForm();
-        };
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          img.src = e.target.result;
-        }
-        reader.readAsDataURL(imageFile);
-      } else {
-        submitToGoogleForm();
+    const img = new Image();
+    img.onload = async () => {
+      if (img.width > 720) {
+        alert("圖片寬度大於 720px");
+        submitBtn.disabled = false;
+        return;
       }
 
-      function submitToGoogleForm() {
-        submitBtn.disabled = true;
-        const textarea1 = form.querySelector("textarea[name='entry.512931816']");
-        const textarea2 = form.querySelector("textarea[name='entry.139863505']");
-        textarea1.value = convertTextareaBreaks(textarea1.value);
-        textarea2.value = convertTextareaBreaks(textarea2.value);
+      const formData = new FormData();
+      formData.append("image", imageFile); // ImageBB 的圖片檔案欄位是 'image'
 
-        const formData = new FormData(form);
+      // ImageBB API Key
+      const imageBbApiKey = "6118eb0c861914be5f3f20f118a1d0df";
+      const imageBbUploadUrl = `https://api.imgbb.com/1/upload?key=${imageBbApiKey}`;
 
-        fetch("https://docs.google.com/forms/d/e/1FAIpQLSeXyPlVPtg5Ub-cCR1HzxT1OChxhPrfkTW-oVe3-M8N17qdqw/formResponse", {
-        method: "POST",
-        mode: "no-cors",
-        body: formData
-        }).then(() => {
-        alert("已成功送出！");
-        form.reset();
-        submitBtn.disabled = false;
-        window.location.href = "sajoin.html"; // 成功後跳轉頁面
-        }).catch(() => {
-        alert("送出失敗，請稍後再試。");
-        submitBtn.disabled = false;
+      try {
+        const response = await fetch(imageBbUploadUrl, {
+          method: "POST",
+          // ImageBB 通常不需要特殊的 headers，API key 已經在 URL 中
+          body: formData
         });
 
+        const data = await response.json();
+
+        if (data.success) { // 檢查 ImageBB 的成功狀態
+          document.getElementById("imageUrl").value = data.data.url; // ImageBB 返回的 URL 通常在 data.data.url
+          submitToGoogleForm();
+        } else {
+          // 處理 ImageBB 上傳失敗的情況
+          alert("圖片上傳失敗，請稍後再試。原因：" + (data.error?.message || "未知錯誤"));
+          submitBtn.disabled = false;
+        }
+      } catch (error) {
+        alert("圖片上傳發生錯誤：" + error.message);
+        submitBtn.disabled = false;
       }
-    });
-
-
-
-    if (!sessionStorage.getItem("user") || !sessionStorage.getItem("randomCode")) {
-    window.location.href = "login.html";
+    };
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      img.src = e.target.result;
+    }
+    reader.readAsDataURL(imageFile);
+  } else {
+    submitToGoogleForm();
   }
 
+  function submitToGoogleForm() {
+    submitBtn.disabled = true;
+    const textarea1 = form.querySelector("textarea[name='entry.512931816']");
+    const textarea2 = form.querySelector("textarea[name='entry.139863505']");
+    textarea1.value = convertTextareaBreaks(textarea1.value);
+    textarea2.value = convertTextareaBreaks(textarea2.value);
 
+    const formData = new FormData(form);
 
-
-  const consentBox = document.getElementById('x0xconsent-box');
-    const mainContent = document.getElementById('x0xmain-content');
-    const consentCheckbox = document.getElementById('x0xconsent-checkbox');
-    const agreeBtn = document.getElementById('x0xagree-btn');
-
-    // 每次開啟網頁都需要同意
-    consentBox.style.display = 'flex';
-    mainContent.style.display = 'none';
-
-    // 當勾選同意框時，啟用同意按鈕
-    consentCheckbox.addEventListener('change', () => {
-      agreeBtn.disabled = !consentCheckbox.checked;
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSeXyPlVPtg5Ub-cCR1HzxT1OChxhPrfkTW-oVe3-M8N17qdqw/formResponse", {
+      method: "POST",
+      mode: "no-cors",
+      body: formData
+    }).then(() => {
+      alert("已成功送出！");
+      form.reset();
+      submitBtn.disabled = false;
+      window.location.href = "sajoin.html"; // 成功後跳轉頁面
+    }).catch(() => {
+      alert("送出失敗，請稍後再試。");
+      submitBtn.disabled = false;
     });
 
-    // 當按下同意按鈕，隱藏同意書並顯示內容
-    agreeBtn.addEventListener('click', () => {
-      consentBox.style.display = 'none';
-      mainContent.style.display = 'block';
-    });
+  }
+});
+
+
+if (!sessionStorage.getItem("user") || !sessionStorage.getItem("randomCode")) {
+  window.location.href = "login.html";
+}
+
+
+const consentBox = document.getElementById('x0xconsent-box');
+const mainContent = document.getElementById('x0xmain-content');
+const consentCheckbox = document.getElementById('x0xconsent-checkbox');
+const agreeBtn = document.getElementById('x0xagree-btn');
+
+// 每次開啟網頁都需要同意
+consentBox.style.display = 'flex';
+mainContent.style.display = 'none';
+
+// 當勾選同意框時，啟用同意按鈕
+consentCheckbox.addEventListener('change', () => {
+  agreeBtn.disabled = !consentCheckbox.checked;
+});
+
+// 當按下同意按鈕，隱藏同意書並顯示內容
+agreeBtn.addEventListener('click', () => {
+  consentBox.style.display = 'none';
+  mainContent.style.display = 'block';
+});
 
     </script>
 </body>
