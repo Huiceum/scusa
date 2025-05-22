@@ -16,12 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitEditBtn = document.getElementById('submitEditBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
 
-    // ImageKit.io 配置
-    const imagekitConfig = {
-        publicKey: 'public_cxvDgxuhxYzQXziFM3+2jCT366I=',
-        urlEndpoint: 'https://ik.imagekit.io/3rzkmmncw',
-        authenticationEndpoint: 'https://script.google.com/macros/s/AKfycbwk4uOVXPP3_g-soriGy6lVMe5uxSeCrKKniyt243iaZoahUB2gezomiWtY_CVF_FFBsQ/exec'
-    };
+    // ImgBB API Key (請替換為您實際的 API Key)
+    const imgbbApiKey = '5a5b7d1809c9ccadfa1183fe879050c7'; // 替換為您的實際 API Key
 
     let currentAvatarUrl = sessionStorage.getItem('avatarUrl') || 'user.png'; // 用於追踪當前頭像 URL
 
@@ -44,48 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     populateFormData(); // 頁面加載時立即填充數據
 
-    // --- 3. ImageKit.io 上傳邏輯 ---
-    async function uploadToImageKit(file) {
-        try {
-            // 獲取認證參數
-            const authResponse = await fetch(imagekitConfig.authenticationEndpoint);
-            if (!authResponse.ok) {
-                throw new Error('獲取ImageKit認證參數失敗');
-            }
-            const authParams = await authResponse.json();
-
-            // 準備上傳數據
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('publicKey', imagekitConfig.publicKey);
-            formData.append('signature', authParams.signature);
-            formData.append('expire', authParams.expire);
-            formData.append('token', authParams.token);
-            
-            // 可選：設置文件名（使用時間戳避免重複）
-            const fileName = `avatar_${Date.now()}_${file.name}`;
-            formData.append('fileName', fileName);
-
-            // 上傳到ImageKit.io
-            const uploadResponse = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!uploadResponse.ok) {
-                const errorData = await uploadResponse.json();
-                throw new Error(`ImageKit上傳失敗: ${errorData.message || uploadResponse.statusText}`);
-            }
-
-            const result = await uploadResponse.json();
-            return result.url; // 返回上傳成功的圖片URL
-        } catch (error) {
-            console.error('ImageKit上傳錯誤:', error);
-            throw error;
-        }
-    }
-
-    // --- 頭像上傳邏輯 ---
+    // --- 3. 頭像上傳邏輯 ---
     avatarUploadInput.addEventListener('change', async (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -108,11 +63,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // 顯示載入動畫並上傳圖片
         showLoadingOverlay('上傳圖片中...');
         try {
-            const imageUrl = await uploadToImageKit(file);
-            currentAvatarUrl = imageUrl; // 更新當前頭像 URL
-            console.log('圖片上傳成功:', currentAvatarUrl);
-            loadingMessageText.textContent = '圖片上傳完成！';
-            setTimeout(() => { hideLoadingOverlay(); }, 500); // 短暫顯示成功訊息
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('key', imgbbApiKey); // 您的 ImgBB API Key
+            formData.append('expiration', 600); // 圖片在 ImgBB 上保留 10 分鐘 (可調整)
+
+            const response = await fetch('https://api.imgbb.com/1/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`ImgBB 上傳失敗: ${errorData.error.message || response.statusText}`);
+            }
+
+            const result = await response.json();
+            if (result.success) {
+                currentAvatarUrl = result.data.url; // 更新當前頭像 URL
+                console.log('圖片上傳成功:', currentAvatarUrl);
+                loadingMessageText.textContent = '圖片上傳完成！';
+                setTimeout(() => { hideLoadingOverlay(); }, 500); // 短暫顯示成功訊息
+            } else {
+                throw new Error('ImgBB 上傳失敗，無成功數據。');
+            }
         } catch (error) {
             console.error('圖片上傳錯誤:', error);
             alert(`圖片上傳失敗：${error.message}`);
