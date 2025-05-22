@@ -29,7 +29,6 @@
 /* 頁面容器設置，使用 Flexbox 佈局 */
 .container {
     display: flex;
-    height: 100vh;
     color: var(--text-light);
     min-height: 100vh; /* 确保页面最小高度为100vh */
     overflow-x: hidden; /* 隱藏超出容器範圍的內容 */
