@@ -1,153 +1,57 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東吳大學學生會</title>
-    <!-- 主要站點的 CSS -->
-    <link rel="stylesheet" href="sa.css">
-    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <title>註冊頁面 - 星空背景</title>
+    <!-- Link to the external CSS for the star background -->
+    <link rel="stylesheet" href="stars.css">
+    <link rel="stylesheet" href="lo&re.css">
+    <link rel="icon" href="icon.PNG" type="image/x-icon">
 
     <style>
-        /* 顏色變數定義 (從註冊頁面複製，可以保留) */
-        :root {
-            --text-light: #f0f0f0;         /* 淺色文字 */
-            --text-white: #ffffff;         /* 白色文字 */
-            --sidebar-bg: #181818;         /* 側邊欄背景 */
-            --main-bg: #010010;            /* 主背景色 */ /* 注意: 如果sa.css定義了body背景，這裡的--main-bg主要用於其他模組內的背景 */
-            --border-color: #455b76;       /* 邊框顏色 */
-            --link-hover: rgb(205, 47, 71); /* 連結懸停顏色 */
-            --link-color: #6887ae;         /* 一般連結顏色 */
-
-
-            /* 新增/調整的顏色變數 (從註冊頁面複製) */
-            --form-bg: rgba(24, 24, 24, 0.9); /* 表單背景，稍微透明 */
-            --form-border: rgba(69, 91, 118, 0.6); /* 表單邊框，稍微透明 */
-            --input-bg: rgba(255, 255, 255, 0.08); /* 輸入框背景，微透明 */
-            --input-border: rgba(69, 91, 118, 0.4); /* 輸入框邊框，微透明 */
-            --input-focus-border: var(--link-color); /* 輸入框聚焦邊框 */
-            --input-text: var(--text-light); /* 輸入框文字顏色 */
-            --placeholder-color: rgba(240, 240, 240, 0.5); /* 佔位符文字顏色 */
-            --error-color: #e57373;        /* 錯誤訊息顏色 (較柔和的紅) */
-            --success-color: #81c784;      /* 成功訊息顏色 (較柔和的綠) */
-            --warning-color: #ffb74d;      /* 警告顏色 (橘色) */
-            --modal-bg: var(--main-bg); /* 彈窗內容背景 */
-            --modal-header-bg: var(--sidebar-bg); /* 彈窗頭部背景 */
-            --modal-footer-bg: var(--sidebar-bg); /* 彈窗底部背景 */
-        }
-
-        /* 從註冊頁面複製並調整的 CSS 樣式 */
-
-        /* !!! 移除全局重置和 body 樣式 !!! */
-        /*
-        *, *::before, *::after { box-sizing: border-box; } // 移除
-        body { ... } // 移除，由 sa.css 控制
-        */
-        /* 新增：登入按鈕容器樣式 */
-        .login-link-container {
-            margin-top: 20px; /* 與註冊按鈕的間距 */
-            text-align: center;
-            /* This div will be managed by JS display property */
-             display: none; /* 默認隱藏，只在註冊表單顯示時通過 JS 設置為 display: block */
-             /* 添加過渡效果 */
-             opacity: 0;
-             transition: opacity 0.5s ease, transform 0.5s ease;
-             transform: translateY(10px); /* 初始位置 */
-        }
-
-        /* 新增：登入按鈕樣式 (次要按鈕) */
-        .btn-secondary {
-             /* Inherit basic properties from .btn but override appearance */
-            display: inline-block; /* 可以是 inline-block 或 block */
-            width: 100%; /* Match primary button width */
-            padding: 13px 15px; /* Adjust padding for border */
-            font-size: 17px;
-            font-weight: 500; /* Slightly less bold */
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.5px;
-            text-decoration: none;
-            text-align: center;
-
-            /* Secondary button specific styles */
-            background-color: transparent; /* 透明背景 */
-            color: var(--btn-secondary-color); /* 使用次要顏色變數 */
-            border: 2px solid var(--btn-secondary-border); /* 邊框 */
-            box-shadow: none; /* 移除默認陰影 */
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--btn-secondary-hover-bg); /* 懸停背景 */
-            color: var(--btn-secondary-hover-color); /* 懸停文字顏色 */
-            border-color: var(--btn-secondary-hover-border); /* 懸停邊框顏色 */
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* subtle hover shadow */
-        }
-
-        .btn-secondary:active {
-            transform: scale(0.98); /* 保留點擊縮放效果 */
-            background-color: rgba(104, 135, 174, 0.2); /* 點擊時稍微改變背景 */
-        }
-
-        /* 移除次要按鈕的波紋效果 */
-        .btn-secondary::after {
-             display: none;
-        }
-
-        /* 修改：調整動態區域的顯示/隱藏過渡 */
-        /* 讓它們在 active 時也能看到後面的登入按鈕容器 */
-        #registrationForm.active {
-             /* Keep its active styles */
-             opacity: 1;
-             visibility: visible;
-             transform: translateY(0);
-             display: block;
-             /* Added margin-bottom to create space before the login link */
-             margin-bottom: 20px;
-        }
-
-        /* 定義包裹註冊表單內容的新容器樣式 */
-        /* 沿用原 registrationContainer 的 ID 樣式，但調整 margin 等使其在 main-content 中正常顯示 */
-        #registrationContainer {
-            width: 90%;
-            max-width: 450px;
-            background-color: var(--form-bg);
-            border-radius: 12px;
-            border: 1px solid var(--form-border);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            padding: 40px; /* 增加內邊距 */
-            position: relative; /* 相對定位 */
-            z-index: 1; /* 確保在背景上 (如果 main-content 有背景) */
-            overflow: hidden;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            opacity: 1; /* 默認顯示 */
-            margin: 30px auto; /* 在 main-content 中居中並添加上下外邊距 */
-            /* 注意：移除 flex 相關屬性，因為它不再是 body 的直接 flex 子項 */
-        }
-
-        #registrationContainer:hover {
-            transform: translateY(-8px); /* 稍微上移 */
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        /* 其他所有從註冊頁面複製的樣式，保留原來的選擇器 */
-        /* 它們會應用到 #registrationContainer 內的元素 */
-
-        #logo { /* 這裡的 #logo 應該是指彈窗裡的 logo */
+        /* Styles for the login form, modal, etc., remain here */
+        /* The global '*' reset and body's font-family are now in stars.css
+           or can be defined here if preferred for the main content. */
+        #logo {
             width: 45px;
             height: 45px;
-            /* 這裡不反轉，讓 modal-header 裡的規則生效 */
+        }
+        body {
+             /* Ensure these are set if not globally by '*' or other body rules */
+            margin: 0;
+            padding: 0; /* Body padding might interfere with full screen bg */
+             /* overflow: hidden; /* Prevent scrollbars - Now in stars.css */
+             /* background-color: #000010; /* Fallback background - Now in stars.css */
+            font-family: 'Arial', sans-serif; /* Moved from original '*' for clarity */
         }
 
-        h1 { /* Applies to h1 inside #registrationContainer */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            /* background-color: rgba(0, 0, 0, 0); /* Slightly transparent to see bg */
+             background-color:rgba(255, 255, 255, 0); /* Keep white background for form content */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            position: relative; /* Crucial for z-index and centering */
+            z-index: 1; /* Above constellation background */
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 5vh auto; /* Center the container vertically and horizontally */
+        }
+
+        .container:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: var(--link-color);
+            color: #2e7d32;
             position: relative;
             padding-bottom: 15px;
-            font-size: 28px;
         }
 
         h1::after {
@@ -158,97 +62,84 @@
             transform: translateX(-50%);
             width: 60px;
             height: 3px;
-            background-color: var(--link-color);
-            transition: width 0.4s ease;
+            background-color: #2e7d32;
+            transition: width 0.3s ease;
         }
 
-        #registrationContainer:hover h1::after {
+        .container:hover h1::after {
             width: 100px;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             position: relative;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 10px;
-            color: var(--text-light);
+            margin-bottom: 8px;
+            color: #555;
             font-weight: 500;
             transition: color 0.3s ease;
-            font-size: 15px;
         }
 
         .form-group:focus-within label {
-            color: var(--link-color);
+            color: #2e7d32;
         }
 
         .form-control {
             width: 100%;
-            padding: 14px 18px;
-            border: 1px solid var(--input-border);
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
             border-radius: 6px;
             font-size: 16px;
             transition: all 0.3s ease;
             outline: none;
-            background-color: var(--input-bg);
-            color: var(--input-text);
-            caret-color: var(--link-color);
-        }
-        .form-control::placeholder {
-            color: var(--placeholder-color);
-            opacity: 1;
+            background-color: rgba(255,255,255,0.8);
         }
 
         .form-control:focus {
-            border-color: var(--input-focus-border);
-            box-shadow: 0 0 0 3px rgba(104, 135, 174, 0.2);
-            background-color: rgba(255, 255, 255, 0.12);
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+            background-color: #fff;
         }
 
         .form-error {
-            color: var(--error-color);
-            font-size: 13px;
-            margin-top: 6px;
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 5px;
             transition: all 0.3s ease;
             max-height: 0;
             overflow: hidden;
-            opacity: 0;
-            transform: translateY(-5px);
         }
 
         .form-error.active {
-            max-height: 30px;
-            opacity: 1;
-            transform: translateY(0);
+            max-height: 50px;
+            margin-top: 5px;
         }
 
         .btn {
             display: block;
             width: 100%;
-            padding: 15px;
-            background-color: var(--link-color);
-            color: var(--text-white);
+            padding: 14px;
+            background-color: #2e7d32;
+            color: white;
             border: none;
             border-radius: 6px;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            letter-spacing: 0.5px;
         }
 
         .btn:hover {
-            background-color: var(--link-hover);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background-color: #1b5e20;
         }
 
         .btn:active {
             transform: scale(0.98);
-            background-color: color-mix(in srgb, var(--link-hover) 90%, black);
         }
 
         .btn::after {
@@ -258,10 +149,10 @@
             left: 50%;
             width: 5px;
             height: 5px;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.5);
             opacity: 0;
             border-radius: 100%;
-            transform: scale(1, 1) translate(-50%, -50%);
+            transform: scale(1, 1) translate(-50%);
             transform-origin: 50% 50%;
         }
 
@@ -271,461 +162,365 @@
 
         @keyframes ripple {
             0% {
-                transform: scale(0, 0) translate(-50%, -50%);
-                opacity: 0.4;
+                transform: scale(0, 0);
+                opacity: 0.5;
             }
             100% {
-                transform: scale(30, 30) translate(-50%, -50%);
+                transform: scale(20, 20);
                 opacity: 0;
             }
         }
 
-        /* --- Modal Styling (Keep Global) --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
+  /* Enhanced Terms Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
 
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
 
-        .modal-container {
-            background-color: var(--modal-bg);
-            width: 95%;
-            max-width: 600px;
-            max-height: 100vh;
-            border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            transform: scale(0.95);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
-            border: 1px solid var(--form-border);
-        }
+.modal-container {
+    background-color: #fff;
+    width: 90%;
+    max-width: 550px;
+    max-height: 85vh;
+    border-radius: 12px;
+    padding: 0; /* Remove padding to control inner sections better */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    transform: translateY(-30px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden; /* Hide overflow */
+}
 
-        .modal-overlay.active .modal-container {
-            transform: scale(1);
-        }
+.modal-overlay.active .modal-container {
+    transform: translateY(0) scale(1);
+}
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            background-color: var(--modal-header-bg);
-            color: var(--text-white);
-            border-bottom: none;
-            position: relative;
-        }
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #2e7d32;
+    color: white;
+    border-bottom: none;
+}
 
-        .modal-title {
-            font-size: 26px;
-            color: var(--text-white);
-            margin: 0;
-            font-weight: 600;
-        }
-        .modal-header #logo {
-             filter: none; /* 彈窗頭部背景較深，logo不用反轉 */
-        }
+.modal-title {
+    font-size: 24px;
+    color: white;
+    margin: 0;
+    font-weight: 600;
+}
 
+.modal-content {
+    padding: 25px 30px;
+    max-height: 60vh;
+    overflow-y: auto;
+    line-height: 1.6;
+    scrollbar-width: thin;
+    scrollbar-color: #2e7d32 #f0f0f0;
+}
 
-        .modal-content {
-            padding: 30px;
-            max-height: 65vh;
-            overflow-y: auto;
-            line-height: 1.7;
-            color: var(--text-light);
-            scrollbar-width: thin;
-            scrollbar-color: var(--link-color) var(--modal-bg);
-        }
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
 
-        .modal-content::-webkit-scrollbar {
-            width: 8px;
-        }
+.modal-content::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
 
-        .modal-content::-webkit-scrollbar-track {
-            background: var(--modal-bg);
-            border-radius: 4px;
-        }
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: #2e7d32;
+    border-radius: 4px;
+}
 
-        .modal-content::-webkit-scrollbar-thumb {
-            background-color: var(--link-color);
-            border-radius: 4px;
-            border: 2px solid var(--modal-bg);
-        }
+/* Password warning section */
+.password-warning {
+    background-color: #ffffff;
+    border-left: 5px solid #d32f2f;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
 
-        /* Password warning section */
-        .password-warning {
-            background-color: rgba(255, 183, 77, 0.1);
-            border-left: 5px solid var(--warning-color);
-            padding: 18px 25px;
-            margin: 25px 0;
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-        }
+.password-warning:hover {
+    transform: translateX(3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
 
-        .password-warning:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-        }
-
-        .password-warning h2 {
-            color: var(--warning-color);
-            margin-top: 0;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .password-warning h3 {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            font-weight: 400;
-            margin-bottom: 0;
-        }
-
-        /* Terms sections styling */
-        .terms-section {
-            margin: 25px 0;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            padding-left: 15px;
-        }
-
-        .terms-section:hover {
-            background-color: rgba(69, 91, 118, 0.1);
-            border-radius: 4px;
-        }
-
-        .terms-section:last-child {
-            border-bottom: none;
-            margin-bottom: 10px;
-        }
-
-        .terms-section h3 {
-            color: var(--link-color);
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-            position: relative;
-            padding-left: 28px;
-        }
-
-        .terms-section h3:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 15px;
-            height: 15px;
-            background-color: var(--link-color);
-            border-radius: 50%;
-        }
-
-        .terms-section p {
-            margin: 10px 0 10px 28px;
-            color: var(--text-light);
-            font-size: 1rem;
-        }
-
-        /* Contact section */
-        .contact-section {
-            background-color: rgba(104, 135, 174, 0.1);
-            padding: 18px 25px;
-            border-radius: 6px;
-            margin: 25px 0 15px;
-            border: 1px dashed var(--link-color);
-        }
-
-        .contact-section h3 {
-            color: var(--link-color);
-            font-size: 1.1rem;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
+.password-warning h2 {
+    color: #000000;
+    margin-top: 0;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+}
 
 
-        .contact-section a {
-            color: var(--link-hover);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
 
-        .contact-section a:hover {
-            text-decoration: underline;
-            color: var(--link-color);
-        }
+.password-warning h3 {
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0;
+}
 
-        .modal-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 30px;
-            background-color: var(--modal-footer-bg);
-            border-top: 1px solid var(--border-color);
-        }
+/* Terms sections styling */
+.terms-section {
+    margin: 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
 
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-            flex-grow: 1;
-            margin-right: 20px;
-        }
+.terms-section:hover {
+    padding-left: 5px;
+}
 
-        /* Custom checkbox styling */
-        .custom-checkbox {
-            position: relative;
-            display: inline-block;
-            width: 22px;
-            height: 22px;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
+.terms-section:last-child {
+    border-bottom: none;
+}
 
-        .custom-checkbox input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
+.terms-section h3 {
+    color: #2e7d32;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 22px;
+}
 
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 22px;
-            width: 22px;
-            background-color: var(--modal-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
+.terms-section h3:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background-color: #2e7d32;
+    border-radius: 50%;
+}
 
-        .custom-checkbox:hover input ~ .checkmark {
-            border-color: var(--link-color);
-            box-shadow: 0 0 5px rgba(104, 135, 174, 0.5);
-        }
+.terms-section p {
+    margin: 10px 0 10px 22px;
+    color: #555;
+}
 
-        .custom-checkbox input:checked ~ .checkmark {
-            background-color: var(--link-color);
-            border-color: var(--link-color);
-        }
+/* Contact section */
+.contact-section {
+    background-color: #f9f9f9;
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin: 20px 0 10px;
+}
 
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-            left: 7px;
-            top: 3px;
-            width: 6px;
-            height: 12px;
-            border: solid var(--text-white);
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
+.contact-section a {
+    color: #2e7d32;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
 
-        .custom-checkbox input:checked ~ .checkmark:after {
-            display: block;
-        }
+.contact-section a:hover {
+    color: #1b5e20;
+    text-decoration: underline;
+}
 
-        .checkbox-label {
-            color: var(--text-light);
-            font-weight: 400;
-            transition: color 0.3s ease;
-            font-size: 1rem;
-        }
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #e0e0e0;
+}
 
-        .custom-checkbox input:checked ~ .checkbox-label {
-            color: var(--link-color);
-        }
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
 
-        .close-modal {
-            padding: 12px 25px;
-            background-color: var(--border-color);
-            color: var(--text-light);
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            opacity: 0.6;
-            pointer-events: none;
-            flex-shrink: 0;
-        }
+/* Custom checkbox styling */
+.custom-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+}
 
-        .close-modal.active {
-            background-color: var(--link-color);
-            color: var(--text-white);
-            opacity: 1;
-            pointer-events: all;
-            box-shadow: 0 4px 10px rgba(104, 135, 174, 0.3);
-        }
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
 
-        .close-modal.active:hover {
-            background-color: var(--link-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(205, 47, 71, 0.3);
-        }
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
 
-        .close-modal.active:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(205, 47, 71, 0.2);
-        }
+.custom-checkbox:hover input ~ .checkmark {
+    border-color: #2e7d32;
+}
 
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
 
-        /* --- Dynamic Section Transitions --- */
-        /* These are inside #registrationContainer which is in flow */
-        /* Use display: none/block and opacity/transform transitions */
-        #registrationForm,
-        .verification-area,
-        .message-area,
-        .success-message {
-            position: relative; /* 或 static */
-            width: 100%; /* 佔滿容器寬度 */
-            padding: 20px; /* 恢復特定的內邊距 */
-            margin-top: 20px; /* 恢復特定的外邊距 */
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px); /* 初始狀態稍微下移 */
-            transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
-            pointer-events: none; /* 阻止交互 */
-            overflow-y: auto; /* 允許滾動 */
-            display: none; /* 默認隱藏 */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
 
-             background-color: rgba(69, 91, 118, 0.15); /* 暗色背景 */
-             border-radius: 8px;
-             border: 1px dashed rgba(104, 135, 174, 0.3); /* 虛線邊框 */
-        }
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
 
-         /* Active state for displayed sections */
-        #registrationForm.active,
-        .verification-area.active,
-        .message-area.active,
-        .success-message.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: all;
-            transform: translateY(0); /* 最終狀態 */
-            display: block; /* 顯示 */
-        }
+.checkbox-label {
+    color: #555;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
 
-        /* Special case for the initial form state */
-         #registrationForm {
-              background-color: transparent; /* Default form doesn't need the shaded background */
-              border: none; /* Default form doesn't need the border */
-              padding: 0; /* Remove padding from the form itself, container handles it */
-              margin-top: 0; /* Remove margin-top */
-              display: block; /* Initially visible */
-              opacity: 1;
-              visibility: visible;
-              transform: translateY(0);
-              pointer-events: all;
-         }
+.custom-checkbox input:checked ~ .checkbox-label {
+    color: #2e7d32;
+}
 
+.close-modal {
+    padding: 10px 22px;
+    background-color: #e0e0e0;
+    color: #555;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+    pointer-events: none;
+}
 
-        /* Specific styles for dynamic areas */
-        .verification-area h3,
-        .message-area h3 {
-            color: var(--link-color);
-            margin-bottom: 15px;
-        }
-         .verification-area p,
-         .message-area p {
-              color: var(--text-light);
-              margin-bottom: 20px;
-         }
+.close-modal.active {
+    background-color: #2e7d32;
+    color: white;
+    opacity: 1;
+    pointer-events: all;
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2);
+}
 
-        /* Verification input */
-         .verification-input {
-             text-align: center; /* Center text in input */
-             font-size: 20px; /* Make verification input larger */
-             letter-spacing: 5px; /* Add space between characters */
-         }
+.close-modal.active:hover {
+    background-color: #1b5e20;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.3);
+}
 
-        /* Message area specific styles */
-         .message-area.error h3,
-         .message-area.error p {
-             color: var(--error-color); /* Red color for error messages */
-         }
-         .message-area.success h3,
-         .message-area.success p {
-              color: var(--success-color); /* Green color for success messages (if used) */
-         }
-         .message-area.warning h3,
-         .message-area.warning p {
-             color: var(--warning-color); /* Orange color for warning messages (if used) */
-         }
+.close-modal.active:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(46, 125, 50, 0.2);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
 
 
-        /* 註冊成功訊息 */
-        .success-message {
-            background-color: rgba(129, 199, 132, 0.15);
-            border: 1px dashed rgba(129, 199, 132, 0.4);
-            color: var(--success-color);
-        }
 
-        .success-icon {
-            display: inline-block;
-            font-size: 60px;
-            margin-bottom: 15px;
-            color: var(--success-color);
-            animation: pulse 1s infinite;
-        }
-         @keyframes pulse {
-             0% { transform: scale(1); opacity: 1; }
-             50% { transform: scale(1.1); opacity: 0.8; }
-             100% { transform: scale(1); opacity: 1; }
-         }
+/* For mobile responsiveness */
+@media (max-width: 576px) {
+    .modal-container {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .modal-header {
+        padding: 15px 20px;
+    }
+    
+    .modal-title {
+        font-size: 20px;
+    }
+    
+    .modal-content {
+        padding: 20px;
+    }
+    
+    .modal-footer {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .checkbox-container {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .close-modal {
+        width: 100%;
+    }
+}
 
-
-        /* Loading indicator (Keep Global) */
+        /* Loading indicator */
         .loader {
-            display: none;
+            display: none; /* Initially hidden */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(30, 28, 57, 0.086);
-            z-index: 9999;
+            background: rgba(0, 0, 10, 0.8); /* Darker loader bg */
+            z-index: 9999; /* Highest z-index */
             justify-content: center;
             align-items: center;
-            transition: opacity 0.3s ease;
-            opacity: 0;
-            pointer-events: none;
         }
-        .loader.active {
-            display: flex;
-            opacity: 1;
-            pointer-events: all;
-        }
-
 
         .loader-spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid rgba(104, 135, 174, 0.3);
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(46, 125, 50, 0.3);
             border-radius: 50%;
-            border-top-color: var(--link-color);
+            border-top-color: #4caf50; /* Brighter green for spinner */
             animation: spin 1s linear infinite;
         }
 
@@ -735,259 +530,235 @@
             }
         }
 
-        /* For mobile responsiveness */
-        @media (max-width: 600px) {
-             /* body 樣式由 sa.css 控制 */
-            #registrationContainer { /* 針對註冊表單容器 */
-                padding: 30px 20px;
-                max-width: 95%;
-                 margin: 2vh auto; /* 垂直外邊距小一點 */
-                 align-self: flex-start; /* 在手機上靠頂部對齊 (如果 main-content 是 flex) */
-            }
-             h1 { font-size: 24px; margin-bottom: 25px; }
-            .modal-container { width: 98%; max-width: none; margin: 1vh auto; }
-
-            .modal-header { padding: 15px 20px; flex-direction: column; align-items: flex-start; }
-             .modal-header #logo { margin-top: 10px; }
-
-            .modal-title { font-size: 22px; }
-            .modal-content { padding: 20px; }
-            .password-warning { padding: 15px 20px; margin: 20px 0; }
-            .password-warning h2 { font-size: 1.2rem; }
-             .password-warning h3 { font-size: 1rem; }
-            .terms-section h3 { font-size: 1.1rem; padding-left: 25px; }
-             .terms-section h3:before { width: 13px; height: 13px; }
-             .terms-section p { margin-left: 25px; font-size: 0.95rem; }
-            .contact-section { padding: 15px 20px; margin: 20px 0 10px; }
-            .modal-footer { padding: 15px 20px; flex-direction: column; gap: 15px; }
-            .checkbox-container { margin-right: 0; margin-bottom: 10px; width: 100%; }
-            .custom-checkbox { width: 20px; height: 20px; }
-            .checkmark { width: 20px; height: 20px; }
-             .checkmark:after { left: 6px; top: 2px; width: 5px; height: 10px; }
-             .checkbox-label { font-size: 0.9rem; }
-            .close-modal { width: 100%; padding: 12px; }
-             .success-icon { font-size: 50px; }
-             .verification-input { font-size: 18px; letter-spacing: 3px; }
+        /* 驗證碼輸入區域樣式 */
+        .verification-area {
+            display: none; /* Initially hidden */
+            text-align: center;
+            padding: 20px;
+            background-color: #fff; /* Background for this area */
+            border-radius: 8px;
+            margin-top: 20px;
+            transform: translateY(-10px); /* Animation effect */
+            opacity: 0;
+            transition: all 0.5s ease;
         }
-         @media (max-width: 380px) {
-              #registrationContainer { padding: 25px 15px; }
-               .form-control { padding: 12px 15px; }
+
+        .verification-area.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .verification-area h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .verification-area p {
+             color: #555;
+             margin-bottom: 20px;
+        }
+
+        .verification-area .form-group {
+            margin-bottom: 0; /* Less bottom margin for single input */
+        }
+
+         /* Style for the verification input */
+         .verification-input {
+             text-align: center; /* Center text in input */
+         }
+
+         /* Style for general message area */
+         .message-area {
+            display: none; /* Initially hidden */
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95); /* White background */
+            border-radius: 8px;
+            margin-top: 20px;
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: all 0.5s ease;
+         }
+
+         .message-area.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+         }
+
+         .message-area h3 {
+             color: #2e7d32;
+             margin-bottom: 15px;
+         }
+
+         .message-area p {
+             color: #555;
+         }
+
+         .message-area.error h3,
+         .message-area.error p {
+             color: #d32f2f; /* Red color for error messages */
          }
 
 
-                 /* 註冊按鈕樣式 (沿用 .btn 樣式) */
-        #submitBtn {
-             margin-bottom: 15px; /* 在註冊按鈕下方添加一些空間 */
+        /* 註冊成功訊息 */
+        .success-message {
+            display: none; /* Initially hidden */
+            text-align: center;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            color: #2e7d32;
+            margin-top: 20px;
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: all 0.5s ease;
         }
 
-
-        /* 登入按鈕樣式 */
-        .login-btn {
-            display: block; /* 塊級元素佔滿寬度 */
-            width: 100%;
-            padding: 15px; /* 與註冊按鈕相同的內邊距 */
-            background-color: var(--login-btn-bg); /* 使用新的顏色變數 */
-            color: var(--login-btn-text); /* 使用新的顏色變數 */
-            border: var(--login-btn-border); /* 使用新的顏色變數 */
-            border-radius: 6px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center; /* 文字居中 */
-            text-decoration: none; /* 移除下劃線 */
-            letter-spacing: 0.5px;
+        .success-message.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
         }
 
-        .login-btn:hover {
-            background-color: var(--login-btn-hover-bg); /* 使用新的顏色變數 */
-            color: var(--login-btn-hover-text); /* 使用新的顏色變數 */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        .success-icon {
+            display: inline-block;
+            font-size: 48px;
+            margin-bottom: 15px;
         }
-
-        .login-btn:active {
-            transform: scale(0.98);
-            background-color: color-mix(in srgb, var(--login-btn-hover-bg) 90%, black);
-        }
-
-
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <!-- 漢堡選單按鈕 -->
-        <div class="hamburger-menu" id="hamburger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
+    <!-- These divs are for the Three.js background -->
+    <div id="constellation-bg"></div>
+    <div id="star-label"></div>
+<!-- The updated HTML for the terms modal section -->
+<div class="modal-overlay active" id="termsModal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2 class="modal-title">使用者條款及隱私政策</h2>
+            <img src="logo.png" alt="Logo" id="logo">
+
         </div>
-
-        <!-- 手機版側邊欄 -->
-        <nav class="sidebar" id="sidebar">
-            <div class="logo">
-                <img src="logo.png" alt="Logo">
-                <div class="site-name"></div>
+        <div class="modal-content">
+            <p>歡迎您使用我們的服務！在使用前，請詳細閱讀以下條款。</p>
+            
+            <!-- Password warning with enhanced styling -->
+            <div class="password-warning">
+                <h2>切勿提供個人常用帳號密碼！</h2>
+                <h3>現在這個專案正在BETA測試當中，為了限流AI使用次數，因此對用戶做帳號管理，您註冊的資料會直接傳到我的電腦，為了保護我們雙方的安全，切勿使用您常用的社群平台密碼作為密碼！</h3>
             </div>
-            <ul class="nav-links" id="mobile-nav">
-                <!-- 動態加載的導航項目將插入此處 -->
-            </ul>
-        </nav>
-
-        <div class="main-content">
-            <!-- 桌面版導航欄 -->
-            <div class="navbar">
-                <ul class="nav-options" id="nav-container">
-                    <!-- 動態加載的導航項目將插入此處 -->
-                </ul>
+            
+            <!-- Terms sections with better organization -->
+            <div class="terms-section">
+                <h3>個人資料的收集與使用</h3>
+                <p>我會收集您的電子郵件及相關資訊，這些資訊將用於您的帳戶管理、服務提供、及安全維護。我們也會收集您的IP地址以防止濫用。</p>
             </div>
-
-            <!-- START: 註冊表單內容 (從原頁面複製並放在 main-content 內) -->
-            <!-- 這個 div 保留原 ID 以便 JS 引用 -->
-            <div class="registration-module" id="registrationContainer">
-                <!-- Title dynamically changed by JS -->
-                <h1 id="formTitle">創建帳號</h1>
-
-                <!-- Step 1: Student ID/Password Form -->
-                <!-- Add 'active' class initially or let JS handle it -->
-                <form id="registrationForm" autocomplete="off">
-                    <div class="form-group">
-                        <label for="studentId">學號</label>
-                        <input type="text" class="form-control" id="studentId" name="entry.236193576" placeholder="請輸入您的8碼學號" required inputmode="numeric" pattern="\d{8}" maxlength="8">
-                        <div class="form-error" id="studentIdError"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">密碼</label>
-                        <input type="password" class="form-control" id="password" name="entry.1800516097" placeholder="請輸入4碼數字密碼" required inputmode="numeric" maxlength="4">
-                        <div class="form-error" id="passwordError"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword">確認密碼</label>
-                        <input type="password" class="form-control" id="confirmPassword" placeholder="請再次輸入4碼數字密碼" required inputmode="numeric" maxlength="4">
-                        <div class="form-error" id="confirmPasswordError"></div>
-                    </div>
-                    <input type="hidden" id="randomCode" name="entry.1005547065" value="">
-                    <input type="hidden" id="ipAddress" name="entry.7502784" value="">
-                    <button type="submit" class="btn" id="submitBtn">註冊</button>
-                </form>
-
-                <!-- Step 2: Verification Code Input Area -->
-                <div class="verification-area" id="verificationArea">
-                     <h3>驗證您的帳號</h3>
-                    <p>我們已將驗證碼發送到您的學號所對應的電子信箱。</p>
-                    <form id="verificationForm" autocomplete="off">
-                        <div class="form-group">
-                            <label for="verificationCode">驗證碼</label>
-                            <input type="text" class="form-control verification-input" id="verificationCode" name="entry.12374203" placeholder="請輸入收到的驗證碼" required>
-                            <div class="form-error" id="verificationCodeError"></div>
-                        </div>
-                        <!-- Hidden field for the random code -->
-                        <input type="hidden" id="verificationRandomCode" name="entry.1779860337" value="">
-                        <button type="submit" class="btn" id="verifyBtn">驗證</button>
-                    </form>
-                </div>
-
-                 <!-- Step 1.5 / 2.5 / Error: General Message Area -->
-                <div class="message-area" id="messageArea">
-                    <h3 id="messageTitle"></h3>
-                    <p id="messageText"></p>
-                     <!-- Optional: Add a button to retry or go back -->
-                     <!-- <button type="button" class="btn" id="retryBtn" style="display: none; margin-top: 20px;">重試</button> -->
-                </div>
-
-
-                <!-- Step 3: Success Message -->
-                <div class="success-message" id="successMessage">
-                    <div class="success-icon">✓</div>
-                    <h3>註冊成功！</h3>
-                    <p>您的帳號已經成功建立。</p>
-                </div>
-        <a href="login.html" class="login-btn">已有帳號？立即登入</a>
-
-
-
+            
+            <div class="terms-section">
+                <h3>資料安全</h3>
+                <p>我將採取合理的安全措施保護您的個人資料，避免未經授權的存取、使用或洩露。所有密碼都會經過加密處理。</p>
             </div>
-
-
-            <!-- 浮動球 -->
-            <div id="ball-container">
-                <img id="ball" src="ball7.gif" alt="Ball">
+            
+            <div class="terms-section">
+                <h3>用戶責任</h3>
+                <p>您必須妥善保管您的帳號密碼，並對使用該帳號進行的所有活動負責。若發現任何安全問題，請立即通知我們。</p>
             </div>
-
-            <div class="footer">
-                <div class="footer-content">
-                    <ul class="footer-links" id="footer-links">
-                        <!-- 動態加載的底部鏈接將插入此處 -->
-                    </ul>
-                    <div class="footer-info">
-                        © 2025 東吳大學學生會 版權所有
-                    </div>
-                </div>
+            
+            <div class="terms-section">
+                <h3>條款變更</h3>
+                <p>我們保留隨時修改這些條款的權利。修改後的條款將在網站上公佈。您繼續使用我們的服務，即表示您接受修改後的條款。</p>
+            </div>
+            
+            <!-- Contact section with better styling -->
+            <div class="contact-section">
+                <h3>聯絡我們</h3>
+                <p>如果有任何問題，歡迎直接連絡我們 <a href="mailto:socialworkeplus@gmail.com">socialworkeplus@gmail.com</a></p>
             </div>
         </div>
-
+        <div class="modal-footer">
+            <label class="checkbox-container">
+                <span class="custom-checkbox">
+                    <input type="checkbox" id="termsCheckbox">
+                    <span class="checkmark"></span>
+                </span>
+                <span class="checkbox-label">我已閱讀並同意上述條款</span>
+            </label>
+            <button class="close-modal" id="closeModal">確認</button>
+        </div>
     </div>
+</div>
 
-    <!-- START: 彈窗和載入器 (放在 body 較高層級，以便全螢幕顯示) -->
-    <div class="modal-overlay" id="termsModal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h2 class="modal-title">東吳大學學生會帳號註冊同意書</h2>
-                 <img src="favicon.png" alt="Logo" id="logo">
+    <!-- 註冊表單區域 -->
+    <div class="container" id="registrationContainer">
+        <!-- Title dynamically changed by JS -->
+        <h1 id="formTitle">創建帳號</h1>
+
+        <!-- Step 1: Email/Password Form -->
+        <form id="registrationForm" autocomplete="off">
+            <div class="form-group">
+                <label for="email">電子信箱</label>
+                <input type="email" class="form-control" id="email" name="entry.250472257" placeholder="請輸入您的電子信箱" required>
+                <div class="form-error" id="emailError"></div>
             </div>
-            <div class="modal-content">
-                <p>歡迎您使用我們的服務！在使用前，請詳細閱讀以下條款。</p>
-                <div class="password-warning">
-                    <h2>密碼設定須知</h2>
-                    <h3>註冊時所設定的密碼會直接傳到學生會的後台，不必與東吳大學校務行政系統的密碼相同，僅作為學生會服務所需的認證用途。為確保註冊的學生擁有東吳大學的學生資格，註冊過程中會使用學校電子郵件驗證<a href="https://webmail.scu.edu.tw/" target="_blank" style="color: #d5e2e6;"> webmail.scu.edu.tw</a>（帳號密碼預設皆為學號8碼），請先準備以完成驗證程序。</h3>
-                </div>
-                <div class="terms-section">
-                    <h3>個人資料的收集與使用</h3>
-                    <p>我會收集您的學號及相關資訊，這些資訊將用於您的帳戶管理、服務提供、及安全維護。我們也會收集您的IP地址以防止濫用。</p>
-                </div>
-                <div class="terms-section">
-                    <h3>資料安全</h3>
-                    <p>我將採取合理的安全措施保護您的個人資料，避免未經授權的存取、使用或洩露。所有密碼都會經過加密處理。</p>
-                </div>
-                <div class="terms-section">
-                    <h3>用戶責任</h3>
-                    <p>您必須妥善保管您的帳號密碼，並對使用該帳號進行的所有活動負責。若發現任何安全問題，請立即通知我們。</p>
-                </div>
-                <div class="terms-section">
-                    <h3>條款變更</h3>
-                    <p>我們保留隨時修改這些條款的權利。修改後的條款將在網站上公佈。您繼續使用我們的服務，即表示您接受修改後的條款。</p>
-                </div>
-                <div class="terms-section">
-                    <h3>詐騙防範提醒</h3>
-                    <p>學生會絕對不會以任何形式（如電子郵件、電話等）要求學生提供網路ATM帳號或其他電信服務帳戶資訊。若您收到任何要求您提供此類信息的訊息，請立即提高警覺，並避免回應。</p>
-                </div>
-                <div class="contact-section">
-                    <h3>聯絡我們</h3>
-                    <p>如果有任何問題，歡迎直接連絡我們 <a href="mailto:scusa000@gmail.com">scusa000@gmail.com</a></p>
-                </div>
+            <div class="form-group">
+                <label for="password">密碼</label>
+                <input type="password" class="form-control" id="password" name="entry.2129069192" placeholder="請輸入6-18位英數字密碼" required>
+                <div class="form-error" id="passwordError"></div>
             </div>
-            <div class="modal-footer">
-                <label class="checkbox-container">
-                    <span class="custom-checkbox">
-                        <input type="checkbox" id="termsCheckbox">
-                        <span class="checkmark"></span>
-                    </span>
-                    <span class="checkbox-label">我已閱讀並同意上述條款</span>
-                </label>
-                <button class="close-modal" id="closeModal">確認</button>
+            <div class="form-group">
+                <label for="confirmPassword">確認密碼</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="請再次輸入密碼" required>
+                <div class="form-error" id="confirmPasswordError"></div>
             </div>
+            <input type="hidden" id="randomCode" name="entry.1767444942" value="">
+            <input type="hidden" id="ipAddress" name="entry.849286952" value="">
+            <button type="submit" class="btn" id="submitBtn">註冊</button>
+        </form>
+
+        <!-- Step 2: Verification Code Input Area -->
+        <div class="verification-area" id="verificationArea">
+            <p>我們已將驗證碼發送到您的電子信箱。</p>
+            <form id="verificationForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="verificationCode">驗證碼</label>
+                    <input type="text" class="form-control verification-input" id="verificationCode" name="entry.628523577" placeholder="請輸入收到的驗證碼" required>
+                    <div class="form-error" id="verificationCodeError"></div>
+                </div>
+                <!-- Hidden field for the random code -->
+                <input type="hidden" id="verificationRandomCode" name="entry.2117722276" value="">
+                <button type="submit" class="btn" id="verifyBtn">驗證</button>
+            </form>
+        </div>
+
+         <!-- Step 1.5 / 2.5 / Error: General Message Area -->
+        <div class="message-area" id="messageArea">
+            <h3 id="messageTitle"></h3>
+            <p id="messageText"></p>
+             <!-- Optional: Add a button to retry or go back -->
+             <!-- <button class="btn" id="retryBtn" style="display: none; margin-top: 20px;">重試</button> -->
+        </div>
+
+
+        <!-- Step 3: Success Message -->
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">✓</div>
+            <h3>註冊成功！</h3>
+            <p>您的帳號已經成功建立。</p>
         </div>
     </div>
 
+    <!-- Loading indicator -->
     <div class="loader" id="loader">
         <div class="loader-spinner"></div>
     </div>
-     <!-- END: 彈窗和載入器 -->
 
-
-    <!-- 主要站點的 JavaScript -->
-    <script src="sa.js"></script>
-    <script src="sa0.js"></script>
+    <!-- Three.js library (must be before stars.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Link to the external JavaScript for the star background -->
+    <script src="stars.js"></script>
+    <script src="lo&re.js"></script>
 
     <!-- START: 註冊表單的 JavaScript 邏輯 -->
     <script>
@@ -1029,6 +800,8 @@
         const messageText = document.getElementById('messageText');
         const successMessage = document.getElementById('successMessage'); // Step 3 message
         const loader = document.getElementById('loader');
+        const loginLinkContainer = document.querySelector('.login-btn').parentNode; // 找到登入按鈕的父容器
+
 
         // Step 1 form elements
         const studentIdInput = document.getElementById('studentId');
@@ -1067,7 +840,7 @@
         const registrationFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScuddnBGwJ0gcpcuCsWDitccAikRgySK3RtLVze7airLoWz2w/formResponse'; // First Google Form URL
 
         // Google Form 2 submission URL (For verification code data)
-        const verificationFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf1QmNeOYCcgytOQp5c97nYAoCjkpcMeMCGLMoOF7KKO2tppA/formResponse'; // Second Google Form URL
+        const verificationFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf1QmNeOYCcgytOQp5c97nYAoCjkpcMeMCGLMoOF7KKO2tppn/formResponse'; // Second Google Form URL (請再次檢查此網址是否正確)
 
 
         // 同意書功能
@@ -1122,11 +895,6 @@
                    if (registrationContainer) {
                        registrationContainer.style.opacity = '1';
                        registrationContainer.style.transform = 'translateY(0)';
-                        // Ensure other areas are hidden in case modal was intended but missing
-                       hideAllSections(false); // Hide all sections except loader, but don't hide formTitle yet
-                        if(registrationForm) registrationForm.classList.add('active'); // Show step 1 form
-                        if(formTitle) formTitle.style.display = 'block';
-                        formTitle.textContent = '創建帳號';
                    }
              }
         }
@@ -1142,130 +910,43 @@
             if (loader) loader.classList.remove('active');
         }
 
+        // 修正後的 showMessage 函數：立即隱藏其他區塊，並顯示訊息區塊
+        function showMessage(title, text, isError = false, type = 'info') {
+            // 立即隱藏所有可能的動態區域
+            const sectionsToHide = [registrationForm, verificationArea, successMessage, loginLinkContainer];
+            sectionsToHide.forEach(section => {
+                if (section) {
+                    section.classList.remove('active'); // 移除 active 類別 (如果存在)
+                    section.style.display = 'none';    // 立即隱藏
+                }
+            });
 
-// Helper to show a message and hide others
-function showMessage(title, text, isError = false, type = 'info') { // Added type for varied messages
+            // 處理標題的顯示和內容更新
+            if (formTitle) {
+                formTitle.style.display = 'block'; // 確保標題元素是顯示的
+                formTitle.textContent = title; // 使用訊息標題作為表單標題
+                formTitle.style.color = (type === 'error') ? 'var(--error-color)' : (type === 'warning' ? 'var(--warning-color)' : 'var(--link-color)');
+                formTitle.style.marginBottom = '15px';
+                formTitle.style.paddingBottom = '0';
+            }
 
-     // --- START MODIFICATION ---
-     // 原本是呼叫 hideAllSections(false);
-     // 現在改為手動隱藏除了 messageArea 以外的其他區域。
-     // 這樣可以確保 messageArea 在被要求顯示時，不會同時被排程延遲隱藏。
-
-     // 遍歷所有可能的動態區域（除了 messageArea 本身）
-     const sectionsToHide = [registrationForm, verificationArea, successMessage];
-     sectionsToHide.forEach(section => {
-          if (section) { // 檢查元素是否存在
-               if (section.classList.contains('active')) {
-                    // 如果區域是 active，移除 active class 以開始 CSS 隱藏過渡
-                    section.classList.remove('active');
-                    // 在過渡結束後，設定 display 為 none
-                    // 過渡時間 (0.5s) + 延遲一點確保過渡完成
-                    setTimeout(() => {
-                         section.style.display = 'none';
-                         // 可選：如果之前有設置 inline styles 需要清除，可以在這裡處理
-                         // 例如：section.style.opacity = ''; section.style.transform = '';
-                    }, 550); // 550ms 應略大於 CSS 過渡時間 (0.5s)
-               } else {
-                    // 如果區域不是 active (可能之前已經被隱藏了)，確保其 display 為 none
-                    section.style.display = 'none';
-               }
-          }
-     });
-
-     // 處理登入按鈕容器，它可能在 registrationForm 顯示時一起顯示
-     const loginLinkContainer = document.querySelector('.login-link-container');
-      if (loginLinkContainer) { // 檢查元素是否存在
-           if (loginLinkContainer.classList.contains('active')) {
-               loginLinkContainer.classList.remove('active');
-               // 在過渡結束後隱藏 display
+            // 顯示 messageArea
+            if (messageArea) {
+                messageArea.classList.remove('error', 'success', 'warning'); // 移除舊的訊息類型 class
+                messageArea.classList.add(type); // 添加新的訊息類型 class
+                messageArea.style.display = 'block'; // 確保元素是顯示的，以便過渡開始
                 setTimeout(() => {
-                   loginLinkContainer.style.display = 'none';
-               }, 550);
-           } else {
-                // 如果不是 active，確保其 display 為 none
-                loginLinkContainer.style.display = 'none';
-           }
-      }
+                    messageArea.classList.add('active'); // 添加 active 類別，觸發 CSS 過渡
+                }, 10); // 短暫延遲確保 display:block 生效
+                if (messageTitle) messageTitle.textContent = title;
+                if (messageText) messageText.textContent = text;
+            }
 
-
-     // 處理標題的顯示和內容更新
-     // 這部分邏輯可以保留原樣，它應該在其他區域開始隱藏後立即執行
-     if (formTitle) {
-          formTitle.style.display = 'block'; // 確保標題元素是顯示的
-          formTitle.textContent = title; // 使用訊息標題作為表單標題
-          // 根據訊息類型設置標題顏色 (優先使用 type，如果沒有則根據 isError)
-          formTitle.style.color = (type === 'error' || type === 'warning') ? 'var(--error-color)' : (type === 'success' ? 'var(--success-color)' : 'var(--link-color)');
-          formTitle.style.marginBottom = '15px'; // 調整外邊距
-          formTitle.style.paddingBottom = '0'; // 移除下劃線的空間
-          // CSS 會根據是否有 ::after 偽元素規則處理下劃線，這裡不需要手動控制偽元素
-     }
-     // --- END MANUAL HIDING ---
-
-
-     // --- SHOW THE MESSAGE AREA ---
-     // 現在顯示 messageArea。因為它沒有被包含在上面的延遲隱藏邏輯中，
-     // 它的顯示狀態不會被那個定時器干擾。
-     if (messageArea) {
-         // 設定 display: block immediately so CSS transitions can apply when .active is added
-         messageArea.style.display = 'block';
-         // Remove any old state classes (specifically type classes)
-         messageArea.classList.remove('error', 'success', 'warning'); // 移除舊的訊息類型 class
-
-         // 設定內容並在短延遲後添加 active class，以觸發淡入/移動過渡
-         // 這個延遲允許 display: block 在添加 active class 前生效
-         setTimeout(() => {
-             messageArea.classList.add('active', type); // 添加 active class 和新的訊息類型 class
-             if (messageTitle) messageTitle.textContent = text; // 使用 text 作為訊息文字
-             // Note: messageTitle and messageText are separate elements in your HTML.
-             // Let's ensure they map correctly based on your HTML structure.
-             // Your HTML has h3#messageTitle and p#messageText.
-             // So 'title' should go to messageTitle (h3), and 'text' to messageText (p).
-             if (messageTitle) messageTitle.textContent = title; // Title goes to h3
-             if (messageText) messageText.textContent = text; // Text goes to p
-
-         }, 10); // A small delay (e.g., 10ms) is usually enough
-     }
-
-
-     // --- HIDE LOADER ---
-     hideLoader(); // 訊息顯示後隱藏載入器
-}
-
-// 注意：您原有的 hideAllSections 函數本身可以保留，
-// 但它不應該再被 showMessage 函數呼叫。
-// 如果 hideAllSections 在程式碼的其他地方（例如，需要一次性隱藏所有東西時）有用，請保留它。
-// 如果它只被 showMessage 呼叫，您可以考慮將其移除。
-
-        // Helper to hide all message/form areas except loader
-        function hideAllSections(hideFormTitle = true) {
-             // Remove active classes from all potential sections
-             if (registrationForm) registrationForm.classList.remove('active');
-             if (verificationArea) verificationArea.classList.remove('active');
-             if (messageArea) messageArea.classList.remove('active', 'error', 'success', 'warning');
-             if (successMessage) successMessage.classList.remove('active');
-
-             // Use setTimeout to allow opacity/transform transition before hiding display
-             setTimeout(() => {
-                  if (registrationForm) registrationForm.style.display = 'none';
-                  if (verificationArea) verificationArea.style.display = 'none';
-                  if (messageArea) messageArea.style.display = 'none';
-                  if (successMessage) successMessage.style.display = 'none';
-             }, 550); // Slightly longer than the transition duration
-
-             if (hideFormTitle && formTitle) {
-                  formTitle.style.display = 'none'; // Hide standard title immediately
-             }
-             // Restore default form title styles if it was hidden (This needs CSS handling now)
-             // CSS rules will handle showing/hiding the ::after pseudo-element.
-             // We just need to make sure the title element itself is displayed when needed.
-             if (!hideFormTitle && formTitle) {
-                  // No need to manually set color/margin/padding/::after display here, CSS handles it
-                  formTitle.style.display = 'block'; // Ensure title element is shown if not hidden
-             }
+            hideLoader(); // 訊息顯示後隱藏載入器
         }
 
 
-        // --- Step 1 Form Validation Functions ---
+        // Step 1 Form Validation Functions --- (保持不變)
 
         function validateStudentId() {
             if (!studentIdInput) return false;
@@ -1314,117 +995,123 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
          if (studentIdInput) studentIdInput.addEventListener('input', function() {
               studentIdError.classList.remove('active');
               this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
-              // Also re-validate on input if it becomes valid after being invalid
               validateStudentId();
          });
          if (passwordInput) passwordInput.addEventListener('input', function() {
              passwordError.classList.remove('active');
              this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
-              validatePasswordFormat(); // Check format on input
-              validateConfirmPassword(); // Also check confirm password on password input change
+              validatePasswordFormat();
+              validateConfirmPassword();
          });
          if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', function() {
              confirmPasswordError.classList.remove('active');
              this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
-              validateConfirmPassword(); // Check match on confirm input
+              validateConfirmPassword();
          });
 
 
         // --- Registration Check Logic (Step 1.5) ---
 
         async function checkRegistrationStatus() {
-             if (!currentRandomCode) {
-                  console.error('Random code is not available for registration check.');
-                  showMessage('內部錯誤', '隨機碼遺失，請重新嘗試。', true, 'error');
-                  return;
-             }
+            if (!currentRandomCode) {
+                console.error('Random code is not available for registration check.');
+                showMessage('內部錯誤', '隨機碼遺失，請重新嘗試。', true, 'error');
+                return;
+            }
 
-             registrationCheckAttempts++;
-             console.log(`Checking registration sheet (Sheet 2) for code: ${currentRandomCode}, attempt ${registrationCheckAttempts}/${registrationMaxAttempts}`);
+            registrationCheckAttempts++;
+            console.log(`Checking registration sheet (Sheet 2) for code: ${currentRandomCode}, attempt ${registrationCheckAttempts}/${registrationMaxAttempts}`);
 
-             if (registrationCheckAttempts > registrationMaxAttempts) {
-                 clearInterval(registrationCheckIntervalId); // Stop checking
-                 showMessage('檢查失敗', '網路狀況不佳或檢查超時，請稍後再試。', true, 'error');
-                 return;
-             }
+            if (registrationCheckAttempts > registrationMaxAttempts) {
+                clearInterval(registrationCheckIntervalId);
+                showMessage('檢查失敗', '網路狀況不佳或檢查超時，請稍後再試。', true, 'error');
+                return;
+            }
 
-             try {
-                 const response = await fetch(registrationCheckSheetUrl + '&_t=' + new Date().getTime()); // Add cache buster
-                 if (!response.ok) {
-                      throw new Error(`HTTP error! status: ${response.status}`);
-                 }
-                 const data = await response.text();
-                 const rows = data.split('\n').slice(1); // Skip header row
+            try {
+                const response = await fetch(registrationCheckSheetUrl + '&_t=' + new Date().getTime());
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.text();
+                const rows = data.split('\n').slice(1);
 
-                 let found = false;
-                 let canProceed = false; // True if C column is TRUE
+                let found = false;
+                let canProceed = false;
 
-                 for (const row of rows) {
-                     // Handle potential quoted fields in CSV
-                     const columns = row.split(',').map(col => {
-                         // Trim surrounding quotes if they exist
-                         if (col.startsWith('"') && col.endsWith('"')) {
-                              return col.substring(1, col.length - 1).trim();
-                         }
-                         return col.trim();
-                     });
+                for (const row of rows) {
+                    const columns = row.split(',').map(col => {
+                        if (col.startsWith('"') && col.endsWith('"')) {
+                            return col.substring(1, col.length - 1).trim();
+                        }
+                        return col.trim();
+                    });
 
-                     // Assuming random code is in column B (index 1) of the Registration Check Sheet (Sheet 2)
-                     const sheetCode = columns[1];
-                     // Assuming status (TRUE/FALSE) is in column C (index 2)
-                     const status = columns[2];
+                    const sheetCode = columns[1];
+                    const status = columns[2];
 
-                     if (sheetCode === currentRandomCode) {
-                         found = true;
-                         canProceed = (status === 'TRUE'); // Check if status is exactly 'TRUE' string
-                         break; // Found the code, stop searching
-                     }
-                 }
+                    if (sheetCode === currentRandomCode) {
+                        found = true;
+                        canProceed = (status === 'TRUE');
+                        break;
+                    }
+                }
 
-                 if (found) {
-                     clearInterval(registrationCheckIntervalId); // Stop the interval
-                     hideLoader(); // Hide loader
+                if (found) {
+                    clearInterval(registrationCheckIntervalId);
+                    hideLoader();
 
-                     if (canProceed) {
-                         // Code found and status is TRUE - Proceed to verification step
-                         console.log('Registration check successful! Proceeding to verification.');
-                         hideAllSections(false); // Hide previous message, keep title area
-                         if (formTitle) {
-                             formTitle.style.display = 'block'; // Ensure title is block
-                             formTitle.textContent = '驗證您的帳號'; // Change title
-                              // CSS will handle color/underline based on formTitle state
-                         }
-                         if (verificationArea) {
-                             // Use setTimeout to allow display: block to apply before transition
-                             setTimeout(() => {
-                                verificationArea.classList.add('active'); // Show Step 2 area
-                                 setTimeout(() => {
-                                     if (verificationCodeInput) verificationCodeInput.focus(); // Focus verification input
-                                 }, 300);
-                             }, 10); // Small delay
-                         }
+                    if (canProceed) {
+                        // 註冊檢查成功 - 過渡到驗證區域
+                        console.log('Registration check successful! Proceeding to verification.');
 
-                     } else {
-                         // Code found but status is FALSE - Student ID already registered
-                         console.log('Registration check failed: Student ID already registered.');
-                         showMessage('註冊失敗', '您的學號已經註冊過，請重新嘗試或登入。', true, 'error');
-                     }
-                 } else {
-                      // Code not found yet, continue checking. The interval will call this function again.
-                      console.log('Code not found in registration sheet yet, continuing...');
-                 }
+                        // 立即隱藏註冊表單、訊息區域和登入按鈕容器
+                        const sectionsToHide = [registrationForm, messageArea, loginLinkContainer, successMessage];
+                        sectionsToHide.forEach(section => {
+                            if (section) {
+                                section.classList.remove('active');
+                                section.style.display = 'none';
+                            }
+                        });
 
-             } catch (error) {
-                 console.error('Error checking Registration Sheet 2:', error);
-                 // Treat fetch errors also as potential network issues
-                 if (registrationCheckAttempts >= registrationMaxAttempts) {
-                      clearInterval(registrationCheckIntervalId);
-                      showMessage('網路錯誤', '無法連接到伺服器檢查註冊記錄，請稍後再試。', true, 'error');
-                 } else {
-                      // Continue checking if error is not due to max attempts. The interval will call this function again.
-                      console.log('Error during registration sheet fetch, retrying...');
-                 }
-             }
+
+                        // 更新標題
+                        if (formTitle) {
+                            formTitle.style.display = 'block';
+                            formTitle.textContent = '驗證您的帳號';
+                            formTitle.style.color = ''; // 恢復標題的預設樣式
+                            formTitle.style.marginBottom = '';
+                            formTitle.style.paddingBottom = '';
+                        }
+
+                        // 顯示驗證區域
+                        if (verificationArea) {
+                            verificationArea.style.display = 'block'; // 確保元素是顯示的
+                            setTimeout(() => {
+                                verificationArea.classList.add('active'); // 添加 active 類別
+                                setTimeout(() => {
+                                    if (verificationCodeInput) verificationCodeInput.focus();
+                                }, 300);
+                            }, 10); // 短暫延遲確保 display:block 生效
+                        }
+
+                    } else {
+                        console.log('Registration check failed: Student ID already registered.');
+                        showMessage('註冊失敗', '您的學號已經註冊過，請重新嘗試或登入。', true, 'error');
+                    }
+                } else {
+                    console.log('Code not found in registration sheet yet, continuing...');
+                }
+
+            } catch (error) {
+                console.error('Error checking Registration Sheet 2:', error);
+                if (registrationCheckAttempts >= registrationMaxAttempts) {
+                    clearInterval(registrationCheckIntervalId);
+                    showMessage('網路錯誤', '無法連接到伺服器檢查註冊記錄，請稍後再試。', true, 'error');
+                } else {
+                    console.log('Error during registration sheet fetch, retrying...');
+                }
+            }
         }
 
 
@@ -1433,20 +1120,29 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
             registrationForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                const isStudentIdValid = validateStudentId();
-                const isPasswordValid = validatePasswordFormat();
-                const isConfirmPasswordValid = validateConfirmPassword();
-
-                // Re-validate all to ensure error messages are shown for empty fields on submit
-                 let allValid = true;
-                 if (!validateStudentId()) allValid = false;
-                 if (!validatePasswordFormat()) allValid = false;
-                 if (!validateConfirmPassword()) allValid = false;
+                let allValid = true;
+                if (!validateStudentId()) allValid = false;
+                if (!validatePasswordFormat()) allValid = false;
+                if (!validateConfirmPassword()) allValid = false;
 
 
                 if (allValid) {
                     showLoader(); // Show loader
-                    hideAllSections(true); // Hide form and title
+
+                    // 立即隱藏註冊表單和登入按鈕容器
+                    if (registrationForm) {
+                        registrationForm.classList.remove('active');
+                        registrationForm.style.display = 'none';
+                    }
+                     if (loginLinkContainer) {
+                         loginLinkContainer.classList.remove('active');
+                         loginLinkContainer.style.display = 'none';
+                     }
+                    // 確保其他區域也隱藏
+                    if (verificationArea) { verificationArea.classList.remove('active'); verificationArea.style.display = 'none'; }
+                    if (messageArea) { messageArea.classList.remove('active'); messageArea.style.display = 'none'; }
+                    if (successMessage) { successMessage.classList.remove('active'); successMessage.style.display = 'none'; }
+
 
                     currentRandomCode = generateRandomCode(23);
                     if (randomCodeField1) randomCodeField1.value = currentRandomCode;
@@ -1489,13 +1185,11 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
                     console.log('Submitting to Google Form 1...');
 
                     try {
-                         // Submit to the first Google Form (Step 1 data: studentId, password, random code, ip)
-                         // Use fetch and mode: 'no-cors'
                          await fetch(registrationFormUrl, {
                              method: 'POST',
-                             body: formDataBody, // Use the manually created body
+                             body: formDataBody,
                              headers: {
-                                 'Content-Type': 'application/x-www-form-urlencoded' // Set content type
+                                 'Content-Type': 'application/x-www-form-urlencoded'
                              },
                              mode: 'no-cors'
                          });
@@ -1503,18 +1197,15 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
 
                          // After submitting Step 1 data, start the registration check (Sheet 2)
                          if (formTitle) {
-                             formTitle.style.display = 'block'; // Show title again
-                             formTitle.textContent = '正在檢查註冊紀錄...'; // Show checking message
-                              // CSS will handle color/underline
+                             formTitle.style.display = 'block';
+                             formTitle.textContent = '正在檢查註冊紀錄...';
                          }
 
-                         // Use a short delay before starting the check to allow Google Forms to process
                          setTimeout(() => {
-                             registrationCheckAttempts = 0; // Reset attempts
-                             // Start the interval check
+                             registrationCheckAttempts = 0;
                              registrationCheckIntervalId = setInterval(checkRegistrationStatus, registrationCheckInterval);
-                              checkRegistrationStatus(); // Perform first check immediately
-                         }, 1500); // Increased delay slightly
+                             checkRegistrationStatus();
+                         }, 1500);
 
 
                     } catch (error) {
@@ -1540,24 +1231,23 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
 
 
              if (verificationCheckAttempts > verificationMaxAttempts) {
-                 clearInterval(verificationCheckIntervalId); // Stop checking
+                 clearInterval(verificationCheckIntervalId);
                  showMessage('驗證失敗', '網路狀況不佳或驗證超時，請稍後再試。', true, 'error');
                  return;
              }
 
              try {
-                 const response = await fetch(verificationSheetUrl + '&_t=' + new Date().getTime()); // Add cache buster
+                 const response = await fetch(verificationSheetUrl + '&_t=' + new Date().getTime());
                  if (!response.ok) {
                       throw new Error(`HTTP error! status: ${response.status}`);
                  }
                  const data = await response.text();
-                 const rows = data.split('\n').slice(1); // Skip header row
+                 const rows = data.split('\n').slice(1);
 
                  let found = false;
                  let isValid = false;
 
                  for (const row of rows) {
-                     // Handle potential quoted fields in CSV
                       const columns = row.split(',').map(col => {
                           if (col.startsWith('"') && col.endsWith('"')) {
                                return col.substring(1, col.length - 1).trim();
@@ -1565,37 +1255,54 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
                           return col.trim();
                       });
 
-                     // Assuming random code is in column A (index 0) of the Verification Status Sheet (Sheet 1)
                      const sheetCode = columns[0];
-                     // Assuming status (TRUE/FALSE) is in column B (index 1)
                      const status = columns[1];
 
                      if (sheetCode === currentRandomCode) {
                          found = true;
-                         isValid = (status === 'TRUE'); // Check if status is exactly 'TRUE' string
-                         break; // Found the code, stop searching
+                         isValid = (status === 'TRUE');
+                         break;
                      }
                  }
 
                  if (found) {
-                     clearInterval(verificationCheckIntervalId); // Stop the interval
-                     hideLoader(); // Hide loader
+                     clearInterval(verificationCheckIntervalId);
+                     hideLoader();
 
                      if (isValid) {
                          // Code found and status is TRUE - Verification successful
                          console.log('Verification successful! Showing success message.');
-                         hideAllSections(true); // Hide everything, including title
-                         // Use setTimeout to allow display: block to apply before transition
-                         setTimeout(() => {
-                              if (successMessage) successMessage.classList.add('active'); // Show success message
-                         }, 10); // Small delay
 
-                         // Optional: Redirect or close after a delay
+                         // 立即隱藏其他區塊
+                         const sectionsToHide = [registrationForm, verificationArea, messageArea, loginLinkContainer];
+                         sectionsToHide.forEach(section => {
+                             if (section) {
+                                 section.classList.remove('active');
+                                 section.style.display = 'none';
+                             }
+                         });
+
+                         // 更新標題為成功訊息
+                         if (formTitle) {
+                             formTitle.style.display = 'block';
+                             formTitle.textContent = '註冊成功！';
+                             formTitle.style.color = 'var(--success-color)';
+                             formTitle.style.marginBottom = '15px';
+                             formTitle.style.paddingBottom = '0';
+                         }
+
+                         // 顯示成功訊息
+                         if (successMessage) {
+                             successMessage.style.display = 'block'; // 確保元素是顯示的
+                             setTimeout(() => {
+                                 successMessage.classList.add('active'); // 添加 active 類別，觸發 CSS 過渡
+                             }, 10); // 短暫延遲確保 display:block 生效
+                         }
+
                           setTimeout(() => {
-                             // alert('註冊成功！您可以開始使用了。'); // Consider using a custom modal instead of alert
-                             // window.location.href = '/login'; // Or redirect to login page
-                              console.log("Success message displayed. Optionally redirecting or closing...");
-                         }, 5000); // Show success for 5 seconds
+                             console.log("Success message displayed. Optionally redirecting or closing...");
+                             // window.location.href = 'login.html'; // 例如，可以跳轉到登入頁面
+                         }, 5000);
 
                      } else {
                          // Code found but status is FALSE - Verification failed
@@ -1603,18 +1310,15 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
                          showMessage('驗證碼錯誤', '您輸入的驗證碼不正確，請檢查信箱後再試。', true, 'error');
                      }
                  } else {
-                      // Code not found yet, continue checking. The interval will call this function again.
                       console.log('Code not found in verification sheet yet, continuing...');
                  }
 
              } catch (error) {
                  console.error('Error checking Verification Google Sheet 1:', error);
-                 // Treat fetch errors also as potential network issues
                  if (verificationCheckAttempts >= verificationMaxAttempts) {
                       clearInterval(verificationCheckIntervalId);
                       showMessage('網路錯誤', '無法連接到驗證伺服器，請稍後再試。', true, 'error');
                  } else {
-                      // Continue checking if error is not due to max attempts. The interval will call this function again.
                       console.log('Error during verification sheet fetch, retrying...');
                  }
              }
@@ -1628,45 +1332,45 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
                    return;
               }
 
-              showLoader(); // Show loader for the second submission
-              hideAllSections(true); // Hide form areas and title
+              showLoader();
 
-              if (formTitle) { // Restore and update title temporarily
+              // 立即隱藏驗證區域和登入按鈕容器 (及其它潛在顯示區塊)
+              if (verificationArea) { verificationArea.classList.remove('active'); verificationArea.style.display = 'none'; }
+              if (loginLinkContainer) { loginLinkContainer.classList.remove('active'); loginLinkContainer.style.display = 'none'; }
+              if (successMessage) { successMessage.classList.remove('active'); successMessage.style.display = 'none'; }
+              if (messageArea) { messageArea.classList.remove('active'); messageArea.style.display = 'none'; }
+              if (registrationForm) { registrationForm.classList.remove('active'); registrationForm.style.display = 'none'; }
+
+
+              if (formTitle) {
                    formTitle.style.display = 'block';
                    formTitle.textContent = '正在提交驗證碼...';
-                   // CSS will handle color/underline
+                   formTitle.style.color = '';
+                   formTitle.style.marginBottom = '';
+                   formTitle.style.paddingBottom = '';
               }
 
 
-               // Collect formData - contains verification code and random code (which was set earlier)
                const formData = new FormData(verificationForm);
-               // Ensure random code is correctly added if not automatically by FormData
                if (!formData.has(randomCodeField2.name)) {
                     formData.append(randomCodeField2.name, currentRandomCode);
                }
 
 
               try {
-                   // Submit to the second Google Form (Verification data: verification code and random code)
                    await fetch(verificationFormUrl, {
                        method: 'POST',
-                       body: formData, // FormData is fine here
+                       body: formData,
                        mode: 'no-cors'
                    });
 
-                   // Assume success for second form submission due to no-cors
                    console.log('Second Google Form submitted.');
 
-                   // After successfully submitting verification data, start checking Sheet 1
-                   // The title update happens inside checkVerificationStatus based on the sheet result
-
-                   // Use a short delay before starting the check to allow Google Forms/Sheet 1 to process
                    setTimeout(() => {
-                        verificationCheckAttempts = 0; // Reset attempts
-                        // Start the interval check
+                        verificationCheckAttempts = 0;
                         verificationCheckIntervalId = setInterval(checkVerificationStatus, verificationCheckInterval);
-                         checkVerificationStatus(); // Perform first check immediately
-                   }, 1500); // Increased delay slightly
+                         checkVerificationStatus();
+                   }, 1500);
 
 
               } catch (error) {
@@ -1681,7 +1385,6 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
             verificationForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                 // Basic validation: check if verification code is empty
                  if (!verificationCodeInput || verificationCodeInput.value.trim() === '') {
                       if(verificationCodeError) {
                            verificationCodeError.textContent = '請輸入驗證碼';
@@ -1694,19 +1397,15 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
                            verificationCodeError.textContent = '';
                            verificationCodeError.classList.remove('active');
                       }
-                      // Restore border color after successful validation
                        verificationCodeInput.style.borderColor = verificationCodeInput.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
                  }
 
-                // If validation passes, proceed to submit verification data and start the check
                 submitVerificationData();
             });
-             // Add input listener to clear error on typing for verification code
              if (verificationCodeInput) verificationCodeInput.addEventListener('input', function() {
                   verificationCodeError.classList.remove('active');
                   this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
              });
-             // Add blur listener for verification code
              if (verificationCodeInput) verificationCodeInput.addEventListener('blur', function() {
                   if (this.value.trim() === '') {
                        if(verificationCodeError) {
@@ -1725,7 +1424,7 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
         }
 
 
-        // Interactive effects for form inputs
+        // Interactive effects for form inputs (保持不變)
         const formInputs = document.querySelectorAll('.form-control');
         formInputs.forEach(input => {
             input.addEventListener('focus', function() {
@@ -1737,37 +1436,51 @@ function showMessage(title, text, isError = false, type = 'info') { // Added typ
             input.addEventListener('blur', function() {
                 const label = this.parentElement.querySelector('label');
                 if (label) label.style.color = 'var(--text-light)';
-                 this.style.borderColor = 'var(--input-border)'; // Revert to default border
+                 this.style.borderColor = 'var(--input-border)';
                  this.style.boxShadow = 'none';
-                 // Re-validate on blur to show error border if invalid
                  if (this.id === 'studentId') validateStudentId();
                  if (this.id === 'password') validatePasswordFormat();
                  if (this.id === 'confirmPassword') validateConfirmPassword();
-                  // Verification code blur validation handled in its specific listener
             });
         });
 
         // Initialize everything when the DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
             setupModal(); // Setup and show the modal first
-            // initThreeJS(); // Removed Three.js initialization
-            // The rest of the JS logic (form handling, sheet checks) is already wired up
-            // and will be triggered by user interactions and sheet checks.
 
-            // Ensure the initial form is active and visible
+            // 確保初始狀態：註冊表單、標題和登入按鈕容器是顯示的，其他隱藏
              if(registrationForm) {
                  registrationForm.classList.add('active');
-                 registrationForm.style.display = 'block'; // Ensure display is block initially
+                 registrationForm.style.display = 'block';
              }
              if(formTitle) {
-                 formTitle.style.display = 'block'; // Ensure title is block initially
+                 formTitle.style.display = 'block';
                  formTitle.textContent = '創建帳號';
+             }
+             if (loginLinkContainer) {
+                 loginLinkContainer.style.display = 'block';
+                 setTimeout(() => {
+                    loginLinkContainer.classList.add('active');
+                 }, 10);
+             }
+
+             // 確保其他區域初始是隱藏的
+             if(verificationArea) {
+                 verificationArea.classList.remove('active');
+                 verificationArea.style.display = 'none';
+             }
+             if(messageArea) {
+                 messageArea.classList.remove('active');
+                 messageArea.style.display = 'none';
+             }
+             if(successMessage) {
+                 successMessage.classList.remove('active');
+                 successMessage.style.display = 'none';
              }
         });
 
 
     </script>
     <!-- END: 註冊表單的 JavaScript 邏輯 -->
-
 </body>
 </html>
