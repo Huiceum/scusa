@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const editIntroTextarea = document.getElementById('editIntro');
     const submitEditBtn = document.getElementById('submitEditBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
-    const imageKitPrivateKey = 'private_fUNcPHEPFTe521XZiXjJS8jbwEw=';
     const imageKitUploadUrl = 'https://upload.imagekit.io/api/v1/files/upload';
     const imageKitFolder = '/scusatw/'; // 設定希望圖片上傳到的 ImageKit 資料夾 (可選)
 
@@ -45,73 +44,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     populateFormData(); // 頁面加載時立即填充數據
 
-    // --- 3. 頭像上傳邏輯 (使用 ImageKit.io) ---
-    avatarUploadInput.addEventListener('change', async (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
+// 更新頭像上傳邏輯部分
+avatarUploadInput.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-        const maxFileSize = 20 * 1024 * 1024; // 32MB
+    const maxFileSize = 20 * 1024 * 1024; // 20MB
 
-        if (file.size > maxFileSize) {
-            alert('圖片大小不能超過 20MB。');
-            avatarUploadInput.value = ''; // 清除選中的文件
-            return;
+    if (file.size > maxFileSize) {
+        alert('圖片大小不能超過 20MB。');
+        avatarUploadInput.value = '';
+        return;
+    }
+
+    // 預覽圖片
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        editAvatarPreview.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    // 顯示載入動畫並上傳圖片
+    showLoadingOverlay('上傳圖片中...');
+    
+    try {
+        // 將文件轉換為 base64
+        const fileReader = new FileReader();
+        const base64Promise = new Promise((resolve, reject) => {
+            fileReader.onload = () => resolve(fileReader.result);
+            fileReader.onerror = reject;
+        });
+        fileReader.readAsDataURL(file);
+        
+        const fileData = await base64Promise;
+        
+        // 調用 Netlify Function
+        const response = await fetch('/.netlify/functions/upload-image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fileData: fileData,
+                fileName: file.name,
+                folder: '/scusatw/' // 你的 ImageKit 資料夾
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || `上傳失敗: 狀態碼 ${response.status}`);
         }
 
-        // 預覽圖片
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            editAvatarPreview.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-
-        // 顯示載入動畫並上傳圖片到 ImageKit.io
-        showLoadingOverlay('上傳圖片中...');
-        try {
-            const formData = new FormData();
-            formData.append('file', file); // ImageKit 期望的檔案欄位名稱是 'file'
-            formData.append('fileName', file.name); // ImageKit 期望的檔案名稱欄位名稱是 'fileName'
-            if (imageKitFolder) {
-                formData.append('folder', imageKitFolder); // 指定上傳資料夾
-            }
-
-            const response = await fetch(imageKitUploadUrl, {
-                method: 'POST',
-                headers: {
-                    // 使用 Basic Authentication 傳遞私鑰進行認證
-                    'Authorization': basicAuthHeader
-                    // Content-Type 通常不需要手動設定，fetch 會根據 FormData 自動設定
-                },
-                body: formData,
-                mode: 'cors' // 確保允許跨域請求
-            });
-
-            if (!response.ok) {
-                 // 嘗試解析 ImageKit 的錯誤響應
-                const errorData = await response.json().catch(() => null); // 如果響應不是 JSON 也不會拋錯
-                const errorMessage = errorData && errorData.message ? `ImageKit 上傳失敗: ${errorData.message}` : `ImageKit 上傳失敗: 狀態碼 ${response.status}`;
-                throw new Error(errorMessage);
-            }
-
-            const result = await response.json();
-            // ImageKit 成功響應通常包含 url 欄位
-            if (result && result.url) {
-                currentAvatarUrl = result.url; // 更新當前頭像 URL 為 ImageKit 返回的 URL
-                console.log('圖片上傳成功:', currentAvatarUrl);
-                loadingMessageText.textContent = '圖片上傳完成！';
-                setTimeout(() => { hideLoadingOverlay(); }, 500); // 短暫顯示成功訊息
-            } else {
-                throw new Error('ImageKit 上傳失敗，無有效 URL 數據。');
-            }
-        } catch (error) {
-            console.error('圖片上傳錯誤:', error);
-            alert(`圖片上傳失敗：${error.message}`);
-            hideLoadingOverlay();
-            avatarUploadInput.value = ''; // 上傳失敗也清空文件選擇
-            // 如果上傳失敗，保持預覽圖為舊的或預設圖
-             editAvatarPreview.src = currentAvatarUrl; // 回復到上傳前的預覽圖
+        const result = await response.json();
+        
+        if (result && result.url) {
+            currentAvatarUrl = result.url;
+            console.log('圖片上傳成功:', currentAvatarUrl);
+            loadingMessageText.textContent = '圖片上傳完成！';
+            setTimeout(() => { hideLoadingOverlay(); }, 500);
+        } else {
+            throw new Error('上傳失敗，無有效 URL 數據。');
         }
-    });
+        
+    } catch (error) {
+        console.error('圖片上傳錯誤:', error);
+        alert(`圖片上傳失敗：${error.message}`);
+        hideLoadingOverlay();
+        avatarUploadInput.value = '';
+        editAvatarPreview.src = currentAvatarUrl;
+    }
+});
 
     // 點擊頭像預覽圖或上傳按鈕觸發文件選擇
     editAvatarPreview.addEventListener('click', () => {

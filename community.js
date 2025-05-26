@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- ImageKit.io 設定 ---
 
-    const imageKitPrivateKey = 'private_fUNcPHEPFTe521XZiXjJS8jbwEw='; 
     const imageKitUploadUrl = 'https://upload.imagekit.io/api/v1/files/upload';
     const imageKitFolder = '/scusatw/'; 
     const basicAuthHeader = 'Basic ' + btoa(imageKitPrivateKey + ':');
@@ -231,93 +230,92 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 圖片壓縮和上傳 (!!! 修改為使用 ImageKit.io !!!)
-    async function compressAndUploadImage(file) {
-        return new Promise((resolve) => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const img = new Image();
+  async function compressAndUploadImage(file) {
+    return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
 
-            img.onload = function() {
-                let { width, height } = img;
+        img.onload = function() {
+            let { width, height } = img;
 
-                // 壓縮高度到300，寬度按比例調整
-                if (height > 600) {
-                    width = (width * 600) / height;
-                    height = 600;
-                }
+            // 壓縮高度到600，寬度按比例調整
+            if (height > 600) {
+                width = (width * 600) / height;
+                height = 600;
+            }
 
-                // 如果寬度超過900，裁剪到900
-                if (width > 1800) {
-                    width = 1800;
-                }
+            // 如果寬度超過1800，裁剪到1800
+            if (width > 1800) {
+                width = 1800;
+            }
 
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
 
-                // 將 Canvas 內容轉為 Blob，然後上傳
-                canvas.toBlob(async (blob) => {
-                    const formData = new FormData();
-                    // ImageKit 需要的欄位名稱
-                    formData.append('file', blob, file.name); // 第二個參數是 Blob，第三個是檔案名稱
-                    formData.append('fileName', file.name); // ImageKit 也需要 fileName 欄位
+            // 將 Canvas 內容轉為 Blob，然後上傳
+            canvas.toBlob(async (blob) => {
+                try {
+                    // 將 Blob 轉換為 base64
+                    const reader = new FileReader();
+                    const base64Promise = new Promise((resolveBase64, rejectBase64) => {
+                        reader.onload = () => resolveBase64(reader.result);
+                        reader.onerror = rejectBase64;
+                    });
+                    reader.readAsDataURL(blob);
+                    
+                    const fileData = await base64Promise;
+                    
+                    // 調用 Netlify Function 上傳圖片
+                    const response = await fetch('/.netlify/functions/upload-image', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            fileData: fileData,
+                            fileName: file.name,
+                            folder: '/scusatw/' // 你的 ImageKit 資料夾
+                        })
+                    });
 
-                    // 如果設定了資料夾，則加入 folder 參數
-                    if (imageKitFolder) {
-                         formData.append('folder', imageKitFolder);
+                    // 檢查響應狀態
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        const errorMessage = errorData.error || `上傳失敗: 狀態碼 ${response.status}`;
+                        console.error('上傳失敗響應:', errorData);
+                        throw new Error(errorMessage);
                     }
-                     // 可以選擇加入 tags, useUniqueFileName 等參數，請查閱 ImageKit API 文件
 
-                    try {
-                        // 使用 fetch 將圖片 Blob 上傳到 ImageKit.io
-                        const response = await fetch(imageKitUploadUrl, {
-                            method: 'POST',
-                            headers: {
-                                // 使用 Basic Authentication 傳遞私鑰進行認證
-                                'Authorization': basicAuthHeader
-                                // Content-Type 通常不需要手動設定，fetch 會根據 FormData 自動設定
-                            },
-                            body: formData,
-                            mode: 'cors' // 確保允許跨域請求
-                        });
+                    const result = await response.json();
 
-                        // 檢查 HTTP 響應狀態碼
-                        if (!response.ok) {
-                            // 嘗試解析 ImageKit 的錯誤響應
-                           const errorData = await response.json().catch(() => null); // 如果響應不是 JSON 也不會拋錯
-                           const errorMessage = errorData && errorData.message ? `ImageKit 上傳失敗: ${errorData.message}` : `ImageKit 上傳失敗: 狀態碼 ${response.status}`;
-                           console.error('ImageKit 上傳失敗響應:', await response.text().catch(() => '無法讀取錯誤響應')); // 記錄原始錯誤響應以便偵錯
-                           throw new Error(errorMessage);
-                        }
-
-                        const result = await response.json();
-
-                        // ImageKit 成功響應通常包含 url 欄位
-                        if (result && result.url) {
-                            console.log('圖片上傳成功:', result.url);
-                            resolve(result.url); // 返回 ImageKit 返回的圖片 URL
-                        } else {
-                            // 響應成功但數據格式異常
-                            console.error('ImageKit 上傳成功但返回數據格式異常:', result);
-                            resolve(null);
-                        }
-
-                    } catch (error) {
-                        console.error('圖片上傳錯誤 (ImageKit):', error);
-                        alert(`圖片上傳失敗：${error.message}`); // 向用戶顯示錯誤訊息
-                        resolve(null); // 上傳失敗返回 null
+                    // 檢查返回的數據
+                    if (result && result.url) {
+                        console.log('圖片上傳成功:', result.url);
+                        resolve(result.url); // 返回 ImageKit 返回的圖片 URL
+                    } else {
+                        // 響應成功但數據格式異常
+                        console.error('上傳成功但返回數據格式異常:', result);
+                        resolve(null);
                     }
-                }, 'image/jpeg', 0.8); // 將 Canvas 轉為 JPEG 格式，品質 0.8
-            };
 
-            // 讀取檔案為 Data URL 以便加載到 Image 對象
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-    }
+                } catch (error) {
+                    console.error('圖片上傳錯誤:', error);
+                    alert(`圖片上傳失敗：${error.message}`); // 向用戶顯示錯誤訊息
+                    resolve(null); // 上傳失敗返回 null
+                }
+            }, 'image/jpeg', 0.8); // 將 Canvas 轉為 JPEG 格式，品質 0.8
+        };
+
+        // 讀取檔案為 Data URL 以便加載到 Image 對象
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
 
     // 獲取用戶IP (保持不變)
     async function getUserIP() {

@@ -177,6 +177,7 @@ body {
 /* 主要內容區域 */
 .Pmain-container {
     max-width: 800px;
+    width: 100%;
     margin: 0 auto;
     padding: 40px 20px;
 }
@@ -460,8 +461,28 @@ body {
 }
 
 @media (max-width: 768px) {
+
+    .post-card{
+
+            border: 0px solid var(--border-color);
+
+    }
+
+
+    .publish-section{
+
+        margin-top: 60px;
+    }
+
+    
+        /* 調整主要內容 */
+        .main-content {
+            padding: 5px;
+        }
+
     .Pmain-container {
-        padding: 20px 15px;
+        padding: 0px 0px;
+        
     }
     
     .sidebar-menu {
