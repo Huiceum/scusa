@@ -1,4 +1,4 @@
-// script.js
+// community.js
 document.addEventListener('DOMContentLoaded', () => {
     let pollingAttempts = 0;
     const maxPollingAttempts = 15;
@@ -6,13 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedImages = [];
     let currentUser = '';
 
-    // --- ImageKit.io 設定 ---
-
-    const imageKitUploadUrl = 'https://upload.imagekit.io/api/v1/files/upload';
-    const imageKitFolder = '/scusatw/'; 
-    const basicAuthHeader = 'Basic ' + btoa(imageKitPrivateKey + ':');
-    // --- ImageKit.io 設定結束 ---
-
+    // --- Netlify Function 設定 (替代 ImageKit 直接上傳) ---
+    const uploadApiUrl = '/.netlify/functions/upload-image'; // Netlify Function 的路徑
+    const imageKitFolder = '/scusatw/'; // 設定希望圖片上傳到的 ImageKit 資料夾 (可選)
+    // --- Netlify Function 設定結束 ---
 
     // 檢查登入狀態並初始化
     document.getElementById('publishSection').addEventListener('click', async function() {
@@ -229,93 +226,86 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 圖片壓縮和上傳 (!!! 修改為使用 ImageKit.io !!!)
-  async function compressAndUploadImage(file) {
-    return new Promise((resolve) => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img = new Image();
+    // 圖片壓縮和上傳 (修改為使用 Netlify Function)
+    async function compressAndUploadImage(file) {
+        return new Promise((resolve) => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
 
-        img.onload = function() {
-            let { width, height } = img;
+            img.onload = async function() {
+                let { width, height } = img;
 
-            // 壓縮高度到600，寬度按比例調整
-            if (height > 600) {
-                width = (width * 600) / height;
-                height = 600;
-            }
+                // 壓縮高度到600，寬度按比例調整
+                if (height > 600) {
+                    width = (width * 600) / height;
+                    height = 600;
+                }
 
-            // 如果寬度超過1800，裁剪到1800
-            if (width > 1800) {
-                width = 1800;
-            }
+                // 如果寬度超過1800，裁剪到1800
+                if (width > 1800) {
+                    width = 1800;
+                }
 
-            canvas.width = width;
-            canvas.height = height;
-            ctx.drawImage(img, 0, 0, width, height);
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
 
-            // 將 Canvas 內容轉為 Blob，然後上傳
-            canvas.toBlob(async (blob) => {
+                // 將 Canvas 內容轉為 base64，然後上傳到 Netlify Function
+                const fileData = canvas.toDataURL('image/jpeg', 0.8); // 轉為 base64 格式，品質 0.8
+
+                const uploadData = {
+                    fileData: fileData,
+                    fileName: file.name,
+                    folder: imageKitFolder
+                };
+
                 try {
-                    // 將 Blob 轉換為 base64
-                    const reader = new FileReader();
-                    const base64Promise = new Promise((resolveBase64, rejectBase64) => {
-                        reader.onload = () => resolveBase64(reader.result);
-                        reader.onerror = rejectBase64;
-                    });
-                    reader.readAsDataURL(blob);
-                    
-                    const fileData = await base64Promise;
-                    
-                    // 調用 Netlify Function 上傳圖片
-                    const response = await fetch('/.netlify/functions/upload-image', {
+                    // 使用 fetch 將圖片數據發送到 Netlify Function
+                    const response = await fetch(uploadApiUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({
-                            fileData: fileData,
-                            fileName: file.name,
-                            folder: '/scusatw/' // 你的 ImageKit 資料夾
-                        })
+                        body: JSON.stringify(uploadData)
                     });
 
-                    // 檢查響應狀態
+                    // 檢查 HTTP 響應狀態碼
                     if (!response.ok) {
-                        const errorData = await response.json().catch(() => ({}));
-                        const errorMessage = errorData.error || `上傳失敗: 狀態碼 ${response.status}`;
-                        console.error('上傳失敗響應:', errorData);
+                        // 嘗試解析錯誤響應
+                        const errorData = await response.json().catch(() => null);
+                        const errorMessage = errorData && errorData.error ? `圖片上傳失敗: ${errorData.error}` : `圖片上傳失敗: 狀態碼 ${response.status}`;
+                        console.error('Netlify Function 上傳失敗響應:', await response.text().catch(() => '無法讀取錯誤響應'));
                         throw new Error(errorMessage);
                     }
 
                     const result = await response.json();
 
-                    // 檢查返回的數據
+                    // ImageKit 成功響應通常包含 url 欄位
                     if (result && result.url) {
                         console.log('圖片上傳成功:', result.url);
                         resolve(result.url); // 返回 ImageKit 返回的圖片 URL
                     } else {
                         // 響應成功但數據格式異常
-                        console.error('上傳成功但返回數據格式異常:', result);
+                        console.error('Netlify Function 上傳成功但返回數據格式異常:', result);
                         resolve(null);
                     }
 
                 } catch (error) {
-                    console.error('圖片上傳錯誤:', error);
+                    console.error('圖片上傳錯誤 (Netlify Function):', error);
                     alert(`圖片上傳失敗：${error.message}`); // 向用戶顯示錯誤訊息
                     resolve(null); // 上傳失敗返回 null
                 }
-            }, 'image/jpeg', 0.8); // 將 Canvas 轉為 JPEG 格式，品質 0.8
-        };
+            };
 
-        // 讀取檔案為 Data URL 以便加載到 Image 對象
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-}
+            // 讀取檔案為 Data URL 以便加載到 Image 對象
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
 
     // 獲取用戶IP (保持不變)
     async function getUserIP() {
@@ -338,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // 提交文章 (已修改，使用壓縮上傳函數，其內部已改為 ImageKit)
+    // 提交文章 (已修改，使用 Netlify Function 上傳)
     document.getElementById('submitBtn').addEventListener('click', async function() {
         const submitBtn = this;
         submitBtn.disabled = true; // 禁用按鈕防止重複點擊
@@ -399,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const hashInput = `${user}-${randomCode}-${now}-${ip}-${title.substring(0,10)}-${Math.random()}`;
         const hash = await generateHash(hashInput);
 
-        // 提交到最終表單 (保持不變，但圖片網址來源已改為 ImageKit)
+        // 提交到最終表單
         const finalFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdfZFlHx9ERT7VqniFrAOgqMgPm6sxU45h7gzbSTbs5wSyAhg/formResponse';
         const formData = new FormData();
         formData.append('entry.358109991', nameSelect === 'anonymous' ? 'true' : 'false'); // 是否匿名
