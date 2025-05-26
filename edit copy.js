@@ -15,14 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const editIntroTextarea = document.getElementById('editIntro');
     const submitEditBtn = document.getElementById('submitEditBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
-    const imageKitPrivateKey = 'private_fUNcPHEPFTe521XZiXjJS8jbwEw=';
-    const imageKitUploadUrl = 'https://upload.imagekit.io/api/v1/files/upload';
-    const imageKitFolder = '/scusatw/'; // 設定希望圖片上傳到的 ImageKit 資料夾 (可選)
 
-    // Base64 編碼的認證資訊 (使用 Basic Auth 格式: private_key + :)
-    // 這是 ImageKit 伺服器端上傳 API 使用的方式，這裡為了在前端實現而使用
-    const basicAuthHeader = 'Basic ' + btoa(imageKitPrivateKey + ':');
-    // --- ImageKit.io 設定結束 ---
+    // ImgBB API Key (請替換為您實際的 API Key)
+    const imgbbApiKey = '5a5b7d1809c9ccadfa1183fe879050c7'; // 替換為您的實際 API Key
 
     let currentAvatarUrl = sessionStorage.getItem('avatarUrl') || 'user.png'; // 用於追踪當前頭像 URL
 
@@ -38,22 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
         editAvatarPreview.src = currentAvatarUrl; // 使用 currentAvatarUrl
         editNicknameInput.value = sessionStorage.getItem('nickname') || '';
         editEmailInput.value = sessionStorage.getItem('email') || '';
-
+        
         // 自我介紹：在 textarea 中直接顯示，不轉換 <br>
         editIntroTextarea.value = sessionStorage.getItem('introduction') || '';
     }
 
     populateFormData(); // 頁面加載時立即填充數據
 
-    // --- 3. 頭像上傳邏輯 (使用 ImageKit.io) ---
+    // --- 3. 頭像上傳邏輯 ---
     avatarUploadInput.addEventListener('change', async (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
-        const maxFileSize = 20 * 1024 * 1024; // 32MB
+        const maxFileSize = 32 * 1024 * 1024; // 32MB
 
         if (file.size > maxFileSize) {
-            alert('圖片大小不能超過 20MB。');
+            alert('圖片大小不能超過 32MB。');
             avatarUploadInput.value = ''; // 清除選中的文件
             return;
         }
@@ -65,51 +60,37 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         reader.readAsDataURL(file);
 
-        // 顯示載入動畫並上傳圖片到 ImageKit.io
+        // 顯示載入動畫並上傳圖片
         showLoadingOverlay('上傳圖片中...');
         try {
             const formData = new FormData();
-            formData.append('file', file); // ImageKit 期望的檔案欄位名稱是 'file'
-            formData.append('fileName', file.name); // ImageKit 期望的檔案名稱欄位名稱是 'fileName'
-            if (imageKitFolder) {
-                formData.append('folder', imageKitFolder); // 指定上傳資料夾
-            }
+            formData.append('image', file);
+            formData.append('key', imgbbApiKey); // 您的 ImgBB API Key
 
-            const response = await fetch(imageKitUploadUrl, {
+            const response = await fetch('https://api.imgbb.com/1/upload', {
                 method: 'POST',
-                headers: {
-                    // 使用 Basic Authentication 傳遞私鑰進行認證
-                    'Authorization': basicAuthHeader
-                    // Content-Type 通常不需要手動設定，fetch 會根據 FormData 自動設定
-                },
                 body: formData,
-                mode: 'cors' // 確保允許跨域請求
             });
 
             if (!response.ok) {
-                 // 嘗試解析 ImageKit 的錯誤響應
-                const errorData = await response.json().catch(() => null); // 如果響應不是 JSON 也不會拋錯
-                const errorMessage = errorData && errorData.message ? `ImageKit 上傳失敗: ${errorData.message}` : `ImageKit 上傳失敗: 狀態碼 ${response.status}`;
-                throw new Error(errorMessage);
+                const errorData = await response.json();
+                throw new Error(`ImgBB 上傳失敗: ${errorData.error.message || response.statusText}`);
             }
 
             const result = await response.json();
-            // ImageKit 成功響應通常包含 url 欄位
-            if (result && result.url) {
-                currentAvatarUrl = result.url; // 更新當前頭像 URL 為 ImageKit 返回的 URL
+            if (result.success) {
+                currentAvatarUrl = result.data.url; // 更新當前頭像 URL
                 console.log('圖片上傳成功:', currentAvatarUrl);
                 loadingMessageText.textContent = '圖片上傳完成！';
                 setTimeout(() => { hideLoadingOverlay(); }, 500); // 短暫顯示成功訊息
             } else {
-                throw new Error('ImageKit 上傳失敗，無有效 URL 數據。');
+                throw new Error('ImgBB 上傳失敗，無成功數據。');
             }
         } catch (error) {
             console.error('圖片上傳錯誤:', error);
             alert(`圖片上傳失敗：${error.message}`);
             hideLoadingOverlay();
             avatarUploadInput.value = ''; // 上傳失敗也清空文件選擇
-            // 如果上傳失敗，保持預覽圖為舊的或預設圖
-             editAvatarPreview.src = currentAvatarUrl; // 回復到上傳前的預覽圖
         }
     });
 
@@ -120,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.upload-btn').addEventListener('click', () => {
         avatarUploadInput.click();
     });
-
 
     // --- 4. 完成編輯按鈕邏輯 ---
     submitEditBtn.addEventListener('click', async () => {
@@ -144,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfqCVAqWmyCHA94tEXyy1fbxnbz4dkdiLgp1NMswvUJIOXWZA/formResponse';
         const formData = new FormData();
         formData.append('entry.623180088', email); // 信箱
-        formData.append('entry.292951009', currentAvatarUrl); // 頭像網址 (可能是 ImageKit 返回的新網址或原來的)
+        formData.append('entry.292951009', currentAvatarUrl); // 頭像網址 (可能是新上傳的或原來的)
         formData.append('entry.365501600', nickname); // 暱稱
         formData.append('entry.576325894', intro); // 自我介紹
         formData.append('entry.1843134645', user); // user
@@ -153,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             await fetch(googleFormUrl, {
                 method: 'POST',
-                mode: 'no-cors', // 允許跨域發送請求，但不允許JS讀取響應 (Google Form 要求的模式)
+                mode: 'no-cors', // 允許跨域發送請求，但不允許JS讀取響應
                 body: formData
             });
             console.log('數據已在背景傳送至 Google 表單。');

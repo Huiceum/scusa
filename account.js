@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('email', data.email || '');
         sessionStorage.setItem('nickname', data.nickname || '');
         sessionStorage.setItem('introduction', data.introduction || '');
+        sessionStorage.setItem('avatar', data.avatarUrl || ''); // 改為 'avatar'
         console.log('用戶資料已儲存到 sessionStorage。');
     }
 

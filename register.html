@@ -1,55 +1,84 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>註冊頁面 - 星空背景</title>
-    <!-- Link to the external CSS for the star background -->
-    <link rel="stylesheet" href="stars.css">
-    <link rel="stylesheet" href="lo&re.css">
-    <link rel="icon" href="icon.PNG" type="image/x-icon">
+    <title>東吳大學學生會</title>
+    <!-- 主要站點的 CSS -->
+    <link rel="stylesheet" href="sa.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
 
     <style>
-        /* Styles for the login form, modal, etc., remain here */
-        /* The global '*' reset and body's font-family are now in stars.css
-           or can be defined here if preferred for the main content. */
-        #logo {
-            width: 45px;
-            height: 45px;
-        }
-        body {
-             /* Ensure these are set if not globally by '*' or other body rules */
-            margin: 0;
-            padding: 0; /* Body padding might interfere with full screen bg */
-             /* overflow: hidden; /* Prevent scrollbars - Now in stars.css */
-             /* background-color: #000010; /* Fallback background - Now in stars.css */
-            font-family: 'Arial', sans-serif; /* Moved from original '*' for clarity */
+         /* New CSS Variables for Dark Theme */
+        :root {
+            --text-light: #f0f0f0;         /* 淺色文字 */
+            --text-white: #ffffff;         /* 白色文字 */
+            --sidebar-bg: #181818;         /* 側邊欄背景 */
+            --main-bg: #010010;            /* 主背景色 */
+            --border-color: #455b76;       /* 邊框顏色 */
+            --link-hover: rgb(205, 47, 71); /* 連結懸停顏色 */
+            --link-color: #6887ae;         /* 一般連結顏色 */
+
+            /* 新增/調整的顏色變數 (從註冊頁面複製) */
+            --form-bg: rgba(24, 24, 24, 0.9); /* 表單背景，稍微透明 */
+            --form-border: rgba(69, 91, 118, 0.6); /* 表單邊框，稍微透明 */
+            --input-bg: rgba(255, 255, 255, 0.08); /* 輸入框背景，微透明 */
+            --input-border: rgba(69, 91, 118, 0.4); /* 輸入框邊框，微透明 */
+            --input-focus-border: var(--link-color); /* 輸入框聚焦邊框 */
+            --input-text: var(--text-light); /* 輸入框文字顏色 */
+            --placeholder-color: rgba(240, 240, 240, 0.5); /* 佔位符文字顏色 */
+            --error-color: #e57373;        /* 錯誤訊息顏色 (較柔和的紅) */
+            --success-color: #81c784;      /* 成功訊息顏色 (較柔和的綠) */
+            --warning-color: #ffb74d;      /* 警告顏色 (橘色) */
+            --modal-bg: var(--main-bg); /* 彈窗內容背景 */
+            --modal-header-bg: var(--sidebar-bg); /* 彈窗頭部背景 */
+            --modal-footer-bg: var(--sidebar-bg); /* 彈窗底部背景 */
         }
 
-        .container {
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: var(--main-bg); /* Apply main background */
+            color: var(--text-light); /* Apply light text color globally */
+        }
+
+        /* Ensure the Three.js background covers the body */
+        #constellation-bg {
+             position: fixed;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             z-index: 0; /* Keep background behind content */
+        }
+
+        .Icontainer {
             width: 100%;
             max-width: 450px;
-            /* background-color: rgba(0, 0, 0, 0); /* Slightly transparent to see bg */
-             background-color:rgba(255, 255, 255, 0); /* Keep white background for form content */
+            background-color: var(--form-bg); /* Use form background */
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Darker shadow for dark theme */
+            border: 1px solid var(--form-border); /* Add border using variable */
             padding: 30px;
-            position: relative; /* Crucial for z-index and centering */
-            z-index: 1; /* Above constellation background */
+            position: relative;
+            z-index: 1;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 5vh auto; /* Center the container vertically and horizontally */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            margin: 5vh auto 20px auto; /* Center, add margin below */
         }
 
-        .container:hover {
+        .Icontainer:hover {
             transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); /* Darker hover shadow */
+            border-color: var(--link-color); /* Highlight border on hover */
         }
 
         h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: #2e7d32;
+            color: var(--text-white); /* White title */
             position: relative;
             padding-bottom: 15px;
         }
@@ -62,7 +91,7 @@
             transform: translateX(-50%);
             width: 60px;
             height: 3px;
-            background-color: #2e7d32;
+            background-color: var(--link-color); /* Accent color underline */
             transition: width 0.3s ease;
         }
 
@@ -78,34 +107,40 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            color: var(--text-light); /* Label color */
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .form-group:focus-within label {
-            color: #2e7d32;
+            color: var(--link-color); /* Label color when input is focused */
         }
 
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--input-border); /* Input border */
             border-radius: 6px;
             font-size: 16px;
             transition: all 0.3s ease;
             outline: none;
-            background-color: rgba(255,255,255,0.8);
+            background-color: var(--input-bg); /* Input background */
+            color: var(--input-text); /* Input text color */
+        }
+
+        .form-control::placeholder {
+            color: var(--placeholder-color); /* Placeholder color */
+            opacity: 1; /* Ensure placeholder is visible */
         }
 
         .form-control:focus {
-            border-color: #2e7d32;
-            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
-            background-color: #fff;
+            border-color: var(--input-focus-border); /* Focus border color */
+            box-shadow: 0 0 0 3px rgba(104, 135, 174, 0.3); /* Shadow based on link-color */
+            background-color: var(--input-bg); /* Keep same background or slightly lighter if desired */
         }
 
         .form-error {
-            color: #d32f2f;
+            color: var(--error-color); /* Error text color */
             font-size: 14px;
             margin-top: 5px;
             transition: all 0.3s ease;
@@ -122,8 +157,8 @@
             display: block;
             width: 100%;
             padding: 14px;
-            background-color: #2e7d32;
-            color: white;
+            background-color: var(--link-color); /* Button background using accent color */
+            color: var(--text-white); /* Button text color */
             border: none;
             border-radius: 6px;
             font-size: 16px;
@@ -135,7 +170,7 @@
         }
 
         .btn:hover {
-            background-color: #1b5e20;
+            background-color: var(--link-hover); /* Button hover background */
         }
 
         .btn:active {
@@ -171,335 +206,350 @@
             }
         }
 
-  /* Enhanced Terms Modal Styling */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
+        /* --- Login Link Area --- */
+        .login-link-area {
+            text-align: center;
+            margin-top: 20px; /* Space above the link */
+            color: var(--text-light); /* Text color */
+            z-index: 1; /* Ensure it's above the background */
+            position: relative; /* Needed for z-index */
+        }
 
-.modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
+        .login-link-area a {
+            color: var(--link-color); /* Link color */
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
 
-.modal-container {
-    background-color: #fff;
-    width: 90%;
-    max-width: 550px;
-    max-height: 85vh;
-    border-radius: 12px;
-    padding: 0; /* Remove padding to control inner sections better */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    transform: translateY(-30px) scale(0.95);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    overflow: hidden; /* Hide overflow */
-}
-
-.modal-overlay.active .modal-container {
-    transform: translateY(0) scale(1);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px;
-    background-color: #2e7d32;
-    color: white;
-    border-bottom: none;
-}
-
-.modal-title {
-    font-size: 24px;
-    color: white;
-    margin: 0;
-    font-weight: 600;
-}
-
-.modal-content {
-    padding: 25px 30px;
-    max-height: 60vh;
-    overflow-y: auto;
-    line-height: 1.6;
-    scrollbar-width: thin;
-    scrollbar-color: #2e7d32 #f0f0f0;
-}
-
-.modal-content::-webkit-scrollbar {
-    width: 8px;
-}
-
-.modal-content::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    border-radius: 4px;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-    background-color: #2e7d32;
-    border-radius: 4px;
-}
-
-/* Password warning section */
-.password-warning {
-    background-color: #ffffff;
-    border-left: 5px solid #d32f2f;
-    padding: 15px 20px;
-    margin: 20px 0;
-    border-radius: 4px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.password-warning:hover {
-    transform: translateX(3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-}
-
-.password-warning h2 {
-    color: #000000;
-    margin-top: 0;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-}
+        .login-link-area a:hover {
+            color: var(--link-hover); /* Link hover color */
+            text-decoration: underline;
+        }
 
 
+        /* Enhanced Terms Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
 
-.password-warning h3 {
-    color: #000000;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0;
-}
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
 
-/* Terms sections styling */
-.terms-section {
-    margin: 20px 0;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #f0f0f0;
-    transition: all 0.3s ease;
-}
+        .modal-container {
+            background-color: var(--modal-bg); /* Use modal background */
+            color: var(--text-light); /* Apply text color inside modal */
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); /* Darker shadow */
+            transform: translateY(-30px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            overflow: hidden;
+        }
 
-.terms-section:hover {
-    padding-left: 5px;
-}
+        .modal-overlay.active .modal-container {
+            transform: translateY(0) scale(1);
+        }
 
-.terms-section:last-child {
-    border-bottom: none;
-}
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--modal-header-bg); /* Use modal header background */
+            color: var(--text-white); /* Header text color */
+            border-bottom: none; /* Remove border */
+        }
 
-.terms-section h3 {
-    color: #2e7d32;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-    position: relative;
-    padding-left: 22px;
-}
+        .modal-title {
+            font-size: 24px;
+            color: var(--text-white); /* Header title color */
+            margin: 0;
+            font-weight: 600;
+        }
 
-.terms-section h3:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    background-color: #2e7d32;
-    border-radius: 50%;
-}
+        .modal-content {
+            padding: 25px 30px;
+            max-height: 60vh;
+            overflow-y: auto;
+            line-height: 1.6;
+            scrollbar-width: thin;
+            scrollbar-color: var(--link-color) var(--modal-bg); /* Scrollbar colors */
+        }
 
-.terms-section p {
-    margin: 10px 0 10px 22px;
-    color: #555;
-}
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
 
-/* Contact section */
-.contact-section {
-    background-color: #f9f9f9;
-    padding: 15px 20px;
-    border-radius: 4px;
-    margin: 20px 0 10px;
-}
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--modal-bg); /* Scrollbar track */
+            border-radius: 4px;
+        }
 
-.contact-section a {
-    color: #2e7d32;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
+        .modal-content::-webkit-scrollbar-thumb {
+            background-color: var(--link-color); /* Scrollbar thumb */
+            border-radius: 4px;
+        }
 
-.contact-section a:hover {
-    color: #1b5e20;
-    text-decoration: underline;
-}
+        /* Password warning section */
+        .password-warning {
+            background-color: var(--sidebar-bg); /* Darker background for warning */
+            border-left: 5px solid var(--error-color); /* Error color border */
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3); /* Darker shadow */
+            transition: all 0.3s ease;
+        }
 
-.modal-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 30px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #e0e0e0;
-}
+        .password-warning:hover {
+            transform: translateX(3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Darker hover shadow */
+        }
 
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-}
+        .password-warning h2 {
+            color: var(--warning-color); /* Warning title color */
+            margin-top: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
 
-/* Custom checkbox styling */
-.custom-checkbox {
-    position: relative;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-}
+        .password-warning h3 {
+            color: var(--text-light); /* Warning text color */
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0;
+        }
 
-.custom-checkbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
+        /* Terms sections styling */
+        .terms-section {
+            margin: 20px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(69, 91, 118, 0.4); /* Border based on variable */
+            transition: all 0.3s ease;
+        }
 
-.checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: #fff;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
+        .terms-section:hover {
+            padding-left: 5px;
+        }
 
-.custom-checkbox:hover input ~ .checkmark {
-    border-color: #2e7d32;
-}
+        .terms-section:last-child {
+            border-bottom: none;
+        }
 
-.custom-checkbox input:checked ~ .checkmark {
-    background-color: #2e7d32;
-    border-color: #2e7d32;
-}
+        .terms-section h3 {
+            color: var(--link-color); /* Section title color */
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 22px;
+        }
 
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
+        .terms-section h3:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background-color: var(--link-color); /* Bullet color */
+            border-radius: 50%;
+        }
 
-.custom-checkbox input:checked ~ .checkmark:after {
-    display: block;
-}
+        .terms-section p {
+            margin: 10px 0 10px 22px;
+            color: var(--text-light); /* Paragraph text color */
+        }
 
-.checkbox-label {
-    color: #555;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
+        /* Contact section */
+        .contact-section {
+            background-color: var(--sidebar-bg); /* Dark background */
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin: 20px 0 10px;
+        }
 
-.custom-checkbox input:checked ~ .checkbox-label {
-    color: #2e7d32;
-}
+        .contact-section a {
+            color: var(--link-color); /* Link color */
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
 
-.close-modal {
-    padding: 10px 22px;
-    background-color: #e0e0e0;
-    color: #555;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    opacity: 0.6;
-    pointer-events: none;
-}
+        .contact-section a:hover {
+            color: var(--link-hover); /* Link hover color */
+            text-decoration: underline;
+        }
 
-.close-modal.active {
-    background-color: #2e7d32;
-    color: white;
-    opacity: 1;
-    pointer-events: all;
-    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2);
-}
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background-color: var(--modal-footer-bg); /* Use modal footer background */
+            border-top: 1px solid rgba(69, 91, 118, 0.4); /* Border color */
+        }
 
-.close-modal.active:hover {
-    background-color: #1b5e20;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.3);
-}
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
 
-.close-modal.active:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(46, 125, 50, 0.2);
-}
+        /* Custom checkbox styling */
+        .custom-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
 
-/* Animations */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
 
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: var(--input-bg); /* Checkbox background */
+            border: 2px solid var(--border-color); /* Checkbox border */
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
 
+        .custom-checkbox:hover input ~ .checkmark {
+            border-color: var(--link-color); /* Hover border color */
+        }
 
-/* For mobile responsiveness */
-@media (max-width: 576px) {
-    .modal-container {
-        width: 95%;
-        max-height: 90vh;
-    }
-    
-    .modal-header {
-        padding: 15px 20px;
-    }
-    
-    .modal-title {
-        font-size: 20px;
-    }
-    
-    .modal-content {
-        padding: 20px;
-    }
-    
-    .modal-footer {
-        padding: 15px 20px;
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .checkbox-container {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-    
-    .close-modal {
-        width: 100%;
-    }
-}
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: var(--link-color); /* Checked background color */
+            border-color: var(--link-color); /* Checked border color */
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid var(--text-white); /* Checkmark color */
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-label {
+            color: var(--text-light); /* Label color */
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .custom-checkbox input:checked ~ .checkbox-label {
+            color: var(--text-white); /* Label color when checked */
+        }
+
+        .close-modal {
+            padding: 10px 22px;
+            background-color: var(--border-color); /* Button background */
+            color: var(--text-white); /* Button text color */
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .close-modal.active {
+            background-color: var(--link-color); /* Active background */
+            color: var(--text-white);
+            opacity: 1;
+            pointer-events: all;
+            box-shadow: 0 4px 8px rgba(104, 135, 174, 0.3); /* Shadow based on link-color */
+        }
+
+        .close-modal.active:hover {
+            background-color: var(--link-hover); /* Hover background */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(205, 47, 71, 0.4); /* Shadow based on link-hover */
+        }
+
+        .close-modal.active:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(205, 47, 71, 0.2); /* Shadow based on link-hover */
+        }
+
+        /* Animations (ripple) - color might be affected by --text-white or change */
+        /* Current ripple uses white rgba, which is fine on dark bg */
+
+        /* For mobile responsiveness */
+        @media (max-width: 576px) {
+            .modal-container {
+                width: 95%;
+                max-height: 90vh;
+            }
+
+            .modal-header {
+                padding: 15px 20px;
+            }
+
+            .modal-title {
+                font-size: 20px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal-footer {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .checkbox-container {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .close-modal {
+                width: 100%;
+            }
+        }
 
         /* Loading indicator */
         .loader {
@@ -509,7 +559,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 10, 0.8); /* Darker loader bg */
+            background: rgba(0, 0, 16, 0.95); /* Darker loader bg */
             z-index: 9999; /* Highest z-index */
             justify-content: center;
             align-items: center;
@@ -518,9 +568,9 @@
         .loader-spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid rgba(46, 125, 50, 0.3);
+            border: 5px solid rgba(104, 135, 174, 0.3); /* Border based on link-color */
             border-radius: 50%;
-            border-top-color: #4caf50; /* Brighter green for spinner */
+            border-top-color: var(--link-color); /* Spinner color */
             animation: spin 1s linear infinite;
         }
 
@@ -530,17 +580,18 @@
             }
         }
 
-        /* 驗證碼輸入區域樣式 */
+        /* Verification Code Area */
         .verification-area {
             display: none; /* Initially hidden */
             text-align: center;
             padding: 20px;
-            background-color: #fff; /* Background for this area */
+            background-color: var(--modal-bg); /* Use modal background */
             border-radius: 8px;
             margin-top: 20px;
-            transform: translateY(-10px); /* Animation effect */
+            transform: translateY(-10px);
             opacity: 0;
             transition: all 0.5s ease;
+             color: var(--text-light); /* Text color */
         }
 
         .verification-area.active {
@@ -550,22 +601,22 @@
         }
 
         .verification-area h3 {
-            color: #2e7d32;
+            color: var(--link-color); /* Title color */
             margin-bottom: 15px;
         }
 
         .verification-area p {
-             color: #555;
+             color: var(--text-light); /* Paragraph color */
              margin-bottom: 20px;
         }
 
         .verification-area .form-group {
-            margin-bottom: 0; /* Less bottom margin for single input */
+            margin-bottom: 0;
         }
 
          /* Style for the verification input */
          .verification-input {
-             text-align: center; /* Center text in input */
+             text-align: center;
          }
 
          /* Style for general message area */
@@ -573,12 +624,13 @@
             display: none; /* Initially hidden */
             text-align: center;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.95); /* White background */
+            background-color: var(--modal-bg); /* Use modal background */
             border-radius: 8px;
             margin-top: 20px;
             transform: translateY(-10px);
             opacity: 0;
             transition: all 0.5s ease;
+             color: var(--text-light); /* Default text color */
          }
 
          .message-area.active {
@@ -588,32 +640,32 @@
          }
 
          .message-area h3 {
-             color: #2e7d32;
+             color: var(--link-color); /* Default title color */
              margin-bottom: 15px;
          }
 
          .message-area p {
-             color: #555;
+             color: var(--text-light); /* Default paragraph color */
          }
 
          .message-area.error h3,
          .message-area.error p {
-             color: #d32f2f; /* Red color for error messages */
+             color: var(--error-color); /* Error color for messages */
          }
 
-
-        /* 註冊成功訊息 */
+        /* Registration Success Message */
         .success-message {
             display: none; /* Initially hidden */
             text-align: center;
             padding: 20px;
-            background-color: #e8f5e9;
+            background-color: var(--sidebar-bg); /* Use a dark theme background */
             border-radius: 8px;
-            color: #2e7d32;
+            color: var(--success-color); /* Success color */
             margin-top: 20px;
             transform: translateY(-10px);
             opacity: 0;
             transition: all 0.5s ease;
+            border: 1px solid var(--success-color); /* Add a success border */
         }
 
         .success-message.active {
@@ -626,108 +678,144 @@
             display: inline-block;
             font-size: 48px;
             margin-bottom: 15px;
+            color: var(--success-color); /* Icon color */
         }
+
+        /* Ensure the logo looks okay on dark backgrounds */
+        #logo {
+            width: 45px;
+            height: 45px;
+            /* Add some styling if needed for dark theme contrast */
+            /* filter: invert(1); */ /* Example: if logo is dark, invert it */
+        }
+
+
+
     </style>
 </head>
-<body>
-    <!-- These divs are for the Three.js background -->
-    <div id="constellation-bg"></div>
-    <div id="star-label"></div>
-<!-- The updated HTML for the terms modal section -->
-<div class="modal-overlay active" id="termsModal">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h2 class="modal-title">使用者條款及隱私政策</h2>
-            <img src="logo.png" alt="Logo" id="logo">
 
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-        <div class="modal-content">
-            <p>歡迎您使用我們的服務！在使用前，請詳細閱讀以下條款。</p>
-            
-            <!-- Password warning with enhanced styling -->
-            <div class="password-warning">
-                <h2>切勿提供個人常用帳號密碼！</h2>
-                <h3>現在這個專案正在BETA測試當中，為了限流AI使用次數，因此對用戶做帳號管理，您註冊的資料會直接傳到我的電腦，為了保護我們雙方的安全，切勿使用您常用的社群平台密碼作為密碼！</h3>
+
+        <!-- 手機版側邊欄 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
             </div>
-            
-            <!-- Terms sections with better organization -->
-            <div class="terms-section">
-                <h3>個人資料的收集與使用</h3>
-                <p>我會收集您的電子郵件及相關資訊，這些資訊將用於您的帳戶管理、服務提供、及安全維護。我們也會收集您的IP地址以防止濫用。</p>
+            <ul class="nav-links" id="mobile-nav">
+                <!-- 動態加載的導航項目將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 桌面版導航欄 -->
+            <div class="navbar">
+                <ul class="nav-options" id="nav-container">
+                    <!-- 動態加載的導航項目將插入此處 -->
+                </ul>
             </div>
-            
-            <div class="terms-section">
-                <h3>資料安全</h3>
-                <p>我將採取合理的安全措施保護您的個人資料，避免未經授權的存取、使用或洩露。所有密碼都會經過加密處理。</p>
+
+
+    <!-- The updated HTML for the terms modal section -->
+    <div class="modal-overlay active" id="termsModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">東吳大學學生會帳號註冊同意書</h2>
+                 <img src="favicon.png" alt="Logo" id="logo">
             </div>
-            
-            <div class="terms-section">
-                <h3>用戶責任</h3>
-                <p>您必須妥善保管您的帳號密碼，並對使用該帳號進行的所有活動負責。若發現任何安全問題，請立即通知我們。</p>
+            <div class="modal-content">
+                <p>歡迎您使用我們的服務！在使用前，請詳細閱讀以下條款。</p>
+                <div class="password-warning">
+                    <h2>密碼設定須知</h2>
+                    <h3>註冊時所設定的密碼會直接傳到學生會的後台，不必與東吳大學校務行政系統的密碼相同，僅作為學生會服務所需的認證用途。為確保註冊的學生擁有東吳大學的學生資格，註冊過程中會使用學校電子郵件驗證<a href="https://webmail.scu.edu.tw/" target="_blank" style="color: #d5e2e6;"> webmail.scu.edu.tw</a>（帳號密碼預設皆為學號8碼），請先準備以完成驗證程序。</h3>
+                </div>
+                <div class="terms-section">
+                    <h3>個人資料的收集與使用</h3>
+                    <p>我會收集您的學號及相關資訊，這些資訊將用於您的帳戶管理、服務提供、及安全維護。我們也會收集您的IP地址以防止濫用。</p>
+                </div>
+                <div class="terms-section">
+                    <h3>資料安全</h3>
+                    <p>我將採取合理的安全措施保護您的個人資料，避免未經授權的存取、使用或洩露。所有密碼都會經過加密處理。</p>
+                </div>
+                <div class="terms-section">
+                    <h3>用戶責任</h3>
+                    <p>您必須妥善保管您的帳號密碼，並對使用該帳號進行的所有活動負責。若發現任何安全問題，請立即通知我們。</p>
+                </div>
+                <div class="terms-section">
+                    <h3>條款變更</h3>
+                    <p>我們保留隨時修改這些條款的權利。修改後的條款將在網站上公佈。您繼續使用我們的服務，即表示您接受修改後的條款。</p>
+                </div>
+                <div class="terms-section">
+                    <h3>詐騙防範提醒</h3>
+                    <p>學生會絕對不會以任何形式（如電子郵件、電話等）要求學生提供網路ATM帳號或其他電信服務帳戶資訊。若您收到任何要求您提供此類信息的訊息，請立即提高警覺，並避免回應。</p>
+                </div>
+                <div class="contact-section">
+                    <h3>聯絡我們</h3>
+                    <p>如果有任何問題，歡迎直接連絡我們 <a href="mailto:scusa000@gmail.com">scusa000@gmail.com</a></p>
+                </div>
             </div>
-            
-            <div class="terms-section">
-                <h3>條款變更</h3>
-                <p>我們保留隨時修改這些條款的權利。修改後的條款將在網站上公佈。您繼續使用我們的服務，即表示您接受修改後的條款。</p>
+            <div class="modal-footer">
+                <label class="checkbox-container">
+                    <span class="custom-checkbox">
+                        <input type="checkbox" id="termsCheckbox">
+                        <span class="checkmark"></span>
+                    </span>
+                    <span class="checkbox-label">我已閱讀並同意上述條款</span>
+                </label>
+                <button class="close-modal" id="closeModal">確認</button>
             </div>
-            
-            <!-- Contact section with better styling -->
-            <div class="contact-section">
-                <h3>聯絡我們</h3>
-                <p>如果有任何問題，歡迎直接連絡我們 <a href="mailto:socialworkeplus@gmail.com">socialworkeplus@gmail.com</a></p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <label class="checkbox-container">
-                <span class="custom-checkbox">
-                    <input type="checkbox" id="termsCheckbox">
-                    <span class="checkmark"></span>
-                </span>
-                <span class="checkbox-label">我已閱讀並同意上述條款</span>
-            </label>
-            <button class="close-modal" id="closeModal">確認</button>
         </div>
     </div>
-</div>
 
     <!-- 註冊表單區域 -->
-    <div class="container" id="registrationContainer">
+    <div class="Icontainer" id="registrationContainer">
         <!-- Title dynamically changed by JS -->
         <h1 id="formTitle">創建帳號</h1>
 
-        <!-- Step 1: Email/Password Form -->
+        <!-- Step 1: Student ID/Password Form -->
         <form id="registrationForm" autocomplete="off">
             <div class="form-group">
-                <label for="email">電子信箱</label>
-                <input type="email" class="form-control" id="email" name="entry.250472257" placeholder="請輸入您的電子信箱" required>
-                <div class="form-error" id="emailError"></div>
+                <label for="studentId">學號</label>
+                <!-- Changed type to text, added inputmode, pattern, maxlength, updated id and placeholder -->
+                <input type="text" class="form-control" id="studentId" name="entry.236193576" placeholder="請輸入您的8碼學號" required inputmode="numeric" pattern="\d{8}" maxlength="8">
+                <div class="form-error" id="studentIdError"></div> <!-- Updated error id -->
             </div>
             <div class="form-group">
                 <label for="password">密碼</label>
-                <input type="password" class="form-control" id="password" name="entry.2129069192" placeholder="請輸入6-18位英數字密碼" required>
+                 <!-- Added inputmode, maxlength, updated placeholder -->
+                <input type="password" class="form-control" id="password" name="entry.1800516097" placeholder="請輸入4碼數字密碼" required inputmode="numeric" maxlength="4">
                 <div class="form-error" id="passwordError"></div>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">確認密碼</label>
-                <input type="password" class="form-control" id="confirmPassword" placeholder="請再次輸入密碼" required>
+                <!-- Added inputmode, maxlength, updated placeholder -->
+                <input type="password" class="form-control" id="confirmPassword" placeholder="請再次輸入4碼數字密碼" required inputmode="numeric" maxlength="4">
                 <div class="form-error" id="confirmPasswordError"></div>
             </div>
-            <input type="hidden" id="randomCode" name="entry.1767444942" value="">
-            <input type="hidden" id="ipAddress" name="entry.849286952" value="">
+            <input type="hidden" id="randomCode" name="entry.1005547065" value="">
+            <input type="hidden" id="ipAddress" name="entry.7502784" value="">
             <button type="submit" class="btn" id="submitBtn">註冊</button>
         </form>
 
         <!-- Step 2: Verification Code Input Area -->
         <div class="verification-area" id="verificationArea">
-            <p>我們已將驗證碼發送到您的電子信箱。</p>
+            <!-- Updated text to reflect where verification code is sent -->
+            <p>驗證碼已發送到您的學號所對應的電子信箱。<br><a href="https://webmail.scu.edu.tw/" target="_blank" style="color: #d5e2e6;"> webmail.scu.edu.tw</a><br>（帳號密碼預設皆為學號8碼）</p>
             <form id="verificationForm" autocomplete="off">
                 <div class="form-group">
                     <label for="verificationCode">驗證碼</label>
-                    <input type="text" class="form-control verification-input" id="verificationCode" name="entry.628523577" placeholder="請輸入收到的驗證碼" required>
+                    <input type="text" class="form-control verification-input" id="verificationCode" name="entry.12374203" placeholder="請輸入收到的驗證碼" required>
                     <div class="form-error" id="verificationCodeError"></div>
                 </div>
                 <!-- Hidden field for the random code -->
-                <input type="hidden" id="verificationRandomCode" name="entry.2117722276" value="">
+                <input type="hidden" id="verificationRandomCode" name="entry.1779860337" value="">
                 <button type="submit" class="btn" id="verifyBtn">驗證</button>
             </form>
         </div>
@@ -740,33 +828,57 @@
              <!-- <button class="btn" id="retryBtn" style="display: none; margin-top: 20px;">重試</button> -->
         </div>
 
-
         <!-- Step 3: Success Message -->
         <div class="success-message" id="successMessage">
             <div class="success-icon">✓</div>
             <h3>註冊成功！</h3>
             <p>您的帳號已經成功建立。</p>
         </div>
+
+            <!-- Login Link Below Form -->
+    <div class="login-link-area">
+        <p>已有帳號？ <a href="login.html">立即登入</a></p>
     </div>
+    </div>
+
+
 
     <!-- Loading indicator -->
     <div class="loader" id="loader">
         <div class="loader-spinner"></div>
     </div>
 
-    <!-- Three.js library (must be before stars.js) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Link to the external JavaScript for the star background -->
-    <script src="stars.js"></script>
-    <script src="lo&re.js"></script>
 
-    <!-- START: 註冊表單的 JavaScript 邏輯 -->
+            <!-- 浮動球 -->
+            <div id="ball-container">
+                <img id="ball" src="ball7.gif" alt="Ball">
+            </div>
+
+            <div class="footer">
+                <div class="footer-content">
+                    <ul class="footer-links" id="footer-links">
+                        <!-- 動態加載的底部鏈接將插入此處 -->
+                    </ul>
+                    <div class="footer-info">
+                        © 2025 東吳大學學生會 版權所有
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 主要站點的 JavaScript -->
+    <script src="sa.js"></script>
+    <script src="sa0.js"></script>
+
+  
     <script>
         // --- LOGIN PAGE JS (Modified for two steps + Sheet Check) ---
 
         // Function to generate random code (used in both steps)
         function generateRandomCode(length) {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01010101010101010123456789'; // Added more 0/1 for testing
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '';
             for (let i = 0; i < length; i++) {
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -791,7 +903,7 @@
         const termsCheckbox = document.getElementById('termsCheckbox');
         const closeModalBtn = document.getElementById('closeModal');
         const registrationContainer = document.getElementById('registrationContainer'); // The main container div
-        const formTitle = document.getElementById('formTitle'); // The h1 title (dynamically changed)
+        const formTitle = document.getElementById('formTitle'); // The h1 title
         const registrationForm = document.getElementById('registrationForm'); // Step 1 form
         const verificationArea = document.getElementById('verificationArea'); // Step 2 area
         const verificationForm = document.getElementById('verificationForm'); // Step 2 form
@@ -800,13 +912,13 @@
         const messageText = document.getElementById('messageText');
         const successMessage = document.getElementById('successMessage'); // Step 3 message
         const loader = document.getElementById('loader');
-        const loginLinkContainer = document.querySelector('.login-btn').parentNode; // 找到登入按鈕的父容器
-
 
         // Step 1 form elements
+        // Renamed emailInput to studentIdInput
         const studentIdInput = document.getElementById('studentId');
         const passwordInput = document.getElementById('password');
         const confirmPasswordInput = document.getElementById('confirmPassword');
+        // Renamed emailError to studentIdError
         const studentIdError = document.getElementById('studentIdError');
         const passwordError = document.getElementById('passwordError');
         const confirmPasswordError = document.getElementById('confirmPasswordError');
@@ -824,7 +936,7 @@
         const verificationSheetId = '1hhjRwq-s_yYObRZ54u0d5H_7YtSrh5j1rbg95I2YcOk'; // Sheet 1 ID
         const verificationSheetUrl = `https://docs.google.com/spreadsheets/d/${verificationSheetId}/gviz/tq?tqx=out:csv`;
         const verificationCheckInterval = 500; // milliseconds (0.5 seconds)
-        const verificationMaxAttempts = Math.floor(120 * 1000 / verificationCheckInterval); // 120 seconds / 0.5 seconds = 240 attempts
+        const verificationMaxAttempts = Math.floor(100 * 1000 / verificationCheckInterval); // 100 seconds / 0.5 seconds = 200 attempts
         let verificationCheckAttempts = 0;
         let verificationCheckIntervalId = null;
 
@@ -832,7 +944,7 @@
         const registrationCheckSheetId = '1puml4giFpLafIDBsf73EnxDCYDkXSFN6gMI8tHFQ0xA'; // Sheet 2 ID
         const registrationCheckSheetUrl = `https://docs.google.com/spreadsheets/d/${registrationCheckSheetId}/gviz/tq?tqx=out:csv`;
         const registrationCheckInterval = 500; // milliseconds (0.5 seconds)
-        const registrationMaxAttempts = Math.floor(120 * 1000 / registrationCheckInterval); // 120 seconds / 0.5 seconds = 240 attempts
+        const registrationMaxAttempts = Math.floor(100 * 1000 / registrationCheckInterval); // 100 seconds / 0.5 seconds = 200 attempts
         let registrationCheckAttempts = 0;
         let registrationCheckIntervalId = null;
 
@@ -840,310 +952,233 @@
         const registrationFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScuddnBGwJ0gcpcuCsWDitccAikRgySK3RtLVze7airLoWz2w/formResponse'; // First Google Form URL
 
         // Google Form 2 submission URL (For verification code data)
-        const verificationFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf1QmNeOYCcgytOQp5c97nYAoCjkpcMeMCGLMoOF7KKO2tppn/formResponse'; // Second Google Form URL (請再次檢查此網址是否正確)
+        const verificationFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf1QmNeOYCcgytOQp5c97nYAoCjkpcMeMCGLMoOF7KKO2tppA/formResponse'; // Second Google Form URL
 
 
-        // 同意書功能
-        function setupModal() {
-             if (termsCheckbox && closeModalBtn && termsModal) {
-                 // Show modal by default on page load
-                 termsModal.classList.add('active');
-
-                 termsCheckbox.addEventListener('change', function() {
-                     if (this.checked) {
-                         closeModalBtn.classList.add('active');
-                     } else {
-                         closeModalBtn.classList.remove('active');
-                     }
-                 });
-
-                 closeModalBtn.addEventListener('click', function() {
-                     if (termsCheckbox.checked) {
-                         termsModal.classList.remove('active');
-                         // Allow body scroll after modal closes
-                         document.body.style.overflow = '';
-                         // Show the main container with a slight delay for transition
-                         if (registrationContainer) {
-                              registrationContainer.style.opacity = '1';
-                              registrationContainer.style.transform = 'translateY(0)';
-                         }
-                         setTimeout(() => {
-                             if (studentIdInput) studentIdInput.focus(); // Focus student ID input
-                         }, 400); // Delay slightly more than modal transition
-                     }
-                 });
-
-                 // Initial state of the button based on checkbox
-                 if (termsCheckbox.checked) {
-                     closeModalBtn.classList.add('active');
-                 } else {
-                     closeModalBtn.classList.remove('active');
-                 }
-
-                  // Prevent body scroll while modal is active
-                  document.body.style.overflow = 'hidden';
-                  // Hide the main container initially
-                  if (registrationContainer) {
-                       registrationContainer.style.opacity = '0';
-                       registrationContainer.style.transform = 'translateY(20px)';
-                       registrationContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; // Add transition for showing
-                  }
-
-             } else {
-                  console.warn("Modal elements not found. Skipping modal setup.");
-                  // If modal elements are missing, just show the main container
-                   if (registrationContainer) {
-                       registrationContainer.style.opacity = '1';
-                       registrationContainer.style.transform = 'translateY(0)';
-                   }
-             }
-        }
-
-
-        // Helper to show a loader
-        function showLoader() {
-            if (loader) loader.classList.add('active');
-        }
-
-        // Helper to hide loader
-        function hideLoader() {
-            if (loader) loader.classList.remove('active');
-        }
-
-        // 修正後的 showMessage 函數：立即隱藏其他區塊，並顯示訊息區塊
-        function showMessage(title, text, isError = false, type = 'info') {
-            // 立即隱藏所有可能的動態區域
-            const sectionsToHide = [registrationForm, verificationArea, successMessage, loginLinkContainer];
-            sectionsToHide.forEach(section => {
-                if (section) {
-                    section.classList.remove('active'); // 移除 active 類別 (如果存在)
-                    section.style.display = 'none';    // 立即隱藏
+        // 同意書功能 (Same as before)
+        if (termsCheckbox && closeModalBtn && termsModal) {
+            termsCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    closeModalBtn.classList.add('active');
+                } else {
+                    closeModalBtn.classList.remove('active');
                 }
             });
 
-            // 處理標題的顯示和內容更新
-            if (formTitle) {
-                formTitle.style.display = 'block'; // 確保標題元素是顯示的
-                formTitle.textContent = title; // 使用訊息標題作為表單標題
-                formTitle.style.color = (type === 'error') ? 'var(--error-color)' : (type === 'warning' ? 'var(--warning-color)' : 'var(--link-color)');
-                formTitle.style.marginBottom = '15px';
-                formTitle.style.paddingBottom = '0';
-            }
+            closeModalBtn.addEventListener('click', function() {
+                if (termsCheckbox.checked) {
+                    termsModal.classList.remove('active');
+                    setTimeout(() => {
+                        // Changed focus to studentIdInput
+                        if (studentIdInput) studentIdInput.focus();
+                    }, 300);
+                }
+            });
+        }
 
-            // 顯示 messageArea
-            if (messageArea) {
-                messageArea.classList.remove('error', 'success', 'warning'); // 移除舊的訊息類型 class
-                messageArea.classList.add(type); // 添加新的訊息類型 class
-                messageArea.style.display = 'block'; // 確保元素是顯示的，以便過渡開始
-                setTimeout(() => {
-                    messageArea.classList.add('active'); // 添加 active 類別，觸發 CSS 過渡
-                }, 10); // 短暫延遲確保 display:block 生效
-                if (messageTitle) messageTitle.textContent = title;
-                if (messageText) messageText.textContent = text;
-            }
+        // Helper to show a message
+        function showMessage(title, text, isError = false) {
+             if (formTitle) formTitle.style.display = 'none'; // Hide standard title
+             if (registrationForm) registrationForm.style.display = 'none';
+             if (verificationArea) verificationArea.classList.remove('active');
+             if (successMessage) successMessage.classList.remove('active');
+             if (messageArea) {
+                 messageArea.classList.add('active');
+                 messageArea.classList.toggle('error', isError);
+                 if (messageTitle) messageTitle.textContent = title;
+                 if (messageText) messageText.textContent = text;
+             }
+             if (loader) loader.style.display = 'none';
+        }
 
-            hideLoader(); // 訊息顯示後隱藏載入器
+        // Helper to hide all message/form areas except loader
+        function hideAllSections() {
+             if (registrationForm) registrationForm.style.display = 'none';
+             if (verificationArea) verificationArea.classList.remove('active');
+             if (successMessage) successMessage.classList.remove('active');
+             if (messageArea) messageArea.classList.remove('active');
+             if (formTitle) formTitle.style.display = 'none'; // Hide standard title during transitions
         }
 
 
-        // Step 1 Form Validation Functions --- (保持不變)
+        // --- Step 1 Form Validation Functions (Modified) ---
 
+        // Renamed and modified for 8-digit number
         function validateStudentId() {
             if (!studentIdInput) return false;
             const studentIdRegex = /^\d{8}$/; // Exactly 8 digits
             const isValid = studentIdRegex.test(studentIdInput.value);
             if (studentIdError) {
-                studentIdError.textContent = isValid ? '' : '請輸入有效的8碼數字學號';
+                studentIdError.textContent = isValid ? '' : '請輸入有效的8碼數字學號'; // Updated error message
                 studentIdError.classList.toggle('active', !isValid);
             }
-             const borderColor = isValid ? (studentIdInput.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)') : 'var(--error-color)';
-            studentIdInput.style.borderColor = borderColor;
+            // Apply border color based on validation result
+            studentIdInput.style.borderColor = isValid ? 'var(--input-focus-border)' : 'var(--error-color)';
             return isValid;
         }
 
+        // Renamed and modified for 4-digit number
         function validatePasswordFormat() {
             if (!passwordInput) return false;
             const passwordRegex = /^\d{4}$/; // Exactly 4 digits
             const isValid = passwordRegex.test(passwordInput.value);
             if (passwordError) {
-                passwordError.textContent = isValid ? '' : '密碼必須為4碼數字';
+                passwordError.textContent = isValid ? '' : '密碼必須為4碼數字'; // Updated error message
                 passwordError.classList.toggle('active', !isValid);
             }
-             const borderColor = isValid ? (passwordInput.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)') : 'var(--error-color)';
-            passwordInput.style.borderColor = borderColor;
+            // Apply border color based on validation result
+            passwordInput.style.borderColor = isValid ? 'var(--input-focus-border)' : 'var(--error-color)';
             return isValid;
         }
 
+        // Checks if passwords match (logic remains the same, but rules are now 4-digit)
         function validateConfirmPassword() {
             if (!confirmPasswordInput || !passwordInput) return false;
             const isValid = confirmPasswordInput.value === passwordInput.value;
             if (confirmPasswordError) {
-                confirmPasswordError.textContent = isValid ? '' : '兩次輸入的密碼不一致';
+                confirmPasswordError.textContent = isValid ? '' : '兩次輸入的密碼不一致'; // Updated error message
                 confirmPasswordError.classList.toggle('active', !isValid);
             }
-            const borderColor = isValid ? (confirmPasswordInput.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)') : 'var(--error-color)';
-            confirmPasswordInput.style.borderColor = borderColor;
+             // Apply border color based on validation result
+            confirmPasswordInput.style.borderColor = isValid ? 'var(--input-focus-border)' : 'var(--error-color)';
             return isValid;
         }
 
-        // Add blur listeners for Step 1 validation
-        if (studentIdInput) studentIdInput.addEventListener('blur', validateStudentId);
-        if (passwordInput) passwordInput.addEventListener('blur', validatePasswordFormat);
-        if (confirmPasswordInput) confirmPasswordInput.addEventListener('blur', validateConfirmPassword);
+        // Add blur listeners for Step 1 validation (using new function names)
+        if (studentIdInput) studentIdInput.addEventListener('blur', function() { validateStudentId(); }); // Use anonymous function to avoid passing event object
+        if (passwordInput) passwordInput.addEventListener('blur', function() { validatePasswordFormat(); });
+        if (confirmPasswordInput) confirmPasswordInput.addEventListener('blur', function() { validateConfirmPassword(); });
 
-         // Add input listeners to clear error on typing
+        // Also add input listeners to clear error messages as user types
          if (studentIdInput) studentIdInput.addEventListener('input', function() {
-              studentIdError.classList.remove('active');
-              this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
-              validateStudentId();
+             if (studentIdError) {
+                 studentIdError.textContent = '';
+                 studentIdError.classList.remove('active');
+             }
+             studentIdInput.style.borderColor = 'var(--input-border)'; // Reset border on input
          });
          if (passwordInput) passwordInput.addEventListener('input', function() {
-             passwordError.classList.remove('active');
-             this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
-              validatePasswordFormat();
-              validateConfirmPassword();
+              if (passwordError) {
+                 passwordError.textContent = '';
+                 passwordError.classList.remove('active');
+             }
+             if (confirmPasswordInput && confirmPasswordInput.value !== '') {
+                 // Re-validate confirm password if it's not empty when password changes
+                 validateConfirmPassword();
+             }
+             passwordInput.style.borderColor = 'var(--input-border)'; // Reset border on input
          });
-         if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', function() {
-             confirmPasswordError.classList.remove('active');
-             this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
-              validateConfirmPassword();
+          if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', function() {
+              if (confirmPasswordError) {
+                 confirmPasswordError.textContent = '';
+                 confirmPasswordError.classList.remove('active');
+             }
+               // Re-validate confirm password match
+             validateConfirmPassword(); // This will set the correct border color
          });
 
 
         // --- Registration Check Logic (Step 1.5) ---
 
         async function checkRegistrationStatus() {
-            if (!currentRandomCode) {
-                console.error('Random code is not available for registration check.');
-                showMessage('內部錯誤', '隨機碼遺失，請重新嘗試。', true, 'error');
-                return;
-            }
+             if (!currentRandomCode) {
+                  console.error('Random code is not available for registration check.');
+                  showMessage('內部錯誤', '隨機碼遺失，請重新嘗試。', true);
+                  return;
+             }
 
-            registrationCheckAttempts++;
-            console.log(`Checking registration sheet (Sheet 2) for code: ${currentRandomCode}, attempt ${registrationCheckAttempts}/${registrationMaxAttempts}`);
+             registrationCheckAttempts++;
+             console.log(`Checking registration sheet (Sheet 2) for code: ${currentRandomCode}, attempt ${registrationCheckAttempts}/${registrationMaxAttempts}`);
 
-            if (registrationCheckAttempts > registrationMaxAttempts) {
-                clearInterval(registrationCheckIntervalId);
-                showMessage('檢查失敗', '網路狀況不佳或檢查超時，請稍後再試。', true, 'error');
-                return;
-            }
+             if (registrationCheckAttempts > registrationMaxAttempts) {
+                 clearInterval(registrationCheckIntervalId); // Stop checking
+                 showMessage('檢查失敗', '網路狀況不佳或檢查超時，請稍後再試。', true);
+                 return;
+             }
 
-            try {
-                const response = await fetch(registrationCheckSheetUrl + '&_t=' + new Date().getTime());
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.text();
-                const rows = data.split('\n').slice(1);
+             try {
+                 const response = await fetch(registrationCheckSheetUrl);
+                 if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                 }
+                 const data = await response.text();
+                 const rows = data.split('\n').slice(1); // Skip header row
 
-                let found = false;
-                let canProceed = false;
+                 let found = false;
+                 let canProceed = false; // True if C column is TRUE
 
-                for (const row of rows) {
-                    const columns = row.split(',').map(col => {
-                        if (col.startsWith('"') && col.endsWith('"')) {
-                            return col.substring(1, col.length - 1).trim();
-                        }
-                        return col.trim();
-                    });
+                 for (const row of rows) {
+                     const columns = row.split(',').map(col => col.replace(/^"|"$/g, '').trim());
+                     // Assuming random code is in column B (index 1) of the Registration Check Sheet (Sheet 2)
+                     const sheetCode = columns[1];
+                     // Assuming status (TRUE/FALSE) is in column C (index 2)
+                     const status = columns[2];
 
-                    const sheetCode = columns[1];
-                    const status = columns[2];
+                     if (sheetCode === currentRandomCode) {
+                         found = true;
+                         canProceed = (status === 'TRUE'); // Check if status is exactly 'TRUE'
+                         break; // Found the code, stop searching
+                     }
+                 }
 
-                    if (sheetCode === currentRandomCode) {
-                        found = true;
-                        canProceed = (status === 'TRUE');
-                        break;
-                    }
-                }
+                 if (found) {
+                     clearInterval(registrationCheckIntervalId); // Stop the interval
+                     if (loader) loader.style.display = 'none';
 
-                if (found) {
-                    clearInterval(registrationCheckIntervalId);
-                    hideLoader();
+                     if (canProceed) {
+                         // Code found and status is TRUE - Proceed to verification step
+                         console.log('Registration check successful! Proceeding to verification.');
+                         if (formTitle) {
+                             formTitle.style.display = 'block';
+                             formTitle.textContent = '驗證您的帳號'; // Change title
+                         }
+                         if (verificationArea) {
+                             verificationArea.classList.add('active'); // Show Step 2 area
+                              setTimeout(() => {
+                                  if (verificationCodeInput) verificationCodeInput.focus(); // Focus verification input
+                             }, 300);
+                         }
 
-                    if (canProceed) {
-                        // 註冊檢查成功 - 過渡到驗證區域
-                        console.log('Registration check successful! Proceeding to verification.');
+                     } else {
+                         // Code found but status is FALSE - Student ID already registered
+                         console.log('Registration check failed: Student ID already registered.');
+                         showMessage('註冊失敗', '您的學號已經註冊過，請重新嘗試或登入。', true); // Updated message
+                     }
+                 } else {
+                      // Code not found yet, continue checking. The interval will call this function again.
+                      console.log('Code not found in registration sheet yet, continuing...');
+                 }
 
-                        // 立即隱藏註冊表單、訊息區域和登入按鈕容器
-                        const sectionsToHide = [registrationForm, messageArea, loginLinkContainer, successMessage];
-                        sectionsToHide.forEach(section => {
-                            if (section) {
-                                section.classList.remove('active');
-                                section.style.display = 'none';
-                            }
-                        });
-
-
-                        // 更新標題
-                        if (formTitle) {
-                            formTitle.style.display = 'block';
-                            formTitle.textContent = '驗證您的帳號';
-                            formTitle.style.color = ''; // 恢復標題的預設樣式
-                            formTitle.style.marginBottom = '';
-                            formTitle.style.paddingBottom = '';
-                        }
-
-                        // 顯示驗證區域
-                        if (verificationArea) {
-                            verificationArea.style.display = 'block'; // 確保元素是顯示的
-                            setTimeout(() => {
-                                verificationArea.classList.add('active'); // 添加 active 類別
-                                setTimeout(() => {
-                                    if (verificationCodeInput) verificationCodeInput.focus();
-                                }, 300);
-                            }, 10); // 短暫延遲確保 display:block 生效
-                        }
-
-                    } else {
-                        console.log('Registration check failed: Student ID already registered.');
-                        showMessage('註冊失敗', '您的學號已經註冊過，請重新嘗試或登入。', true, 'error');
-                    }
-                } else {
-                    console.log('Code not found in registration sheet yet, continuing...');
-                }
-
-            } catch (error) {
-                console.error('Error checking Registration Sheet 2:', error);
-                if (registrationCheckAttempts >= registrationMaxAttempts) {
-                    clearInterval(registrationCheckIntervalId);
-                    showMessage('網路錯誤', '無法連接到伺服器檢查註冊記錄，請稍後再試。', true, 'error');
-                } else {
-                    console.log('Error during registration sheet fetch, retrying...');
-                }
-            }
+             } catch (error) {
+                 console.error('Error checking Registration Sheet 2:', error);
+                 // Treat fetch errors also as potential network issues
+                 if (registrationCheckAttempts >= registrationMaxAttempts) {
+                      clearInterval(registrationCheckIntervalId);
+                      showMessage('網路錯誤', '無法連接到伺服器檢查註冊記錄，請稍後再試。', true);
+                 } else {
+                      // Continue checking if error is not due to max attempts. The interval will call this function again.
+                      console.log('Error during registration sheet fetch, retrying...');
+                 }
+             }
         }
 
 
-        // Step 1 Form Submission
+        // Step 1 Form Submission (Submit initial data and start registration check)
         if (registrationForm) {
             registrationForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                let allValid = true;
-                if (!validateStudentId()) allValid = false;
-                if (!validatePasswordFormat()) allValid = false;
-                if (!validateConfirmPassword()) allValid = false;
+                // Use the new validation functions
+                const isStudentIdValid = validateStudentId();
+                const isPasswordValid = validatePasswordFormat(); // Check format first
+                const isConfirmPasswordValid = validateConfirmPassword(); // Then check match
 
+                // Ensure all validations pass
+                if (isStudentIdValid && isPasswordValid && isConfirmPasswordValid) {
+                    if (loader) loader.style.display = 'flex';
+                    hideAllSections(); // Hide previous content
 
-                if (allValid) {
-                    showLoader(); // Show loader
-
-                    // 立即隱藏註冊表單和登入按鈕容器
-                    if (registrationForm) {
-                        registrationForm.classList.remove('active');
-                        registrationForm.style.display = 'none';
-                    }
-                     if (loginLinkContainer) {
-                         loginLinkContainer.classList.remove('active');
-                         loginLinkContainer.style.display = 'none';
-                     }
-                    // 確保其他區域也隱藏
-                    if (verificationArea) { verificationArea.classList.remove('active'); verificationArea.style.display = 'none'; }
-                    if (messageArea) { messageArea.classList.remove('active'); messageArea.style.display = 'none'; }
-                    if (successMessage) { successMessage.classList.remove('active'); successMessage.style.display = 'none'; }
-
-
+                    // Generate and store the random code for both steps
                     currentRandomCode = generateRandomCode(23);
                     if (randomCodeField1) randomCodeField1.value = currentRandomCode;
                     if (randomCodeField2) randomCodeField2.value = currentRandomCode; // Set for Step 2 form
@@ -1151,19 +1186,22 @@
                     const ipAddressVal = await getIPAddress();
                     if (ipAddressField) ipAddressField.value = ipAddressVal;
 
+                    // --- Manual construction of form data for prefixing ---
                     const studentIdVal = studentIdInput.value;
                     const passwordVal = passwordInput.value;
+                    const randomCodeVal = randomCodeField1.value;
+                    const ipAddressGoogleFormsEntry = ipAddressField ? ipAddressField.name : null; // Get the 'name' attribute
 
-                    // Prefix student ID and password as requested
+                    // Prefix student ID and password
                     const prefixedStudentId = '#' + studentIdVal;
                     const prefixedPassword = '#' + passwordVal;
 
-                    // Manually construct form data string
+                    // Construct the URL-encoded body
                     let formDataBody = '';
+                    // Get the 'name' attributes for the fields
                     const studentIdEntryName = studentIdInput.name;
                     const passwordEntryName = passwordInput.name;
                     const randomCodeEntryName = randomCodeField1.name;
-                    const ipAddressGoogleFormsEntry = ipAddressField ? ipAddressField.name : null;
 
                     if (studentIdEntryName) {
                         formDataBody += `${studentIdEntryName}=${encodeURIComponent(prefixedStudentId)}`;
@@ -1174,45 +1212,43 @@
                     }
                     if (randomCodeEntryName) {
                         if (formDataBody) formDataBody += '&';
-                        formDataBody += `${randomCodeEntryName}=${encodeURIComponent(currentRandomCode)}`; // Use currentRandomCode
+                        formDataBody += `${randomCodeEntryName}=${encodeURIComponent(randomCodeVal)}`;
                     }
-                     if (ipAddressGoogleFormsEntry && ipAddressVal !== '無法獲取IP地址') { // Only send IP if it was fetched
-                          if (formDataBody) formDataBody += '&';
-                          formDataBody += `${ipAddressGoogleFormsEntry}=${encodeURIComponent(ipAddressVal)}`;
-                     }
-
-
-                    console.log('Submitting to Google Form 1...');
-
-                    try {
-                         await fetch(registrationFormUrl, {
-                             method: 'POST',
-                             body: formDataBody,
-                             headers: {
-                                 'Content-Type': 'application/x-www-form-urlencoded'
-                             },
-                             mode: 'no-cors'
-                         });
-                         console.log('First Google Form submission assumed successful (no-cors).');
-
-                         // After submitting Step 1 data, start the registration check (Sheet 2)
-                         if (formTitle) {
-                             formTitle.style.display = 'block';
-                             formTitle.textContent = '正在檢查註冊紀錄...';
-                         }
-
-                         setTimeout(() => {
-                             registrationCheckAttempts = 0;
-                             registrationCheckIntervalId = setInterval(checkRegistrationStatus, registrationCheckInterval);
-                             checkRegistrationStatus();
-                         }, 1500);
-
-
-                    } catch (error) {
-                         console.error('提交註冊表單時發生錯誤:', error);
-                         showMessage('提交失敗', '無法提交註冊資料，請稍後再試。', true, 'error');
+                    if (ipAddressGoogleFormsEntry && ipAddressVal !== '無法獲取IP地址') { // Only send IP if it was fetched
+                         if (formDataBody) formDataBody += '&';
+                         formDataBody += `${ipAddressGoogleFormsEntry}=${encodeURIComponent(ipAddressVal)}`;
                     }
 
+                    // Submit to the first Google Form (Step 1 data: studentId, password, random code, ip)
+                    await fetch(registrationFormUrl, { // Use the defined URL
+                        method: 'POST',
+                        body: formDataBody, // Use the manually created body
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded' // Set content type
+                        },
+                        mode: 'no-cors' // Necessary for submitting to external Google Forms directly from browser JS
+                    });
+                    console.log('First Google Form submitted with prefixed data.');
+
+
+                    // After submitting Step 1 data, start the registration check (Sheet 2)
+                    if (formTitle) {
+                         formTitle.style.display = 'block'; // Show title again
+                         formTitle.textContent = '正在檢查註冊紀錄...'; // Show checking message
+                    }
+                    // Use a short delay before starting the check to allow Google Forms to process
+                    setTimeout(() => {
+                        registrationCheckAttempts = 0; // Reset attempts
+                        // Start the interval check
+                        registrationCheckIntervalId = setInterval(checkRegistrationStatus, registrationCheckInterval);
+                         checkRegistrationStatus(); // Perform first check immediately
+                    }, 1000); // Delay before starting sheet check
+
+                } else {
+                     // If validation failed, apply error borders immediately (if not already applied by blur/input)
+                     validateStudentId();
+                     validatePasswordFormat();
+                     validateConfirmPassword();
                 }
             });
         }
@@ -1222,7 +1258,7 @@
         async function checkVerificationStatus() {
              if (!currentRandomCode) {
                   console.error('Random code is not available for verification sheet check.');
-                  showMessage('內部錯誤', '隨機碼遺失，請重新嘗試。', true, 'error');
+                  showMessage('內部錯誤', '隨機碼遺失，請重新嘗試。', true);
                   return;
              }
 
@@ -1231,94 +1267,64 @@
 
 
              if (verificationCheckAttempts > verificationMaxAttempts) {
-                 clearInterval(verificationCheckIntervalId);
-                 showMessage('驗證失敗', '網路狀況不佳或驗證超時，請稍後再試。', true, 'error');
+                 clearInterval(verificationCheckIntervalId); // Stop checking
+                 showMessage('驗證失敗', '網路狀況不佳或驗證超時，請稍後再試。', true);
                  return;
              }
 
              try {
-                 const response = await fetch(verificationSheetUrl + '&_t=' + new Date().getTime());
+                 const response = await fetch(verificationSheetUrl);
                  if (!response.ok) {
                       throw new Error(`HTTP error! status: ${response.status}`);
                  }
                  const data = await response.text();
-                 const rows = data.split('\n').slice(1);
+                 const rows = data.split('\n').slice(1); // Skip header row
 
                  let found = false;
                  let isValid = false;
 
                  for (const row of rows) {
-                      const columns = row.split(',').map(col => {
-                          if (col.startsWith('"') && col.endsWith('"')) {
-                               return col.substring(1, col.length - 1).trim();
-                          }
-                          return col.trim();
-                      });
-
+                     const columns = row.split(',').map(col => col.replace(/^"|"$/g, '').trim());
+                     // Assuming random code is in column A (index 0) of the Verification Status Sheet (Sheet 1)
                      const sheetCode = columns[0];
+                     // Assuming status (TRUE/FALSE) is in column B (index 1)
                      const status = columns[1];
 
                      if (sheetCode === currentRandomCode) {
                          found = true;
-                         isValid = (status === 'TRUE');
-                         break;
+                         isValid = (status === 'TRUE'); // Check if status is exactly 'TRUE'
+                         break; // Found the code, stop searching
                      }
                  }
 
                  if (found) {
-                     clearInterval(verificationCheckIntervalId);
-                     hideLoader();
+                     clearInterval(verificationCheckIntervalId); // Stop the interval
+                     if (loader) loader.style.display = 'none';
 
                      if (isValid) {
                          // Code found and status is TRUE - Verification successful
                          console.log('Verification successful! Showing success message.');
-
-                         // 立即隱藏其他區塊
-                         const sectionsToHide = [registrationForm, verificationArea, messageArea, loginLinkContainer];
-                         sectionsToHide.forEach(section => {
-                             if (section) {
-                                 section.classList.remove('active');
-                                 section.style.display = 'none';
-                             }
-                         });
-
-                         // 更新標題為成功訊息
-                         if (formTitle) {
-                             formTitle.style.display = 'block';
-                             formTitle.textContent = '註冊成功！';
-                             formTitle.style.color = 'var(--success-color)';
-                             formTitle.style.marginBottom = '15px';
-                             formTitle.style.paddingBottom = '0';
-                         }
-
-                         // 顯示成功訊息
-                         if (successMessage) {
-                             successMessage.style.display = 'block'; // 確保元素是顯示的
-                             setTimeout(() => {
-                                 successMessage.classList.add('active'); // 添加 active 類別，觸發 CSS 過渡
-                             }, 10); // 短暫延遲確保 display:block 生效
-                         }
-
-                          setTimeout(() => {
-                             console.log("Success message displayed. Optionally redirecting or closing...");
-                             // window.location.href = 'login.html'; // 例如，可以跳轉到登入頁面
-                         }, 5000);
+                         // Show success message
+                         if (successMessage) successMessage.classList.add('active');
 
                      } else {
                          // Code found but status is FALSE - Verification failed
                          console.log('Verification failed: Status is FALSE.');
-                         showMessage('驗證碼錯誤', '您輸入的驗證碼不正確，請檢查信箱後再試。', true, 'error');
+                         showMessage('驗證碼錯誤', '您輸入的驗證碼不正確，請檢查信箱後再試。', true);
                      }
                  } else {
+                      // Code not found yet, continue checking. The interval will call this function again.
                       console.log('Code not found in verification sheet yet, continuing...');
                  }
 
              } catch (error) {
                  console.error('Error checking Verification Google Sheet 1:', error);
+                 // Treat fetch errors also as potential network issues
                  if (verificationCheckAttempts >= verificationMaxAttempts) {
                       clearInterval(verificationCheckIntervalId);
-                      showMessage('網路錯誤', '無法連接到驗證伺服器，請稍後再試。', true, 'error');
+                      showMessage('網路錯誤', '無法連接到驗證伺服器，請稍後再試。', true);
                  } else {
+                      // Continue checking if error is not due to max attempts. The interval will call this function again.
                       console.log('Error during verification sheet fetch, retrying...');
                  }
              }
@@ -1328,54 +1334,49 @@
          async function submitVerificationData() {
               if (!verificationForm) {
                    console.error("Verification form element not found.");
-                   showMessage('內部錯誤', '無法找到驗證表單。', true, 'error');
+                   showMessage('內部錯誤', '無法找到驗證表單。', true);
                    return;
               }
 
-              showLoader();
-
-              // 立即隱藏驗證區域和登入按鈕容器 (及其它潛在顯示區塊)
-              if (verificationArea) { verificationArea.classList.remove('active'); verificationArea.style.display = 'none'; }
-              if (loginLinkContainer) { loginLinkContainer.classList.remove('active'); loginLinkContainer.style.display = 'none'; }
-              if (successMessage) { successMessage.classList.remove('active'); successMessage.style.display = 'none'; }
-              if (messageArea) { messageArea.classList.remove('active'); messageArea.style.display = 'none'; }
-              if (registrationForm) { registrationForm.classList.remove('active'); registrationForm.style.display = 'none'; }
-
-
-              if (formTitle) {
-                   formTitle.style.display = 'block';
-                   formTitle.textContent = '正在提交驗證碼...';
-                   formTitle.style.color = '';
-                   formTitle.style.marginBottom = '';
-                   formTitle.style.paddingBottom = '';
-              }
-
-
+               // Re-collect formData - contains verification code and random code
                const formData = new FormData(verificationForm);
-               if (!formData.has(randomCodeField2.name)) {
-                    formData.append(randomCodeField2.name, currentRandomCode);
+
+              if (loader) loader.style.display = 'flex'; // Show loader for the second submission
+              hideAllSections(); // Ensure everything else is hidden
+
+               if (formTitle) {
+                   formTitle.style.display = 'block'; // Show title again
+                   formTitle.textContent = '正在提交驗證碼...'; // Show submission message
                }
 
-
               try {
-                   await fetch(verificationFormUrl, {
+                   // Submit to the second Google Form (Verification data: verification code and random code)
+                   await fetch(verificationFormUrl, { // Use the defined URL
                        method: 'POST',
-                       body: formData,
-                       mode: 'no-cors'
+                       body: formData, // FormData is fine here as no prefixing is needed
+                       mode: 'no-cors' // Necessary for submitting to external Google Forms directly from browser JS
                    });
 
+                   // Assume success for second form submission due to no-cors
                    console.log('Second Google Form submitted.');
 
+                   // After successfully submitting verification data, start checking Sheet 1
+                   if (formTitle) {
+                        // Form title will be updated by checkVerificationStatus
+                   }
+
+                   // Use a short delay before starting the check to allow Google Forms/Sheet 1 to process
                    setTimeout(() => {
-                        verificationCheckAttempts = 0;
+                        verificationCheckAttempts = 0; // Reset attempts
+                        // Start the interval check
                         verificationCheckIntervalId = setInterval(checkVerificationStatus, verificationCheckInterval);
-                         checkVerificationStatus();
-                   }, 1500);
+                         checkVerificationStatus(); // Perform first check immediately
+                   }, 1000); // Delay before starting sheet check
 
 
               } catch (error) {
                   console.error('提交驗證碼表單時發生錯誤:', error);
-                  showMessage('提交失敗', '無法提交驗證碼，請稍後再試。', true, 'error');
+                  showMessage('提交失敗', '無法提交驗證碼，請稍後再試。', true);
               }
          }
 
@@ -1385,102 +1386,146 @@
             verificationForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
+                 // Basic validation: check if verification code is empty
                  if (!verificationCodeInput || verificationCodeInput.value.trim() === '') {
                       if(verificationCodeError) {
                            verificationCodeError.textContent = '請輸入驗證碼';
                            verificationCodeError.classList.add('active');
                       }
-                       verificationCodeInput.style.borderColor = 'var(--error-color)';
+                       verificationCodeInput.style.borderColor = 'var(--error-color)'; // Apply error border
                        return;
                  } else {
                       if(verificationCodeError) {
                            verificationCodeError.textContent = '';
                            verificationCodeError.classList.remove('active');
                       }
-                       verificationCodeInput.style.borderColor = verificationCodeInput.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
+                       verificationCodeInput.style.borderColor = 'var(--input-border)'; // Reset border
                  }
 
+                // If validation passes, proceed to submit verification data and start the check
                 submitVerificationData();
             });
+
+             // Add input listener for verification code
              if (verificationCodeInput) verificationCodeInput.addEventListener('input', function() {
-                  verificationCodeError.classList.remove('active');
-                  this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
-             });
-             if (verificationCodeInput) verificationCodeInput.addEventListener('blur', function() {
-                  if (this.value.trim() === '') {
-                       if(verificationCodeError) {
-                            verificationCodeError.textContent = '請輸入驗證碼';
-                            verificationCodeError.classList.add('active');
-                       }
-                        this.style.borderColor = 'var(--error-color)';
-                  } else {
-                       if(verificationCodeError) {
-                            verificationCodeError.textContent = '';
-                            verificationCodeError.classList.remove('active');
-                       }
-                       this.style.borderColor = this.matches(':focus') ? 'var(--input-focus-border)' : 'var(--input-border)';
-                  }
-             });
+                 if (verificationCodeError) {
+                     verificationCodeError.textContent = '';
+                     verificationCodeError.classList.remove('active');
+                 }
+                 verificationCodeInput.style.borderColor = 'var(--input-border)'; // Reset border on input
+            });
         }
 
 
-        // Interactive effects for form inputs (保持不變)
+        // Interactive effects for form inputs (Applies to inputs in all steps) - Retained, but border colors updated by validation
         const formInputs = document.querySelectorAll('.form-control');
         formInputs.forEach(input => {
             input.addEventListener('focus', function() {
                 const label = this.parentElement.querySelector('label');
-                if (label) label.style.color = 'var(--link-color)';
-                 this.style.borderColor = 'var(--input-focus-border)';
-                 this.style.boxShadow = '0 0 0 3px rgba(104, 135, 174, 0.2)';
+                if (label) label.style.color = 'var(--link-color)'; // Label color on focus
+                 // Border color handled by validation/input listeners
             });
             input.addEventListener('blur', function() {
                 const label = this.parentElement.querySelector('label');
-                if (label) label.style.color = 'var(--text-light)';
-                 this.style.borderColor = 'var(--input-border)';
-                 this.style.boxShadow = 'none';
-                 if (this.id === 'studentId') validateStudentId();
-                 if (this.id === 'password') validatePasswordFormat();
-                 if (this.id === 'confirmPassword') validateConfirmPassword();
+                if (label) label.style.color = 'var(--text-light)'; // Label color on blur
+
+                // Trigger validation on blur for instant feedback
+                if (this.id === 'studentId') validateStudentId();
+                if (this.id === 'password') validatePasswordFormat();
+                if (this.id === 'confirmPassword') validateConfirmPassword();
+                 if (this.id === 'verificationCode') { // Also validate verification code on blur
+                      if (this.value.trim() === '') {
+                            if(verificationCodeError) {
+                                verificationCodeError.textContent = '請輸入驗證碼';
+                                verificationCodeError.classList.add('active');
+                            }
+                            this.style.borderColor = 'var(--error-color)';
+                       } else {
+                            if(verificationCodeError) {
+                                verificationCodeError.textContent = '';
+                                verificationCodeError.classList.remove('active');
+                            }
+                            this.style.borderColor = 'var(--input-border)'; // Reset to default
+                       }
+                 } else {
+                      // For studentId, password, confirmPassword, validation functions handle border color
+                 }
             });
+             // Initial border color needs to be set
+             input.style.borderColor = 'var(--input-border)';
+             // Placeholder color is set via ::placeholder pseudo-element in CSS
         });
 
-        // Initialize everything when the DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            setupModal(); // Setup and show the modal first
 
-            // 確保初始狀態：註冊表單、標題和登入按鈕容器是顯示的，其他隱藏
-             if(registrationForm) {
-                 registrationForm.classList.add('active');
-                 registrationForm.style.display = 'block';
-             }
-             if(formTitle) {
-                 formTitle.style.display = 'block';
-                 formTitle.textContent = '創建帳號';
-             }
-             if (loginLinkContainer) {
-                 loginLinkContainer.style.display = 'block';
-                 setTimeout(() => {
-                    loginLinkContainer.classList.add('active');
-                 }, 10);
-             }
+        // Initialize Three.js after the DOM is ready
+        document.addEventListener('DOMContentLoaded', initThreeJS);
 
-             // 確保其他區域初始是隱藏的
-             if(verificationArea) {
-                 verificationArea.classList.remove('active');
-                 verificationArea.style.display = 'none';
-             }
-             if(messageArea) {
-                 messageArea.classList.remove('active');
-                 messageArea.style.display = 'none';
-             }
-             if(successMessage) {
-                 successMessage.classList.remove('active');
-                 successMessage.style.display = 'none';
-             }
-        });
+        // Basic Three.js setup (You can replace this with your actual stars.js content)
+        function initThreeJS() {
+            console.log('Initializing Three.js background...');
+            // Placeholder for your Three.js star background initialization
+            // You should have your stars.js file linked separately if it's complex.
+            // If you want to include a simple star background here, add the code.
+            // Example (simple):
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
 
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000010, 1); // Dark background
+            const constellationBg = document.getElementById('constellation-bg');
+            if (constellationBg) {
+                // Remove any existing canvas before appending
+                 while(constellationBg.firstChild) {
+                      constellationBg.removeChild(constellationBg.firstChild);
+                 }
+                constellationBg.appendChild(renderer.domElement);
+            } else {
+                 // Remove any existing canvas before appending
+                 const existingCanvas = document.querySelector('canvas');
+                 if (existingCanvas) existingCanvas.remove();
+                document.body.appendChild(renderer.domElement);
+            }
+
+
+            // Add some random stars
+            const starGeometry = new THREE.BufferGeometry();
+            const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.5 });
+            const starVertices = [];
+
+            for (let i = 0; i < 500; i++) {
+                const x = (Math.random() - 0.5) * 2000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = (Math.random() - 0.5) * 2000;
+                starVertices.push(x, y, z);
+            }
+
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+
+            camera.position.z = 5;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                // Optional: Rotate the stars slightly for a dynamic effect
+                // stars.rotation.x += 0.0005;
+                // stars.rotation.y += 0.0005;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
 
     </script>
     <!-- END: 註冊表單的 JavaScript 邏輯 -->
+
 </body>
 </html>

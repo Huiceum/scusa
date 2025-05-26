@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學學生會</title>
+    <link rel="stylesheet" href="sa.css">
+
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <link rel="stylesheet" href="post.css">
+    <link rel="stylesheet" href="community.css">
+
+
+    <style>
+ 
+    </style>
+</head>
+<body>
+
+        <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- 手機版側邊欄 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="mobile-nav">
+                <!-- 動態加載的導航項目將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 桌面版導航欄 -->
+            <div class="navbar">
+                <ul class="nav-options" id="nav-container">
+                    <!-- 動態加載的導航項目將插入此處 -->
+                </ul>
+
+
+            </div>
+
+    <div class="Ccontainer">
+        <!-- 發布文章區塊 -->
+        <div class="publish-section" id="publishSection">
+            <div class="publish-text">發布貼文</div><img src="Write.png" class="Write" alt="Write">
+        </div>
+
+        <!-- 載入中覆蓋層 -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <div>驗證中，請稍候...</div>
+            </div>
+        </div>
+
+        <!-- 錯誤訊息 -->
+        <div class="error-message" id="errorMessage">
+            <div id="errorText"></div>
+            <a href="login.html" id="loginLink">點擊重新登入</a>
+        </div>
+
+        <!-- 發文表單 -->
+        <div class="post-form" id="postForm">
+            <h2 style="color: var(--text-white); margin-bottom: 20px; text-align: center;">發布新文章</h2>
+            
+            <div class="form-group">
+                <label for="nameSelect">名稱：</label>
+                <select id="nameSelect">
+                    <option value="anonymous">匿名</option>
+                    <option value="user" id="userOption">載入中...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="titleInput">標題：</label>
+                <input type="text" id="titleInput" maxlength="23" placeholder="請輸入標題（最多23個字）">
+                <div class="char-count" id="titleCount">0/23</div>
+            </div>
+
+            <div class="form-group">
+                <label for="contentInput">內文：</label>
+                <textarea id="contentInput" placeholder="請輸入文章內容..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>附加圖檔：</label>
+                <div class="image-upload" id="imageUpload">
+                    <div>點擊選擇圖片（最多3張，每張不超過32MB）</div>
+                    <input type="file" id="imageInput" multiple accept="image/*" style="display: none;">
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn">發布文章</button>
+        </div>
+    <!-- 右側選單 -->
+    <div class="sidebar-menu" id="sidebarMenu">
+        <div class="menu-item" onclick="window.location.href='sa_account.html'">
+            <div class="menu-icon"><img src="account.png" class="symbol" alt="account"></div>
+        </div>
+        <div class="menu-item" onclick="window.location.href='community.html'">
+            <div class="menu-icon"><img src="front page.png" class="symbol" alt="front page"></div>
+        </div>
+        <div class="menu-item" id="searchToggle">
+            <div class="menu-icon"><img src="search.png" class="symbol" alt="search"></div>
+
+        </div>
+    </div>
+
+    <!-- 搜尋彈出框 -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <div class="search-header">
+                <h3>搜尋貼文</h3>
+                <button class="close-btn" id="closeSearch">×</button>
+            </div>
+            <div class="search-form">
+                <select id="searchType">
+                    <option value="title">貼文標題</option>
+                    <option value="id">用戶ID</option>
+                    <option value="hash">文章哈希值</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="輸入搜尋關鍵字...">
+                <button id="searchBtn">搜尋</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要內容區域 -->
+    <div class="Pmain-container">
+        <div class="header">
+            <div class="post-count" id="postCount"></div>
+        </div>
+
+        <!-- 載入動畫 -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>載入貼文中...</div>
+        </div>
+
+        <!-- 貼文容器 -->
+        <div class="posts-container" id="postsContainer"></div>
+
+        <!-- 載入更多按鈕 -->
+        <div class="load-more" id="loadMore" style="display: none;">
+            <button id="loadMoreBtn">載入更多貼文</button>
+        </div>
+
+        <!-- 無更多內容提示 -->
+        <div class="no-more" id="noMore" style="display: none;">
+            <div>已顯示所有貼文</div>
+        </div>
+    </div>
+
+<!-- 圖片放大疊加層 (放在 body 結束標籤前) -->
+<div id="imageOverlay" style="display: none;">
+    <img id="enlargedImage" src="" alt="放大圖片">
+</div>
+
+            <!-- 浮動球 -->
+            <div id="ball-container">
+                <img id="ball" src="ball7.gif" alt="Ball">
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+
+    </script>
+        <script src="community.js"></script>
+        <script src="post.js"></script>
+    <!-- JavaScript -->
+    <script src="sa.js"></script>
+    <script src="sa0.js"></script>
+</body>
+</html>

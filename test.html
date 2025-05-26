@@ -1,0 +1,45 @@
+<input type="file" id="fileInput">
+<button onclick="uploadImage()">上傳圖片</button>
+<img id="preview" src="" style="max-width: 300px">
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+
+<script>
+  // 初始化 Firebase
+  const firebaseConfig = {
+    apiKey: "你的 API 金鑰",
+    authDomain: "你的專案.firebaseapp.com",
+    projectId: "你的專案 ID",
+    storageBucket: "你的專案.appspot.com",
+    appId: "你的 App ID"
+  };
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const storage = firebase.storage();
+
+  // 匿名登入
+  auth.signInAnonymously().catch(error => {
+    console.error('登入失敗：', error);
+  });
+
+  function uploadImage() {
+    const file = document.getElementById('fileInput').files[0];
+    if (!file) return alert('請選擇圖片');
+
+    const filePath = 'uploads/' + Date.now() + '_' + file.name;
+    const storageRef = storage.ref(filePath);
+    
+    storageRef.put(file).then(snapshot => {
+      return snapshot.ref.getDownloadURL();
+    }).then(downloadURL => {
+      document.getElementById('preview').src = downloadURL;
+      console.log('圖片網址：', downloadURL);
+      // 這裡你可以再將 downloadURL 傳到 Google Sheets 儲存起來
+    }).catch(error => {
+      console.error('上傳失敗：', error);
+    });
+  }
+</script>
