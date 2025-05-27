@@ -1,9 +1,0 @@
-{
-  "name": "scusatw.com",
-  "version": "1.0.0",
-  "description": "",
-  "dependencies": {
-    "form-data": "^4.0.0",
-    "node-fetch": "^2.6.7"
-  }
-}
