@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歡迎 - 東吳大學學生會</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.PNG" type="image/x-icon">
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .welcome-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 1s ease-in;
+            text-align: center;
+        }
+
+        .stamp-container {
+            animation: stampAnimation 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes stampAnimation {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .stamp {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            animation: slideDown 1s forwards;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        #stats {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-screen" id="welcome-screen">
+        <div class="stamp-container">
+            <img src="logo2.PNG" alt="東吳大學學生會" class="stamp" />
+        </div>
+        <h1>歡迎光臨東吳大學學生會</h1>
+
+        <!-- 顯示 Google Sheets 數據 -->
+        <div id="stats">載入中...</div>
+    </div>
+
+    <script>
+        // 四秒後導向到 sa.html
+        setTimeout(() => {
+            window.location.href = "sa.html";
+        }, 4000);
+
+        // 載入 Google Sheets 數據
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchGoogleSheetData();
+        });
+
+        function fetchGoogleSheetData() {
+            const sheetId = '1Q413gYtQLlxH_mvSAegSZu272OP5bc0_MeDMev4-29I';
+            const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=工作表1`; // 替換為實際工作表名稱
+
+            fetch(sheetUrl)
+                .then(res => res.text())
+                .then(text => {
+                    const json = JSON.parse(text.substring(47).slice(0, -2)); // 去除 JSONP 包裝
+                    const data = json.table.rows;
+
+                    const views = data[0]?.c[0]?.v || 0;
+                    const visitors = data[0]?.c[1]?.v || 0;
+
+                    document.getElementById("stats").innerHTML = `
+                        瀏覽數：${views} 次<br>
+                        訪客：${visitors} 人
+                    `;
+                })
+                .catch(err => {
+                    console.error("無法載入試算表資料：", err);
+                    document.getElementById("stats").textContent = "統計資料載入失敗";
+                });
+        }
+    </script>
+</body>
+</html>

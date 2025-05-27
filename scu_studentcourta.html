@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學仲裁法庭 公告</title>
+    <link rel="stylesheet" href="scu_studentcourt.css">
+
+    <link rel="icon" href="logo.c1.png" type="image/x-icon">
+    <style>
+        /* 預設連結樣式 */
+        a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+
+        /* 滑鼠懸停時的樣式 */
+        a:hover {
+            color: rgb(255, 255, 255);
+            text-decoration: underline;
+        }
+        .updateTime {
+        bottom: 10px;
+        font-size: 0.8em;
+        color: #434553;
+        
+    }
+
+    /* 新增樣式 */
+.announcement-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.detail-btn {
+    background-color: #626262;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.detail-btn:hover {
+    background-color: #3d3d3d;
+}
+
+.iframe-container {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- 手機版側邊欄 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.c1.png" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="mobile-nav">
+                <!-- 動態加載的導航項目將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 桌面版導航欄 -->
+            <div class="navbar">
+                <ul class="nav-options" id="nav-container">
+                    <!-- 動態加載的導航項目將插入此處 -->
+                </ul>
+
+
+            </div>
+
+            <div class="announcements">
+                <div id="announcements-list">
+                    <!-- 公告內容將自動載入 -->
+                </div>
+            </div>
+
+            <!-- 浮動球 -->
+            <div id="ball-container">
+                <img id="ball" src="ball9.gif" alt="Ball">
+            </div>
+
+            <div class="footer">
+                <div class="footer-content">
+                    <ul class="footer-links" id="footer-links">
+                        <!-- 動態加載的底部鏈接將插入此處 -->
+                    </ul>
+                    <div class="footer-info">
+                        2025 東吳大學學生仲裁法庭
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+    <script src="scu_studentcourt.js"></script>
+    <script src="sa0.js"></script>
+
+    <script>
+
+function loadAnnouncements() {
+    const sheetId = '10dtRcOfSostUxKodyU85VIi_otRS_z9KppjzksXbj5E'; // 試算表 ID
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+    fetch(url)
+    .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+    .then(data => {
+        const rows = data.split('\n').slice(1); // 分割行並移除標題行
+        const announcementList = document.getElementById('announcements-list');
+        announcementList.innerHTML = ''; // 清空公告欄
+
+        // 顯示全部公告
+        rows.forEach((row, index) => {
+            const columns = row.split(',').map(col => col.replace(/"/g, '').trim());
+            const newAnnouncement = document.createElement('div');
+            newAnnouncement.classList.add('announcement');
+            
+            // 創建唯一ID用於識別每個公告
+            const announcementId = `announcement-${index}`;
+            const iframeId = `iframe-${index}`;
+
+            // 提取Google Drive文件ID
+            let driveFileId = columns[2];
+            // 檢查是否是Google Drive連結，並提取文件ID
+            if (driveFileId.includes('drive.google.com')) {
+                // 從URL中提取文件ID
+                const match = driveFileId.match(/[-\w]{25,}/);
+                if (match) {
+                    driveFileId = match[0];
+                }
+            }
+
+            // 假設第一列是標題，第二列是訊息，第三列是超連結
+            newAnnouncement.innerHTML = `
+                <h2 class="title"><a href="${columns[2]}" class="link" target="_blank">${columns[0]}</a></h2>
+                <p class="message">${columns[1]}</p>
+                <div class="announcement-footer">
+                    <p class="updateTime">發文時間：${columns[3]}</p>
+                    <button class="detail-btn" data-file-id="${driveFileId}" data-target="${iframeId}">詳</button>
+                </div>
+                <div class="iframe-container" id="${iframeId}" style="display: none; width: 100%; margin-top: 10px;"></div>
+            `;
+            
+            announcementList.appendChild(newAnnouncement);
+        });
+        
+        // 為所有"詳"按鈕添加點擊事件
+        document.querySelectorAll('.detail-btn').forEach(button => {
+            button.addEventListener('click', function() {
+    const fileId = this.getAttribute('data-file-id');
+    const targetId = this.getAttribute('data-target');
+    const container = document.getElementById(targetId);
+
+    // 對應的原始連結
+    const originalLink = this.closest('.announcement').querySelector('.link').href;
+
+    // 檢查是否為 Google Drive PDF 分享連結
+    const isGoogleDrivePDF = /https:\/\/drive\.google\.com\/.*\/d\/[-\w]{25,}/.test(originalLink) || /https:\/\/drive\.google\.com\/file\/d\/[-\w]{25,}/.test(originalLink);
+
+    if (!isGoogleDrivePDF) {
+        window.open(originalLink, '_blank');
+        return;
+    }
+
+    // 切換iframe的顯示狀態
+    if (container.style.display === 'none') {
+        container.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" width="100%" height="500px" frameborder="0" allowtransparency="true" allowfullscreen></iframe>`;
+        container.style.display = 'block';
+    } else {
+        container.style.display = 'none';
+        container.innerHTML = '';
+    }
+});
+
+        });
+    })
+    .catch(error => {
+        console.error('Error loading announcements:', error);
+        alert('無法載入公告，請查看控制台獲取更多資訊。');
+    });
+}
+
+// 確保在頁面加載完成後執行
+document.addEventListener('DOMContentLoaded', function() {
+    loadAnnouncements();
+});
+    </script>
+
+</body>
+</html>

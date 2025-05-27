@@ -1,0 +1,237 @@
+        /* 顏色變數定義 */
+        :root {
+            --text-light: #f0f0f0;
+            --text-white: #ffffff;
+            --sidebar-bg: #181818;
+            --main-bg: #010010;
+            --border-color: #455b76;
+            --link-hover: rgb(205, 47, 71);
+            --link-color: #6887ae;
+            --submenu-hover: #ffb7c3;
+            --footer-bg: #222;
+            --footer-link: #ccc;
+            --footer-hover-bg: #444;
+            --footer-border: #444;
+            --footer-text: #888;
+            --faf8ff: #faf8ff;
+        }
+
+
+
+        .symbol{
+            width: 30px;
+            height: 30px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text-light);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+        }
+
+        .Ccontainer {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .publish-section {
+            display: flex;
+            justify-content: space-between; /* 左右對齊 */
+            align-items: center; /* 垂直置中 */
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .publish-section:hover {
+            border-color: var(--link-color);
+            transform: translateY(-2px);
+        }
+
+        .publish-text {
+            color: #bebebe;
+            font-size: 15px;
+            text-align: center;
+            font-weight: bold;
+
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-content {
+            background-color: var(--sidebar-bg);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--link-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--link-hover);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .error-message a:hover {
+            color: var(--link-hover);
+        }
+
+        .post-form {
+            display: none;
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--main-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .image-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .image-upload:hover {
+            border-color: var(--link-color);
+        }
+
+        .image-preview {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .image-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .submit-btn {
+            background-color: var(--link-color);
+            color: var(--text-white);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--link-hover);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background-color: var(--border-color);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .char-count {
+            color: var(--footer-text);
+            font-size: 12px;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .char-count.warning {
+            color: var(--link-hover);
+        }
+
+        .thread-container {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--footer-text);
+            font-style: italic;
+        }
+        .Write {
+            width: 20px;
+            height: 20px;
+        }

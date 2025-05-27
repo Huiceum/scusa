@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東吳大學學生會 歷屆三長</title>
+    <link rel="stylesheet" href="sa.css">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <style>
+
+        /* 搜尋區塊樣式 */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            width: 85%;
+            gap: 10px;
+        }
+        
+        .search-input {
+            padding: 10px;
+            width: 60%;
+            border: 2px solid #455b76;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .search-dropdown {
+            padding: 10px;
+            border: 2px solid #455b76;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #010010;
+            color: #f0f0f0;
+        }
+        
+        .search-button {
+            padding: 10px 20px;
+            background-color: #455b76;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .search-button:hover {
+            background-color: #a87c47;
+        }
+        
+        .icon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+            padding-top: 20px;
+            width: 85%;
+            padding-bottom: 200px;
+            margin: 0 auto;
+        }
+        
+        .term-label {
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 30px 0 10px 0;
+            padding: 10px;
+            background-color: #010010;
+            border-radius: 10px;
+            color: #455b76;
+        }
+        
+        .icon {
+            width: calc(33.333% - 50px);
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #010010;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .icon img {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;  /* 裁切並保持比例 */
+            height: auto;
+        }
+        
+        .icon-text {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #455b76;
+        }
+        
+        .icon-role {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #f0f0f0;
+        }
+        
+        .details-section {
+            text-align: center;
+            background-color: #181818;
+            margin: 10px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .details-header {
+            display: flex;
+            justify-content: space-between; /* 使標題和三角形分開 */
+            align-items: center;
+            padding: 15px;
+            background-color: #010010;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: #f0f0f0;
+        }
+        
+        .details-header span {
+            flex-grow: 1; /* 使標題置中 */
+            text-align: center;
+        }
+        
+        .triangle::after {
+            content: '\25BC';
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .expanded .triangle::after {
+            transform: rotate(180deg);
+        }
+        
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            padding: 0;
+            padding-left: 20px;
+            color: #f0f0f0;
+            background-color: #181818;
+            border-radius: 5px;
+            margin-top: 0;
+            text-align: left; /* 讓內容置左 */
+        }
+        
+        .expanded .details-content {
+            padding-left: 20px;
+            line-height: 200%;
+        }
+        
+        .no-results {
+            width: 100%;
+            text-align: center;
+            padding: 50px 0;
+            font-size: 20px;
+            color: #f0f0f0;
+        }
+
+        @media screen and (max-width: 768px) {
+            .icon {
+                width: calc(100% - 50px);
+            }
+            
+            .search-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .search-input, .search-dropdown, .search-button {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 漢堡選單按鈕 -->
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- 手機版側邊欄 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="logo.PNG" alt="Logo">
+                <div class="site-name"></div>
+            </div>
+            <ul class="nav-links" id="mobile-nav">
+                <!-- 動態加載的導航項目將插入此處 -->
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <!-- 桌面版導航欄 -->
+            <div class="navbar">
+                <ul class="nav-options" id="nav-container">
+                    <!-- 動態加載的導航項目將插入此處 -->
+                </ul>
+            </div>
+
+            <!-- 搜尋區域 -->
+            <div class="search-container">
+                <select id="search-type" class="search-dropdown">
+                    <option value="term">屆數</option>
+                    <option value="name">名字</option>
+                    <option value="department">系別</option>
+                </select>
+                <input type="text" id="search-input" class="search-input" placeholder="請輸入搜尋關鍵字...">
+                <button id="search-button" class="search-button">搜尋</button>
+            </div>
+
+            <div class="icon-container" id="icon-container"></div>
+
+            <!-- 浮動球 -->
+            <div id="ball-container">
+                <img id="ball" src="ball7.gif" alt="Ball">
+            </div>
+
+            <div class="footer">
+                <div class="footer-content">
+                    <ul class="footer-links" id="footer-links">
+                        <!-- 動態加載的底部鏈接將插入此處 -->
+                    </ul>
+                    <div class="footer-info">
+                        2025 東吳大學學生會 版權所有
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="sa.js"></script>
+    <script src="sa0.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            // 搜尋功能
+            document.getElementById('search-button').addEventListener('click', performSearch);
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        });
+
+        // 儲存所有數據
+        let allData = [];
+
+        function loadData() {
+            const sheetId = '1kFg0SgeUd-gn4SHTcP0bgIlGOcVEnTQNfNEB3FInwAw';
+            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
+                .then(data => {
+                    const rows = data.split('\n').slice(1); // 忽略標題行
+                    allData = parseRows(rows);
+                    displayAllData(allData);
+                })
+                .catch(error => console.error('Error loading data:', error));
+        }
+
+        function parseRows(rows) {
+            const parsedData = [];
+
+            rows.forEach(row => {
+                const columns = parseCSVRow(row);
+                
+                if (columns.length >= 2) {  // 至少有屆數和備註
+                    const term = columns[0] || ''; // 第幾屆
+                    const note = columns[1] || ''; // 備註
+                    
+                    // 只有當有效的名字和至少一個字段時添加會長資料
+                    if (columns[3] && columns.length >= 7) {
+                        const president = {
+                            role: '會長',
+                            imageUrl: columns[2] || '',
+                            name: columns[3],
+                            department: columns[4] || '',
+                            representative: columns[5] || '',
+                            contact: columns[6] || '',
+                            term: term,
+                            note: note
+                        };
+                        parsedData.push(president);
+                    }
+                    
+                    // 只有當有效的名字和至少一個字段時添加雙溪副會長資料
+                    if (columns[8] && columns.length >= 12) {
+                        const vicePresident1 = {
+                            role: '雙溪副會長',
+                            imageUrl: columns[7] || '',
+                            name: columns[8],
+                            department: columns[9] || '',
+                            representative: columns[10] || '',
+                            contact: columns[11] || '',
+                            term: term,
+                            note: note
+                        };
+                        parsedData.push(vicePresident1);
+                    }
+                    
+                    // 只有當有效的名字和至少一個字段時添加城中副會長資料
+                    if (columns[13] && columns.length >= 17) {
+                        const vicePresident2 = {
+                            role: '城中副會長',
+                            imageUrl: columns[12] || '',
+                            name: columns[13],
+                            department: columns[14] || '',
+                            representative: columns[15] || '',
+                            contact: columns[16] || '',
+                            term: term,
+                            note: note
+                        };
+                        parsedData.push(vicePresident2);
+                    }
+                }
+            });
+
+            return parsedData;
+        }
+
+        // 解析CSV行，處理引號內的逗號
+        function parseCSVRow(row) {
+            const result = [];
+            let inQuotes = false;
+            let currentValue = '';
+            
+            for (let i = 0; i < row.length; i++) {
+                const char = row[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(currentValue.trim());
+                    currentValue = '';
+                } else {
+                    currentValue += char;
+                }
+            }
+            
+            result.push(currentValue.trim());
+            return result.map(value => value.replace(/"/g, '').trim());
+        }
+
+        function displayAllData(data) {
+            const container = document.getElementById('icon-container');
+            container.innerHTML = '';
+            
+            if (data.length === 0) {
+                container.innerHTML = '<div class="no-results">無符合條件的搜尋結果</div>';
+                return;
+            }
+            
+            // 按屆數分組
+            const termGroups = {};
+            data.forEach(person => {
+                if (!termGroups[person.term]) {
+                    termGroups[person.term] = [];
+                }
+                termGroups[person.term].push(person);
+            });
+            
+            // 按屆數排序
+            const sortedTerms = Object.keys(termGroups).sort((a, b) => {
+                return parseInt(b) - parseInt(a); // 最新屆數在前
+            });
+            
+            // 為每個屆數創建標題和顯示成員
+            sortedTerms.forEach(term => {
+                const termLabel = document.createElement('div');
+                termLabel.classList.add('term-label');
+                const note = termGroups[term][0]?.note || '';
+            if (note && note.trim() !== '') {
+                termLabel.innerHTML = `第 ${term} 屆 學議會 <span style="font-size: 0.8em; color: #777;">(${note})</span>`;
+            } else {
+                termLabel.textContent = `第 ${term} 屆 學生會`;
+            }                container.appendChild(termLabel);
+                
+                termGroups[term].forEach(person => {
+                    if (person.name && person.imageUrl) {
+                        createPersonCard(container, person);
+                    }
+                });
+            });
+            
+            // 添加展開收合事件監聽
+            addExpandListeners();
+        }
+
+        function createPersonCard(container, person) {
+            const icon = document.createElement('div');
+            icon.classList.add('icon');
+            
+            // 使用預設圖片，如果沒有提供圖片URL
+            const imageUrl = person.imageUrl && person.imageUrl.trim() !== '' ? 
+                             person.imageUrl : 
+                             'data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20fill%3D%22%23f4f5f1%22%20width%3D%22100%22%20height%3D%22100%22%2F%3E%3Ctext%20fill%3D%22%23c59663%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E無圖片%3C%2Ftext%3E%3C%2Fsvg%3E';
+            
+            icon.innerHTML = `
+                <img src="${imageUrl}" alt="${person.name}" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20fill%3D%22%23f4f5f1%22%20width%3D%22100%22%20height%3D%22100%22%2F%3E%3Ctext%20fill%3D%22%23c59663%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E圖片載入失敗%3C%2Ftext%3E%3C%2Fsvg%3E'">
+                <div class="icon-text">${person.name}</div>
+                <div class="icon-role">${person.role}</div>
+                ${createDetailButton('系級', formatText(person.department))}
+                ${createDetailButton('校級會議代表', formatText(person.representative))}
+                ${createDetailButton('聯絡資訊', formatContact(person.contact))}
+            `;
+            
+            container.appendChild(icon);
+        }
+
+        function createDetailButton(label, content) {
+            return `
+                <div class="details-section">
+                    <div class="details-header">
+                        <span>${label}</span>
+                        <div class="triangle"></div>
+                    </div>
+                    <div class="details-content">${content}</div>
+                </div>
+            `;
+        }
+
+        function formatText(text) {
+            return text ? text.replace(/、/g, '<br>') : '無';
+        }
+
+        function formatContact(contact) {
+            if (!contact) return '無';
+            
+            return contact.split('、').map(item => {
+                const parts = item.split('：');
+                const label = parts[0];
+                const value = parts[1] ? parts[1].trim() : '';
+                
+                // 檢查是否為網址
+                if (value.match(/https?:\/\/[^\s]+/)) {
+                    return `${label}：<a href="${value}" target="_blank">${value}</a>`;
+                }
+                
+                // 檢查是否為電子郵件
+                if (value.match(/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$/)) {
+                    return `${label}：<a href="mailto:${value}">${value}</a>`;
+                }
+                
+                return item;
+            }).join('<br>');
+        }
+
+        function addExpandListeners() {
+            // 點擊展開收合詳細資訊
+            const detailHeaders = document.querySelectorAll('.details-header');
+            detailHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const section = this.parentElement;
+                    
+                    section.classList.toggle('expanded');
+                    if (section.classList.contains('expanded')) {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    } else {
+                        content.style.maxHeight = '0';
+                    }
+                });
+            });
+        }
+
+        function performSearch() {
+            const searchType = document.getElementById('search-type').value;
+            const searchValue = document.getElementById('search-input').value.toLowerCase().trim();
+            
+            if (!searchValue) {
+                displayAllData(allData);
+                return;
+            }
+            
+            let filteredData = [];
+            
+            switch (searchType) {
+                case 'term':
+                    filteredData = allData.filter(person => 
+                        person.term.toString().includes(searchValue)
+                    );
+                    break;
+                case 'name':
+                    filteredData = allData.filter(person => 
+                        person.name.toLowerCase().includes(searchValue)
+                    );
+                    break;
+                case 'department':
+                    filteredData = allData.filter(person => 
+                        person.department.toLowerCase().includes(searchValue)
+                    );
+                    break;
+            }
+            
+            displayAllData(filteredData);
+        }
+    </script>
+</body>
+</html>
