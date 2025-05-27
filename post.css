@@ -518,13 +518,7 @@ body {
         margin-bottom: 15px;
     }
     
-    .post-images.triple {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .post-images.triple .post-image:last-child {
-        grid-column: span 2;
-    }
+
     
     .search-container {
         margin: 20px;
@@ -533,15 +527,7 @@ body {
 }
 
 @media (max-width: 480px) {
-    .post-images.double,
-    .post-images.triple {
-        grid-template-columns: 1fr;
-    }
-    
-    .post-images.triple .post-image:last-child {
-        grid-column: span 1;
-    }
-    
+
     .post-header {
         flex-wrap: wrap;
         gap: 10px;
