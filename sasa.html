@@ -307,7 +307,7 @@
 
                 // 新增：將亂碼存入 sessionStorage
                 if (data.random_code) { // 確保亂碼存在
-                    sessionStorage.setItem('RandomCode', data.random_code);
+                    sessionStorage.setItem('randomCode', data.random_code);
                     console.log('亂碼已存入 sessionStorage:', data.random_code);
                 }
                 
@@ -358,7 +358,7 @@
             // 檢查現有用戶及亂碼
             checkExistingUser() {
                 const existingUser = sessionStorage.getItem('user');
-                const existingRandomCode = sessionStorage.getItem('RandomCode'); // 讀取亂碼
+                const existingrandomCode = sessionStorage.getItem('randomCode'); // 讀取亂碼
                 
                 if (existingUser) {
                     this.userIdDisplay.textContent = existingUser;
@@ -371,13 +371,13 @@
 
                     // 顯示歡迎訊息，包含亂碼 (如果存在)
                     let welcomeMessage = `👋 歡迎回來！學號：${existingUser}`;
-                    if (existingRandomCode) {
-                        welcomeMessage += ` 亂碼：${existingRandomCode}`;
+                    if (existingrandomCode) {
+                        welcomeMessage += ` 亂碼：${existingrandomCode}`;
                     }
                     this.showStatus(welcomeMessage, 'success');
                     
                     // 已登入用戶的處理邏輯
-                    this.onUserExists(existingUser, existingRandomCode);
+                    this.onUserExists(existingUser, existingrandomCode);
                 }
             }
 
@@ -404,16 +404,16 @@
             // 公開方法：測試 sessionStorage 中的用戶和亂碼
             testSessionStorage() {
                 const user = sessionStorage.getItem('user');
-                const randomCode = sessionStorage.getItem('RandomCode');
+                const randomCode = sessionStorage.getItem('randomCode');
                 console.log('當前 sessionStorage 中的 user:', user);
-                console.log('當前 sessionStorage 中的 RandomCode:', randomCode);
+                console.log('當前 sessionStorage 中的 randomCode:', randomCode);
                 return { user, randomCode };
             }
 
             // 公開方法：清除用戶資料及亂碼
             clearUserData() {
                 sessionStorage.removeItem('user');
-                sessionStorage.removeItem('RandomCode'); // 清除亂碼
+                sessionStorage.removeItem('randomCode'); // 清除亂碼
                 this.userBadge.classList.remove('show'); 
                 this.userIdDisplay.textContent = ''; // 清空學號顯示
                 this.showStatus('🔄 用戶資料及亂碼已清除', 'info');
@@ -438,7 +438,7 @@
         // 調試用：顯示當前用戶狀態
         window.getCurrentUserStatus = () => {
             const user = sessionStorage.getItem('user');
-            const randomCode = sessionStorage.getItem('RandomCode');
+            const randomCode = sessionStorage.getItem('randomCode');
             console.log('當前用戶:', user || '未登入');
             console.log('當前亂碼:', randomCode || '無');
             return { user, randomCode };
