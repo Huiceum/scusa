@@ -423,10 +423,8 @@ function toggleCalendar() {
         });
 
         function loadIcons() {
-    const sheetId = '18WW9PLenRd6MSn2pRSBKSQ2yb70CqP027hbjRZ7WjEg'; // 替換為您的試算表 ID
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
+    fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_aA')
         .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
         .then(data => {
             const rows = data.split('\n').slice(1); // 分割行並移除標題行
@@ -454,10 +452,8 @@ function toggleCalendar() {
 }
 
 function loadAnnouncements() {
-    const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 試算表 ID
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
+    fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_aAnn')
     .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
     .then(data => {
         const rows = data.split('\n').slice(1); // 分割行並移除標題行
