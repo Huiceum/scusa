@@ -7,7 +7,8 @@ export async function handler(event, context) {
     sa_sheet_av: process.env.ADMINISTRATIVE_VISION,
     sa_sheet_aA: process.env.ADMINISTRATIVE_ACTIVITY,
     sa_sheet_aAnn: process.env.ADMINISTRATIVE_ANNOUNCEMENTS,
-    sa_sheet_af: process.env.ADMINISTRATIVE_FOOTER
+    sa_sheet_af: process.env.ADMINISTRATIVE_FOOTER,
+    sa_sheet_Navbar: process.env.ADMINISTRATIVE_NAVBAR
   };
 
   const sheetId = sheetMap[sheet];
