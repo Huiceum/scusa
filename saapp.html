@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東吳大學學生會-反映表單</title>
+    <title>東吳大學學生會</title>
     <link rel="stylesheet" href="sa.css">
 
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
@@ -194,7 +194,7 @@
     // 將轉換後的內容設置回 FormData
     formData.set('entry.1190670984', contentWithBreaks);
 
-    fetch("/.netlify/functions/submitForm?form=sa_submitForm_re", {
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSea0DXBbD3iJr0IZ827NXt7XvshfdIlYAYvorEfEbYQ21pPMg/formResponse", {
         method: "POST",
         body: formData,
         mode: "no-cors"
