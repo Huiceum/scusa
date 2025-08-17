@@ -141,10 +141,8 @@
 
 
         function loadDownloadButtons() {
-            const sheetId = '1Gas84Nly72_C1_c954neuSj5PVWUQSxf9WHzPb2IobI'; // Google 試算表 ID
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-            fetch(url)
+            fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_f')
                 .then(response => response.text())
                 .then(data => {
                     const rows = data.split('\n').slice(1); // 分割行並移除標題行

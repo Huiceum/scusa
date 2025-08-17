@@ -291,10 +291,9 @@ button:active {
         const rowsPerPage = 5;
 
         function loadProposals() {
-            const sheetId = '1e4Uguc4HkQcHOxj1_Lp8KutXMzZnEnD8omlEW3pGhTs';
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-            fetch(url)
+
+            fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_join')
                 .then(response => response.text())
                 .then(csv => {
                     const rows = csv.split('\n').slice(1).filter(row => row.trim() !== '');
