@@ -35,10 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 從Google試算表加載導航欄
 function loadNavbar() {
-    const sheetId = '1Tda_aycVUDGMmdgGK_83M8SI6GVIdo7GBikMi6Q16aw'; 
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
+    fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_Navbar')
     .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
     .then(data => {
         // 解析CSV數據
@@ -206,9 +204,6 @@ window.onload = function() {
                 // 獲取用戶裝置的相關信息
                 const userAgent = navigator.userAgent;  // 這會返回用戶裝置的用戶代理字符串
 
-                // 建立表單提交的 URL
-                const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSee333ui-5tHD8izZHLWaBIMnp-qfph6DygBHi9Tn7_XmUGQg/formResponse';
-                
                 // 構造 URL 參數
                 const params = new URLSearchParams();
                 params.append('entry.728480600', userIp);  // IP 地址
@@ -216,7 +211,7 @@ window.onload = function() {
                 params.append('entry.1545224359', userAgent);  // 裝置信息（user agent）
 
                 // 發送 POST 請求到 Google 表單
-                fetch(formUrl, {
+             fetch("/.netlify/functions/submitForm?form=sa_submitForm_t", {
                     method: 'POST',
                     body: params,
                     headers: {

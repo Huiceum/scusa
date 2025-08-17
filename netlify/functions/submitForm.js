@@ -7,7 +7,8 @@ export async function handler(event, context) {
 
   // 對應表
   const formMap = {
-    sa_submitForm_re : process.env.ADMINISTRATIVE_REFLECT
+    sa_submitForm_re : process.env.ADMINISTRATIVE_REFLECT,
+    sa_submitForm_times : process.env.ADMINISTRATIVE_TIMES
   };
 
   const formUrl = formMap[form];
