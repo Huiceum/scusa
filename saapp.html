@@ -182,24 +182,22 @@
     <script src="sa0.js"></script>
 
     <script>
-document.getElementById("customForm").addEventListener("submit", function(event) {
+       document.getElementById("customForm").addEventListener("submit", function(event){
     event.preventDefault();
 
-    const params = new URLSearchParams();
+    const formData = new FormData(event.target);
 
     // 取得內容並將換行符替換為 <br>
     const contentField = document.getElementById("content");
     const contentWithBreaks = contentField.value.replace(/\n/g, '<br>');
-
-    params.append('entry.1190670984', contentWithBreaks);
+    
+    // 將轉換後的內容設置回 FormData
+    formData.set('entry.1190670984', contentWithBreaks);
 
     fetch("/.netlify/functions/submitForm?form=sa_submitForm_re", {
         method: "POST",
-        mode: "no-cors",
-        body: params,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+        body: formData,
+        mode: "no-cors"
     }).then(() => {
         alert("提交成功！");
         event.target.reset();
@@ -207,7 +205,6 @@ document.getElementById("customForm").addEventListener("submit", function(event)
         alert("提交失敗，請再試一次！");
     });
 });
-
     </script>
 
 </body>
