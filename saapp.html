@@ -194,7 +194,7 @@
     // 將轉換後的內容設置回 FormData
     formData.set('entry.1190670984', contentWithBreaks);
 
-    fetch("/.netlify/functions/submitForm", {
+    fetch("/.netlify/functions/submitForm?form=sa_submitForm_re", {
         method: "POST",
         body: formData,
         mode: "no-cors"

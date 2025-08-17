@@ -3,7 +3,17 @@ export async function handler(event, context) {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const sa_submitForm_re = process.env.ADMINISTRATIVE_REFLECT;
+  const { form } = event.queryStringParameters;
+
+  // 對應表
+  const formMap = {
+    sa_submitForm_re : process.env.ADMINISTRATIVE_REFLECT
+  };
+
+  const formUrl = formMap[form];
+  if (!formUrl) {
+    return { statusCode: 400, body: "Invalid form key" };
+  }
 
   try {
     const response = await fetch(formUrl, {
