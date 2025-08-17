@@ -4,9 +4,7 @@ export async function handler(event, context) {
 
   // 對應表，把簡單的 key 對應到環境變數
   const sheetMap = {
-    announcements: process.env.SHEET_ID_ANNOUNCEMENTS,
-    icons: process.env.SHEET_ID_ICONS,
-    calendar: process.env.SHEET_ID_CALENDAR
+    icons: process.env.administrative_vision,
   };
 
   const sheetId = sheetMap[sheet];

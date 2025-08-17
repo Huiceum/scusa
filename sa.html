@@ -340,7 +340,7 @@
         let docs = []; // 儲存所有圖片元素
 
         // 載入試算表的資料
-        fetch('/.netlify/functions/fetchSheet?sheet=icons')
+        fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_av')
             .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
             .then(data => {
                 const rows = data.split('\n').slice(1); // 分割行並移除標題行
