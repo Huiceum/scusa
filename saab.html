@@ -141,10 +141,9 @@
         });
 
         function loadOrgChart() {
-            const sheetId = '1Fuwbg13SC3ZCiFMpvH0zbrBceXpfubqusl3IDysy4Gk';
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-            fetch(url)
+
+             fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_O')
                 .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
                 .then(data => {
                     const rows = data.split('\n').slice(1);

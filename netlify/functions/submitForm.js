@@ -1,0 +1,24 @@
+export async function handler(event, context) {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
+
+  const sa_submitForm_re = process.env.ADMINISTRATIVE_REFLECT;
+
+  try {
+    const response = await fetch(formUrl, {
+      method: "POST",
+      body: event.body,
+      headers: {
+        "Content-Type": event.headers["content-type"] || "application/x-www-form-urlencoded"
+      }
+    });
+
+    return {
+      statusCode: response.ok ? 200 : response.status,
+      body: "Form submitted successfully"
+    };
+  } catch (error) {
+    return { statusCode: 500, body: `Error: ${error.message}` };
+  }
+}
