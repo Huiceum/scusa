@@ -195,6 +195,7 @@ document.getElementById("customForm").addEventListener("submit", function(event)
 
     fetch("/.netlify/functions/submitForm?form=sa_submitForm_re", {
         method: "POST",
+        mode: "no-cors",
         body: params,
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
