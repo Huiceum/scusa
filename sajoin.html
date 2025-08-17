@@ -407,7 +407,7 @@ button:active {
             const submitBtn = document.getElementById('submit-btn');
             const form = document.querySelector('form'); 
 
-            fetch('https://docs.google.com/forms/d/e/1FAIpQLSdR8OavaYTzPmIJDxxk9-IBl8JhI3mGGVFPL0gxCxL7n-t6Gg/formResponse', {
+            fetch("/.netlify/functions/submitForm?form=sa_submitForm_join", {
                 method: "POST",
                 body: formData
             }).then(() => {
