@@ -262,10 +262,9 @@
         let allData = [];
 
         function loadData() {
-            const sheetId = '1kFg0SgeUd-gn4SHTcP0bgIlGOcVEnTQNfNEB3FInwAw';
-            const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-            fetch(url)
+
+            fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_ele')
                 .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
                 .then(data => {
                     const rows = data.split('\n').slice(1); // 忽略標題行
