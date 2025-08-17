@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東吳大學學生會</title>
+    <title>東吳大學學生會-反映表單</title>
     <link rel="stylesheet" href="sa.css">
 
     <link rel="icon" href="favicon.PNG" type="image/x-icon">
@@ -116,8 +116,6 @@
                 <ul class="nav-options" id="nav-container">
                     <!-- 動態加載的導航項目將插入此處 -->
                 </ul>
-
-
             </div>
 
             <div class="form-container">
@@ -146,8 +144,8 @@
                         <option value="否">否</option>
                     </select>
 
-                    <label for="content">內容標題</label>
-                    <input type="text" name="entry.1793847795" required placeholder="請提供申訴的簡短主旨。">
+                    <label for="title">內容標題</label>
+                    <input type="text" id="title" name="entry.1793847795" required placeholder="請提供申訴的簡短主旨。">
 
                     <label for="content">內容：</label>
                     <textarea id="content" name="entry.1190670984" required placeholder="請詳細敘述事件，以利我們掌握更完整的資訊，若有附件資料，請上傳於雲端後，將閱讀權限設定為擁有連結的任何人，並附上連結。"></textarea>
@@ -175,36 +173,55 @@
 
     </div>
 
-
-
     <!-- JavaScript -->
     <script src="sa.js"></script>
     <script src="sa0.js"></script>
 
     <script>
-       document.getElementById("customForm").addEventListener("submit", function(event){
-    event.preventDefault();
+        document.getElementById("customForm").addEventListener("submit", function(event){
+            event.preventDefault();
 
-    const formData = new FormData(event.target);
+            // 手動構建 FormData，確保所有欄位都被包含
+            const formData = new FormData();
+            
+            // 逐一添加表單欄位
+            formData.append('entry.1823375378', document.getElementById('name').value);
+            formData.append('entry.661436945', document.getElementById('department').value);
+            formData.append('entry.1084639098', document.getElementById('studentID').value);
+            formData.append('entry.1851100953', document.getElementById('email').value);
+            formData.append('entry.911473533', document.getElementById('phone').value);
+            
+            // 公開選項
+            const publicOption = document.querySelector('select[name="entry.1704989384"]').value;
+            formData.append('entry.1704989384', publicOption);
+            
+            // 標題
+            const title = document.getElementById('title').value;
+            formData.append('entry.1793847795', title);
+            
+            // 內容（處理換行符）
+            const contentField = document.getElementById("content");
+            const contentWithBreaks = contentField.value.replace(/\n/g, '<br>');
+            formData.append('entry.1190670984', contentWithBreaks);
 
-    // 取得內容並將換行符替換為 <br>
-    const contentField = document.getElementById("content");
-    const contentWithBreaks = contentField.value.replace(/\n/g, '<br>');
-    
-    // 將轉換後的內容設置回 FormData
-    formData.set('entry.1190670984', contentWithBreaks);
+            // 調試：打印所有數據（可在瀏覽器控制台查看）
+            console.log('提交的數據：');
+            for (let [key, value] of formData.entries()) {
+                console.log(key + ':', value);
+            }
 
-    fetch("https://docs.google.com/forms/d/e/1FAIpQLSea0DXBbD3iJr0IZ827NXt7XvshfdIlYAYvorEfEbYQ21pPMg/formResponse", {
-        method: "POST",
-        body: formData,
-        mode: "no-cors"
-    }).then(() => {
-        alert("提交成功！");
-        event.target.reset();
-    }).catch(error => {
-        alert("提交失敗，請再試一次！");
-    });
-});
+            fetch("/.netlify/functions/submitForm?form=sa_submitForm_re", {
+                method: "POST",
+                body: formData,
+                mode: "no-cors"
+            }).then(() => {
+                alert("提交成功！");
+                event.target.reset();
+            }).catch(error => {
+                console.error('提交錯誤:', error);
+                alert("提交失敗，請再試一次！");
+            });
+        });
     </script>
 
 </body>
