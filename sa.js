@@ -1,10 +1,8 @@
 
 // 加載頁腳連結
 function loadFooterLinks() {
-    const sheetId = '16m2JrshR1QyQIRxdn1ZbCS7zyAnqN2OpMhREp-c4Qc8';
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
+    fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_af')
     .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
     .then(data => {
         const rows = data.split('\n').slice(1); // 分割行並移除標題行

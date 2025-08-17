@@ -121,10 +121,9 @@
     <script src="sa0.js"></script>
     <script>
  function loadAnnouncements() {
-    const sheetId = '1QTkdwcjEfqNMiKVJ6-6yrygEfiZyEOfnROfXprIafVM'; // 試算表 ID
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
+
+    fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_aAnn')
     .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
     .then(data => {
         const rows = data.split('\n').slice(1); // 分割行並移除標題行
