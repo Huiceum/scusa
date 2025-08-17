@@ -338,11 +338,9 @@
 
         let currentIndex = 0; // 當前顯示的頁面索引
         let docs = []; // 儲存所有圖片元素
-        const sheetId = '117iP2R3W0Ty-YGbIm2nHf5D1nNyjTR-hgCZirJmch0M'; // 試算表 ID
-        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
         // 載入試算表的資料
-        fetch(url)
+        fetch('/.netlify/functions/fetchSheet?sheet=icons')
             .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
             .then(data => {
                 const rows = data.split('\n').slice(1); // 分割行並移除標題行

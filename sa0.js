@@ -75,8 +75,8 @@ function loadNavbar() {
         buildMobileNavHTML(navData);
     })
     .catch(error => {
-        console.error('無法載入導航欄數據:', error);
-        alert('無法載入導航欄，請檢查網絡連接或試算表設置。');
+        console.error('無法載入數據:', error);
+        alert('無法載入，請檢查網絡連接或試算表設置。');
     });
 }
 
