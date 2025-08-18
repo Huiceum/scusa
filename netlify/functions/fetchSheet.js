@@ -13,7 +13,8 @@ export async function handler(event, context) {
     sa_sheet_ele: process.env.ADMINISTRATIVE_ELE,
     sa_sheet_f: process.env.ADMINISTRATIVE_FIANCE,
     sa_sheet_join: process.env.ADMINISTRATIVE_JOIN,
-    sa_sheet_news: process.env.ADMINISTRATIVE_NEWS
+    sa_sheet_news: process.env.ADMINISTRATIVE_NEWS,
+    sa_sheet_law: process.env.ADMINISTRATIVE_LAW
   };
 
   const sheetId = sheetMap[sheet];
