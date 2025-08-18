@@ -181,10 +181,9 @@
         });
 
         function loadStudentFeedback() {
-    const sheetId = '13yvf_5N2uYhg9D0GjDUOGyADUqmB_isvOt80ToHup10';
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
+
+    fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_re')
         .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
         .then(data => {
             const rows = data.split('\n').slice(0); // 从第二行开始提取数据
