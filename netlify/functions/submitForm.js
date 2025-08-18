@@ -9,7 +9,8 @@ export async function handler(event, context) {
   const formMap = {
     sa_submitForm_re : process.env.ADMINISTRATIVE_REFLECT,
     sa_submitForm_t : process.env.ADMINISTRATIVE_TIMES,
-    sa_submitForm_join : process.env.ADMINISTRATIVE_JOIN_SEC
+    sa_submitForm_join : process.env.ADMINISTRATIVE_JOIN_SEC,
+    sa_submitForm_join_scu : process.env.ADMINISTRATIVE_JOIN_SCU
   };
 
   const formUrl = formMap[form];

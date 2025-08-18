@@ -413,7 +413,7 @@ document.getElementById("proposalForm").addEventListener("submit", async functio
 
     const formData = new FormData(form);
 
-    fetch("https://docs.google.com/forms/d/e/1FAIpQLSeXyPlVPtg5Ub-cCR1HzxT1OChxhPrfkTW-oVe3-M8N17qdqw/formResponse", {
+    fetch("/.netlify/functions/submitForm?form=sa_submitForm_join_scu", {
       method: "POST",
       mode: "no-cors",
       body: formData

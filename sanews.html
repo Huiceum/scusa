@@ -243,10 +243,8 @@ const NEWSannouncementsPerPage = 5; // Number of announcements per page
 let filteredRows = null; // Holds the filtered search results, null means no filtering
 
 function loadNEWSAnnouncements() {
-    const sheetId = '11PUDsJ-tnOKP0kUhF9m4pWrzXSRtfpOqC_HFRnMTYtU'; // 試算表 ID
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
-    fetch(url)
+    fetch('/.netlify/functions/fetchSheet?sheet=sa_sheet_news')
         .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok'))
         .then(data => {
             const rows = data.split('\n').slice(1); // Split rows and remove the header row
